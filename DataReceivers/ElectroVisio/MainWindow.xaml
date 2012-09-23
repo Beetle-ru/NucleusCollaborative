@@ -1,0 +1,83 @@
+﻿<Window x:Class="ElectroVisio.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:my="clr-namespace:ElectroVisio.Controls"
+        Title="MainWindow"
+        Height="1024" Width="1280"
+        WindowState="Maximized" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" Background="White"
+        Icon="/ElectroVisio;component/Images/monitor32.ico">
+    <Viewbox Stretch="Uniform">
+        <StackPanel Orientation="Vertical">
+            <Grid Width="1280" Margin="12,12,12,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="780" />
+                    <ColumnDefinition Width="300" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Width="200">
+                   
+                    <!--
+                    <Grid Height="113">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="33" />
+                        </Grid.RowDefinitions>
+                        <Border BorderBrush="#FF000000" Background="#FFFF0000" Margin="0,0,3,0">
+                            <TextBlock HorizontalAlignment="Center" Text="нет связи с PLC1" VerticalAlignment="Center" FontSize="11"
+							           TextWrapping="Wrap" TextAlignment="Center" />
+                        </Border>
+                        <Border BorderBrush="#FF000000" Background="#FFFF0000" Margin="3,0,0,0" Grid.Column="1">
+                            <TextBlock HorizontalAlignment="Center" Text="нет связи с PLC2" VerticalAlignment="Center" FontSize="11"
+							           TextWrapping="Wrap" TextAlignment="Center" />
+                        </Border>
+                        <Border BorderBrush="#FF000000" Background="#FFFF0000" Margin="0,3,3,0" Grid.Row="1">
+                            <TextBlock HorizontalAlignment="Center" Text="нет связи с СУБД" VerticalAlignment="Center"
+									FontSize="11" TextWrapping="Wrap" TextAlignment="Center" />
+                        </Border>
+                        <Border BorderBrush="#FF000000" Background="#FFFF0000" Margin="3,3,0,0" Grid.Column="1" Grid.Row="1">
+                            <TextBlock HorizontalAlignment="Center" Text="нет связи с газоанализатором"
+									VerticalAlignment="Center" FontSize="10" TextWrapping="Wrap" TextAlignment="Center"
+									Height="34" />
+                        </Border>
+                        <Border Height="30" BorderBrush="#FF000000" Background="#97D6FF" Margin="0,3,0,0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TextBlock HorizontalAlignment="Center" Text="КОНВЕРТЕР 1" VerticalAlignment="Center"
+									FontSize="18" />
+                        </Border>
+                    </Grid>
+                -->
+                    <my:ASUStatus x:Name="aSUStatus2" Loaded="aSUStatus2_Loaded" />
+                </StackPanel>
+                
+                <DataGrid Name="dgMessages" Grid.Column="1" HorizontalAlignment="Stretch" Margin="12,0" VerticalAlignment="Stretch"
+				          CanUserResizeRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False"
+				          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="40" />
+                        <DataGridTextColumn Header="Дата" Width="100" />
+                        <DataGridTextColumn Header="Время" Width="100" />
+                        <DataGridTextColumn Header="Сообщение" Width="343" />
+                        <DataGridTextColumn Header="Доп. параметры" Width="140" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left" Height="124" VerticalAlignment="Top" Width="290">
+                    <TextBox x:Name="tbxClock" FontSize="28" HorizontalAlignment="Center" Text="{Binding CurrentTime}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,30,0,0" Height="54">
+                        <Button Content="Кальк." HorizontalAlignment="Left" Width="71" />
+                        <Button Content="Перезагр." HorizontalAlignment="Left" Width="71" Margin="2,0,0,0" />
+                        <Button Content="Печать" HorizontalAlignment="Left" Width="71" Margin="2,0,0,0" />
+                        <Button Content="Выход" HorizontalAlignment="Left" Width="71" Margin="2,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <Frame Name="MainFrame" Width="1280" Height="859" NavigationUIVisibility="Hidden"></Frame>
+            <my:Menu Height="36" Width="Auto" x:Name="MainMenu" Margin="12,0,12,0"></my:Menu>
+        </StackPanel>
+    </Viewbox>
+</Window>

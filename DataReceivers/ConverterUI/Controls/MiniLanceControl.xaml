@@ -1,0 +1,888 @@
+﻿<UserControl x:Class="ConverterUI.Controls.MiniLanceControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:ConverterUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="456" d:DesignWidth="638">
+    <Control.Resources>
+        <my:DateToTimeStringConverter x:Key="DateToTimeStringConverter" >
+        </my:DateToTimeStringConverter>
+        <my:AngleToSectorNameConverter x:Key="AngleToSectorNameConverter" >
+        </my:AngleToSectorNameConverter>
+        <my:CandleFireTextConverter x:Key="CandleFireTextConverter" >
+        </my:CandleFireTextConverter>
+        <my:CandleFireImagePathConverter x:Key="CandleFireImagePathConverter" >
+        </my:CandleFireImagePathConverter>
+        <my:MainPageLancePositionConverter x:Key="MainPageLancePositionConverter" >
+        </my:MainPageLancePositionConverter>
+
+    </Control.Resources>
+    <StackPanel Orientation="Vertical" Background="#FFC3C3C3">
+        <Grid Background="#FF6F6F6F">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Height="23" Name="tHeader" Text="Кислородная продувка" TextAlignment="Center" Background="#FF6F6F6F" Foreground="White" FontSize="14"/>
+            <Image Grid.Column="1"  Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+        </Grid>
+        <Canvas Height="433" Width="638" >
+            <Image Canvas.Left="321" Canvas.Top="27" Grid.Column="4" Grid.RowSpan="4" Height="160" Name="image7" Source="/ConverterUI;component/Images/456.png" Stretch="Fill" Width="288" />
+            <Grid Height="126" Width="157" Background="White" Canvas.Left="2" Canvas.Top="88">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35*" />
+                    <RowDefinition Height="24*" />
+                    <RowDefinition Height="22*" />
+                    <RowDefinition Height="24*" />
+                    <RowDefinition Height="22*" />
+                    <RowDefinition Height="24*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Дожигание      СО" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="Q      м3/ч" Grid.Column="1" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="Р        кг/см2" Grid.Column="2" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Row="1" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Газ на свечу" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+
+                <TextBlock Grid.Column="1" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" Text="{Binding Path=CandleGasFlow}" TextAlignment="Center" FontSize="10" />
+                <TextBlock Grid.Column="2" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" Text="{Binding Path=CandleGasPressure, StringFormat=F0}" TextAlignment="Center" FontSize="10" Height="19" VerticalAlignment="Top" />
+                <Border Grid.Row="2" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Grid.Column="0" Grid.Row="2" Background="#FFDCDCDC" Text="Пар в ствол" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=CandleSteamFlow}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Path=CandleSteamPressure, StringFormat=F0}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="3" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Факел" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <Grid  Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Background="#FF9EC8A0" Margin="1,1,1,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="75*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding Path=CandleFire, Converter={StaticResource CandleFireImagePathConverter}}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Path=CandleFire, Converter={StaticResource CandleFireTextConverter}}"  FontSize="12" TextAlignment="Center" FontWeight="SemiBold" />
+                </Grid>
+                <Border Grid.Column="0" Grid.Row="4" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Камин" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <Grid  Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Background="#FF9EC8A0" Margin="1,1,1,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="75*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding Path=CandleSparkFire, Converter={StaticResource CandleFireImagePathConverter}}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Path=CandleSparkFire, Converter={StaticResource CandleFireTextConverter}}" FontSize="11"  TextAlignment="Center" FontWeight="SemiBold" />
+                </Grid>
+                <Border Grid.Column="0" Grid.Row="5" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Режим" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <Grid  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Background="White" Margin="1,1,1,0" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="25*" />
+                        <ColumnDefinition Width="25*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0">
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock Text="Р" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FFDCDCDC" />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <Border Grid.Column="1">
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock  Text="А" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FFDCDCDC" />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="2" Text="L2" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FF65FF00" Margin="1,1,1,1" />
+                </Grid>
+            </Grid>
+            <Image Grid.Column="4" Grid.RowSpan="4" Height="130" HorizontalAlignment="Left" Margin="36,17,0,0" Name="image6" Stretch="Fill" VerticalAlignment="Top" Width="113" Source="/ConverterUI;component/Images/123.png" Canvas.Left="178" Canvas.Top="21" />
+            <Grid Height="64" Width="125" Background="White" Canvas.Left="3" Canvas.Top="280">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="15*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Клапана" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="О" Grid.Column="1" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="З" Grid.Column="2" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="N2 на упл. (658)" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FF65FF00" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Grid.Column="0" Grid.Row="2" Background="#FFDCDCDC" Text="Газ на свечу(682)" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Grid.Column="1" Grid.Row="2" Background="#FF65FF00" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="0" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Пар в ствол(683)" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Grid.Column="1" Grid.Row="3" Background="#FF65FF00" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+            </Grid>
+            <Grid Height="53" Width="149" Background="White" Canvas.Left="2" Canvas.Top="216">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="3" Text="N2 на уплотнение" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Q фурм. окно" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=LanceNFlow}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0"  TextAlignment="Center" FontSize="10" />
+                <TextBlock Grid.Column="2" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Q котел" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,1,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=BoilerNFlow}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Grid.Column="2" Grid.Row="2" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+
+            </Grid>
+            <Grid  Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Background="White" Margin="1,1,1,0" Canvas.Left="433" Canvas.Top="41" Width="32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Р" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FFDCDCDC" Margin="1,1,1,1" />
+                <TextBlock Grid.Column="1" Text="А" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FFDCDCDC" Margin="1,1,1,1" />
+            </Grid>
+            <Grid Height="48" Width="106" Background="White" Canvas.Left="482" Canvas.Top="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="15*" />
+                    <RowDefinition Height="16*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Grid.Row="0" Background="#FFDCDCDC" Text="Фурма O2" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="Правая" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,0"  TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Р (кг/см2)" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=O2Pressure}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,0"  TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Q (м3/мин)" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=ORealFlow,StringFormat=F0}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+            </Grid>
+            <Grid Height="47" Width="61" Background="White" Canvas.Left="376" Canvas.Top="223">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65*" />
+                    <ColumnDefinition Width="35*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"  />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Юбка" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Зад." FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <Image Grid.Column="1" Grid.Row="1"  Margin="1,1,1,0" Source="/ConverterUI;component/Images/arrow-down.png" />
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="L2" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" Background="#FF65FF00" Margin="1,1,1,1" />
+                <Border Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Режим" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Margin="13,21,-195,-163" Grid.Row="2">
+                    <Grid Background="#FF6F6F6F" Canvas.Left="440" Canvas.Top="281">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Химический анализ [%]" TextAlignment="Center" Background="#FF6F6F6F" Foreground="White" FontSize="11" />
+                        <Image Grid.Column="1" Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+                    </Grid>
+                    <Grid Height="141" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid Background="#FFDCDCDC" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30*" />
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="35*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="SL" TextAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="1/3" Background="White" TextAlignment="Left" FontSize="10" Width="Auto" HorizontalAlignment="Left" Panel.ZIndex="10000" Margin="1" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="Сталь" TextAlignment="Center" FontSize="10" />
+                            <Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Source="/ConverterUI;component/Images/назад-01.png" Height="16" />
+                            <Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Source="/ConverterUI;component/Images/вперед-01.png" Height="16" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Text="21.03.2012" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="2" Grid.Row="1" Text="12.33.52" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Элем" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" Text="Факт" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="2" Grid.Row="2" Text="Расч" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="C" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="3" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="4" Text="Si" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="4" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="5" Text="Mn" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="5" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="5" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="6" Text="P" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="6" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="6" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="7" Text="S" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="7" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="7" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="8" Text="N2" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="8" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="8" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="9" Text="Sn" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="9" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="9" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                        </Grid>
+                        <Grid Background="#FFDCDCDC" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30*" />
+                                <ColumnDefinition Width="35*" />
+                                <ColumnDefinition Width="35*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="ЭЛ" TextAlignment="Center" FontSize="10" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="1/1" Background="White" TextAlignment="Left" FontSize="10" Width="Auto" HorizontalAlignment="Left" Panel.ZIndex="10000" Margin="1" />
+                            <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="Шлак" TextAlignment="Center" FontSize="10" />
+                            <Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Source="/ConverterUI;component/Images/назад-01.png" Height="16" />
+                            <Image Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Source="/ConverterUI;component/Images/вперед-01.png" Height="16" />
+                            <TextBlock Grid.Column="1" Grid.Row="1" Text="21.03.2012" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="2" Grid.Row="1" Text="12.33.52" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="0" Grid.Row="2" Text="Элем" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="2" Text="Факт" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="2" Grid.Row="2" Text="Расч" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="0" Grid.Row="3" Text="CaO" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="3" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="3" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="4" Text="SiO2" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="4" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="4" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="5" Text="FeO" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="5" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="5" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="6" Text="MgO" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="6" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="6" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="7" Text="MnO" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="7" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="7" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="8" Text="S" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="8" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="8" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="0" Grid.Row="9" Text="Al2O3" TextAlignment="Center" FontSize="9" />
+                            <TextBlock Grid.Column="1" Grid.Row="9" Text="" TextAlignment="Center" FontSize="9" Background="#FF9EC8A0" FontWeight="SemiBold" />
+                            <TextBlock Grid.Column="2" Grid.Row="9" Text="" TextAlignment="Center" FontSize="9" Background="#FFCCFFFF" FontWeight="SemiBold" />
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <Grid Height="34" Width="107" Background="White" Canvas.Left="2" Canvas.Top="347">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="33*" />
+                    <ColumnDefinition Width="33*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33*" />
+                    <RowDefinition Height="33*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Блокировки" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Background="#FF6F6F6F" Foreground="White" TextWrapping="NoWrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Эл." FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,0,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="1" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" FontWeight="SemiBold" Text="КИП" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="Red" FontWeight="SemiBold"  Text="СТА" TextAlignment="Center" FontSize="10" />
+                        </Border>
+                    </Border>
+                </Border>
+            </Grid>
+
+            <Grid Height="46" Width="93" Background="White" Canvas.Left="2" Canvas.Top="384">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33*" />
+                    <RowDefinition Height="33*" />
+                    <RowDefinition Height="33*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Плавка" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Row="1" Grid.Column="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock   Background="#FFDCDCDC" Text="Автомат" FontSize="9" TextAlignment="Center" FontWeight="SemiBold"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <Border  Grid.Column="1" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FF65FF00" Text="L2"  FontWeight="SemiBold" TextAlignment="Center" FontSize="9" />
+                        </Border>
+                    </Border>
+                </Border>
+                <Border  Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FF65FF00" Text="O2" FontSize="9" TextAlignment="Center" FontWeight="SemiBold"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <Border  Grid.Column="1" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Сыпучие" FontWeight="SemiBold" TextAlignment="Center" FontSize="9" />
+                        </Border>
+                    </Border>
+                </Border>
+
+            </Grid>
+            <Image Canvas.Left="253" Canvas.Top="274" Height="123" Name="image1" Stretch="Fill" Width="129" Source="/ConverterUI;component/Images/converter1.png" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform />
+                        <SkewTransform />
+                        <RotateTransform Angle="{Binding Path=CurrentConverterAngle}" CenterX="64" CenterY="61" />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Canvas.Left="317" Canvas.Top="165" Height="179" Name="image3" Stretch="Fill" Width="12" Source="/ConverterUI;component/Images/lance1.png" >
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="{Binding Path=LanceRealHeight, Converter={StaticResource MainPageLancePositionConverter}}"/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+            </Image>
+            <Image Canvas.Left="439" Canvas.Top="16" Height="20" Name="image5" Stretch="Fill" Width="20" Source="/ConverterUI;component/Images/клапан.png" />
+            <Image Canvas.Left="249" Canvas.Top="111" Grid.Column="4" Grid.RowSpan="4" Height="97" Name="image8" Source="/ConverterUI;component/Images/789.png" Stretch="Fill" Width="61" />
+            <Grid Height="85" Width="224" Background="White" Canvas.Left="2" Canvas.Top="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="28*" />
+                    <ColumnDefinition Width="18*" />
+                    <ColumnDefinition Width="18*" />
+                    <ColumnDefinition Width="18*" />
+                    <ColumnDefinition Width="18*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35*" />
+                    <RowDefinition Height="24*" />
+                    <RowDefinition Height="22*" />
+                    <RowDefinition Height="24*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Вода на     ох. фурмы" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="Q      м3/ч" Grid.Column="1" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="Р        кг/см2" Grid.Column="2" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="Т          [°C]" Grid.Column="3" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="ΔТ        [°C]" Grid.Column="4" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <Grid  Background="#FFDCDCDC" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40*" />
+                                    <ColumnDefinition Width="60*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/ConverterUI;component/Images/вперед-01.png" />
+                                <TextBlock Grid.Column="1" Text="Ввод" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=O2RightLanceWaterInput}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <TextBlock Grid.Column="2" Grid.Row="1"  Text="{Binding Path=O2RightLanceWaterPressure}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <TextBlock Grid.Column="3" Grid.Row="1"  Text="{Binding Path=O2RightLanceWaterTempInput}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <Grid Grid.Column="4" Grid.Row="1" Grid.RowSpan="2" Background="#FF9EC8A0">
+                    <TextBlock  Text="{Binding Path=O2RightLanceWaterTempDiff}"  FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" VerticalAlignment="Center" />
+
+                </Grid>
+                <Border Background="#acaeb5" Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <Grid  Background="#FFDCDCDC">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40*" />
+                                    <ColumnDefinition Width="60*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/ConverterUI;component/Images/назад-01.png" />
+                                <TextBlock Grid.Column="1" Text="Слив" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2"  Text="{Binding Path=O2RightLanceWaterOutput}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Path=O2RightLanceWaterPressure}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <TextBlock Grid.Column="3" Grid.Row="2"  Text="{Binding Path=O2RightLanceWaterTempInput}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <Border Background="#acaeb5" Grid.Column="0" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <Grid  Background="#FFDCDCDC">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40*" />
+                                    <ColumnDefinition Width="60*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="/ConverterUI;component/Images/drop.png" />
+                                <TextBlock Grid.Column="1" Text="Течь" FontSize="10" TextAlignment="Center" FontWeight="SemiBold" />
+                            </Grid>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=O2RightLanceLeck}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" />
+                <TextBlock Grid.Column="2" Grid.Row="3" Background="#FFC3C3C3" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="3" Grid.Row="3" Background="#FFC3C3C3" FontWeight="SemiBold" />
+                <TextBlock Grid.Column="4" Grid.Row="3" Background="#FFC3C3C3" FontWeight="SemiBold" />
+                <Grid Background="White" Grid.Column="3" Margin="27,5,-50,-90" Grid.Row="3" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" />
+                        <ColumnDefinition Width="50*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                        <RowDefinition Height="20*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Изм. фурма" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                    <Border Grid.Row="1">
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock  Background="#FFDCDCDC" Text="Старт" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" Height="14" VerticalAlignment="Top" />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=SublanceStartTime, Converter={StaticResource DateToTimeStringConverter}}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                    <Border Grid.Column="0" Grid.Row="2" >
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock Background="#FFDCDCDC" Text="Т [°С]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=SublanceTemperature}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                    <Border Grid.Column="0" Grid.Row="3" >
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock  Background="#FFDCDCDC" Text="Нм [см]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=SublanceMetalLevel}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                    <Border  Grid.Column="0" Grid.Row="4" >
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock Background="#FFDCDCDC" Text="С [%]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Path=SublanceC}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                    <Border  Grid.Column="0" Grid.Row="5" >
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock Background="#FFDCDCDC" Text="O2 [ppm]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" />
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Path=PPM, StringFormat=F2}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" VerticalAlignment="Center" />
+                    <Border Grid.Column="0" Grid.Row="6">
+                        <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                            <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                                <TextBlock  Background="#FFDCDCDC" Text="ƩO2 [м3]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                            </Border>
+                        </Border>
+                    </Border>
+                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding Path=SublanceTotalO2, StringFormat=F0}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="11" />
+
+                </Grid>
+            </Grid>
+            <Image Canvas.Left="211" Canvas.Top="188" Height="210" Name="image9" Stretch="Fill" Width="36" Source="/ConverterUI;component/Images/scale.png" />
+            <Image Canvas.Left="609" Canvas.Top="16" Height="26" Name="image10" Stretch="Fill" Width="25" Source="/ConverterUI;component/Images/Left%20arrow.png" />
+            <Grid Height="57" Width="161" Background="White" Canvas.Left="337" Canvas.Top="70">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33*" />
+                    <RowDefinition Height="33*" />
+                    <RowDefinition Height="33*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Фурма" Background="#FF6F6F6F" Foreground="White" TextWrapping="NoWrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="см" Grid.Column="1" Background="#FF6F6F6F" Foreground="White" TextWrapping="NoWrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <TextBlock Text="м3/мин" Grid.Column="2" Background="#FF6F6F6F" Foreground="White" TextWrapping="NoWrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Факт" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,0,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" Text="{Binding Path=LanceRealHeight}" TextAlignment="Center" FontSize="11" />
+                <TextBlock Grid.Column="2" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" Text="{Binding Path=ORealFlow, StringFormat=F0}" TextAlignment="Center" FontSize="11" />
+                <Border Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Зад." FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="5,0,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2" Background="#FFCCFFFF" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="11" Text="{Binding Path=LanceHeight}"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" Background="#FFCCFFFF" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="11"  Text="{Binding Path=OFlow, StringFormat=F0}"  />
+            </Grid>
+            <Grid Height="140" Width="99" Background="White" Canvas.Left="518" Canvas.Top="68">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Отх. газы" Background="#FF6F6F6F" Foreground="White" TextWrapping="Wrap" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Q [м3/ч]" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=OffGassQ}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="2" >
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="CO   [%]" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=OffGassCO, StringFormat=F3}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border  Grid.Column="0" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="CO2 [%]" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=OffGassCO2, StringFormat=F3}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="4">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="O2   [%]" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Path=OffGassO2, StringFormat=F3}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="5">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="H2    [%]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Path=OffGassH2, StringFormat=F3}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="6">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="N2    [%]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding Path=OffGassN2, StringFormat=F3}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="7">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Ar    [%]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding Path=OffGassAr, StringFormat=F3}"  Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+            </Grid>
+            <Grid Height="65" Width="101" Background="White" Canvas.Left="337" Canvas.Top="129">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*" />
+                    <ColumnDefinition Width="50*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="25*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="V [м/сек]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"  />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="0" Background="#FFCCFFFF" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="1">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="Клапан [%]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="1" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border  Grid.Column="0" Grid.Row="2">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Background="#FFDCDCDC" Text="Тпр" FontSize="10" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0" />
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Name="tbBlowingTime" Grid.Column="1" Grid.Row="2" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="10" />
+                <Border Grid.Column="0" Grid.Row="3">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Background="#FFDCDCDC" Text="ƩO2 [м3]" FontSize="9" TextAlignment="Left" FontWeight="SemiBold" Padding="2,0,0,0"/>
+                        </Border>
+                    </Border>
+                </Border>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=O2Summary, StringFormat=F0}" Background="#FF9EC8A0" FontWeight="SemiBold" Margin="1,1,1,0" TextAlignment="Center" FontSize="11" />
+            </Grid>
+            <Image Canvas.Left="338" Canvas.Top="53" Height="14" Name="image11" Stretch="Fill" Width="14" Source="/ConverterUI;component/Images/arrowDownGreen.png" />
+            <Image Canvas.Left="338" Canvas.Top="38" Height="14" Name="image12" Source="/ConverterUI;component/Images/arrowUpGray.png" Stretch="Fill" Width="14" />
+            <Image Canvas.Left="357" Canvas.Top="255" Height="14" Name="image13" Source="/ConverterUI;component/Images/arrowDownGray.png" Stretch="Fill" Width="14" />
+            <Image Canvas.Left="357" Canvas.Top="240" Height="14" Name="image14" Source="/ConverterUI;component/Images/arrowUpGreen.png" Stretch="Fill" Width="14" />
+            <Image Canvas.Left="307" Canvas.Top="118" Height="125" Name="image4" Stretch="Fill" Width="5" Source="/ConverterUI;component/Images/smallLance.png" />
+            <Image Canvas.Left="376" Canvas.Top="12" Height="24" Name="image15" Source="/ConverterUI;component/Images/кр.png" Stretch="Fill" Width="19" />
+            <Grid Canvas.Left="362" Canvas.Top="0" Height="14" Name="grid1"  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="КР" FontSize="10" VerticalAlignment="Center" Padding="3,0,2,0" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=ValveValue}" Background="#FF9EC8A0" Padding="3,0,0,0" FontSize="10" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="%" Background="#FF9EC8A0" Padding="2,0,0,0" FontSize="10" VerticalAlignment="Center" HorizontalAlignment="Right" Width="10" />
+            </Grid>
+            <Grid Background="White" Width="52" Canvas.Left="361" Canvas.Top="41">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Background="#FFDCDCDC" FontSize="10" FontWeight="SemiBold" Grid.Column="0" Margin="1,1,1,1" Text="Р" TextAlignment="Center" />
+                <TextBlock Background="#FFDCDCDC" FontSize="10" FontWeight="SemiBold" Grid.Column="1" Margin="1,1,1,1" Text="А" TextAlignment="Center" />
+                <TextBlock Background="#FF65FF00" FontSize="10" FontWeight="SemiBold" Grid.Column="2" Margin="1,1,1,1" Text="L2" TextAlignment="Center" />
+            </Grid>
+            <TextBlock Canvas.Left="442" Canvas.Top="3" Height="12" Name="textBlock1" Text="КО" FontSize="10"/>
+            <Border  Canvas.Left="257" Canvas.Top="400" Width="127">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <Grid Background="White" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*" />
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock Background="#FFDCDCDC" FontSize="10" FontWeight="SemiBold" Grid.Row="1" Padding="5,0,0,0" Text="Поворот:" TextAlignment="Left" />
+                            <TextBlock Background="#FF9EC8A0" FontSize="10" FontWeight="SemiBold" Grid.Column="1" Grid.Row="1" Text="{Binding Path=CurrentConverterAngle}" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Border>
+            </Border>
+            <Border  Canvas.Left="257" Canvas.Top="415">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <Grid Background="White" Width="125">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40*" />
+                                <ColumnDefinition Width="83" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="33*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Background="#FFDCDCDC" FontSize="10" FontWeight="SemiBold" Grid.Row="1" Padding="5,0,0,0" Text="Сектор:" TextAlignment="Left" />
+                            <TextBlock Background="#FF9EC8A0" Text="{Binding Path=CurrentConverterAngle,Converter={StaticResource AngleToSectorNameConverter}}" FontSize="9" FontWeight="SemiBold" Grid.Column="1" Grid.Row="1" TextAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </Border>
+            </Border>
+            <Image Canvas.Left="313" Canvas.Top="372" Height="14" Name="image16" Source="/ConverterUI;component/Images/arrowUpGreen.png" Stretch="Fill" Width="14" />
+            <Label Content="{Binding Path=BathLevel}" Canvas.Left="297" Canvas.Top="343" Foreground="#FF0000DE" FontWeight="Bold" FontSize="14" Height="19" Width="44" HorizontalContentAlignment="Center" />
+            <Image Canvas.Left="283" Canvas.Top="250" Height="20" Name="image2" Stretch="Fill" Width="70" Source="/ConverterUI;component/Images/юбка.png" />
+        </Canvas>
+    </StackPanel>
+
+
+</UserControl>

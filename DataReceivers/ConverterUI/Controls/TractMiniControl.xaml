@@ -1,0 +1,265 @@
+﻿<UserControl x:Class="ConverterUI.Controls.TractMiniControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="479" d:DesignWidth="640" xmlns:my="clr-namespace:ConverterUI.Controls" Background="#FFC3C3C3">
+<StackPanel Orientation="Vertical"  Width="640">
+        <Grid Background="#FF6F6F6F" >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Height="23" Name="tHeader" Text="Вертикальный тракт сыпучих материалов (РБ5-РБ12)" TextAlignment="Center" Background="#FF6F6F6F" Foreground="White" FontSize="14"  />
+            <Image Grid.Column="1"  Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+        </Grid>
+        <Canvas Height="456" Width="640">
+            <my:MiniBunkerControl x:Name="miniBunkerControl12"  Canvas.Left="2" Canvas.Top="1" MaterialName="ФОМ" BunkerName="РБ12" Status="NotActive" Width="55"/>
+            <my:MiniBunkerControl BunkerName="РБ11" Canvas.Left="58" Canvas.Top="1" MaterialName="ДОЛОМС" x:Name="miniBunkerControl11" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ10" Canvas.Left="114" Canvas.Top="1" MaterialName="ДОЛМИТ" x:Name="miniBunkerControl10" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ9.2" Canvas.Left="173" Canvas.Top="1" MaterialName="ИЗВЕСТ" x:Name="miniBunkerControl92" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ9.1" Canvas.Left="229" Canvas.Top="1" MaterialName="ИЗВЕСТ" x:Name="miniBunkerControl91" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ8.2" Canvas.Left="295" Canvas.Top="1" MaterialName="ИЗВЕСТ" x:Name="miniBunkerControl82" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ8.1" Canvas.Left="351" Canvas.Top="1" MaterialName="ИЗВЕСТ" x:Name="miniBunkerControl81" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ7" Canvas.Left="438" Canvas.Top="1" MaterialName="КОКС" x:Name="miniBunkerControl7" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ6" Canvas.Left="524" Canvas.Top="1" MaterialName="Alконц" x:Name="miniBunkerControl6" Status="NotActive" Width="55" />
+            <my:MiniBunkerControl BunkerName="РБ5" Canvas.Left="580" Canvas.Top="1" MaterialName="ДОЛОМС" x:Name="miniBunkerControl5" Status="NotActive" Width="55" />
+            <my:MiniScalesControl Canvas.Left="15" Canvas.Top="42" x:Name="miniScalesControl7" Width="113" Material1Visibility="True" ScalesName="В7" Material1Name="{Binding ElementName=miniBunkerControl12, Path=MaterialName}"
+                                  Material2Name="{Binding ElementName=miniBunkerControl11, Path=MaterialName}"  Material3Name="{Binding ElementName=miniBunkerControl10, Path=MaterialName}" Height="98" />
+            <my:MiniScalesControl Canvas.Left="173" Canvas.Top="40" x:Name="miniScalesControl6" Width="111" Material1Name="{Binding ElementName=miniBunkerControl92, Path=MaterialName}" ScalesName="В6" Height="100" />
+            <my:MiniScalesControl Canvas.Left="295" Canvas.Top="40" x:Name="miniScalesControl5" Width="111" Material1Name="{Binding ElementName=miniBunkerControl82, Path=MaterialName}" ScalesName="В5" Height="100" />
+            <my:MiniScalesControl Canvas.Left="416" Canvas.Top="40" x:Name="miniScalesControl4" Width="101"  Material1Name="{Binding ElementName=miniBunkerControl7, Path=MaterialName}" ScalesName="В4" Height="100" />
+            <my:MiniScalesControl Canvas.Left="524" Canvas.Top="42" x:Name="miniScalesControl3" Width="113"  Material1Name="{Binding ElementName=miniBunkerControl6, Path=MaterialName}"   Material2Name="{Binding ElementName=miniBunkerControl5, Path=MaterialName}" ScalesName="В3" Height="98" />
+            <my:MiniMidBunker Canvas.Left="89" Canvas.Top="151" x:Name="miniMidBunker1" Width="105" Height="95" BunkerName="ПБ1" Material1Name="{Binding ElementName=miniBunkerControl92, Path=MaterialName}"
+                               Material2Name="{Binding ElementName=miniBunkerControl10, Path=MaterialName}" 
+                               Material3Name="{Binding ElementName=miniBunkerControl11, Path=MaterialName}"
+                               Material4Name="{Binding ElementName=miniBunkerControl12, Path=MaterialName}"/>
+            <my:MiniMidBunker Canvas.Left="438" Canvas.Top="151" Height="95" x:Name="miniMidBunker2" Width="105" BunkerName="ПБ2"  Material1Name="{Binding ElementName=miniBunkerControl82, Path=MaterialName}"
+                               Material2Name="{Binding ElementName=miniBunkerControl7, Path=MaterialName}" 
+                               Material3Name="{Binding ElementName=miniBunkerControl6, Path=MaterialName}"
+                               Material4Name="{Binding ElementName=miniBunkerControl5, Path=MaterialName}"/>
+            <Label Canvas.Left="58" Canvas.Top="162" Content="РБ9" Height="Auto" Name="label1" Padding="0" FontWeight="Bold" />
+            <Label Canvas.Left="58" Canvas.Top="178" Content="РБ10" FontWeight="Bold" Height="Auto" Name="label2" Padding="0" />
+            <Label Canvas.Left="58" Canvas.Top="195" Content="РБ11" FontWeight="Bold" Height="Auto" Name="label3" Padding="0" />
+            <Label Canvas.Left="58" Canvas.Top="211" Content="РБ12" FontWeight="Bold" Height="Auto" Name="label4" Padding="0" />
+            <Label Canvas.Left="549" Canvas.Top="167" Content="РБ8" FontWeight="Bold" Height="Auto" Name="label5" Padding="0" />
+            <Label Canvas.Left="549" Canvas.Top="183" Content="РБ7" FontWeight="Bold" Height="Auto" Name="label6" Padding="0" />
+            <Label Canvas.Left="549" Canvas.Top="200" Content="РБ6" FontWeight="Bold" Height="Auto" Name="label7" Padding="0" />
+            <Label Canvas.Left="549" Canvas.Top="216" Content="РБ5" FontWeight="Bold" Height="Auto" Name="label8" Padding="0" />
+            <Image Canvas.Left="236" Canvas.Top="306" Height="130" Name="image1" Stretch="Fill" Width="153" Source="/ConverterUI;component/Images/BOF-SK-01.png" />
+            <Grid Canvas.Left="216" Canvas.Top="149" Height="134" Name="grid1" Width="208">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="35*"  />
+                    <ColumnDefinition Width="35*"  />
+                    <ColumnDefinition Width="25*"  />
+                    <ColumnDefinition Width="25*"  />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="5" Grid.Row="0" Name="tName" Text="L2 ->Конвертер [кг]"  Padding="0,0,0,0" FontSize="10" Background="#82837E" Foreground="White" TextAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="РБ" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Материал" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Задание" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="1" Text="Весы" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="1" Text="Факт." Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Row="2" Text="5" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" Height="14" VerticalAlignment="Top"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ElementName=miniBunkerControl5, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="6" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ElementName=miniBunkerControl6, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="7" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding ElementName=miniBunkerControl7, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="8" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding ElementName=miniBunkerControl82, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="9" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding ElementName=miniBunkerControl92, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="10" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding ElementName=miniBunkerControl10, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="11" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding ElementName=miniBunkerControl11, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="12" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding ElementName=miniBunkerControl12, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="4" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                
+            </Grid>
+            <Grid Name="grid3" Width="208" Grid.Column="4" Margin="43,4,-213,-136" Grid.Row="9" Canvas.Top="260" Canvas.Left="385">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="35*" />
+                    <ColumnDefinition Width="25*" />
+                    <ColumnDefinition Width="25*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="4" Grid.Row="0" Text="Стальковш (кг)" Padding="0,0,0,0" FontSize="10" Background="#82837E" Foreground="White" TextAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="РБ" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Материал" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Факт." Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="1" Text="Расч." Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Row="2" Text="1" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" Height="14" VerticalAlignment="Top" Grid.RowSpan="2"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="ИЗВЕСТ" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="3" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="FEMN78" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Row="4" Text="3A" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="FEMN78" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="2" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="FESICR" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="4" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="FESI65" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="7" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="7" Text="КОКС" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="13" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="8" Text="MN" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="15" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="9" Text="SMN17" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="10" Text="14" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="10" Text="SMN17" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="10" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="10" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="11" Text="16" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="11" Text="ТШС" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="11" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="11" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+            </Grid>
+            <Grid Canvas.Left="3" Canvas.Top="266" Height="134" Name="grid2" Width="208">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="35*"  />
+                    <ColumnDefinition Width="25*"  />
+                    <ColumnDefinition Width="25*"  />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.ColumnSpan="4" Grid.Row="0"  Text="Конвертер (кг)"  Padding="0,0,0,0" FontSize="10" Background="#82837E" Foreground="White" TextAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="РБ" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Материал" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="1" Text="Факт." Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="1" Text="Расч." Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Row="2" Text="5" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10" Height="14" VerticalAlignment="Top"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ElementName=miniBunkerControl5, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="2" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="3" Text="6" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ElementName=miniBunkerControl6, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="3" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="4" Text="7" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding ElementName=miniBunkerControl7, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="4" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="5" Text="8" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding ElementName=miniBunkerControl82, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="5" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+
+                <TextBlock Grid.Column="0" Grid.Row="6" Text="9" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding ElementName=miniBunkerControl92, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="6" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="7" Text="10" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding ElementName=miniBunkerControl10, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="7" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="8" Text="11" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding ElementName=miniBunkerControl11, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="8" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+
+                <TextBlock Grid.Column="0" Grid.Row="9" Text="12" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="9" Text="{Binding ElementName=miniBunkerControl12, Path=MaterialName}" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="2" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+                <TextBlock Grid.Column="3" Grid.Row="9" Text="0" Background="#FFEFEFEF" FontWeight="SemiBold" TextAlignment="Center" FontSize="10"></TextBlock>
+            </Grid>
+            <Image Canvas.Left="288" Canvas.Top="290" Height="15" Name="image2" Source="/ConverterUI;component/Images/юбка.png" Stretch="Fill" Width="50" />
+        </Canvas>
+        
+    </StackPanel>
+</UserControl>

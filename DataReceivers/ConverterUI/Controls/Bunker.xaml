@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="ConverterUI.Bunker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+Width="75" Height="75">
+    <Canvas>
+        <Image Height="75" Name="iBunker" Stretch="Fill" Width="75" Source="/ConverterUI;component/Images/бункерЗакр.png" MouseDown="iBunker_MouseDown" />
+        <Label Canvas.Left="0" Canvas.Top="8" Height="20" Name="lMaterialName" Content="{Binding Path=this.Material}" Width="55" Padding="0" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" FontWeight="Bold" MouseDown="lMaterialName_MouseDown" DataContext="{Binding RelativeSource={RelativeSource PreviousData}}" />
+        <Label Canvas.Left="0" Canvas.Top="32" FontSize="14" FontWeight="Normal" Height="20" HorizontalContentAlignment="Center" Name="lBunkerName" Padding="0" VerticalContentAlignment="Center" Width="55" Foreground="#FF931313" />
+        <!--ComboBox Canvas.Left="0" Canvas.Top="12" Height="16" Name="cbMaterials" Width="55" Visibility="Hidden" SelectionChanged="cbMaterials_SelectionChanged">
+            <ComboBoxItem Content="КОКС" />
+            <ComboBoxItem Content="ФОМ" />
+            <ComboBoxItem Content="ИЗВЕСТЬ" />
+            <ComboBoxItem Content="ДОЛОМС" />
+            <ComboBoxItem Content="ДОЛМИТ" />
+            <ComboBoxItem Content="ТШС" />
+            <ComboBoxItem Content="MN" />
+            <ComboBoxItem Content="SMN17" />
+            <ComboBoxItem Content="Alконц" />
+            <ComboBoxItem Content="FESI65" />
+            <ComboBoxItem Content="FEMN78" />
+            <ComboBoxItem Content="FESICR" />
+        </ComboBox-->
+    </Canvas>
+</UserControl>

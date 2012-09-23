@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B566F272-5114-4553-953F-7C02C5FE1FF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DTO</RootNamespace>
+    <AssemblyName>DTO</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Partial\MOUT_SlagAnalysisDTO.cs" />
+    <Compile Include="SIM_RealHeat_TempMeasDTO.cs" />
+    <Compile Include="SIM_RealHeat_SteelAnalysisDTO.cs" />
+    <Compile Include="SIM_RealHeat_SlagAnalysisDTO.cs" />
+    <Compile Include="SIM_RealHeat_MatAddDTO.cs" />
+    <Compile Include="SIM_RealHeat_CyclicDTO.cs" />
+    <Compile Include="SIM_RealHeatDTO.cs" />
+    <Compile Include="L1L2_CommandDTO.cs" />
+    <Compile Include="L2L1_CommandDTO.cs" />
+    <Compile Include="MINP_GD_ModelParametersDTO.cs" />
+    <Compile Include="MINP_ProcessPatternSlagDTO.cs" />
+    <Compile Include="MINP_ProcessPatternOxygenDTO.cs" />
+    <Compile Include="MINP_GD_ProcessPatternSlagDTO.cs" />
+    <Compile Include="MINP_GD_ProcessPatternOxygenDTO.cs" />
+    <Compile Include="MINP_GD_ProcessPatternDTO.cs" />
+    <Compile Include="MINP_ProcessPatternDTO.cs" />
+    <Compile Include="L1L2_BunkerMaterialDTO.cs" />
+    <Compile Include="MINP_HeatAimDataDTO.cs" />
+    <Compile Include="L3L2_HeatScheduleDTO.cs" />
+    <Compile Include="MOUT_TemperatureTimeDTO.cs" />
+    <Compile Include="MOUT_SteelAnalysisDTO.cs" />
+    <Compile Include="MOUT_SlagAnalysisDTO.cs" />
+    <Compile Include="MOUT_OxygenBlowingDTO.cs" />
+    <Compile Include="MOUT_MessageDTO.cs" />
+    <Compile Include="MOUT_AlloyRecipeItemsDTO.cs" />
+    <Compile Include="MOUT_AlloyRecipeDTO.cs" />
+    <Compile Include="MISC_WatchdogDTO.cs" />
+    <Compile Include="MINP_TempMeasDTO.cs" />
+    <Compile Include="MINP_PhaseChangeDTO.cs" />
+    <Compile Include="MINP_ModelParametersDTO.cs" />
+    <Compile Include="MINP_MatAddDTO.cs" />
+    <Compile Include="MINP_HeatDTO.cs" />
+    <Compile Include="MINP_GD_SteelGradeItemsDTO.cs" />
+    <Compile Include="MINP_GD_SteelGradeDTO.cs" />
+    <Compile Include="MINP_GD_MaterialItemsDTO.cs" />
+    <Compile Include="MINP_GD_MaterialElementDTO.cs" />
+    <Compile Include="MINP_GD_MaterialDTO.cs" />
+    <Compile Include="MINP_GD_BunkerMaterialDTO.cs" />
+    <Compile Include="MINP_CyclicDTO.cs" />
+    <Compile Include="LAL2_SteelAnalysisDTO.cs" />
+    <Compile Include="LAL2_SlagAnalysisDTO.cs" />
+    <Compile Include="L3L2_SteelGradeItemsDTO.cs" />
+    <Compile Include="L3L2_SteelGradeDTO.cs" />
+    <Compile Include="L3L2_MaterialItemsDTO.cs" />
+    <Compile Include="L3L2_MaterialDTO.cs" />
+    <Compile Include="L2L1_OxygenBlowingDTO.cs" />
+    <Compile Include="L2L1_BunkerMaterialsDTO.cs" />
+    <Compile Include="L2L1_AnnounceDTO.cs" />
+    <Compile Include="L2L1_AlloyRecipeItemsDTO.cs" />
+    <Compile Include="L2L1_AlloyRecipeDTO.cs" />
+    <Compile Include="L1L2_TempMeasDTO.cs" />
+    <Compile Include="L1L2_MatAddDTO.cs" />
+    <Compile Include="L1L2_CyclicDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

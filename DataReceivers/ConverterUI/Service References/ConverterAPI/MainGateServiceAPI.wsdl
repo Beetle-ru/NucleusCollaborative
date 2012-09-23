@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://Converter.API" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://Converter.API" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://Converter.API/Imports">
+      <xsd:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd0" namespace="http://Converter.API" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Converter" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CommonTypes" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IConverterAPI_GetHeatNumber_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetHeatNumber" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetHeatNumber_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetHeatNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetConverterNumber_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConverterNumber" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetConverterNumber_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConverterNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetTeamNumber_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTeamNumber" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetTeamNumber_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTeamNumberResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetGrade_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGrade" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetGrade_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGradeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetActualSteelAttributes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetActualSteelAttributes" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetActualSteelAttributes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetActualSteelAttributesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetPlannedSteelAttributes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlannedSteelAttributes" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetPlannedSteelAttributes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPlannedSteelAttributesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetBlowingStartTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlowingStartTime" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetBlowingStartTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlowingStartTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetOffGasEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOffGasEvents" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetOffGasEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOffGasEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetLanceEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanceEvents" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetLanceEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetLanceEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetOffGasAnalysisEvents_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOffGasAnalysisEvents" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetOffGasAnalysisEvents_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOffGasAnalysisEventsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetBlowingSchemas_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlowingSchemas" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_GetBlowingSchemas_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBlowingSchemasResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_LoadBlowingSchema_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoadBlowingSchema" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_LoadBlowingSchema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadBlowingSchemaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_SaveBlowingSchema_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlowingSchema" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_SaveBlowingSchema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveBlowingSchemaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_RunBlowingSchema_InputMessage">
+    <wsdl:part name="parameters" element="tns:RunBlowingSchema" />
+  </wsdl:message>
+  <wsdl:message name="IConverterAPI_RunBlowingSchema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RunBlowingSchemaResponse" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IConverterAPI">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetHeatNumber">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetHeatNumber" message="tns:IConverterAPI_GetHeatNumber_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetHeatNumberResponse" message="tns:IConverterAPI_GetHeatNumber_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetConverterNumber">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetConverterNumber" message="tns:IConverterAPI_GetConverterNumber_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetConverterNumberResponse" message="tns:IConverterAPI_GetConverterNumber_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetTeamNumber">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetTeamNumber" message="tns:IConverterAPI_GetTeamNumber_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetTeamNumberResponse" message="tns:IConverterAPI_GetTeamNumber_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetGrade">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetGrade" message="tns:IConverterAPI_GetGrade_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetGradeResponse" message="tns:IConverterAPI_GetGrade_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetActualSteelAttributes">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetActualSteelAttributes" message="tns:IConverterAPI_GetActualSteelAttributes_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetActualSteelAttributesResponse" message="tns:IConverterAPI_GetActualSteelAttributes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetPlannedSteelAttributes">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetPlannedSteelAttributes" message="tns:IConverterAPI_GetPlannedSteelAttributes_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetPlannedSteelAttributesResponse" message="tns:IConverterAPI_GetPlannedSteelAttributes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetBlowingStartTime">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetBlowingStartTime" message="tns:IConverterAPI_GetBlowingStartTime_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetBlowingStartTimeResponse" message="tns:IConverterAPI_GetBlowingStartTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOffGasEvents">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetOffGasEvents" message="tns:IConverterAPI_GetOffGasEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetOffGasEventsResponse" message="tns:IConverterAPI_GetOffGasEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetLanceEvents">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetLanceEvents" message="tns:IConverterAPI_GetLanceEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetLanceEventsResponse" message="tns:IConverterAPI_GetLanceEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetOffGasAnalysisEvents">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetOffGasAnalysisEvents" message="tns:IConverterAPI_GetOffGasAnalysisEvents_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetOffGasAnalysisEventsResponse" message="tns:IConverterAPI_GetOffGasAnalysisEvents_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="GetBlowingSchemas">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/GetBlowingSchemas" message="tns:IConverterAPI_GetBlowingSchemas_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/GetBlowingSchemasResponse" message="tns:IConverterAPI_GetBlowingSchemas_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="LoadBlowingSchema">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/LoadBlowingSchema" message="tns:IConverterAPI_LoadBlowingSchema_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/LoadBlowingSchemaResponse" message="tns:IConverterAPI_LoadBlowingSchema_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SaveBlowingSchema">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/SaveBlowingSchema" message="tns:IConverterAPI_SaveBlowingSchema_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/SaveBlowingSchemaResponse" message="tns:IConverterAPI_SaveBlowingSchema_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RunBlowingSchema">
+      <wsdl:input wsaw:Action="http://Converter.API/IConverterAPI/RunBlowingSchema" message="tns:IConverterAPI_RunBlowingSchema_InputMessage" />
+      <wsdl:output wsaw:Action="http://Converter.API/IConverterAPI/RunBlowingSchemaResponse" message="tns:IConverterAPI_RunBlowingSchema_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

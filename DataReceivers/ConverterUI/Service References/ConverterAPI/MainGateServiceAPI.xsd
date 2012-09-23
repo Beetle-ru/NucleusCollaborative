@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Converter" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Converter" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/CommonTypes" />
+  <xs:import schemaLocation="http://localhost:8001/MainGateServiceAPI?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="SteelAttributes">
+    <xs:sequence>
+      <xs:element name="_x003C_Carbon_x003E_k__BackingField" type="xs:double" />
+      <xs:element name="_x003C_Temperature_x003E_k__BackingField" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SteelAttributes" nillable="true" type="tns:SteelAttributes" />
+  <xs:complexType name="ArrayOfOffGasEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OffGasEvent" nillable="true" type="tns:OffGasEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOffGasEvent" nillable="true" type="tns:ArrayOfOffGasEvent" />
+  <xs:complexType name="OffGasEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="OffGasCounter" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasFilterControlPos" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasFlow" type="xs:double" />
+          <xs:element minOccurs="0" name="OffGasHoodPos" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasTemp" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OffGasEvent" nillable="true" type="tns:OffGasEvent" />
+  <xs:complexType name="ConverterBaseEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/CommonTypes" base="q1:BaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="iCnvNr" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ConverterBaseEvent" nillable="true" type="tns:ConverterBaseEvent" />
+  <xs:complexType name="visIndustrialBunkersEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Bunker1Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker1Minimum" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker1Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker2Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker2Minimum" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker2Opened" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visIndustrialBunkersEvent" nillable="true" type="tns:visIndustrialBunkersEvent" />
+  <xs:complexType name="TappingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="TappingFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TappingEvent" nillable="true" type="tns:TappingEvent" />
+  <xs:complexType name="ScrapChargingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ScrapChargingFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScrapChargingEvent" nillable="true" type="tns:ScrapChargingEvent" />
+  <xs:complexType name="cntWatchDogPLC2Event">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntWatchDogPLC2Event" nillable="true" type="tns:cntWatchDogPLC2Event" />
+  <xs:complexType name="visAdditionScalesEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Scale3Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale3Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Scale4Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale4Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale4Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Scale5Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale5Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale5Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Scale6Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale6Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale6Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Scale7Closed" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale7Opened" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Scale7Weight" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visAdditionScalesEvent" nillable="true" type="tns:visAdditionScalesEvent" />
+  <xs:complexType name="visBlowingFlowRatesEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BoilerNFlow" type="xs:int" />
+          <xs:element minOccurs="0" name="CandleGasFlow" type="xs:int" />
+          <xs:element minOccurs="0" name="CandleGasPressure" type="xs:double" />
+          <xs:element minOccurs="0" name="CandleSteamFlow" type="xs:int" />
+          <xs:element minOccurs="0" name="CandleSteamPressure" type="xs:double" />
+          <xs:element minOccurs="0" name="LanceNFlow" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visBlowingFlowRatesEvent" nillable="true" type="tns:visBlowingFlowRatesEvent" />
+  <xs:complexType name="ConverterAngleEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Angle" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ConverterAngleEvent" nillable="true" type="tns:ConverterAngleEvent" />
+  <xs:complexType name="cntAdditionsEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntAdditionsEvent" nillable="true" type="tns:cntAdditionsEvent" />
+  <xs:complexType name="TorkretingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="O2TorkVol" type="xs:int" />
+          <xs:element minOccurs="0" name="TorkretingFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="TorkretingEvent" nillable="true" type="tns:TorkretingEvent" />
+  <xs:complexType name="HotMetalLadleEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HotMetalTemperature" type="xs:int" />
+          <xs:element minOccurs="0" name="HotMetalTotalWeight" type="xs:int" />
+          <xs:element minOccurs="0" name="LadleNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="MixerNumberPortion1" type="xs:int" />
+          <xs:element minOccurs="0" name="MixerNumberPortion2" type="xs:int" />
+          <xs:element minOccurs="0" name="MixerNumberPortion3" type="xs:int" />
+          <xs:element minOccurs="0" name="WeightPortion1" type="xs:int" />
+          <xs:element minOccurs="0" name="WeightPortion2" type="xs:int" />
+          <xs:element minOccurs="0" name="WeightPortion3" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HotMetalLadleEvent" nillable="true" type="tns:HotMetalLadleEvent" />
+  <xs:complexType name="SteelAnalysisEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HeatNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SteelAnalysisEvent" nillable="true" type="tns:SteelAnalysisEvent" />
+  <xs:complexType name="cntWatchDogPLC1Event">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntWatchDogPLC1Event" nillable="true" type="tns:cntWatchDogPLC1Event" />
+  <xs:complexType name="comO2FlowRateEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+          <xs:element minOccurs="0" name="SublanceStartO2Vol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="comO2FlowRateEvent" nillable="true" type="tns:comO2FlowRateEvent" />
+  <xs:complexType name="BoilerWaterCoolingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="OffGasCounter" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasFilterControlPos" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasFlow" type="xs:double" />
+          <xs:element minOccurs="0" name="OffGasHoodPos" type="xs:int" />
+          <xs:element minOccurs="0" name="OffGasTemp" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BoilerWaterCoolingEvent" nillable="true" type="tns:BoilerWaterCoolingEvent" />
+  <xs:complexType name="ReBlowingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BlowingFlag" type="xs:int" />
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ReBlowingEvent" nillable="true" type="tns:ReBlowingEvent" />
+  <xs:complexType name="HeatingScrapEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HeatingScrapFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HeatingScrapEvent" nillable="true" type="tns:HeatingScrapEvent" />
+  <xs:complexType name="visBlowingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="NSlagBlowingFlow" type="xs:int" />
+          <xs:element minOccurs="0" name="NSlagBlowingPressure" type="xs:double" />
+          <xs:element minOccurs="0" name="O2Pressure" type="xs:double" />
+          <xs:element minOccurs="0" name="RealLanceHeight" type="xs:int" />
+          <xs:element minOccurs="0" name="RealO2Flow" type="xs:int" />
+          <xs:element minOccurs="0" name="ValveValue" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visBlowingEvent" nillable="true" type="tns:visBlowingEvent" />
+  <xs:complexType name="comBlowingSchemaEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="LancePositionStep1" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep10" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep11" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep12" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep13" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep14" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep15" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep16" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep17" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep18" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep19" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep2" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep20" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep3" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep4" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep5" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep6" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep7" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep8" type="xs:int" />
+          <xs:element minOccurs="0" name="LancePositionStep9" type="xs:int" />
+          <xs:element minOccurs="0" name="O2FlowStep1" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep10" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep11" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep12" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep13" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep14" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep15" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep16" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep17" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep18" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep19" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep2" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep20" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep3" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep4" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep5" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep6" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep7" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep8" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowStep9" type="xs:double" />
+          <xs:element minOccurs="0" name="O2SchemaNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep1" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep10" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep11" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep12" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep13" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep14" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep15" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep16" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep17" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep18" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep19" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep2" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep20" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep3" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep4" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep5" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep6" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep7" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep8" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolStep9" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="comBlowingSchemaEvent" nillable="true" type="tns:comBlowingSchemaEvent" />
+  <xs:complexType name="BlowingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BlowingFlag" type="xs:int" />
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BlowingEvent" nillable="true" type="tns:BlowingEvent" />
+  <xs:complexType name="HeatChangeEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HeatNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HeatChangeEvent" nillable="true" type="tns:HeatChangeEvent" />
+  <xs:complexType name="comAdditionsSchemaEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Material10Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material10Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material10Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material1Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material1Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material1Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material2Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material2Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material2Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material3Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material3Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material3Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material4Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material4Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material4Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material5Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material5Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material5Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material6Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material6Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material6Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material7Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material7Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material7Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material8Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material8Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material8Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material9Portion1Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material9Portion2Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="Material9Portion3Weight" type="xs:double" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material1" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material10" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material2" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material3" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material4" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material5" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material6" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material7" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material8" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion1Material9" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material1" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material10" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material2" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material3" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material4" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material5" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material6" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material7" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material8" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion2Material9" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material1" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material10" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material2" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material3" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material4" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material5" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material6" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material7" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material8" type="xs:int" />
+          <xs:element minOccurs="0" name="O2VolPortion3Material9" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="comAdditionsSchemaEvent" nillable="true" type="tns:comAdditionsSchemaEvent" />
+  <xs:complexType name="DeslaggingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="DeslaggingFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="DeslaggingEvent" nillable="true" type="tns:DeslaggingEvent" />
+  <xs:complexType name="SublanceOxidationEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="O2InSteel" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SublanceOxidationEvent" nillable="true" type="tns:SublanceOxidationEvent" />
+  <xs:complexType name="OffGasAnalysisEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Ar" type="xs:double" />
+          <xs:element minOccurs="0" name="CO" type="xs:double" />
+          <xs:element minOccurs="0" name="CO2" type="xs:double" />
+          <xs:element minOccurs="0" name="H2" type="xs:double" />
+          <xs:element minOccurs="0" name="N2" type="xs:double" />
+          <xs:element minOccurs="0" name="O2" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="OffGasAnalysisEvent" nillable="true" type="tns:OffGasAnalysisEvent" />
+  <xs:complexType name="SublanceCEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="C" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SublanceCEvent" nillable="true" type="tns:SublanceCEvent" />
+  <xs:complexType name="comAdditionsEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Bunker10MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker1MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker2MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker3MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker4MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker5MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker6MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker7MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker8MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker9MaterialName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="comAdditionsEvent" nillable="true" type="tns:comAdditionsEvent" />
+  <xs:complexType name="SlagBlowingEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="NVol" type="xs:int" />
+          <xs:element minOccurs="0" name="SlagBlowingFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SlagBlowingEvent" nillable="true" type="tns:SlagBlowingEvent" />
+  <xs:complexType name="ScrapEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BucketNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="ConverterNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType1" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType2" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType3" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType4" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType5" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType6" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType7" type="xs:int" />
+          <xs:element minOccurs="0" name="ScrapType8" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalWeight" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight1" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight2" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight3" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight4" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight5" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight6" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight7" type="xs:int" />
+          <xs:element minOccurs="0" name="Weight8" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ScrapEvent" nillable="true" type="tns:ScrapEvent" />
+  <xs:complexType name="ResetO2TotalVolEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ResetO2TotalVolEvent" nillable="true" type="tns:ResetO2TotalVolEvent" />
+  <xs:complexType name="cntAdditionsSchemaEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntAdditionsSchemaEvent" nillable="true" type="tns:cntAdditionsSchemaEvent" />
+  <xs:complexType name="AdditionsEventNew">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Bunker10MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker1MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker2MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker3MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker4MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker5MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker6MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker7MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker8MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker9MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Weight1" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight10" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight2" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight3" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight4" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight5" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight6" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight7" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight8" type="xs:double" />
+          <xs:element minOccurs="0" name="Weight9" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AdditionsEventNew" nillable="true" type="tns:AdditionsEventNew" />
+  <xs:complexType name="visAdditionBunkersEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Bunker10FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker10MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker11FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker11MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker12FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker12MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker5FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker5MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker6FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker6MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker7FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker7MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker8_1FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker8_1MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker8_2FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker8_2MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker9_1FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker9_1MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="Bunker9_2FeederVibrating" type="xs:boolean" />
+          <xs:element minOccurs="0" name="Bunker9_2MaterialName" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visAdditionBunkersEvent" nillable="true" type="tns:visAdditionBunkersEvent" />
+  <xs:complexType name="MixerAnalysisEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="C" type="xs:double" />
+          <xs:element minOccurs="0" name="MixerNumber" type="xs:int" />
+          <xs:element minOccurs="0" name="Mn" type="xs:double" />
+          <xs:element minOccurs="0" name="P" type="xs:double" />
+          <xs:element minOccurs="0" name="S" type="xs:double" />
+          <xs:element minOccurs="0" name="Si" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="MixerAnalysisEvent" nillable="true" type="tns:MixerAnalysisEvent" />
+  <xs:complexType name="IgnitionEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="O2IgnitionVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="IgnitionEvent" nillable="true" type="tns:IgnitionEvent" />
+  <xs:complexType name="SublanceTemperatureEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SublanceTemperature" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SublanceTemperatureEvent" nillable="true" type="tns:SublanceTemperatureEvent" />
+  <xs:complexType name="SlagOutburstEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SlagOutburstEvent" nillable="true" type="tns:SlagOutburstEvent" />
+  <xs:complexType name="cntWatchDogPLC3Event">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntWatchDogPLC3Event" nillable="true" type="tns:cntWatchDogPLC3Event" />
+  <xs:complexType name="BlowingInterruptEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BlowingInterruptFlag" type="xs:int" />
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BlowingInterruptEvent" nillable="true" type="tns:BlowingInterruptEvent" />
+  <xs:complexType name="AdditionsEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ChemestryAttributes" nillable="true" type="q2:ArrayOfKeyValueOfstringdouble" />
+          <xs:element minOccurs="0" name="Date" type="xs:dateTime" />
+          <xs:element minOccurs="0" name="Destination" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DryingDuration" type="xs:int" />
+          <xs:element minOccurs="0" name="MaterialName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PortionWeight" type="xs:int" />
+          <xs:element minOccurs="0" name="StringNo" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalWeight" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AdditionsEvent" nillable="true" type="tns:AdditionsEvent" />
+  <xs:complexType name="LanceEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BathLevel" type="xs:int" />
+          <xs:element minOccurs="0" name="LanceHeight" type="xs:int" />
+          <xs:element minOccurs="0" name="LanceMode" type="xs:int" />
+          <xs:element minOccurs="0" name="O2Flow" type="xs:double" />
+          <xs:element minOccurs="0" name="O2FlowMode" type="xs:int" />
+          <xs:element minOccurs="0" name="O2LeftLanceGewBaer" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceGewWeight" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceLeck" type="xs:int" />
+          <xs:element minOccurs="0" name="O2LeftLanceWaterInput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceWaterOutput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceWaterPressure" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceWaterTempInput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2LeftLanceWaterTempOutput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2Pressure" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceGewBaer" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceGewWeight" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceLeck" type="xs:int" />
+          <xs:element minOccurs="0" name="O2RightLanceWaterInput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceWaterOutput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceWaterPressure" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceWaterTempInput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2RightLanceWaterTempOutput" type="xs:double" />
+          <xs:element minOccurs="0" name="O2TotalVol" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="LanceEvent" nillable="true" type="tns:LanceEvent" />
+  <xs:complexType name="HotMetalPouringEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="HotMetalPouringFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="HotMetalPouringEvent" nillable="true" type="tns:HotMetalPouringEvent" />
+  <xs:complexType name="SublanceStartEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SublanceStartFlag" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SublanceStartEvent" nillable="true" type="tns:SublanceStartEvent" />
+  <xs:complexType name="cntWatchDogPLC01Event">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntWatchDogPLC01Event" nillable="true" type="tns:cntWatchDogPLC01Event" />
+  <xs:complexType name="cntBlowingSchemaEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntBlowingSchemaEvent" nillable="true" type="tns:cntBlowingSchemaEvent" />
+  <xs:complexType name="visSublanceEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Al" type="xs:double" />
+          <xs:element minOccurs="0" name="Height" type="xs:int" />
+          <xs:element minOccurs="0" name="MetalLevel" type="xs:int" />
+          <xs:element minOccurs="0" name="TotalO2Vol" type="xs:double" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visSublanceEvent" nillable="true" type="tns:visSublanceEvent" />
+  <xs:complexType name="visBlowingHeatEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CurrentHeatNumber" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visBlowingHeatEvent" nillable="true" type="tns:visBlowingHeatEvent" />
+  <xs:complexType name="visSteelAttributesEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Grade" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PlannedTemperature" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="visSteelAttributesEvent" nillable="true" type="tns:visSteelAttributesEvent" />
+  <xs:complexType name="cntO2FlowRateEvent">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:ConverterBaseEvent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Counter" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="cntO2FlowRateEvent" nillable="true" type="tns:cntO2FlowRateEvent" />
+  <xs:complexType name="ArrayOfLanceEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="LanceEvent" nillable="true" type="tns:LanceEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfLanceEvent" nillable="true" type="tns:ArrayOfLanceEvent" />
+  <xs:complexType name="ArrayOfOffGasAnalysisEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OffGasAnalysisEvent" nillable="true" type="tns:OffGasAnalysisEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfOffGasAnalysisEvent" nillable="true" type="tns:ArrayOfOffGasAnalysisEvent" />
+  <xs:complexType name="ArrayOfcomBlowingSchemaEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="comBlowingSchemaEvent" nillable="true" type="tns:comBlowingSchemaEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfcomBlowingSchemaEvent" nillable="true" type="tns:ArrayOfcomBlowingSchemaEvent" />
+</xs:schema>

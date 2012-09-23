@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="44fb7473963441a39ea1a1de476f20b9" Name="Diagram1" ZoomLevel="99" >
+        <EntityTypeShape EntityType="HeatModel.Heat" Width="1.5" PointX="0.75" PointY="3" />
+        <EntityTypeShape EntityType="HeatModel.Material" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="HeatModel.Period" Width="1.5" PointX="3" PointY="4.625" />
+        <EntityTypeShape EntityType="HeatModel.Phase" Width="1.5" PointX="5.25" PointY="4.625" />
+        <EntityTypeShape EntityType="HeatModel.Step" Width="1.5" PointX="7.5" PointY="4.375" />
+        <EntityTypeShape EntityType="HeatModel.TargetValues" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HeatModel.VerticalTrakt" Width="1.5" PointX="9.75" PointY="2.75" />
+        <AssociationConnector Association="HeatModel.FK_HeatMaterial" />
+        <AssociationConnector Association="HeatModel.FK_HeatPeriod" />
+        <AssociationConnector Association="HeatModel.FK_VerticalTraktMaterial" />
+        <AssociationConnector Association="HeatModel.FK_PeriodPhase" />
+        <AssociationConnector Association="HeatModel.FK_PhaseStep" />
+        <AssociationConnector Association="HeatModel.FK_StepVerticalTrakt" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0D72DFE0-3B2F-4ECD-9ACA-B20205D89713}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Esms</RootNamespace>
+    <AssemblyName>Esms</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Additions.cs" />
+    <Compile Include="Classes\BottomTempSensors.cs" />
+    <Compile Include="Classes\Burner.cs" />
+    <Compile Include="Classes\Heat.cs" />
+    <Compile Include="Classes\Lab.cs" />
+    <Compile Include="Classes\Measurements.cs" />
+    <Compile Include="Classes\OffGas.cs" />
+    <Compile Include="Classes\PowerRegulator.cs" />
+    <Compile Include="Classes\RCB.cs" />
+    <Compile Include="Classes\Lance.cs" />
+    <Compile Include="Classes\WaterCooling.cs" />
+    <Compile Include="EsmsBaseEvent.cs" />
+    <Compile Include="EsmsEventsHandler.cs" />
+    <Compile Include="EventsHandler\AlarmEventHandler.cs" />
+    <Compile Include="EventsHandler\ArCOSEventHandler.cs" />
+    <Compile Include="EventsHandler\Burner1EventHandler.cs" />
+    <Compile Include="EventsHandler\Burner2EventHandler.cs" />
+    <Compile Include="EventsHandler\Burner3EventHandler.cs" />
+    <Compile Include="EventsHandler\Burner4EventHandler.cs" />
+    <Compile Include="EventsHandler\BurnersCommonEventHandler.cs" />
+    <Compile Include="EventsHandler\CapMineEventHandler.cs" />
+    <Compile Include="EventsHandler\CartWeightEventHandler.cs" />
+    <Compile Include="EventsHandler\CeloxEventHandler.cs" />
+    <Compile Include="EventsHandler\CoalInjectionEventHandler.cs" />
+    <Compile Include="EventsHandler\DrivesBunkersEventHandler.cs" />
+    <Compile Include="EventsHandler\ElectrodesEventHandler.cs" />
+    <Compile Include="EventsHandler\EnergyEventHandler.cs" />
+    <Compile Include="EventsHandler\FingersEventHandler.cs" />
+    <Compile Include="EventsHandler\FurnaceEventHandler.cs" />
+    <Compile Include="EventsHandler\FurnaceSwitch1EventHandler.cs" />
+    <Compile Include="EventsHandler\FurnaceSwitch2EventHandler.cs" />
+    <Compile Include="EventsHandler\FurnaceSwitchCommonEventHandler.cs" />
+    <Compile Include="EventsHandler\GasWasteEventHandler.cs" />
+    <Compile Include="EventsHandler\HeatPassportEventHandler.cs" />
+    <Compile Include="EventsHandler\Injector1EventHandler.cs" />
+    <Compile Include="EventsHandler\Injector2EventHandler.cs" />
+    <Compile Include="EventsHandler\Injector3EventHandler.cs" />
+    <Compile Include="EventsHandler\Injector4EventHandler.cs" />
+    <Compile Include="EventsHandler\InjectorsCommonEventHandler.cs" />
+    <Compile Include="EventsHandler\LanceCrestEventHandler.cs" />
+    <Compile Include="EventsHandler\LevelBunkerEventHandler.cs" />
+    <Compile Include="EventsHandler\MaterialNamesEventHandler.cs" />
+    <Compile Include="EventsHandler\MaterialsBucketEventHandler.cs" />
+    <Compile Include="EventsHandler\MaterialsFurnaceEventHandler.cs" />
+    <Compile Include="EventsHandler\MineEventHandler.cs" />
+    <Compile Include="EventsHandler\PortalEventHandler.cs" />
+    <Compile Include="EventsHandler\PouringHotMetalEventHandler.cs" />
+    <Compile Include="EventsHandler\ReactorTransformerEventHandler.cs" />
+    <Compile Include="EventsHandler\SchieberEventHandler.cs" />
+    <Compile Include="EventsHandler\ScrapLoadEventHandler.cs" />
+    <Compile Include="EventsHandler\SteelCarEventHandler.cs" />
+    <Compile Include="EventsHandler\SteelOutletEventHandler.cs" />
+    <Compile Include="EventsHandler\SubmissionEventHandler.cs" />
+    <Compile Include="EventsHandler\SuctionValveEventHandler.cs" />
+    <Compile Include="EventsHandler\TempHearthEventHandler.cs" />
+    <Compile Include="EventsHandler\VibratingChannel3EventHandler.cs" />
+    <Compile Include="EventsHandler\VibratingChannel4EventHandler.cs" />
+    <Compile Include="EventsHandler\WaterCoolingFlueEventHandler.cs" />
+    <Compile Include="EventsHandler\WaterCoolingMineEventHandler.cs" />
+    <Compile Include="EventsHandler\WaterCoolingPanelEventHandler.cs" />
+    <Compile Include="EventsHandler\WeighBunkersEventHandler.cs" />
+    <Compile Include="EventsHandler\WorkWindowEventHandler.cs" />
+    <Compile Include="Events\AlarmEvent.cs" />
+    <Compile Include="Events\ArCOSEvent.cs" />
+    <Compile Include="Events\Burner1Event.cs" />
+    <Compile Include="Events\Burner2Event.cs" />
+    <Compile Include="Events\Burner3Event.cs" />
+    <Compile Include="Events\Burner4Event.cs" />
+    <Compile Include="Events\BurnersCommonEvent.cs" />
+    <Compile Include="Events\CapMineEvent.cs" />
+    <Compile Include="Events\CartWeightEvent.cs" />
+    <Compile Include="Events\CeloxEvent.cs" />
+    <Compile Include="Events\CoalInjectionEvent.cs" />
+    <Compile Include="Events\DrivesBunkersEvent.cs" />
+    <Compile Include="Events\ElectrodesEvent.cs" />
+    <Compile Include="Events\EnergyEvent.cs" />
+    <Compile Include="Events\FingersEvent.cs" />
+    <Compile Include="Events\FurnaceEvent.cs" />
+    <Compile Include="Events\FurnaceSwitch1Event.cs" />
+    <Compile Include="Events\FurnaceSwitch2Event.cs" />
+    <Compile Include="Events\FurnaceSwitchCommonEvent.cs" />
+    <Compile Include="Events\GasWasteEvent.cs" />
+    <Compile Include="Events\HeatPassportEvent.cs" />
+    <Compile Include="Events\Injector1Event.cs" />
+    <Compile Include="Events\Injector2Event.cs" />
+    <Compile Include="Events\Injector3Event.cs" />
+    <Compile Include="Events\Injector4Event.cs" />
+    <Compile Include="Events\InjectorsCommonEvent.cs" />
+    <Compile Include="Events\LanceCrestEvent.cs" />
+    <Compile Include="Events\LevelBunkerEvent.cs" />
+    <Compile Include="Events\MaterialNamesEvent.cs" />
+    <Compile Include="Events\MaterialsBucketEvent.cs" />
+    <Compile Include="Events\MaterialsFurnaceEvent.cs" />
+    <Compile Include="Events\MineEvent.cs" />
+    <Compile Include="Events\PortalEvent.cs" />
+    <Compile Include="Events\PouringHotMetalEvent.cs" />
+    <Compile Include="Events\ReactorTransformerEvent.cs" />
+    <Compile Include="Events\SchieberEvent.cs" />
+    <Compile Include="Events\ScrapLoadEvent.cs" />
+    <Compile Include="Events\SteelCarEvent.cs" />
+    <Compile Include="Events\SteelOutletEvent.cs" />
+    <Compile Include="Events\SubmissionEvent.cs" />
+    <Compile Include="Events\SuctionValveEvent.cs" />
+    <Compile Include="Events\TempHearthEvent.cs" />
+    <Compile Include="Events\VibratingChannel3Event.cs" />
+    <Compile Include="Events\VibratingChannel4Event.cs" />
+    <Compile Include="Events\WaterCoolingFlueEvent.cs" />
+    <Compile Include="Events\WaterCoolingMineEvent.cs" />
+    <Compile Include="Events\WaterCoolingPanelEvent.cs" />
+    <Compile Include="Events\WeighBunkersEvent.cs" />
+    <Compile Include="Events\WorkWindowEvent.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CommonTypes\CommonTypes.csproj">
+      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
+      <Name>CommonTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

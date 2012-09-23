@@ -1,0 +1,73 @@
+﻿<Window x:Class="ConverterUI.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="MainWindow" Height="1024" Width="1280"
+        xmlns:Controls="clr-namespace:ConverterUI.Controls" WindowState="Maximized" WindowStyle="None"
+        WindowStartupLocation="CenterScreen" Background="White" Icon="/ConverterUI;component/Images/monitor32.ico">
+	<Viewbox Stretch="Uniform">
+		<StackPanel Orientation="Vertical">
+			<Grid Width="1280" Margin="0"
+				Height="80">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="780" />
+					<ColumnDefinition Width="300" />
+				</Grid.ColumnDefinitions>
+				<StackPanel Width="200">
+					<Grid
+						Height="80">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<Border BorderBrush="#FF000000" Background="#00FF14" Margin="0,0,3,0">
+							<TextBlock HorizontalAlignment="Center" Text="PLC1" VerticalAlignment="Center" FontSize="11"
+							           TextWrapping="Wrap" TextAlignment="Center" />
+						</Border>
+						<Border BorderBrush="#FF000000" Background="#FF00FF14" Margin="3,0,0,0" Grid.Column="1">
+							<TextBlock HorizontalAlignment="Center" Text="PLC2" VerticalAlignment="Center" FontSize="11"
+							           TextWrapping="Wrap" TextAlignment="Center" />
+						</Border>
+						<Border BorderBrush="#FF000000" Background="#FF00FF14" Margin="0,3,3,0" Grid.Row="1">
+							<TextBlock HorizontalAlignment="Center" Text="СУБД" VerticalAlignment="Center"
+									FontSize="11" TextWrapping="Wrap" TextAlignment="Center" />
+						</Border>
+						<Border BorderBrush="#FF000000" Background="#FF00FF14" Margin="3,3,0,0" Grid.Column="1" Grid.Row="1">
+							<TextBlock HorizontalAlignment="Center" Text="газоанализатор"
+									VerticalAlignment="Center" FontSize="10" TextWrapping="Wrap" TextAlignment="Center"
+									Height="34" />
+						</Border>
+					</Grid>
+				</StackPanel>
+				<DataGrid Name="dgMessages" Grid.Column="1" HorizontalAlignment="Stretch"
+					Margin="12,0,12,0" Height="80"
+					VerticalAlignment="Top"
+				          CanUserResizeRows="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False"
+				          AutoGenerateColumns="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Width="40" />
+						<DataGridTextColumn Header="Дата" Width="100" />
+						<DataGridTextColumn Header="Время" Width="100" />
+						<DataGridTextColumn Header="Сообщение" Width="343" />
+						<DataGridTextColumn Header="Доп. параметры" Width="140" />
+					</DataGrid.Columns>
+				</DataGrid>
+				<StackPanel Grid.Column="2" HorizontalAlignment="Left" Height="113" VerticalAlignment="Top" Width="290">
+					<TextBox x:Name="tbxClock" FontSize="28" HorizontalAlignment="Center" Text="{Binding CurrentTime}" />
+					<StackPanel Orientation="Horizontal" Margin="0,10,0,0" Height="27">
+						<Button Content="Кальк." HorizontalAlignment="Left" Width="45" Click="Button_Click_1" />
+						<Button Content="Перезагр." HorizontalAlignment="Left" Width="62" Margin="2,0,0,0" Click="Button_Click_3" />
+						<Button Content="Дисп. задач" HorizontalAlignment="Left" Width="71" Margin="2,0,0,0" Click="Button_Click_4" />
+						<Button Content="?" HorizontalAlignment="Left" Width="26" Margin="2,0,0,0" />
+                        <Button Content="Пров." HorizontalAlignment="Left" Width="40" Margin="2,0,0,0" Click="Button_Click_5" />
+                        <Button Content="Вых." HorizontalAlignment="Left" Width="34" Margin="2,0,0,0" Click="Button_Click_2" />
+					</StackPanel>
+				</StackPanel>
+			</Grid>
+			<Frame Name="MainFrame" Width="1280" Height="912" NavigationUIVisibility="Hidden"></Frame>
+			<Controls:Menu Height="36" Width="Auto" x:Name="MainMenu" Margin="0" HorizontalAlignment="Center"></Controls:Menu>
+		</StackPanel>
+	</Viewbox>
+</Window>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://Core.MainGate" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://Core.MainGate" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://Core.MainGate/Imports">
+      <xsd:import schemaLocation="http://localhost:8001/MainGateService?xsd=xsd0" namespace="http://Core.MainGate" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateService?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateService?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Core" />
+      <xsd:import schemaLocation="http://localhost:8001/MainGateService?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Converter" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMainGate_Autentificate_InputMessage">
+    <wsdl:part name="parameters" element="tns:Autentificate" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_Autentificate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutentificateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_PushEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:PushEvent" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_PushEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PushEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_Unsubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMainGate_OnEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnEvent" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IMainGate">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Autentificate">
+      <wsdl:input wsaw:Action="http://Core.MainGate/IMainGate/Autentificate" message="tns:IMainGate_Autentificate_InputMessage" />
+      <wsdl:output wsaw:Action="http://Core.MainGate/IMainGate/AutentificateResponse" message="tns:IMainGate_Autentificate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="PushEvent">
+      <wsdl:input wsaw:Action="http://Core.MainGate/IMainGate/PushEvent" message="tns:IMainGate_PushEvent_InputMessage" />
+      <wsdl:output wsaw:Action="http://Core.MainGate/IMainGate/PushEventResponse" message="tns:IMainGate_PushEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Subscribe">
+      <wsdl:input wsaw:Action="http://Core.MainGate/IMainGate/Subscribe" message="tns:IMainGate_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://Core.MainGate/IMainGate/SubscribeResponse" message="tns:IMainGate_Subscribe_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Unsubscribe">
+      <wsdl:input wsaw:Action="http://Core.MainGate/IMainGate/Unsubscribe" message="tns:IMainGate_Unsubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://Core.MainGate/IMainGate/UnsubscribeResponse" message="tns:IMainGate_Unsubscribe_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnEvent">
+      <wsdl:output wsaw:Action="http://Core.MainGate/IMainGate/OnEvent" message="tns:IMainGate_OnEvent_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

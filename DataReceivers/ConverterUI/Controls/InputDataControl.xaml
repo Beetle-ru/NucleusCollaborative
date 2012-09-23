@@ -1,0 +1,217 @@
+﻿<UserControl x:Class="ConverterUI.Controls.InputDataControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:my="clr-namespace:ConverterUI.Controls" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignWidth="250" d:DesignHeight="502">
+
+    <StackPanel Orientation="Vertical" Background="#FFEFEFEF" Height="500">
+        <Grid Background="#FF6F6F6F" Margin="1,0,1,1" >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+                <ColumnDefinition Width="20"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Height="23" Name="tHeader" Text="Входные данные" TextAlignment="Center" Background="#FF6F6F6F" Foreground="White" FontSize="14"  />
+            <Image Grid.Column="1"  Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+        </Grid>
+        <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+            <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Grid Background="#FFBEBEBE" Margin="1,0,1,1" >
+                        <Grid Background="#FFBEBEBE" Margin="1,0,1,1" >
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="35*"></ColumnDefinition>
+                                <ColumnDefinition Width="40*"></ColumnDefinition>
+                                <ColumnDefinition Width="20"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Height="20" Name="tHotMetal" Text="Чугун      [кг]" TextAlignment="Center"  Foreground="Black" FontSize="12" Margin="2,1" FontWeight="Bold" />
+                            <TextBlock Grid.Column="1"  Height="20" Text="12345" TextAlignment="Center" Background="#FF9EC8A0"  Foreground="Black" FontSize="12" Margin="2,1" FontWeight="Bold" />
+
+                            <Image Grid.Column="2"  Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Border>
+        </Border>
+        <Grid Margin="1,0" Height="23">
+            <Grid.ColumnDefinitions   >
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock  Background="#FFDCDCDC" Text="Миксер" Padding="5,0,0,0" FontSize="12"></TextBlock>
+                    </Border>
+                </Border>
+            </Border>
+            <Grid Grid.Column="1" Margin="0,1">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="1"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="2"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+            </Grid>
+
+        </Grid>
+        <Grid Margin="1,0" Height="23">
+            <Grid.ColumnDefinitions   >
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock  Background="#FFDCDCDC" Text="№ ковша" Padding="5,0,0,0" FontSize="12"></TextBlock>
+                    </Border>
+                </Border>
+            </Border>
+            <Grid Grid.Column="1" Margin="0,1">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="1"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="2"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+            </Grid>
+
+        </Grid>
+        <Grid Margin="1,0">
+            <Grid.ColumnDefinitions   >
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock  Name="tName" Background="#FFDCDCDC" Text="Данные (Т, х/с)" Padding="5,0,0,0" FontSize="12"></TextBlock>
+                    </Border>
+                </Border>
+            </Border>
+            <Grid Grid.Column="1" Margin="0,1">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Name="tActual" Text="Факт." Background="#FFDCDCDC" FontSize="14" TextAlignment="Center"></TextBlock>
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Background="#acaeb5" Grid.Column="1" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock  Name="tPlanned"  Text="Расч." Background="#FFDCDCDC" FontSize="14" TextAlignment="Center"></TextBlock>
+                        </Border>
+                    </Border>
+                </Border>
+            </Grid>
+
+        </Grid>
+        <ScrollViewer Height="140" Name="scrollViewer2" Width="Auto" >
+            <StackPanel Orientation="Vertical">
+                <my:PlanActualControl x:Name="planActualControl3" NameString="Т    [°С]"/>
+                <my:PlanActualControl x:Name="planActualControl4" NameString="C    [%]"/>
+                <my:PlanActualControl x:Name="planActualControl5" NameString="Si    [%]"/>
+                <my:PlanActualControl x:Name="planActualControl6" NameString="Mn  [%]"/>
+                <my:PlanActualControl x:Name="planActualControl7" NameString="S    [%]"/>
+                <my:PlanActualControl x:Name="planActualControl8" NameString="P    [%]" />
+                <my:PlanActualControl x:Name="planActualControl9" NameString="Sn    [%]" />
+            </StackPanel>
+        </ScrollViewer>
+        <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+            <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                    <Grid Background="#FFBEBEBE" Margin="1,0,1,1" >
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="35*"></ColumnDefinition>
+                            <ColumnDefinition Width="40*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Height="20" Text="Скрап     [кг]" TextAlignment="Center"  Foreground="Black" FontSize="12" Margin="2,1" FontWeight="Bold" />
+                        <TextBlock Grid.Column="1"  Height="20" Text="12345" TextAlignment="Center" Background="#FF9EC8A0"  Foreground="Black" FontSize="12" Margin="2,1" FontWeight="Bold" />
+                        <Image Grid.Column="2"  Source="/ConverterUI;component/Images/external.png" Height="16"></Image>
+                    </Grid>
+                </Border>
+            </Border>
+        </Border>
+        <Grid Margin="1,0" Height="23">
+            <Grid.ColumnDefinitions   >
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock  Background="#FFDCDCDC" Text="Совок" Padding="5,0,0,0" FontSize="12"></TextBlock>
+                    </Border>
+                </Border>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="0,1">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                    <ColumnDefinition Width="33*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="1"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+                <TextBlock Grid.Column="2"  Text="" Background="#FF9EC8A0" FontSize="12" TextAlignment="Center" Margin="1,0,0,0"></TextBlock>
+            </Grid>
+
+        </Grid>
+        <Grid Margin="1,0">
+            <Grid.ColumnDefinitions   >
+                <ColumnDefinition Width="40*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                    <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                        <TextBlock Background="#FFDCDCDC" Text="№ сорта"  Padding="5,0,0,0" FontSize="12" ></TextBlock>
+                    </Border>
+                </Border>
+            </Border>
+            <Grid Grid.Column="1" Margin="0,1">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Border Background="#acaeb5" Grid.Column="0" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Text="Факт.[кг]" Background="#FFDCDCDC" FontSize="12" TextAlignment="Center"></TextBlock>
+                        </Border>
+                    </Border>
+                </Border>
+                <Border Background="#acaeb5" Grid.Column="1" Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1,1,0,0">
+                        <Border BorderBrush="Gray" BorderThickness="0,0,1,1">
+                            <TextBlock Text="Расч.[кг]" Background="#FFDCDCDC" FontSize="12" TextAlignment="Center"></TextBlock>
+                        </Border>
+                    </Border>
+                </Border>
+            </Grid>
+
+        </Grid>
+
+
+        <ScrollViewer Height="80" Name="scrollViewer1" Width="Auto" >
+            <StackPanel Orientation="Vertical" CanVerticallyScroll="True" CanHorizontallyScroll="False" >
+                <my:PlanActualControl x:Name="planActualControl10" NameString="Скрап 1   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl11" NameString="Скрап 2   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl12" NameString="Скрап 3   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl13" NameString="Скрап 4   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl14" NameString="Скрап 5   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl15" NameString="Скрап 6   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl16" NameString="Скрап 7   [кг]" />
+                <my:PlanActualControl x:Name="planActualControl17" NameString="Скрап 8   [кг]" />
+            </StackPanel>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>

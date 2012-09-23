@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="ElectroVisio.Controls.StatusL2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignHeight="174" d:DesignWidth="179">
+    <StackPanel Orientation="Vertical">
+        <Grid>
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tHeader" Text="Режимы управления" TextAlignment="Left" Padding="5,2,0,3" Background="#FF6F6F6F" Foreground="White" FontSize="14"  />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="130"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader0" Text="Режим" TextAlignment="Left"  FontSize="12"  Padding="5,2,0,3"  />
+            <ComboBox Grid.Column="3" Name="TemplSelectBox" FontSize="12">
+                <ComboBoxItem Content="Шаблон" IsSelected="True" />
+                <ComboBoxItem Content="Модель"/>
+                <ComboBoxItem Content="Модель+Шаблон"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader1" Text="Мех-мы печи" TextAlignment="Left" FontSize="12"  Padding="5,2,0,3"  />
+            <TextBlock Grid.Column="1" Name="tValue21"  FontWeight="Bold" Text="Ручной" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+        
+        <Grid >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader11" Text="Фурма свода" TextAlignment="Left" FontSize="12" Padding="5,2,0,3"/>
+            <TextBlock Grid.Column="1" Name="tValue212" Text="Ручной" FontWeight="Bold" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader221" Text="Горелки" TextAlignment="Left" FontSize="12"  Padding="5,2,0,3"  />
+            <TextBlock Grid.Column="1" Name="tValue211"  Text="Шаблон" Foreground="Crimson" FontWeight="Bold" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader31" Text="Инжекторы" TextAlignment="Left" FontSize="12"  Padding="5,2,0,3"  />
+            <TextBlock Grid.Column="1" Name="tValue241" Text="Шаблон" Foreground="Crimson" FontWeight="Bold" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader311" Text="Коксик" TextAlignment="Left" FontSize="12"  Padding="5,2,0,3"  />
+            <TextBlock Grid.Column="1" Name="tValue2411" Text="Шаблон"  Foreground="Crimson"   FontWeight="Bold" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="90" ></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tSubHeader312" Text="Сыпучие" TextAlignment="Left" FontSize="12"  Padding="5,2,0,3"  />
+            <TextBlock Grid.Column="1" Name="tValue2412" Text="Ручной" FontWeight="Bold" TextAlignment="Left" Padding="5,2,0,3"  ></TextBlock>
+        </Grid>
+    </StackPanel>
+</UserControl>

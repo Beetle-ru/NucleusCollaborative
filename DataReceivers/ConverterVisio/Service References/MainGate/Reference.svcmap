@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a7ca2463-40d5-4307-af9f-b7b596c5f76d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8001/MainGateService" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MainGateService.wsdl" MetadataType="Wsdl" ID="d8fa8f78-0395-4020-a3c3-f3e34bcab262" SourceId="1" SourceUrl="http://localhost:8001/MainGateService" />
+    <MetadataFile FileName="MainGateService1.wsdl" MetadataType="Wsdl" ID="f0e43088-7fb9-4818-9cec-f8a4151c29a4" SourceId="1" SourceUrl="http://localhost:8001/MainGateService?wsdl=wsdl0" />
+    <MetadataFile FileName="MainGateService.xsd" MetadataType="Schema" ID="bacfc333-7762-4efd-aaf7-3d2a1be47754" SourceId="1" SourceUrl="http://localhost:8001/MainGateService?xsd=xsd3" />
+    <MetadataFile FileName="MainGateService1.xsd" MetadataType="Schema" ID="ed210d84-2b25-4998-8c93-5d030bfc8adc" SourceId="1" SourceUrl="http://localhost:8001/MainGateService?xsd=xsd2" />
+    <MetadataFile FileName="MainGateService2.xsd" MetadataType="Schema" ID="eeb79c44-b622-4c95-b0f8-4f4508b4a64c" SourceId="1" SourceUrl="http://localhost:8001/MainGateService?xsd=xsd1" />
+    <MetadataFile FileName="MainGateService3.xsd" MetadataType="Schema" ID="6d69160a-cd23-48cb-a2f4-52d406e37cc2" SourceId="1" SourceUrl="http://localhost:8001/MainGateService?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

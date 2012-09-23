@@ -1,0 +1,623 @@
+﻿<Page x:Class="ConverterUI.LancePage"
+      ShowsNavigationUI="False"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ConverterUI" 
+	Title="LancePage" Width="1280" Height="904" xmlns:my="clr-namespace:ConverterUI">
+    <Page.Resources>
+        <local:LancePageLancePositionConverter x:Key="LancePageLancePositionConverter" >
+            </local:LancePageLancePositionConverter>
+
+        <Style TargetType="TableCell">
+            <Setter Property="BorderBrush" Value="#FF939393"/>
+        </Style>
+
+    </Page.Resources>
+
+    <Canvas DockPanel.Dock="Top" Height="904" MinHeight="904">
+        <Path Data="M104.5,213.5 C107.5,31.5 107.5,31.5 107.5,31.5 L2.5,30.5" Height="266" Canvas.Left="287" Stroke="#FF3E0000" StrokeThickness="5" Canvas.Top="255" Width="118" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-1.174"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path x:Name="path" Data="M624,135 C629.39658,194.36238 627,254.72989 627,315" Fill="#FF76E9FF" Height="245" Canvas.Left="411" Stretch="Fill" Stroke="#FF76E9FF" Canvas.Top="229" Width="10.997" StrokeThickness="17" RenderTransformOrigin="0.5,0.5">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+        <Path Canvas.Left="411" Canvas.Top="120" Data="M624,135 C629.39658,194.36238 627,254.72989 627,315" Fill="#FF76E9FF" Height="82" Name="path1" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Stroke="#FF76E9FF" StrokeThickness="17" Width="10.997">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+
+        <Image Canvas.Left="308" Canvas.Top="537" Height="275" x:Name="iConverter" Stretch="Fill" Width="213" ImageFailed="image1_ImageFailed" Source="/ConverterUI;component/Images/converter.png" RenderTransformOrigin="0.5,0.5" >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform  Angle="{Binding Path=zConverterAngle}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image Canvas.Left="407" Canvas.Top="396" Height="252" x:Name="iLance" Stretch="Fill" Width="18" Source="/ConverterUI;component/Images/lance.png" RenderTransformOrigin="0.5,0.5" >
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="{Binding Path=LanceRealHeight, Converter={StaticResource LancePageLancePositionConverter}}"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Path Data="M634.5,327" Fill="#FFF4F4F5" Height="1" Canvas.Left="418" Stretch="Fill" Stroke="Black" Canvas.Top="380" Width="1"/>
+        <FlowDocumentScrollViewer Canvas.Left="295" Canvas.Top="172" Height="85" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="257" Background="{x:Null}">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <Run Text="P"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=O2Pressure}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0">
+                                <Paragraph>
+                                    <Run Text="кгс/см2"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Q"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=ORealFlow, StringFormat=F0}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="м3/мин"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Canvas.Left="960" Canvas.Top="62" Height="88" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="320" Background="{x:Null}" RenderTransformOrigin="0.541,0.506">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table CellSpacing="0" >
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <Run Text="Глубина ванны"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0" TextAlignment="Center">
+                                <Paragraph >
+                                    <Run Text="2500"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Длина фурмы"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="1200"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Background="{x:Null}" Canvas.Left="432" Canvas.Top="285" Height="97" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="200">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table  CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell ColumnSpan="2" BorderBrush="Black" BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <TextBlock Text="Положение фурмы"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <TextBlock Text="Факт"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0" TextAlignment="Center">
+                                <Paragraph x:Name="pLanceFact">
+                                    <TextBlock Text="{Binding Path=LanceRealHeight}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <TextBlock Text="Задан"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph x:Name="pLancePlan">
+                                    <TextBlock Text="{Binding Path=LanceHeight}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Background="{x:Null}" Canvas.Left="432" Canvas.Top="358" Height="97" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="200">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table  CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0" ColumnSpan="2">
+                                <Paragraph>
+                                    <Run Text="Расход O2,м3/мин"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <Run Text="Факт"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0" TextAlignment="Center">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=ORealFlow, StringFormat=F0}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Задан"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=OFlow, StringFormat=F0}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Background="{x:Null}" Canvas.Left="960" Canvas.Top="0" Height="97" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="320">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table  CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <Run Text="Время продувки"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0" TextAlignment="Center">
+                                <Paragraph>
+                                    <TextBlock Name="tbTotalTime" Text="18:23"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Суммарный О2"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=TotalO2Volume}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer  Canvas.Left="432" Canvas.Top="432" Height="58" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="200">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Клапан"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1" TextAlignment="Center">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=ValveValue}"/> %
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Background="{x:Null}" Canvas.Left="280" Canvas.Top="810" Height="77" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="272">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table Background="{x:Null}" CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Угол наклона"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1" TextAlignment="Center">
+                                <Paragraph x:Name="pConverterAngle">
+                                    <TextBlock Name="tbConverterAngle" Text="{Binding Path=ConverterAngle}" ></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <Image Canvas.Left="387" Canvas.Top="370" Height="155" x:Name="image1" RenderTransformOrigin="0.5,0.5" Source="/ConverterUI;component/Images/lance.png" Stretch="Fill" Width="10">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform Y="{Binding Path=SublanceHeight}" />
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <FlowDocumentScrollViewer Canvas.Left="97" Canvas.Top="172" Height="145" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="212" Background="{x:Null}">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                <Table CellSpacing="0">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,0">
+                                <Paragraph>
+                                    <Run Text="T"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=SublanceTemperature}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,0">
+                                <Paragraph>
+                                    <Run Text="С"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Нм"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=SublanceMetalLevel}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="см"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Нф"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=SublanceHeight}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="см"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="С"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=SublanceC}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="%"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell BorderThickness="1,1,1,1">
+                                <Paragraph>
+                                    <Run Text="Al"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="{Binding Path=SublanceAl}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell BorderThickness="0,1,1,1">
+                                <Paragraph>
+                                    <Run Text="кг"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+        <FlowDocumentScrollViewer Background="{x:Null}" Canvas.Left="27" Canvas.Top="305" Height="210" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="343">
+            <FlowDocumentScrollViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Block.TextAlignment" Value="Center" />
+                    <Setter Property="TextElement.FontSize" Value="16" />
+                </Style>
+            </FlowDocumentScrollViewer.Resources>
+            <FlowDocumentScrollViewer.Document>
+                <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                    <Table Background="{x:Null}" CellSpacing="0">
+                        <TableRowGroup>
+                            <TableRow>
+                                <TableCell RowSpan="2" BorderThickness="1,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Азот" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Qф" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=LanceNFlow}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="м3/час" />
+                                    </Paragraph>
+                                </TableCell>
+
+                            </TableRow>
+                            <TableRow>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Qк" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=BoilerNFlow}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="м3/час" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell RowSpan="2" BorderThickness="1,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Газ" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="P" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=CandleGasPressure, StringFormat=F0}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="кгс/см2" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Q" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=CandleGasFlow}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="м3/час" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell RowSpan="2" BorderThickness="1,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Пар" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="P" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=CandleSteamPressure, StringFormat=F0}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="кгс/см2" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Q" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=CandleSteamFlow}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="Т/час" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell RowSpan="2" BorderThickness="1,1,1,1">
+                                    <Paragraph>
+                                        <Run Text="Азот на раздувку" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="P" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=NSlagBlowingPressure}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,0">
+                                    <Paragraph>
+                                        <Run Text="кгс/см2" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell BorderThickness="0,1,1,1">
+                                    <Paragraph>
+                                        <Run Text="Q" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,1">
+                                    <Paragraph>
+                                        <Run Text="{Binding Path=NSlagBlowingFlow}" />
+                                    </Paragraph>
+                                </TableCell>
+                                <TableCell BorderThickness="0,1,1,1">
+                                    <Paragraph>
+                                        <Run Text="м3/мин" />
+                                    </Paragraph>
+                                </TableCell>
+                            </TableRow>
+                        </TableRowGroup>
+
+                    </Table>
+                </FlowDocument>
+            </FlowDocumentScrollViewer.Document>
+        </FlowDocumentScrollViewer>
+        <my:TrendsControl Canvas.Left="591" Canvas.Top="502" Height="385" x:Name="trendsControl1" Width="681" />
+    </Canvas>
+</Page>
