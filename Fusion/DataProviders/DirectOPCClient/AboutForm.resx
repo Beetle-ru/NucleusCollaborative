@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" targetNamespace="" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <data name="picViscomLogo.Image" mimetype="text/microsoft-urt/binary-serialized/base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFRTeXN0ZW0uRHJhd2luZywgVmVyc2lvbj0xLjAuMjQxMS4wLCBD
+        dWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWIwM2Y1ZjdmMTFkNTBhM2EFAQAAABVTeXN0ZW0u
+        RHJhd2luZy5CaXRtYXABAAAABERhdGEHAgIAAAAJAwAAAA8DAAAAsA8AAAJHSUY4OWHwAEgA9wAAAAAA
+        MwAAMzMAMzMzZjMAZjMzZmYzZmZmmTMAmTMzmWYAmWYzzGYzmWZm/5kzmZlmmZmZzMzM////AgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC
+        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
+</value>
+  </data>
+  <data name="$this.Name">
+    <value>AboutForm</value>
+  </data>
+  <resheader name="ResMimeType">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="Version">
+    <value>1.0.0.0</value>
+  </resheader>
+  <resheader name="Reader">
+    <value>System.Resources.ResXResourceReader</value>
+  </resheader>
+  <resheader name="Writer">
+    <value>System.Resources.ResXResourceWriter</value>
+  </resheader>
+</root>

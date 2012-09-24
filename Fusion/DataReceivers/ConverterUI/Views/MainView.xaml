@@ -1,0 +1,1779 @@
+﻿<Page
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:my="clr-namespace:ConverterUI.Views.Controls"
+	xmlns:d3="http://research.microsoft.com/DynamicDataDisplay/1.0"
+	x:Class="ConverterUI.Views.MainView"
+	Width="1280"
+	Height="912"
+	Title="Главная"
+	Loaded="MainView_Loaded_1">
+
+	<StackPanel
+		VerticalAlignment="Top">
+		<!-- Грид шаблона -->
+		<StackPanel
+			Height="274">
+			<Grid
+				SnapsToDevicePixels="True">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition
+						Width="Auto" />
+					<ColumnDefinition
+						Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition
+						Height="54" />
+					<RowDefinition
+						Height="199" />
+					<RowDefinition
+						Height="20" />
+				</Grid.RowDefinitions>
+				<StackPanel>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Height="18">
+						<TextBlock
+							Text="Периоды"
+							VerticalAlignment="Center"
+							Padding="5,0,0,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Height="18">
+						<TextBlock
+							Text="Этапы"
+							VerticalAlignment="Center"
+							Padding="5,0,0,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Height="18">
+						<TextBlock
+							Text="Шаги"
+							VerticalAlignment="Center"
+							Padding="5,0,0,0" />
+					</Border>
+				</StackPanel>
+				<Grid
+					Grid.Row="1"
+					SnapsToDevicePixels="True"
+					x:Name="TitlesGrid"
+					VerticalAlignment="Top"
+					Height="199">
+					<Grid.RowDefinitions>
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="17" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="19" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="17" />
+						<RowDefinition
+							Height="18" />
+						<RowDefinition
+							Height="20" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="Auto" />
+						<ColumnDefinition
+							Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.ColumnSpan="3">
+						<TextBlock
+							Text="Позиция Фурмы"
+							Padding="5,0,0,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="1"
+						Grid.ColumnSpan="3">
+						<TextBlock
+							Text="Интенсивность O2"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="2"
+						Grid.ColumnSpan="3">
+						<TextBlock
+							Text="ƩО2 на плавку"
+							Padding="5,0,0,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="0"
+						Grid.Column="4">
+						<TextBlock
+							Text="см"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="1"
+						Grid.Column="4">
+						<TextBlock
+							Text="Нм3/м"
+							HorizontalAlignment="Center"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="2"
+						Grid.Column="4">
+						<TextBlock
+							Text="Нм3"
+							HorizontalAlignment="Center" />
+					</Border>
+					<!-- дальше идет список материалов -->
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="3"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding Path=HGModel.AdditionsList[0].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="4"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[1].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="5"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[2].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="6"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[3].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="7"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[4].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="8"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[5].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="9"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[6].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="1,1,1,1"
+						BorderBrush="Black"
+						Grid.Row="10"
+						Grid.ColumnSpan="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[7].Name}"
+							Padding="5,0,5,0" />
+					</Border>
+					<!-- Список бункеров -->
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="3"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[0].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="4"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[1].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="5"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[2].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="6"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[3].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="7"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[4].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="8"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[5].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="9"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[6].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,1"
+						BorderBrush="Black"
+						Grid.Row="10"
+						Grid.Column="1">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[7].Bunker}"
+							Padding="5,0,5,0" />
+					</Border>
+					<!--Список весов-->
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="3"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[0].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="4"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[1].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="5"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[2].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="6"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[3].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="7"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[4].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="8"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[5].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="9"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[6].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,1"
+						BorderBrush="Black"
+						Grid.Row="10"
+						Grid.Column="2">
+						<TextBlock
+							Text="{Binding HGModel.AdditionsList[7].WeighterLine}"
+							Padding="5,0,5,0" />
+					</Border>
+					<!--единицы измерения-->
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="3"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="4"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="5"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="6"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="7"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="8"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,0"
+						BorderBrush="Black"
+						Grid.Row="9"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+					<Border
+						BorderThickness="0,1,1,1"
+						BorderBrush="Black"
+						Grid.Row="10"
+						Grid.Column="3">
+						<TextBlock
+							Text="кг"
+							HorizontalAlignment="Center" />
+					</Border>
+				</Grid>
+				<ScrollViewer
+					Grid.Column="1"
+					Grid.RowSpan="3"
+					HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+					<StackPanel
+						Orientation="Vertical">
+						<StackPanel>
+							<StackPanel
+								x:Name="PeriodPanel"
+								HorizontalAlignment="Left"
+								Height="18"
+								VerticalAlignment="Top"
+								Orientation="Horizontal">
+								<ItemsControl
+									ItemsSource="{Binding HGModel.Periods}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Border
+												BorderBrush="Black"
+												BorderThickness="1,1,1,0"
+												MinWidth="{Binding Width}">
+												<TextBlock
+													Text="{Binding Title}"
+													Margin="5,0" />
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel
+												Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+							</StackPanel>
+							<StackPanel
+								x:Name="PhasePanel"
+								HorizontalAlignment="Left"
+								Height="18"
+								VerticalAlignment="Top"
+								Orientation="Horizontal">
+								<ItemsControl
+									ItemsSource="{Binding HGModel.Phases}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Border
+												BorderBrush="Black"
+												BorderThickness="1,1,1,0"
+												Width="{Binding Width}"
+												ToolTip="{Binding Title}">
+												<TextBlock
+													Text="{Binding Title}"
+													Margin="5,0" />
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel
+												Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+							</StackPanel>
+							<StackPanel
+								x:Name="StepPanel"
+								HorizontalAlignment="Left"
+								Height="18"
+								VerticalAlignment="Top"
+								Orientation="Horizontal">
+								<ItemsControl
+									ItemsSource="{Binding HGModel.HeaderSteps}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Border
+												BorderBrush="Black"
+												BorderThickness="1,1,1,0"
+												Width="{Binding Width}"
+												ToolTip="{Binding Title}"
+												Background="{Binding Color}">
+												<TextBlock
+													Text="{Binding Title}"
+													Margin="5,0" />
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel
+												Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+							</StackPanel>
+						</StackPanel>
+						<DataGrid
+							IsReadOnly="True"
+							x:Name="HeatTemplateGrid"
+							CanUserResizeColumns="False"
+							CanUserResizeRows="False"
+							CanUserSortColumns="False"
+							HeadersVisibility="None"
+							HorizontalContentAlignment="Center"
+							CanUserAddRows="False"
+							CanUserDeleteRows="False"
+							VerticalContentAlignment="Center"
+							ItemsSource="{Binding HGModel.ItemsSource}"
+							my:DataGridColumnsBehavior.BindableColumns="{Binding HGModel.ColumnsList}"
+							RowBackground="#FF79C2FF"
+							AlternatingRowBackground="#FFC5C5C5"
+							HorizontalAlignment="Stretch"
+							AlternationCount="2"
+							CanUserReorderColumns="False">
+							<DataGrid.CellStyle>
+								<Style
+									TargetType="{x:Type DataGridCell}">
+									<Setter
+										Property="Width"
+										Value="35" />
+									<Setter
+										Property="Height"
+										Value="18" />
+									<Setter
+										Property="Background"
+										Value="{Binding Background}" />
+								</Style>
+							</DataGrid.CellStyle>
+						</DataGrid>
+					</StackPanel>
+				</ScrollViewer>
+
+			</Grid>
+		</StackPanel>
+		<!-- Футер -->
+		<Border
+			BorderThickness="1"
+			Margin="0,0,0,0"
+			BorderBrush="#FF000000">
+			<Canvas
+				Height="638"
+				Margin="0">
+				<TabControl
+					Height="355"
+					Width="554">
+					<TabItem
+						Header="Основное"
+						HorizontalAlignment="Left"
+						Height="20"
+						Margin="0"
+						VerticalAlignment="Top">
+						<Grid
+							Background="#FFE5E5E5">
+							<GroupBox
+								Header="УПРАВЛЕНИЕ ШАБЛОНОМ"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								Height="166"
+								FontWeight="Bold"
+								BorderBrush="Gray"
+								Margin="234,0,0,0"
+								Width="310"
+								Foreground="#FF535252">
+								<Canvas Margin="0,0,-2,0">
+									<TextBlock
+										TextWrapping="Wrap"
+										Text="Коррекция положения фурмы"
+										TextBlock.FontSize="14"
+										TextBlock.FontWeight="Bold"
+										Height="61"
+										Width="90"
+										TextBlock.TextAlignment="Center"
+										Canvas.Top="10"
+										Canvas.Left="10" />
+									<Button
+										Content="-5"
+										Canvas.Top="108"
+										Width="90"
+										Height="31"
+										FontSize="18"
+										Command="{Binding FurmaDownCommand}"
+										Canvas.Left="10" />
+									<Button
+										Content="+5"
+										Canvas.Top="71"
+										Width="90"
+										Height="32"
+										FontSize="18"
+										Command="{Binding FurmaUpCommand}"
+										Canvas.Left="10" />
+									<TextBlock
+										Canvas.Left="116"
+										TextWrapping="Wrap"
+										TextBlock.FontSize="14"
+										TextBlock.FontWeight="Bold"
+										Height="62"
+										Width="85"
+										TextBlock.TextAlignment="Center"
+										Canvas.Top="10"
+										Text="Коррекция шага O2 на
+										шлакообр." />
+									<Button
+										Content="+5"
+										Canvas.Left="116"
+										Canvas.Top="71"
+										Width="85"
+										Height="32"
+										FontSize="18"
+										Command="{Binding O2PlusCommand}" />
+									<Button
+										Content="-5"
+										Canvas.Left="116"
+										Canvas.Top="108"
+										Width="85"
+										Height="31"
+										FontSize="18"
+										Command="{Binding O2MinusCommand}" />
+									<TextBlock
+										Canvas.Left="215"
+										TextWrapping="Wrap"
+										TextBlock.FontSize="14"
+										TextBlock.FontWeight="Bold"
+										Height="62"
+										Width="85"
+										TextBlock.TextAlignment="Center"
+										Canvas.Top="10"
+										Text="Коррекция интенс. O2" />
+									<Button
+										Content="+25"
+										Canvas.Left="215"
+										Canvas.Top="71"
+										Width="85"
+										Height="32"
+										FontSize="18"
+										Command="{Binding O2IntenceUpCommand}" />
+									<Button
+										Content="-25"
+										Canvas.Left="215"
+										Canvas.Top="108"
+										Width="85"
+										Height="31"
+										FontSize="18"
+										Command="{Binding O2IntenceDownCommand}" />
+								</Canvas>
+							</GroupBox>
+							<GroupBox
+								Margin="1,0,310,157"
+								Header="ВЫБОР РЕЖИМА ПЛАВКИ"
+                                Width="233"
+								FontWeight="Bold"
+								BorderBrush="Gray" Foreground="#FF535252">
+								<Canvas
+									Margin="0">
+									<RadioButton
+										Content="Статистическая модель"
+										IsChecked="True"
+										Height="16"
+										Width="148"
+										FontWeight="Normal"
+										Canvas.Left="10"
+										Canvas.Top="10" />
+									<RadioButton
+										Content="Балансовая динамическая модель"
+										IsEnabled="False"
+										Height="16"
+										Canvas.Top="30"
+										Width="210"
+										FontWeight="Normal"
+										Canvas.Left="10" />
+									<TextBlock
+										TextWrapping="Wrap"
+										TextBlock.FontSize="14"
+										Height="24"
+										Canvas.Left="10"
+										Canvas.Top="46"
+										Width="101"><Run
+											Text="Выбор " /><Run
+											Language="ru-ru"
+											Text="группы" /><LineBreak /><Run
+											Language="ru-ru" /></TextBlock>
+									<ComboBox
+										x:Name="cbxGroups"
+										ItemsSource="{Binding Groups}"
+										DisplayMemberPath="Name"
+										FontWeight="Normal"
+										SelectedItem="{Binding SelectedGroup}"
+										IsEnabled="{Binding GroupSelectingEnabled}"
+										Height="22"
+										Canvas.Top="70"
+										Width="202"
+										Canvas.Left="10" />
+									<ComboBox
+										x:Name="cbxTemplates"
+										FontWeight="Normal"
+										ItemsSource="{Binding SelectedGroup.Templates}"
+										SelectedItem="{Binding SelectedTemplate, UpdateSourceTrigger=PropertyChanged}"
+										IsEnabled="{Binding GroupSelectingEnabled}"
+										Height="22"
+										Canvas.Top="116"
+										Width="202"
+										Canvas.Left="10" />
+									<TextBlock
+										TextWrapping="Wrap"
+										Text="Выбор шаблона"
+										TextBlock.FontSize="14"
+										Height="24"
+										Canvas.Top="92"
+										Width="112"
+										Canvas.Left="10" />
+								</Canvas>
+							</GroupBox>
+                            <GroupBox Header="ЦЕЛЕВЫЕ ПОКАЗАТЕЛИ" HorizontalAlignment="Left"
+								Margin="1,166,0,0"
+								VerticalAlignment="Top"
+								Height="157"
+								Width="543"
+								BorderBrush="Gray" FontWeight="Bold" Foreground="#FF535252">
+                                <Canvas>
+                                    <TextBlock
+                                		Canvas.Left="10"
+                                		TextWrapping="Wrap"
+                                		Text="Группа стали"
+                                		Canvas.Top="7" FontWeight="Normal" />
+                                    <TextBox
+                                		x:Name="tbGroup"
+                                		Height="23"
+                                		Canvas.Left="10"
+                                		TextWrapping="Wrap"
+                                		Text=""
+                                		Width="87" Canvas.Top="23" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="103"
+										TextWrapping="Wrap"
+                                    	Text="C"
+										Canvas.Top="7" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="103"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwC, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="23"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="195"
+										TextWrapping="Wrap"
+                                    	Text="P"
+										Canvas.Top="7" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="195"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwP, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="23"
+										Width="88" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+                                    	Canvas.Left="10"
+                                    	TextWrapping="Wrap"
+                                    	Text="S"
+                                    	Canvas.Top="51" />
+                                    <TextBox
+                                    	Height="23"
+                                    	Canvas.Left="10"
+                                    	TextWrapping="Wrap"
+                                    	Text="{Binding TwS, UpdateSourceTrigger=PropertyChanged}"
+                                    	Canvas.Top="67"
+                                    	Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+                                    	Canvas.Left="102"
+                                    	TextWrapping="Wrap"
+                                    	Text="Cr"
+                                    	Canvas.Top="51" />
+                                    <TextBox
+                                    	Height="23"
+                                    	Canvas.Left="102"
+                                    	TextWrapping="Wrap"
+                                    	Text="{Binding TwCr, UpdateSourceTrigger=PropertyChanged}"
+                                    	Canvas.Top="67"
+                                    	Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+                                    	Canvas.Left="194"
+                                    	TextWrapping="Wrap"
+                                    	Text="Ni"
+                                    	Canvas.Top="51" />
+                                    <TextBox
+                                    	Height="23"
+                                    	Canvas.Left="194"
+                                    	TextWrapping="Wrap"
+                                    	Text="{Binding TwNi, UpdateSourceTrigger=PropertyChanged}"
+                                    	Canvas.Top="67"
+                                    	Width="88" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="287"
+										TextWrapping="Wrap"
+                                    	Text="Cu"
+										Canvas.Top="51" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="287"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwCu, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="67"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="288"
+										TextWrapping="Wrap"
+                                    	Text="Mn"
+										Canvas.Top="7" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="288"
+                                        Text="{Binding TwMn, UpdateSourceTrigger=PropertyChanged}"
+										TextWrapping="Wrap"
+										Canvas.Top="23"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="10"
+										TextWrapping="Wrap"
+                                    	Text="MgO"
+										Canvas.Top="95" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="10"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwMgO, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="111"
+										Width="88" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="103"
+										TextWrapping="Wrap"
+                                    	Text="FeO"
+										Canvas.Top="95" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="103"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwFeO, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="111"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="194"
+										TextWrapping="Wrap"
+                                    	Text="CaO"
+										Canvas.Top="95" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="195"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwCaO, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="111"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="288"
+										TextWrapping="Wrap"
+                                    	Text="T"
+										Canvas.Top="95" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="287"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwT, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="111"
+										Width="88" FontWeight="Normal" FontSize="14" />
+                                    <TextBlock
+										Canvas.Left="380"
+										TextWrapping="Wrap"
+                                    	Text="CaO/SiO2"
+										Canvas.Top="7" />
+                                    <TextBox
+                                    	Height="23"
+										Canvas.Left="380"
+										TextWrapping="Wrap"
+                                    	Text="{Binding TwCaOSio2, UpdateSourceTrigger=PropertyChanged}"
+										Canvas.Top="23"
+										Width="87" FontWeight="Normal" FontSize="14" />
+                                    <Button
+                                    	Content="Сохранить"
+                                        Command="{Binding SaveTVCommand}"
+										Canvas.Left="397"
+										Canvas.Top="78"
+										Width="114"
+										Height="39" />
+                                </Canvas>
+                            </GroupBox>
+                        </Grid>
+					</TabItem>
+					<TabItem
+						Header="Оперативное управление"
+						HorizontalAlignment="Left"
+						Height="20"
+						VerticalAlignment="Top">
+						<Grid
+							Background="#FFE5E5E5"
+							Margin="1,0,-1,0">
+							<Button
+								Content="Отдача АЛконц"
+								Command="{Binding ReleaseAlConcCommand}"
+								Margin="141,10,283,262"
+								Width="120" FontWeight="Bold" />
+                            <Button
+								Width="120"
+								Content="Отд. 2 порц. кокса"
+								Command="{Binding ReleaseCoxCommand}"
+								Margin="10,10,414,262" FontWeight="Bold"  />
+                            <Button
+								Width="120"
+								Content="Отдача Доломс"
+								Command="{Binding ReleaseDolomsCommand}"
+								Margin="10,66,414,206" FontWeight="Bold" />
+							<Button
+								Width="120"
+								Content="Отдача извести"
+								Command="{Binding ReleaseIzvestCommand}"
+								Margin="141,66,283,206" FontWeight="Bold" />
+							<Button
+								Content="Отправить задание"
+								FontWeight="Bold"
+								FontSize="18"
+								Command="{Binding StartHeatCommand}"
+								Margin="10,132,283,141" />
+							<TextBlock
+								TextWrapping="Wrap"
+								Text="{Binding CantStartHeatMessageText}"
+								Foreground="Red"
+								TextAlignment="Left"
+								Margin="10,187,0,0"
+								HorizontalAlignment="Left" VerticalAlignment="Top"
+								Width="524"
+								Height="32" />
+							<GroupBox
+								Header="ОТДАЧА МАТЕРИАЛОВ"
+								HorizontalAlignment="Left"
+								Margin="266,0,0,0"
+								VerticalAlignment="Top"
+								Height="182"
+								Width="278"
+								BorderBrush="Gray"
+								Foreground="#FF535252"
+								FontWeight="Bold" />
+							<CheckBox
+								Content="Автоматически перезагрузить шаблон по окончании"
+								IsChecked="{Binding ReloadTemplateAfterHeat}"
+								HorizontalAlignment="Left"
+								Margin="10,297,0,0"
+								VerticalAlignment="Top" />
+                            <TextBlock HorizontalAlignment="Left" Margin="10,224,0,0" TextWrapping="Wrap" Text="Коррекция веса чугуна:" VerticalAlignment="Top"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="145,223,0,0" TextWrapping="Wrap" Text="{Binding ChugunCorrection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="270,224,0,0" TextWrapping="Wrap" Text="тонн" VerticalAlignment="Top"/>
+                        </Grid>
+					</TabItem>
+                </TabControl>
+				<TabControl
+					Canvas.Left="554"
+					Height="510"
+					Name="tabControl1"
+					Width="610">
+					<TabItem
+						Header="Положение фурмы"
+						Name="tabItem1">
+						<StackPanel Background="#FFE5E5E5">
+							<CheckBox
+								Content="Расчетное"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowTemplateO2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="LanceGraphTemplateEnabled" />
+							<CheckBox
+								Content="Фактическое"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowRealO2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="LanceGraphRealEnabled" />
+							<Viewbox
+								Stretch="Fill"
+								Margin="0,11,0,0" OpacityMask="#FFE5E5E5">
+								<d3:ChartPlotter
+									Width="654"
+									Height="443">
+                                    <d3:VerticalAxisTitle
+										FontFamily="Arial"
+										Content="Положен. фурмы" />
+                                    <d3:HorizontalAxisTitle
+										FontFamily="Arial"
+										Content="Суммарный O2" />
+									<d3:LineGraph
+										x:Name="linegraph"
+										Stroke="Red"
+										StrokeThickness="2"
+										DataSource="{Binding LineGraph, Mode=OneWay}">
+                                        <d3:LineGraph.Description>
+                                            <d3:PenDescription DescriptionString="Модель" />
+                                        </d3:LineGraph.Description>
+										<d3:LineGraph.LinePen>
+											<Pen
+												Brush="Red"
+												LineJoin="Bevel"
+												Thickness="2" />
+										</d3:LineGraph.LinePen>
+									</d3:LineGraph>
+									<d3:LineGraph
+										x:Name="RTlinegraph"
+										Stroke="Blue"
+										StrokeThickness="2"
+										DataSource="{Binding LineGraphRealTime, Mode=OneWay}">
+										<d3:LineGraph.LinePen>
+											<Pen
+												Brush="Blue"
+												LineJoin="Bevel"
+												Thickness="2" />
+										</d3:LineGraph.LinePen>
+                                        <d3:LineGraph.Description>
+                                            <d3:PenDescription DescriptionString="Реальное" />
+                                        </d3:LineGraph.Description>
+									</d3:LineGraph> 
+									<d3:CursorCoordinateGraph>
+									</d3:CursorCoordinateGraph>
+								</d3:ChartPlotter>
+							</Viewbox>
+						</StackPanel>
+					</TabItem>
+					<TabItem
+						Header="Расчет модели"
+						HorizontalAlignment="Left"
+						Height="20"
+						VerticalAlignment="Top">
+                        <StackPanel Background="#FFE5E5E5">
+                            <StackPanel Orientation="Horizontal" Height="28" >
+                                <CheckBox
+								Content="C"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowC, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="CGraphEnabled" />
+                                <CheckBox
+								Content="Si"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowSi, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="SiGraphEnabled" />
+                                <CheckBox
+								Content="Mn"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowMn, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="MnGraphEnabled" />
+                                <CheckBox
+								Content="P"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="PGraphEnabled" />
+                                <CheckBox
+								Content="Fe"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowFe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="FeGraphEnabled" />
+                                <CheckBox
+								Content="FeO"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowFeO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="FeOGraphEnabled" />
+                                <CheckBox
+								Content="CaO"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowCaO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="CaOGraphEnabled" />
+                                <CheckBox
+								Content="SiO2"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowSiO2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="SiO2GraphEnabled" />
+                                <CheckBox
+								Content="MnO"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowMnO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="MnOGraphEnabled" />
+                                <CheckBox
+								Content="MgO"
+								Margin="6,11,0,0"
+								IsChecked="{Binding ShowMgO, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								x:Name="MgOGraphEnabled" />
+                            </StackPanel>
+                                <d3:ChartPlotter
+									Height="225" LegendVisible="True">
+                                <d3:LineGraph DataSource="{Binding CGraph}" Stroke="Black" StrokeThickness="2">
+                                        <d3:LineGraph.Description>
+                                            <d3:PenDescription DescriptionString="C"/>
+                                        </d3:LineGraph.Description>
+                                    </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding SiGraph}" Stroke="#FFFFD100" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="Si"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                            </d3:ChartPlotter>
+                            <d3:ChartPlotter
+									Height="225">
+                                <d3:LineGraph DataSource="{Binding MnGraph}" Stroke="Red" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="Mn"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding PGraph}" Stroke="Blue" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="P"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding FeGraph}" Stroke="Gold" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="Fe"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding FeOGraph}" Stroke="Fuchsia" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="FeO"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding CaOGraph}" Stroke="Cyan" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="CaO"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding SiO2Graph}" Stroke="#FFF300FF" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="SiO2"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding MnOGraph}" Stroke="#FF7E318F" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="MnO"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                                <d3:LineGraph DataSource="{Binding MgOGraph}" Stroke="#FFFF8000" StrokeThickness="2">
+                                    <d3:LineGraph.Description>
+                                        <d3:PenDescription DescriptionString="MgO"/>
+                                    </d3:LineGraph.Description>
+                                </d3:LineGraph>
+                            </d3:ChartPlotter>
+                        </StackPanel>
+                    </TabItem>
+					<TabItem
+						Header="Газовый анализ"
+						HorizontalAlignment="Left"
+						Height="20"
+						VerticalAlignment="Top">
+						<Grid
+							Background="#FFE5E5E5" />
+					</TabItem>
+				</TabControl>
+				<TextBlock
+					HorizontalAlignment="Left"
+					Height="27"
+					TextWrapping="Wrap"
+					Text="O2 =  "
+					FontSize="18"
+					VerticalAlignment="Top"
+					Width="46"
+					Canvas.Left="1007"
+					Canvas.Top="510" />
+				<TextBlock
+					HorizontalAlignment="Left"
+					Height="27"
+					TextWrapping="Wrap"
+					Text="{Binding SumO2Value}"
+					FontSize="18"
+					VerticalAlignment="Top"
+					Width="111"
+					Canvas.Left="1053"
+					Canvas.Top="510" />
+				<Canvas
+					Height="272"
+					Canvas.Top="355"
+                    Canvas.Left="2"
+					Width="547" Background="#FFE5E5E5">
+					<GroupBox
+						Header="ИНДИКАЦИЯ РЕЖИМОВ"
+						Height="273"
+						Width="233"
+						BorderBrush="Gray"
+						FontWeight="Bold" Canvas.Left="1" Foreground="#FF535252">
+						<Canvas>
+							<TextBlock
+								TextWrapping="Wrap"
+								Text="Управление вертикальным трактом"
+								Canvas.Top="10"
+								Height="52"
+								Width="91"
+								Canvas.Left="10" />
+							<TextBlock
+								TextWrapping="Wrap"
+								Text="Управление фурмой"
+								Canvas.Top="67"
+								Height="35"
+								Width="87"
+								Canvas.Left="10" />
+							<TextBlock
+								TextWrapping="Wrap"
+								Text="Управление отсечным клапаном кислорода"
+								Canvas.Top="107"
+								Width="87"
+								Canvas.Left="10" />
+							<TextBlock
+								TextWrapping="Wrap"
+								Text="Управление регулирующим клапаном кислорода"
+								Canvas.Top="176"
+								RenderTransformOrigin="0.667,-0.875"
+								Height="71"
+								Width="87"
+								Canvas.Left="10" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="106"
+								Canvas.Top="10"
+								Width="44"
+								Visibility="{Binding TractRegimeManualVisibility}" />
+							<TextBlock
+								Canvas.Left="106"
+								TextWrapping="Wrap"
+								Text="Ручной"
+								Canvas.Top="10" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="106"
+								Canvas.Top="67"
+								Width="44"
+								Visibility="{Binding LanceRegimeManualVisibility}" />
+							<TextBlock
+								Canvas.Left="106"
+								TextWrapping="Wrap"
+								Text="Ручной"
+								Canvas.Top="67"
+								Width="44" />
+							<TextBlock
+								Canvas.Left="106"
+								TextWrapping="Wrap"
+								Text="Ручной"
+								Canvas.Top="107" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="106"
+								Canvas.Top="176"
+								Width="44"
+								Visibility="{Binding RegClapanManualVisibility}" />
+							<TextBlock
+								Canvas.Left="106"
+								TextWrapping="Wrap"
+								Text="Ручной"
+								Canvas.Top="176" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="167"
+								Canvas.Top="9"
+								Width="28"
+								Visibility="{Binding TractRegimeAutoVisibility}" />
+							<TextBlock
+								Canvas.Left="166"
+								TextWrapping="Wrap"
+								Text="УВМ"
+								Canvas.Top="10" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="167"
+								Canvas.Top="67"
+								Width="28"
+								Visibility="{Binding LanceRegimeAutoVisibility}" />
+							<TextBlock
+								Canvas.Left="167"
+								TextWrapping="Wrap"
+								Text="УВМ"
+								Canvas.Top="68" />
+							<TextBlock
+								Canvas.Left="166"
+								TextWrapping="Wrap"
+								Text="Автомат"
+								Canvas.Top="107" />
+							<Rectangle
+								Fill="#FF2EFF00"
+								Height="17"
+								Canvas.Left="167"
+								Canvas.Top="176"
+								Width="28"
+								Visibility="{Binding RegClapanAutoVisibility}" />
+							<TextBlock
+								Canvas.Left="166"
+								TextWrapping="Wrap"
+								Text="УВМ"
+								Canvas.Top="176" />
+						</Canvas>
+					</GroupBox>
+					<GroupBox
+						Header="ОТДАЧА МАТЕРИАЛОВ НА ПЛАВКУ"
+						Canvas.Left="238"
+						Height="273"
+						Width="311"
+						BorderBrush="Gray"
+						FontWeight="Bold" Foreground="#FF535252">
+						<Canvas>
+							<Grid
+								SnapsToDevicePixels="True"
+								x:Name="CorrectionsGrid"
+								VerticalAlignment="Top"
+								Margin="0"
+								Height="Auto"
+								Canvas.Left="10"
+								Canvas.Top="10">
+								<Grid.RowDefinitions>
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition
+										Height="24" />
+									<RowDefinition Height="24"/>
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition
+										Width="Auto" />
+									<ColumnDefinition
+										Width="Auto" />
+									<ColumnDefinition
+										Width="Auto" />
+									<ColumnDefinition
+										Width="Auto" />
+									<ColumnDefinition
+										Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<Border
+									BorderThickness="1,1,1,1"
+									BorderBrush="#FF535252"
+									Grid.Row="0"
+									Grid.Column="2">
+									<TextBlock
+										Text="Шаблон"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,0,1"
+									BorderBrush="#FF535252"
+									Grid.Row="0"
+									Grid.Column="3">
+									<TextBlock
+										Text="Модель"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,1"
+									BorderBrush="#FF535252"
+									Grid.Row="0"
+									Grid.Column="4">
+									<TextBlock
+										Text="Отс. мат."
+										Padding="5,0,5,0" />
+								</Border>
+								<!-- дальше идет список материалов -->
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="1"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding Path=HGModel.AdditionsList[0].Name}"
+										Padding="5,0,5,0" HorizontalAlignment="Left" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="2"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[1].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="3"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[2].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="4"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[3].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="5"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[4].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="6"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[5].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="7"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[6].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,1"
+									BorderBrush="#FF535252"
+									Grid.Row="8"
+									Grid.ColumnSpan="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[7].Name}"
+										Padding="5,0,5,0" />
+								</Border>
+								<!-- Список бункеров -->
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="1"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[0].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="2"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[1].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="3"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[2].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="4"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[3].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="5"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[4].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="6"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[5].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="7"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[6].Bunker}"
+										Padding="5,0,5,0" />
+								</Border>
+								<Border
+									BorderThickness="0,1,1,1"
+									BorderBrush="#FF535252"
+									Grid.Row="8"
+									Grid.Column="1">
+									<TextBlock
+										Text="{Binding HGModel.AdditionsList[7].Bunker}"
+										Padding="5,0,5,0"
+										Height="22"
+										VerticalAlignment="Bottom" />
+								</Border>
+								<StackPanel
+									Grid.Column="2"
+									Grid.Row="1"
+									Grid.RowSpan="8"
+									Width="62">
+                                    <Border
+										HorizontalAlignment="Left"
+										Width="62"
+										Height="24"
+									BorderThickness="1,0,1,0"
+									BorderBrush="#FF535252">
+                                        <TextBox
+											Text="{Binding CurrentMatherialsSum[0]}"
+											FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252" >
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[1]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252" >
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[2]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252">
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[3]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252">
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[4]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252">
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[5]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252" >
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[6]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+                                    </Border>
+                                    <Border
+                                    	HorizontalAlignment="Left"
+                                    	Width="62"
+                                    	Height="24" BorderThickness="1"
+									BorderBrush="#FF535252" >
+                                        <TextBox
+                                    		Text="{Binding CurrentMatherialsSum[7]}"
+                                    		FontSize="14" BorderThickness="0,1,1,1" />
+
+                                    </Border>
+
+                                </StackPanel>
+								<Border
+									BorderThickness="1,0,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="1"
+									Grid.Column="4">
+									<CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="2"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="3"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="4"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="5"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="6"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1,1,1,0"
+									BorderBrush="#FF535252"
+									Grid.Row="7"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Border
+									BorderThickness="1"
+									BorderBrush="#FF535252"
+									Grid.Row="8"
+									Grid.Column="4">
+									<CheckBox
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Border>
+								<Button
+									Content="ПОДТВ."
+									Grid.Column="2"
+									Grid.Row="9"
+									Width="62"
+									Height="21"
+									Command="{Binding SetAdditionsCommand}" />
+								<Button
+									Content="ПОДТВ."
+									Grid.Column="3"
+									Grid.Row="9"
+									Width="62"
+									Height="21" />
+								<Button
+									Content="ПОДТВ."
+									Grid.Column="4"
+									Grid.Row="9"
+									Width="62"
+									Height="21" />
+							</Grid>
+							
+							
+						</Canvas>
+					</GroupBox>
+				</Canvas>
+                <TextBlock
+					TextWrapping="Wrap"
+					Text="Плавка №"
+					TextBlock.FontSize="14"
+					TextBlock.FontWeight="Bold" Height="19" Width="71"
+					Canvas.Left="554"
+					Canvas.Top="518" />
+                <Label Content="Cк" Canvas.Left="1169" Canvas.Top="23" Visibility="Collapsed"/>
+                <Label Content="Cк %" Canvas.Left="1169" Canvas.Top="54"/>
+                <Label Content="{Binding CarboneMass}" Canvas.Left="1203" Canvas.Top="23" Width="65" Height="26" Visibility="Collapsed"/>
+                <Label Content="{Binding CarbonePercent}" Canvas.Left="1203" Canvas.Top="54" Width="65" Height="26" />
+                <TextBlock
+                	TextWrapping="Wrap"
+                	Text="{Binding HeatNo}"
+                	TextBlock.FontSize="14"
+                	TextBlock.FontWeight="Bold" Height="19" Width="71"
+                	Canvas.Left="630"
+                	Canvas.Top="518" />
+                <Label Content="C" Canvas.Left="1169" Canvas.Top="85"/>
+                <Label Content="{Binding MC}" Canvas.Left="1203" Canvas.Top="85" Width="65" Height="26" />
+                <Label Content="T" Canvas.Left="1169" Canvas.Top="116"/>
+                <Label Content="{Binding MT}" Canvas.Left="1203" Canvas.Top="116" Width="65" Height="26" />
+                <Label Content="Si" Canvas.Left="1169" Canvas.Top="147"/>
+                <Label Content="{Binding MSi}" Canvas.Left="1203" Canvas.Top="147" Width="65" Height="26" />
+                <Label Content="Mn" Canvas.Left="1169" Canvas.Top="178"/>
+                <Label Content="{Binding MMn}" Canvas.Left="1203" Canvas.Top="178" Width="65" Height="26" />
+                <Label Content="P" Canvas.Left="1169" Canvas.Top="209"/>
+                <Label Content="{Binding MP}" Canvas.Left="1203" Canvas.Top="209" Width="65" Height="26" />
+                <Label Content="Fe" Canvas.Left="1169" Canvas.Top="235"/>
+                <Label Content="{Binding MFe}" Canvas.Left="1203" Canvas.Top="235" Width="65" Height="26" />
+                <Label Content="FeO" Canvas.Left="1169" Canvas.Top="266"/>
+                <Label Content="{Binding MFeO}" Canvas.Left="1203" Canvas.Top="266" Width="65" Height="26" />
+                <Label Content="CaO" Canvas.Left="1169" Canvas.Top="297"/>
+                <Label Content="{Binding MCaO}" Canvas.Left="1203" Canvas.Top="297" Width="65" Height="26" />
+                <Label Content="SiO2" Canvas.Left="1169" Canvas.Top="329"/>
+                <Label Content="{Binding MSiO2}" Canvas.Left="1203" Canvas.Top="329" Width="65" Height="26" />
+                <Label Content="MnO" Canvas.Left="1169" Canvas.Top="360"/>
+                <Label Content="{Binding MMnO}" Canvas.Left="1203" Canvas.Top="360" Width="65" Height="26" />
+                <Label Content="MgO" Canvas.Left="1169" Canvas.Top="391"/>
+                <Label Content="{Binding MMgO}" Canvas.Left="1203" Canvas.Top="391" Width="65" Height="26" />
+            </Canvas>
+		</Border>
+	</StackPanel>
+</Page>

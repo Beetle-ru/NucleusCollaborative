@@ -1,0 +1,214 @@
+﻿<UserControl x:Class="ElectroVisio.Controls.Menu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Width="1280" Height="40" BorderBrush="{x:Null}">
+    <StackPanel Orientation="Horizontal" Background="#FFDDDDDD">
+        <Button Name="btF1"  Width="93"  Click="btF1_Click" BorderThickness="0" BorderBrush="{x:Null}" Background="#FF909090">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/help1.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F1"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Помощь" TextAlignment="Right" Width="62" Padding="0,0,8,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF2" Width="93" Padding="1"  Click="btF2_Click" Background="#FF909090" BorderBrush="{x:Null}" >
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/go-home-01.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F2"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Основная" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF3" Width="93" Padding="1" Click="btF3_Click" BorderBrush="{x:Null}" Background="#FF909090">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/o2screen.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F3"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Продувка" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF4" Width="93" Padding="1" Click="btF4_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/o2screen1.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F4"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Сыпучие" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF5" Width="93" Padding="1"  Click="btF5_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/W_screen.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F5"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Шихта" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF6" Width="93" Padding="1" Click="btF6_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/stocks.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F6"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Графики" TextAlignment="Right" Width="62" Padding="0,0,4,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF7" Width="93" Padding="1"  Click="btF7_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/planner_25x25.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F7"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Шаблоны" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+
+        </Button>
+        <Button Name="btF8" Width="93" Padding="1"  Click="btF8_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/reports.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F8"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Отчёты" TextAlignment="Right" Width="62" Padding="0,0,5,0" FontWeight="SemiBold" />
+            </Grid>
+
+        </Button>
+        <Button Name="btF9" Width="93" Padding="1"  Click="btF9_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/my_recent_documents.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F9"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Справочники" TextAlignment="Left" Width="62" Padding="0,1,0,0" FontWeight="SemiBold" FontSize="9.5" />
+            </Grid>
+        </Button>
+        <Button Name="btF10" Width="93" Padding="1" Click="btF10_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/chemistry.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F10"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Химанализ" TextAlignment="Right" Width="62" Padding="0,0,4,0" FontSize="11" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btF11" Width="93" Padding="1"  Click="btF11_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/edu_mathematics_5591.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F11"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Модель" FontSize="11" FontWeight="SemiBold" TextAlignment="Right" Width="62" Padding="0,0,5,0" />
+            </Grid>
+        </Button>
+        <Button Name="btF12" Width="93" Padding="1"  Click="btF12_Click" Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/tools_25x25.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text="F12"  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Настройки" TextAlignment="Right" Width="62" Padding="0,0,3,0" FontWeight="SemiBold" FontSize="11" />
+            </Grid>
+        </Button>
+        <Button Name="btExit" Click="btExit_Click" Width="93" Padding="1"  Background="#FF909090" BorderBrush="{x:Null}">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25*"/>
+                    <ColumnDefinition Width="70*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="/ElectroVisio;component/Images/gnome-logout%2025x25.png" />
+                <TextBlock Grid.Column="1" Grid.Row="0" Text=""  TextAlignment="Right" Padding="0,0,8,0" FontSize="16" FontWeight="SemiBold" Margin="0,-3,0,0" />
+                <TextBlock Grid.Column="1" Grid.Row="1" Text="Выход" TextAlignment="Right" Width="62" Padding="0,0,8,0" FontWeight="SemiBold" />
+            </Grid>
+        </Button>
+        <Button Name="btConverter" Width="70" Padding="1" Background="#FF909090" BorderBrush="{x:Null}">
+
+            <Canvas>
+                <Image Source="/ElectroVisio;component/Images/miniConverter.png" Canvas.Top="-15" Canvas.Left="-17" />
+                <Label Name="lConverterNumber"  Canvas.Top="-16" Canvas.Left="-12" FontSize="18" FontWeight="Bold" />
+            </Canvas>
+
+        </Button>
+    </StackPanel>
+</UserControl>

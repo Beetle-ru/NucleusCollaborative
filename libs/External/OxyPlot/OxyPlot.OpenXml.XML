@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OxyPlot.OpenXml</name>
+    </assembly>
+    <members>
+        <member name="T:OxyPlot.Pdf.WordDocumentReportWriter">
+            <summary>
+            Word/OpenXML (.docx) report writer using OpenXML SDK 2.0.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.BodyTextID">
+            <summary>
+              The body text id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.BodyTextName">
+            <summary>
+              The body text name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.FigureTextID">
+            <summary>
+              The figure text id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.FigureTextName">
+            <summary>
+              The figure text name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.HeaderID">
+            <summary>
+              The header id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.HeaderName">
+            <summary>
+              The header name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableCaptionID">
+            <summary>
+              The table caption id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableCaptionName">
+            <summary>
+              The table caption name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableHeaderID">
+            <summary>
+              The table header id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableHeaderName">
+            <summary>
+              The table header name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableTextID">
+            <summary>
+              The table text id.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.TableTextName">
+            <summary>
+              The table text name.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.body">
+            <summary>
+              The body.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.document">
+            <summary>
+              The document.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.mainPart">
+            <summary>
+              The main part.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.package">
+            <summary>
+              The package.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.stylePart">
+            <summary>
+              The style part.
+            </summary>
+        </member>
+        <member name="F:OxyPlot.Pdf.WordDocumentReportWriter.style">
+            <summary>
+              The style.
+            </summary>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OxyPlot.Pdf.WordDocumentReportWriter"/> class.
+            </summary>
+            <param name="filePath">
+            The file path.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteDrawing(OxyPlot.Reporting.DrawingFigure)">
+            <summary>
+            The write drawing.
+            </summary>
+            <param name="d">
+            The d.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteEquation(OxyPlot.Reporting.Equation)">
+            <summary>
+            The write equation.
+            </summary>
+            <param name="equation">
+            The equation.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteHeader(OxyPlot.Reporting.Header)">
+            <summary>
+            The write header.
+            </summary>
+            <param name="h">
+            The h.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteImage(OxyPlot.Reporting.Image)">
+            <summary>
+            The write image.
+            </summary>
+            <param name="i">
+            The i.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteParagraph(OxyPlot.Reporting.Paragraph)">
+            <summary>
+            The write paragraph.
+            </summary>
+            <param name="pa">
+            The pa.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WritePlot(OxyPlot.Reporting.PlotFigure)">
+            <summary>
+            The write plot.
+            </summary>
+            <param name="plot">
+            The plot.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteReport(OxyPlot.Reporting.Report,OxyPlot.Reporting.ReportStyle)">
+            <summary>
+            The write report.
+            </summary>
+            <param name="report">
+            The report.
+            </param>
+            <param name="style">
+            The style.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.WriteTable(OxyPlot.Reporting.Table)">
+            <summary>
+            The write table.
+            </summary>
+            <param name="t">
+            The t.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.CreateParagraph(System.String,System.String)">
+            <summary>
+            The create paragraph.
+            </summary>
+            <param name="content">
+            The content.
+            </param>
+            <param name="styleID">
+            The style id.
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.CreateStyle(OxyPlot.Reporting.ParagraphStyle,System.String,System.String,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            The create style.
+            </summary>
+            <param name="ps">
+            The ps.
+            </param>
+            <param name="styleID">
+            The style id.
+            </param>
+            <param name="styleName">
+            The style name.
+            </param>
+            <param name="basedOnStyleID">
+            The based on style id.
+            </param>
+            <param name="nextStyleID">
+            The next style id.
+            </param>
+            <param name="isDefault">
+            The is default.
+            </param>
+            <param name="isCustomStyle">
+            The is custom style.
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.AddStyles(DocumentFormat.OpenXml.Packaging.StyleDefinitionsPart,OxyPlot.Reporting.ReportStyle)">
+            <summary>
+            The add styles.
+            </summary>
+            <param name="sdp">
+            The sdp.
+            </param>
+            <param name="style">
+            The style.
+            </param>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.CreateDocument">
+            <summary>
+            The create document.
+            </summary>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.CreateImageParagraph(System.String,System.String,System.String,System.Double,System.Double)">
+            <summary>
+            The create image paragraph.
+            </summary>
+            <param name="relationshipId">
+            The relationship id.
+            </param>
+            <param name="name">
+            The name.
+            </param>
+            <param name="description">
+            The description.
+            </param>
+            <param name="width">
+            The width.
+            </param>
+            <param name="height">
+            The height.
+            </param>
+            <returns>
+            </returns>
+        </member>
+        <member name="M:OxyPlot.Pdf.WordDocumentReportWriter.SetPackageProperties(DocumentFormat.OpenXml.Packaging.OpenXmlPackage)">
+            <summary>
+            The set package properties.
+            </summary>
+            <param name="p">
+            The p.
+            </param>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Creator">
+            <summary>
+              Gets or sets Creator.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Description">
+            <summary>
+              Gets or sets Description.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Keywords">
+            <summary>
+              Gets or sets Keywords.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Revision">
+            <summary>
+              Gets or sets Revision.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Subject">
+            <summary>
+              Gets or sets Subject.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Title">
+            <summary>
+              Gets or sets Title.
+            </summary>
+        </member>
+        <member name="P:OxyPlot.Pdf.WordDocumentReportWriter.Version">
+            <summary>
+              Gets or sets Version.
+            </summary>
+        </member>
+    </members>
+</doc>

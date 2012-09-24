@@ -1,0 +1,155 @@
+﻿<UserControl x:Class="ElectroVisio.Controls.InDataStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="407">
+    <StackPanel Orientation="Vertical">
+        <Grid Background="#FF6F6F6F" >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tHeader" Text="Входные данные"  Padding="5,2,0,3" TextAlignment="Left" Background="#FF6F6F6F" Foreground="White" FontSize="14"/>
+        </Grid>
+
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader122" Text="Чугун" Padding="5,2,0,3" TextAlignment="Left" FontSize="12" Grid.Column="0" />
+            <TextBlock Name="tSubHeader1222" Text=""  Padding="5,2,0,3" TextAlignment="Left" FontSize="12" Grid.Column="1" />
+        </Grid>
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader1221" Text="Вес"  Padding="5,2,0,3" TextAlignment="Left" FontWeight="Normal" FontSize="12" Grid.Column="0" />
+            <TextBlock Name="tSubHeader12221" Background="#FFC3FF86" Text="19200" FontWeight="Bold" Padding="5,2,0,3" TextAlignment="Left" FontSize="12"  Grid.Column="1"  />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader12215" Text="№ Ковша" Padding="5,2,0,3" TextAlignment="Left" FontWeight="Normal" FontSize="12" Grid.Column="0" />
+            <TextBox Name="tSubHeader122215" Text="14"  Padding="5,2,0,3" TextAlignment="Left" FontSize="12"  Grid.Column="1" BorderBrush="#FFC3FF86" />
+        </Grid>
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader1224" Text="Лом"  Padding="5,2,0,3" TextAlignment="Left"  FontSize="12" Grid.Column="0" />
+            <TextBlock Name="tSubHeader12" Text="Подвалка"  Background="#FFC3FF86" Padding="5,2,0,3" FontWeight="Bold" TextAlignment="Left" FontSize="12" Grid.Column="1" />
+        </Grid>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader12212" Text="Вес общий [кг]"  Padding="5,2,0,3" TextAlignment="Left" FontWeight="Normal" FontSize="12" Grid.Column="0"/>
+            <TextBox Name="tSubHeader122212" Text="1023" Padding="5,2,0,3" Background="White" TextAlignment="Left" FontSize="12" Grid.Column="1" BorderBrush="#FFC3FF86" />
+        </Grid>
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader122126" Text="№ Бадьи" Padding="5,2,0,3" TextAlignment="Left" FontWeight="Normal" FontSize="12" Grid.Column="0"/>
+            <TextBox Name="tSubHeader1222126" Text="8192" Padding="5,2,0,3" Background="White" TextAlignment="Left" FontSize="12" Grid.Column="1" BorderBrush="#FFC3FF86" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader5" Text="Группы стали"  Padding="5,2,0,3" TextAlignment="Left"  FontSize="12" Grid.Column="0" />
+            <ComboBox Grid.Column="1"  Padding="5,2,0,3">
+                <ComboBoxItem Content="Канатная 1"/>
+                <ComboBoxItem Content="Канатная 2"/>
+                <ComboBoxItem Content="Канатная 3"/>
+                <ComboBoxItem Content="Вакумированая 1"/>
+                <ComboBoxItem Content="Вакумированая 2"/>
+                <ComboBoxItem Content="Вакумированая 3"/>
+                <ComboBoxItem Content="Не вакумированая 1" IsSelected="True"/>
+                <ComboBoxItem Content="Не вакумированая 2"/>
+                <ComboBoxItem Content="Не вакумированая 3"/>
+            </ComboBox>
+        </Grid>
+        <!--
+        <Grid Background="#FFD4CFCF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader51" Text="Канатная 1" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader52" Text="Канатная 2" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid Background="#FFD4CFCF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader53" Text="Канатная 3" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="97"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader54" Text="Вакумированая 1" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid Background="#FFD4CFCF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="97"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader55" Text="Вакумированая 2" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="97"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader56" Text="Вакумированая 3" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid Background="#FFD4CFCF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="117"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader57" Text="Не вакумированая 3" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="117"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader58" Text="Не вакумированая 3" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        <Grid Background="#FFD4CFCF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="117"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+                <ColumnDefinition Width="82"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tSubHeader59" Text="Не вакумированая 3" TextAlignment="Left" Background="#FFD4CFCF" FontSize="12" Grid.Column="0" />
+        </Grid>
+        -->
+    </StackPanel>
+</UserControl>

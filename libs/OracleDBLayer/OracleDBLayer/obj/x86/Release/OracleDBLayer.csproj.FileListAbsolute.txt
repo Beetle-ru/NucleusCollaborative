@@ -1,0 +1,5 @@
+D:\SVN_Plavka\Sources\libs\OracleDBLayer\OracleDBLayer\bin\Release\OracleDBLayer.dll
+D:\SVN_Plavka\Sources\libs\OracleDBLayer\OracleDBLayer\bin\Release\OracleDBLayer.pdb
+D:\SVN_Plavka\Sources\libs\OracleDBLayer\OracleDBLayer\obj\x86\Release\ResolveAssemblyReference.cache
+D:\SVN_Plavka\Sources\libs\OracleDBLayer\OracleDBLayer\obj\x86\Release\OracleDBLayer.dll
+D:\SVN_Plavka\Sources\libs\OracleDBLayer\OracleDBLayer\obj\x86\Release\OracleDBLayer.pdb

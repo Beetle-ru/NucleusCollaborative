@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HeatModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="HeatModelStoreContainer">
+          <EntitySet Name="HeatSet" EntityType="HeatModel.Store.HeatSet" store:Type="Tables" />
+          <EntitySet Name="MaterialSet" EntityType="HeatModel.Store.MaterialSet" store:Type="Tables" />
+          <EntitySet Name="PeriodSet" EntityType="HeatModel.Store.PeriodSet" store:Type="Tables" />
+          <EntitySet Name="PhaseSet" EntityType="HeatModel.Store.PhaseSet" store:Type="Tables" />
+          <EntitySet Name="StepSet" EntityType="HeatModel.Store.StepSet" store:Type="Tables" />
+          <EntitySet Name="TargetValues" EntityType="HeatModel.Store.TargetValues" store:Type="Tables" />
+          <EntitySet Name="VerticalTraktSet" EntityType="HeatModel.Store.VerticalTraktSet" store:Type="Tables" />
+          <AssociationSet Name="FK_HeatMaterial" Association="HeatModel.Store.FK_HeatMaterial">
+            <End Role="HeatSet" EntitySet="HeatSet" />
+            <End Role="MaterialSet" EntitySet="MaterialSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HeatPeriod" Association="HeatModel.Store.FK_HeatPeriod">
+            <End Role="HeatSet" EntitySet="HeatSet" />
+            <End Role="PeriodSet" EntitySet="PeriodSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeriodPhase" Association="HeatModel.Store.FK_PeriodPhase">
+            <End Role="PeriodSet" EntitySet="PeriodSet" />
+            <End Role="PhaseSet" EntitySet="PhaseSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhaseStep" Association="HeatModel.Store.FK_PhaseStep">
+            <End Role="PhaseSet" EntitySet="PhaseSet" />
+            <End Role="StepSet" EntitySet="StepSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StepVerticalTrakt" Association="HeatModel.Store.FK_StepVerticalTrakt">
+            <End Role="StepSet" EntitySet="StepSet" />
+            <End Role="VerticalTraktSet" EntitySet="VerticalTraktSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VerticalTraktMaterial" Association="HeatModel.Store.FK_VerticalTraktMaterial">
+            <End Role="MaterialSet" EntitySet="MaterialSet" />
+            <End Role="VerticalTraktSet" EntitySet="VerticalTraktSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="HeatSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" />
+          <Property Name="Group" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" />
+          <Property Name="HeatId" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="WeighterLineName" Type="nvarchar" Nullable="false" />
+          <Property Name="BunkerName" Type="nvarchar" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PeriodSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="HeatId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhaseSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="PeriodId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StepSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="PhaseId" Type="int" Nullable="false" />
+          <Property Name="LancePosition" Type="int" Nullable="false" />
+          <Property Name="LanceO2Flow" Type="float" Nullable="false" />
+          <Property Name="O2Volume" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TargetValues">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="C" Type="nvarchar" MaxLength="100" />
+          <Property Name="P" Type="nvarchar" MaxLength="100" />
+          <Property Name="S" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cr" Type="nvarchar" MaxLength="100" />
+          <Property Name="Ni" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cu" Type="nvarchar" MaxLength="100" />
+          <Property Name="Mn" Type="nvarchar" MaxLength="100" />
+          <Property Name="MgO" Type="nvarchar" MaxLength="100" />
+          <Property Name="FeO" Type="nvarchar" MaxLength="100" />
+          <Property Name="CaO" Type="nvarchar" MaxLength="100" />
+          <Property Name="T" Type="nvarchar" MaxLength="100" />
+          <Property Name="CaOSiO2" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="VerticalTraktSet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StepId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="nvarchar" Nullable="false" />
+          <Property Name="MaterialId" Type="int" Nullable="false" />
+          <Property Name="NotToGive" Type="bit" Nullable="false" />
+          <Property Name="AllowToAdd" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HeatMaterial">
+          <End Role="HeatSet" Type="HeatModel.Store.HeatSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialSet" Type="HeatModel.Store.MaterialSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeatSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MaterialSet">
+              <PropertyRef Name="HeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HeatPeriod">
+          <End Role="HeatSet" Type="HeatModel.Store.HeatSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PeriodSet" Type="HeatModel.Store.PeriodSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeatSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PeriodSet">
+              <PropertyRef Name="HeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeriodPhase">
+          <End Role="PeriodSet" Type="HeatModel.Store.PeriodSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PhaseSet" Type="HeatModel.Store.PhaseSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeriodSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhaseSet">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhaseStep">
+          <End Role="PhaseSet" Type="HeatModel.Store.PhaseSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StepSet" Type="HeatModel.Store.StepSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhaseSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StepSet">
+              <PropertyRef Name="PhaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StepVerticalTrakt">
+          <End Role="StepSet" Type="HeatModel.Store.StepSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="VerticalTraktSet" Type="HeatModel.Store.VerticalTraktSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StepSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VerticalTraktSet">
+              <PropertyRef Name="StepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VerticalTraktMaterial">
+          <End Role="MaterialSet" Type="HeatModel.Store.MaterialSet" Multiplicity="1" />
+          <End Role="VerticalTraktSet" Type="HeatModel.Store.VerticalTraktSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VerticalTraktSet">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="HeatModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" >
+        <EntityContainer Name="HeatModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="HeatSet" EntityType="HeatModel.Heat" />
+          <EntitySet Name="MaterialSet" EntityType="HeatModel.Material" />
+          <EntitySet Name="PeriodSet" EntityType="HeatModel.Period" />
+          <EntitySet Name="PhaseSet" EntityType="HeatModel.Phase" />
+          <EntitySet Name="StepSet" EntityType="HeatModel.Step" />
+          <EntitySet Name="TargetValues" EntityType="HeatModel.TargetValues" />
+          <EntitySet Name="VerticalTraktSet" EntityType="HeatModel.VerticalTrakt" />
+          <AssociationSet Name="FK_HeatMaterial" Association="HeatModel.FK_HeatMaterial">
+            <End Role="HeatSet" EntitySet="HeatSet" />
+            <End Role="MaterialSet" EntitySet="MaterialSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HeatPeriod" Association="HeatModel.FK_HeatPeriod">
+            <End Role="HeatSet" EntitySet="HeatSet" />
+            <End Role="PeriodSet" EntitySet="PeriodSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VerticalTraktMaterial" Association="HeatModel.FK_VerticalTraktMaterial">
+            <End Role="MaterialSet" EntitySet="MaterialSet" />
+            <End Role="VerticalTraktSet" EntitySet="VerticalTraktSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeriodPhase" Association="HeatModel.FK_PeriodPhase">
+            <End Role="PeriodSet" EntitySet="PeriodSet" />
+            <End Role="PhaseSet" EntitySet="PhaseSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PhaseStep" Association="HeatModel.FK_PhaseStep">
+            <End Role="PhaseSet" EntitySet="PhaseSet" />
+            <End Role="StepSet" EntitySet="StepSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StepVerticalTrakt" Association="HeatModel.FK_StepVerticalTrakt">
+            <End Role="StepSet" EntitySet="StepSet" />
+            <End Role="VerticalTraktSet" EntitySet="VerticalTraktSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Heat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Group" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="HeatModel.FK_HeatMaterial" FromRole="HeatSet" ToRole="MaterialSet" />
+          <NavigationProperty Name="Periods" Relationship="HeatModel.FK_HeatPeriod" FromRole="HeatSet" ToRole="PeriodSet" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="HeatId" Nullable="false" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="String" Name="WeighterLineName" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BunkerName" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Heat" Relationship="HeatModel.FK_HeatMaterial" FromRole="MaterialSet" ToRole="HeatSet" />
+          <NavigationProperty Name="VerticalTrakts" Relationship="HeatModel.FK_VerticalTraktMaterial" FromRole="MaterialSet" ToRole="VerticalTraktSet" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="HeatId" Nullable="false" />
+          <NavigationProperty Name="Heat" Relationship="HeatModel.FK_HeatPeriod" FromRole="PeriodSet" ToRole="HeatSet" />
+          <NavigationProperty Name="Phases" Relationship="HeatModel.FK_PeriodPhase" FromRole="PeriodSet" ToRole="PhaseSet" />
+        </EntityType>
+        <EntityType Name="Phase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="PeriodId" Nullable="false" />
+          <NavigationProperty Name="Period" Relationship="HeatModel.FK_PeriodPhase" FromRole="PhaseSet" ToRole="PeriodSet" />
+          <NavigationProperty Name="Steps" Relationship="HeatModel.FK_PhaseStep" FromRole="PhaseSet" ToRole="StepSet" />
+        </EntityType>
+        <EntityType Name="Step">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Number" Nullable="false" />
+          <Property Type="Int32" Name="PhaseId" Nullable="false" />
+          <Property Type="Int32" Name="LancePosition" Nullable="false" />
+          <Property Type="Double" Name="LanceO2Flow" Nullable="false" />
+          <Property Type="Int32" Name="O2Volume" Nullable="false" />
+          <NavigationProperty Name="Phase" Relationship="HeatModel.FK_PhaseStep" FromRole="StepSet" ToRole="PhaseSet" />
+          <NavigationProperty Name="VerticalTrakts" Relationship="HeatModel.FK_StepVerticalTrakt" FromRole="StepSet" ToRole="VerticalTraktSet" />
+        </EntityType>
+        <EntityType Name="TargetValues">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Type="Int32" Name="GroupID" Nullable="false" />
+          <Property Type="String" Name="C" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="P" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="S" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Cr" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Ni" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Cu" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Mn" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MgO" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FeO" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CaO" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="T" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CaOSiO2" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VerticalTrakt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="StepId" Nullable="false" />
+          <Property Type="String" Name="Amount" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="MaterialId" Nullable="false" />
+          <Property Type="Boolean" Name="NotToGive" Nullable="false" />
+          <Property Type="Boolean" Name="AllowToAdd" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="HeatModel.FK_VerticalTraktMaterial" FromRole="VerticalTraktSet" ToRole="MaterialSet" />
+          <NavigationProperty Name="Step" Relationship="HeatModel.FK_StepVerticalTrakt" FromRole="VerticalTraktSet" ToRole="StepSet" />
+        </EntityType>
+        <Association Name="FK_HeatMaterial">
+          <End Type="HeatModel.Heat" Role="HeatSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HeatModel.Material" Role="MaterialSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeatSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MaterialSet">
+              <PropertyRef Name="HeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HeatPeriod">
+          <End Type="HeatModel.Heat" Role="HeatSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HeatModel.Period" Role="PeriodSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HeatSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PeriodSet">
+              <PropertyRef Name="HeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VerticalTraktMaterial">
+          <End Type="HeatModel.Material" Role="MaterialSet" Multiplicity="1" />
+          <End Type="HeatModel.VerticalTrakt" Role="VerticalTraktSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VerticalTraktSet">
+              <PropertyRef Name="MaterialId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeriodPhase">
+          <End Type="HeatModel.Period" Role="PeriodSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HeatModel.Phase" Role="PhaseSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeriodSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PhaseSet">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PhaseStep">
+          <End Type="HeatModel.Phase" Role="PhaseSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HeatModel.Step" Role="StepSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PhaseSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StepSet">
+              <PropertyRef Name="PhaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StepVerticalTrakt">
+          <End Type="HeatModel.Step" Role="StepSet" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="HeatModel.VerticalTrakt" Role="VerticalTraktSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StepSet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VerticalTraktSet">
+              <PropertyRef Name="StepId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HeatModelStoreContainer" CdmEntityContainer="HeatModelContainer">
+          <EntitySetMapping Name="HeatSet">
+            <EntityTypeMapping TypeName="HeatModel.Heat">
+              <MappingFragment StoreEntitySet="HeatSet">
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialSet">
+            <EntityTypeMapping TypeName="HeatModel.Material">
+              <MappingFragment StoreEntitySet="MaterialSet">
+                <ScalarProperty Name="BunkerName" ColumnName="BunkerName" />
+                <ScalarProperty Name="WeighterLineName" ColumnName="WeighterLineName" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="HeatId" ColumnName="HeatId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeriodSet">
+            <EntityTypeMapping TypeName="HeatModel.Period">
+              <MappingFragment StoreEntitySet="PeriodSet">
+                <ScalarProperty Name="HeatId" ColumnName="HeatId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhaseSet">
+            <EntityTypeMapping TypeName="HeatModel.Phase">
+              <MappingFragment StoreEntitySet="PhaseSet">
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StepSet">
+            <EntityTypeMapping TypeName="HeatModel.Step">
+              <MappingFragment StoreEntitySet="StepSet">
+                <ScalarProperty Name="O2Volume" ColumnName="O2Volume" />
+                <ScalarProperty Name="LanceO2Flow" ColumnName="LanceO2Flow" />
+                <ScalarProperty Name="LancePosition" ColumnName="LancePosition" />
+                <ScalarProperty Name="PhaseId" ColumnName="PhaseId" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TargetValues">
+            <EntityTypeMapping TypeName="HeatModel.TargetValues">
+              <MappingFragment StoreEntitySet="TargetValues">
+                <ScalarProperty Name="CaOSiO2" ColumnName="CaOSiO2" />
+                <ScalarProperty Name="T" ColumnName="T" />
+                <ScalarProperty Name="CaO" ColumnName="CaO" />
+                <ScalarProperty Name="FeO" ColumnName="FeO" />
+                <ScalarProperty Name="MgO" ColumnName="MgO" />
+                <ScalarProperty Name="Mn" ColumnName="Mn" />
+                <ScalarProperty Name="Cu" ColumnName="Cu" />
+                <ScalarProperty Name="Ni" ColumnName="Ni" />
+                <ScalarProperty Name="Cr" ColumnName="Cr" />
+                <ScalarProperty Name="S" ColumnName="S" />
+                <ScalarProperty Name="P" ColumnName="P" />
+                <ScalarProperty Name="C" ColumnName="C" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VerticalTraktSet">
+            <EntityTypeMapping TypeName="HeatModel.VerticalTrakt">
+              <MappingFragment StoreEntitySet="VerticalTraktSet">
+                <ScalarProperty Name="AllowToAdd" ColumnName="AllowToAdd" />
+                <ScalarProperty Name="NotToGive" ColumnName="NotToGive" />
+                <ScalarProperty Name="MaterialId" ColumnName="MaterialId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="StepId" ColumnName="StepId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

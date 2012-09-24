@@ -1,0 +1,8 @@
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\bin\Debug\OraclePipeListenerClientExample.exe
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\bin\Debug\OraclePipeListenerClientExample.pdb
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\bin\Debug\OraclePipeListener.dll
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\bin\Debug\Oracle.DataAccess.dll
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\bin\Debug\OraclePipeListener.pdb
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\obj\x86\Debug\OraclePipeListenerClientExample.exe
+C:\Case\Северсталь\SVN\trunk\libs\OraclePipeListener\OraclePipeListenerClientExample\obj\x86\Debug\OraclePipeListenerClientExample.pdb

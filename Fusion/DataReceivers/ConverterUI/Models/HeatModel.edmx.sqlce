@@ -1,0 +1,239 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server Compact Edition
+-- --------------------------------------------------
+-- Date Created: 07/24/2012 12:14:54
+-- Generated from EDMX file: C:\Users\Сергей\Documents\SVN\Fusion\DataReceivers\ConverterUI\Models\HeatModel.edmx
+-- --------------------------------------------------
+
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- NOTE: if the constraint does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+    ALTER TABLE [PeriodSet] DROP CONSTRAINT [FK_HeatPeriod];
+GO
+    ALTER TABLE [PhaseSet] DROP CONSTRAINT [FK_PeriodPhase];
+GO
+    ALTER TABLE [StepSet] DROP CONSTRAINT [FK_PhaseStep];
+GO
+    ALTER TABLE [MaterialSet] DROP CONSTRAINT [FK_HeatMaterial];
+GO
+    ALTER TABLE [VerticalTraktSet] DROP CONSTRAINT [FK_StepVerticalTrakt];
+GO
+    ALTER TABLE [VerticalTraktSet] DROP CONSTRAINT [FK_VerticalTraktMaterial];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- NOTE: if the table does not exist, an ignorable error will be reported.
+-- --------------------------------------------------
+
+    DROP TABLE [HeatSet];
+GO
+    DROP TABLE [PeriodSet];
+GO
+    DROP TABLE [PhaseSet];
+GO
+    DROP TABLE [StepSet];
+GO
+    DROP TABLE [MaterialSet];
+GO
+    DROP TABLE [VerticalTraktSet];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'HeatSet'
+CREATE TABLE [HeatSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [Group] int  NOT NULL
+);
+GO
+
+-- Creating table 'PeriodSet'
+CREATE TABLE [PeriodSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [Number] int  NOT NULL,
+    [HeatId] int  NOT NULL
+);
+GO
+
+-- Creating table 'PhaseSet'
+CREATE TABLE [PhaseSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [Number] int  NOT NULL,
+    [PeriodId] int  NOT NULL
+);
+GO
+
+-- Creating table 'StepSet'
+CREATE TABLE [StepSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Number] int  NOT NULL,
+    [PhaseId] int  NOT NULL,
+    [LancePosition] int  NOT NULL,
+    [LanceO2Flow] float  NOT NULL,
+    [O2Volume] int  NOT NULL
+);
+GO
+
+-- Creating table 'MaterialSet'
+CREATE TABLE [MaterialSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [HeatId] int  NOT NULL,
+    [Number] int  NOT NULL,
+    [WeighterLineName] nvarchar(4000)  NOT NULL,
+    [BunkerName] nvarchar(4000)  NOT NULL
+);
+GO
+
+-- Creating table 'VerticalTraktSet'
+CREATE TABLE [VerticalTraktSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [StepId] int  NOT NULL,
+    [Amount] nvarchar(4000)  NOT NULL,
+    [MaterialId] int  NOT NULL,
+    [NotToGive] bit  NOT NULL,
+    [AllowToAdd] bit  NOT NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [Id] in table 'HeatSet'
+ALTER TABLE [HeatSet]
+ADD CONSTRAINT [PK_HeatSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'PeriodSet'
+ALTER TABLE [PeriodSet]
+ADD CONSTRAINT [PK_PeriodSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'PhaseSet'
+ALTER TABLE [PhaseSet]
+ADD CONSTRAINT [PK_PhaseSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'StepSet'
+ALTER TABLE [StepSet]
+ADD CONSTRAINT [PK_StepSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'MaterialSet'
+ALTER TABLE [MaterialSet]
+ADD CONSTRAINT [PK_MaterialSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'VerticalTraktSet'
+ALTER TABLE [VerticalTraktSet]
+ADD CONSTRAINT [PK_VerticalTraktSet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [HeatId] in table 'PeriodSet'
+ALTER TABLE [PeriodSet]
+ADD CONSTRAINT [FK_HeatPeriod]
+    FOREIGN KEY ([HeatId])
+    REFERENCES [HeatSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_HeatPeriod'
+CREATE INDEX [IX_FK_HeatPeriod]
+ON [PeriodSet]
+    ([HeatId]);
+GO
+
+-- Creating foreign key on [PeriodId] in table 'PhaseSet'
+ALTER TABLE [PhaseSet]
+ADD CONSTRAINT [FK_PeriodPhase]
+    FOREIGN KEY ([PeriodId])
+    REFERENCES [PeriodSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PeriodPhase'
+CREATE INDEX [IX_FK_PeriodPhase]
+ON [PhaseSet]
+    ([PeriodId]);
+GO
+
+-- Creating foreign key on [PhaseId] in table 'StepSet'
+ALTER TABLE [StepSet]
+ADD CONSTRAINT [FK_PhaseStep]
+    FOREIGN KEY ([PhaseId])
+    REFERENCES [PhaseSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PhaseStep'
+CREATE INDEX [IX_FK_PhaseStep]
+ON [StepSet]
+    ([PhaseId]);
+GO
+
+-- Creating foreign key on [HeatId] in table 'MaterialSet'
+ALTER TABLE [MaterialSet]
+ADD CONSTRAINT [FK_HeatMaterial]
+    FOREIGN KEY ([HeatId])
+    REFERENCES [HeatSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_HeatMaterial'
+CREATE INDEX [IX_FK_HeatMaterial]
+ON [MaterialSet]
+    ([HeatId]);
+GO
+
+-- Creating foreign key on [StepId] in table 'VerticalTraktSet'
+ALTER TABLE [VerticalTraktSet]
+ADD CONSTRAINT [FK_StepVerticalTrakt]
+    FOREIGN KEY ([StepId])
+    REFERENCES [StepSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_StepVerticalTrakt'
+CREATE INDEX [IX_FK_StepVerticalTrakt]
+ON [VerticalTraktSet]
+    ([StepId]);
+GO
+
+-- Creating foreign key on [MaterialId] in table 'VerticalTraktSet'
+ALTER TABLE [VerticalTraktSet]
+ADD CONSTRAINT [FK_VerticalTraktMaterial]
+    FOREIGN KEY ([MaterialId])
+    REFERENCES [MaterialSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_VerticalTraktMaterial'
+CREATE INDEX [IX_FK_VerticalTraktMaterial]
+ON [VerticalTraktSet]
+    ([MaterialId]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------

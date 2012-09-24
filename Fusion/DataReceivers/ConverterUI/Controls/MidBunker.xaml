@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="ConverterUI.MidBunker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             Height="200" Width="250">
+    <Canvas Height="200" Width="250" MouseDown="Canvas_MouseDown">
+        <Image Height="200" HorizontalAlignment="Left" Name="iBunker" Stretch="Fill" VerticalAlignment="Top" Width="250" Source="/ConverterUI;component/Images/ПромБункерОткрытый.png" />
+        <Label Canvas.Left="45" Canvas.Top="23" Content="ПБ" Height="33" Name="lName" Padding="0" Width="120" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="22" FontWeight="Bold" Foreground="#FF000090" />
+        <Label Canvas.Left="51" Canvas.Top="51" Content="ПБ" FontSize="12" FontWeight="Normal" Height="16" HorizontalContentAlignment="Right" Name="lMaterial1Name" Padding="0" VerticalContentAlignment="Center" Width="60" />
+        <Label Canvas.Left="51" Canvas.Top="71" Content="ПБ" FontSize="12" FontWeight="Normal" Height="16" HorizontalContentAlignment="Right" Name="lMaterial2Name" Padding="0" VerticalContentAlignment="Center" Width="60" />
+        <Label Canvas.Left="51" Canvas.Top="91" Content="ПБ" FontSize="12" FontWeight="Normal" Height="16" HorizontalContentAlignment="Right" Name="lMaterial3Name" Padding="0" VerticalContentAlignment="Center" Width="60" />
+        <Label Canvas.Left="51" Canvas.Top="111" Content="ПБ" FontSize="12" FontWeight="Normal" Height="16" HorizontalContentAlignment="Right" Name="lMaterial4Name" Padding="0" VerticalContentAlignment="Center" Width="60" />
+        <Label Canvas.Left="112" Canvas.Top="51" FontSize="12" FontWeight="Bold" Height="16" HorizontalContentAlignment="Left" Name="lMaterial1Weight" Padding="0" VerticalContentAlignment="Center" Width="42" />
+        <Label Canvas.Left="112" Canvas.Top="71" FontSize="12" FontWeight="Bold" Height="16" HorizontalContentAlignment="Left" Name="lMaterial2Weight" Padding="0" VerticalContentAlignment="Center" Width="42" />
+        <Label Canvas.Left="112" Canvas.Top="91" FontSize="12" FontWeight="Bold" Height="16" HorizontalContentAlignment="Left" Name="lMaterial3Weight" Padding="0" VerticalContentAlignment="Center" Width="42" />
+        <Label Canvas.Left="112" Canvas.Top="111" FontSize="12" FontWeight="Bold" Height="16" HorizontalContentAlignment="Left" Name="lMaterial4Weight" Padding="0" VerticalContentAlignment="Center" Width="42" />
+    </Canvas>
+</UserControl>

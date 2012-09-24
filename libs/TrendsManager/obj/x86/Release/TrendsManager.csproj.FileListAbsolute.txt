@@ -1,0 +1,7 @@
+D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Release\ResolveAssemblyReference.cache
+D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Release\TrendsManager.dll
+D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Release\TrendsManager.pdb
+D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Release\CommonTypes.dll
+D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Release\CommonTypes.pdb
+D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Release\TrendsManager.dll
+D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Release\TrendsManager.pdb

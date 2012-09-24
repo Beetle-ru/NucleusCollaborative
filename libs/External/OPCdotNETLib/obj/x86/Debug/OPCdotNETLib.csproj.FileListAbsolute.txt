@@ -1,0 +1,5 @@
+D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\bin\Debug\OPCdotNETLib.dll
+D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\bin\Debug\OPCdotNETLib.pdb
+D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\obj\x86\Debug\OPCdotNETLib.dll
+D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\obj\x86\Debug\OPCdotNETLib.pdb

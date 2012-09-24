@@ -1,0 +1,624 @@
+﻿<html DIR="LTR" xmlns:tool="http://www.microsoft.com/tooltip" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ddue="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8" />
+    <META NAME="save" CONTENT="history" />
+    <title>Microsoft SQL Server 2005 Compact Edition Readme</title>
+    
+ <Style TYPE="text/css">
+
+body
+{
+    background: #FFFFFF;
+    color: #000000;
+    font-family:    Verdana;
+    font-size: medium;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom:  0;
+    margin-left:    0;
+    margin-right:   0;
+    width:  100%;
+}
+
+div.#mainSection
+{
+    font-size: 70%;
+    width: 100%;
+    padding-left:    10;
+    margin-right: 10;
+}
+
+div.#mainBody
+{
+    font-size: 90%;
+    margin-top: 10;
+    padding-bottom: 20;
+}
+
+div.#header
+{
+    background-color: #D2D2D2;
+    padding-top:    0;
+    padding-bottom: 0;
+    padding-left:   10;
+    padding-right:  0;
+    width:          100%;
+}
+
+div.#header table
+{
+    border-bottom-color: #C8CDDE;
+    border-bottom-style: solid;
+    border-bottom-width: 1;
+    width:  100%;
+}
+
+span.#runningHeaderText
+{
+    color: #003399;
+    font-size: 90%;
+}
+
+span.#nsrTitle
+{
+/*    color: #003399;*/
+    font-size: 120%;
+    font-weight: 600;
+}
+
+div.#header table td
+{
+    color: #000000;
+    font-size: 70%;
+    margin-top: 0;
+    margin-bottom:  0;
+    padding-right: 20;
+}
+
+div.#header table tr.#headerTableRow3 td
+{
+    padding-bottom: 2;
+    padding-top: 5;
+}
+
+div.#header table.#bottomTable
+{
+    border-top-color: #FFFFFF;
+    border-top-style: solid;
+    border-top-width: 1;
+    text-align: left;
+}
+
+div.#footer
+{
+    font-size: 90%;
+    margin-top: 0;
+    margin-bottom:  0;
+    margin-left:    -5;
+    margin-right:   0;
+    padding-top:    2;
+    padding-bottom: 2;
+    padding-left:   0;
+    padding-right:  0;
+    width:  100%;
+}
+
+hr.#footerHR
+{
+    border-bottom-color: #EEEEFF;
+    border-bottom-style: solid;
+    border-bottom-width: 1;
+    border-top-color: C8CDDE;
+    border-top-style: solid;
+    border-top-width: 1;
+    height: 3;
+    color: #D2D2D2;
+}
+
+div.section
+{
+    padding-top:    2;
+    padding-bottom: 2;
+    padding-right:  15;
+    width:  100%;
+}
+
+.heading
+{
+    color:          #000000;
+    font-weight:    bold;
+    margin-top:     18;
+    margin-bottom:  8;
+}
+
+h1.heading
+{
+    color: #000000;
+    font-size:  150%;
+}
+
+.subHeading
+{
+    color:          #000000;
+    font-weight:    bold;
+    font-size:      150%;
+    margin-bottom:  4;
+}
+
+h2.subHeading
+{
+    color:          #000000;
+    font-weight:    bold;
+    font-size:      130%;
+}
+h3.subHeading
+{
+    color:  #000000;
+    font-size: 125%;
+    font-weight: bold;
+}
+
+h4.subHeading
+{
+    color: #000000;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+h4.procedureHeading
+{
+    color: #000080;
+    font-size: 110%;
+    font-weight: bold;
+}
+
+h5.subHeading
+{
+    color: #000000;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+img
+{
+    padding-bottom: 10;
+}
+
+img.toggle
+{
+    border: 0;
+    margin-right: 5;
+    padding-bottom: 10;
+}
+
+img.copyCodeImage
+{
+    border: 0;
+    margin: 1;
+    margin-right: 3;
+    padding-bottom: 10;
+}
+
+img.downloadCodeImage
+{
+    border: 0;
+    margin-right: 3;
+    padding-bottom: 10;
+}
+
+img.viewCodeImage
+{
+    border: 0;
+    margin-right: 3;
+    padding-bottom: 10;
+}
+
+img.note
+{
+    border: 0;
+    margin-right: 3;
+    padding-bottom: 10;
+}
+
+img.#membersOptionsFilterImage
+{
+    border: 0;
+    margin-left: 10;
+    vertical-align: middle;
+    padding-bottom: 10;
+}
+
+img.#toggleAllImage
+{
+    margin-left: 4;
+    vertical-align: middle;
+    padding-bottom: 10;
+}
+
+div.#mainSection table
+{
+    border: 0;
+    font-size: 100%;
+    width:  100%;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+div.#mainSection table tr
+{
+    vertical-align: top;
+}
+
+div.#mainSection table th
+{
+    text-align: left;
+    background: #D8D8D8;
+    border-bottom-color: #D8D8D8;
+    border-bottom-style: solid;
+    border-bottom-width: 1;
+    color: #000000;
+    padding-left: 5;
+    padding-right: 5;
+}
+
+div.#mainSection table td
+{
+    background: #F2F2F2;
+    border-top-color: #D8D8D8;
+    border-top-style: solid;
+    border-top-width: 1;
+    padding-left: 5;
+    padding-right: 5;
+}
+
+div.#mainSection table td.imageCell
+{
+    white-space: nowrap;
+}
+
+div.code
+{
+	width: 98%;
+}
+
+div.code table
+{
+    border: 0;
+    font-size: 95%;
+    margin-bottom: 5;
+    width: 100%
+}
+
+div.code table th
+{   
+    text-align: left;
+    background: #D8D8D8;
+    border-bottom-color: #D8D8D8;
+    border-bottom-style: solid;
+    border-bottom-width: 1;
+    color: #000000;
+    font-weight: bold;
+    padding-left: 5;
+    padding-right: 5;
+}
+
+div.code table td
+{
+    background: #CCCCCC;
+    border-top-color: #D8D8D8;
+    border-top-style: solid;
+    border-top-width: 1;
+    padding-left: 5;
+    padding-right: 5;
+    padding-top: 5;
+}
+
+div.alert
+{
+	margin-left: 10;
+	width: 98%;
+}
+
+div.alert table
+{
+    border: 1;
+    font-size: 100%;
+    width:  100%;
+    border: solid 1 #DEDFEF;
+}
+
+div.alert table th
+{
+    text-align: left;
+    background: #D8D8D8;
+    border-bottom-width: 0;
+    color: #000000;
+    padding-left: 5;
+    padding-right: 5;
+    border: solid 1 #DEDFEF;
+}
+
+div.alert table td
+{
+    background: #FFFFFF;
+    border-top-color: #D8D8D8;
+    border-top-style: solid;
+    border-top-width: 1;
+    padding-left: 5;
+    padding-right: 5;
+    border: solid 1 #DEDFEF;
+}
+
+span.copyCode
+{
+    color: #0000ff;
+    font-size: 90%;
+    font-weight: normal;
+    cursor: hand;
+    float: right;
+    display: inline;
+    text-align: right;
+}
+
+.downloadCode
+{
+    color: #0000ff;
+    font-size: 90%;
+    font-weight: normal;
+    cursor: hand;
+}
+
+.viewCode
+{
+    color: #0000ff;
+    font-size: 90%;
+    font-weight: normal;
+    cursor: hand;
+}
+
+div.code pre
+{
+    font-family:    Monospace, Courier New, Courier;
+    font-size: 105%;
+    color:  #000000;
+}
+
+code
+{
+    font-family:    Monospace, Courier New, Courier;
+    font-size: 105%;
+    color:  #000000;
+}
+
+dl
+{
+    margin-top: 0;
+    padding-left:   1;
+}
+
+dd
+{
+    margin-bottom:  0;
+    margin-left:    0;
+    padding-left:   20;
+}
+
+dd p
+{
+    margin-top: 5;
+}
+
+ul
+{
+    margin-left: 17;
+    list-style-type: disc;
+}
+
+ul ul
+{
+    margin-bottom: 4;
+    margin-left: 17;
+    margin-top: 3;
+    list-style-type: disc;
+}
+
+ol
+{
+    margin-left: 24;
+    list-style-type: decimal;
+}
+
+ol ol
+{
+    margin-left: 24;
+    margin-top: 3;
+    list-style-type: lower-alpha;
+}
+
+li
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    margin-left: 5;
+}
+
+p
+{
+    margin-bottom: 15;
+}
+
+.tip
+{
+    color:  #0000FF;
+    font-style: italic;
+    cursor:hand;
+    text-decoration:underline;
+}
+
+.math
+{
+    font-family: Times New Roman;
+    font-size: 125%
+}
+.sourceCodeList
+{
+    font-family: Verdana;
+    font-size: 90%; 
+}
+
+pre.viewCode
+{
+    width: 100%;
+    overflow: auto;
+}
+
+li:hover table, li.over table
+{
+    background-color: #C0C0C0;
+}
+
+li:hover ul, li.over ul
+{ 
+    background-color: #d2d2d2;
+    border: 1px solid #000;
+    display: block;
+}
+
+</style>
+  </head>
+  <body>
+    <!--Topic built:8/21/2006-->
+
+    <div id="header">
+      <table width="100%" id="topTable">
+        <tr>
+          <td align="left">
+            <span id="nsrTitle">Microsoft SQL Server 2005 Compact Edition Readme</span>
+          </td>
+          <td align="right">
+            <span id="headfb" class="feedbackhead">
+            </span>
+          </td>
+        </tr>
+        <tr id="headerTableRow3">
+          <td />
+          <td align="right">
+          </td>
+        </tr>
+      </table>
+      </div>
+    <div id="mainSection">
+      <div id="mainBody">
+
+        <font color="DarkGray"> </font><p /> 
+        <span id="changeHistory">
+        </span>
+    <p>The most up-to-date version of this file is available online at the <a href="http://go.microsoft.com/fwlink/?LinkId=66520" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Microsoft Download Center</linkText></a>.</p>
+    <h3 class="subHeading"></h3><table width="100%" cellspacing="0" cellpadding="0" border="1" style="background-color: #CCCCCC;"><tr>
+        <td>
+          <p>The SQL Server documentation team cannot answer technical support questions, but welcomes your suggestions and comments about this readme documentation. You can quickly and directly send e-mail feedback by using the link provided. Please send your feedback in English.</p>
+          <p>To submit written feedback about this document, click here: <a href="mailto:sqldocfb@microsoft.com?subject=SQL%20Server%20Compact%20readme%20file(\1:SQL\2:09.01.0000.00\3:SQLEv_CTP\4:readme_mobile\5:ReadmeSQLEW2005.htm\6:\7:h\8:en-us\9:2006)&amp;body=---Please%20type%20comments%20here,%20leaving%20the%20subject%20line%20in%20place.---" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Submit Feedback</linkText></a>.</p>
+        </td>
+      </tr></table>
+  <a name="_contents_ar5q"></a><h1 class="heading">Contents</h1><div id="sectionSection0" class="section"><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <p xmlns=""><a href="#_1460_introduction_d3jb">1.0 Introduction</a></p>
+      <p xmlns="">    <a href="#_1461_obtaining_sql_mobile_beta_1_238p">1.1 Obtaining SQL Server Compact Edition</a></p>
+      <p xmlns="">    <a href="#_1462_additional_information_about_sql_mo_ar5q">1.2 SQL Server Compact Edition Books Online</a></p>
+      <p xmlns=""><a href="#_supported_platforms_2y0t">2.0 Supported Platforms</a></p>
+      <p xmlns=""><a href="#_sql_mobile_desktop_development_support_i_0a8g">3.0 Documentation Notes</a></p>
+      <p xmlns="">    <a href="#ssevdepsupport">3.1 SQL Server Compact Edition Deployment Support</a></p>
+      <p xmlns=""><a href="#_4460_documentation_notes_2y0t">4.0 Additional Information</a></p>
+      <p xmlns="">    <a href="#_3461_getting_sql_server_2005_assistance_d3jb">4.1 Getting SQL Server Compact Edition Assistance</a></p>
+      <p xmlns="">    <a href="#_3462_providing_feedback_on_sql_server_20_wluf">4.2 Providing Feedback on SQL Server Compact Edition</a></p>
+      <p xmlns=""><a href="#_contents_ar5q">[Top]</a></p>
+    </content></div><a name="_1460_introduction_d3jb"></a><h1 class="heading">1.0 Introduction</h1><div id="sectionSection1" class="section"><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <p xmlns="">Microsoft® SQL Server™ 2005 Compact Edition (SQL Server Compact Edition) is the next version of Microsoft SQL Server 2005 Mobile Edition (SQL Server Mobile) and will replace it later this year. SQL Server Compact Edition contains runtime binary files for desktop only and can be run on Tablet PCs and desktop computers. The binary files that provide device support are not included in this release. The following are important considerations when you install SQL Server Compact Edition on a desktop computer or Tablet PC:</p>
+      <ul xmlns=""><li>
+          Unless you are using the OLEDB data provider, the Microsoft .NET Framework 2.0 or a later version is required to install SQL Server Compact Edition. You can download the .NET Framework 2.0 from <a href="http://go.microsoft.com/fwlink/?LinkId=67329" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">.NET Framework 2.0 Download Center</linkText></a>.<br></br>
+        </li><li>
+          You do not need Visual Studio 2005 or SQL Server 2005 installed before you install SQL Server Compact Edition. <br></br>
+        </li><li>
+          To replicate data between SQL Server and SQL Server Compact Edition, you require SQL Server 2005 or SQL Server 2000 SP3a replication components. For more information about SQL Server Replication components requirements, see the "Hardware and Software Requirements" topic in SQL Server Compact Edition Books Online. <br></br>
+        </li><li>
+          To develop applications, you can use OLEDB or ADO.NET. For richer support, you can install Visual Studio 2005.<br></br>
+        </li></ul>
+      <p xmlns=""><a href="#_contents_ar5q">[Top]</a></p>
+    </content><sections xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <a name="_1461_obtaining_sql_mobile_beta_1_238p" xmlns=""></a><h3 class="subHeading" xmlns="">1.1 Obtaining SQL Server Compact Edition</h3><div class="subSection" xmlns=""><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <p xmlns="">You can download the SQL Server Compact Edition (SQLServerCE31-EN.msi) at the <a href="http://go.microsoft.com/fwlink/?LinkId=66521" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Microsoft Download Center</linkText></a>. The Books Online provides detailed information about the development, administration and deployment of SQL Server Compact Edition on desktop computers, mobile devices and tablet PCs.</p>
+          <p xmlns=""><a href="#_contents_ar5q"> [Top]</a></p>
+        </content></div>
+      <a name="_1462_additional_information_about_sql_mo_ar5q" xmlns=""></a><h3 class="subHeading" xmlns="">1.2 SQL Server Compact Edition Books Online</h3><div class="subSection" xmlns=""><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <p xmlns="">SQL Server Compact Edition Books Online is available for download at the <a href="http://go.microsoft.com/fwlink/?LinkId=66522" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">Microsoft Download Center</linkText></a>. The Books Online provides detailed information about the development, administration and deployment of SQL Server Compact Edition on desktop computers, mobile devices and tablet PCs.</p>
+          <p xmlns=""><a href="#_contents_ar5q"> [Top]</a></p>
+        </content></div>
+    </sections></div><a name="_supported_platforms_2y0t"></a><h1 class="heading">2.0 Supported Platforms</h1><div id="sectionSection2" class="section"><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <p xmlns="">This release of SQL Server Compact Edition supports:</p>
+      <ul xmlns=""><li>
+          Microsoft Windows XP Professional SP2 <br></br>
+        </li><li>
+          Microsoft Windows XP Home Edition SP2 <br></br>
+        </li><li>
+          Microsoft Windows XP Media Center Edition 2002 SP2 <br></br>
+        </li><li>
+          Microsoft Windows XP Media Center Edition 2004 SP2 <br></br>
+        </li><li>
+          Microsoft Windows XP Media Center Edition 2005 <br></br>
+        </li><li>
+          Microsoft Windows XP Tablet PC Edition SP2 <br></br>
+        </li><li>
+          Microsoft Windows Server 2003, Standard Edition SP1 <br></br>
+        </li><li>
+          Microsoft Windows Server 2003, Enterprise Edition SP1 <br></br>
+        </li><li>
+          Microsoft Windows Server 2003, Datacenter Edition SP1 <br></br>
+        </li><li>
+          Microsoft Windows Server 2003 R2, Standard Edition <br></br>
+        </li><li>
+          Microsoft Windows Server 2003 R2, Enterprise Edition <br></br>
+        </li><li>
+          Microsoft Windows Server 2003 R2, Datacenter Edition<br></br>
+        </li><li>
+          Microsoft Windows Server 2000 Professional SP4<br></br>
+        </li><li>
+          Microsoft Windows Server 2000 Server SP4<br></br>
+        </li></ul>
+      <p xmlns=""><a href="#_contents_ar5q"> [Top]</a></p>
+    </content></div><a name="_sql_mobile_desktop_development_support_i_0a8g"></a><h1 class="heading">3.0 Documentation Notes</h1><div id="sectionSection3" class="section"><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+    </content><sections xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <a name="ssevdepsupport" xmlns=""></a><h3 class="subHeading" xmlns="">3.1 SQL Server Compact Edition Deployment Support</h3><div class="subSection" xmlns=""><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <p xmlns="">You can deploy a SQL Server Compact Edition application to a desktop by using ClickOnce support in Visual Studio 2005. <b>DataDirectory</b> substitution string also simplifies deploying an application. For more information about ClickOnce and <b>DataDirectory</b>, see the <b>Installing a Development Environment</b> and <b>Installing SQL Server Compact Edition on a Desktop and a Tablet PC</b> topics in <a href="http://go.microsoft.com/fwlink/?LinkId=66522" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">SQL Server Compact Edition Books Online</linkText></a> and Microsoft Knowledge Base article <a href="http://support.microsoft.com/kb/920700" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">920700</linkText></a>.</p>
+          <p xmlns=""><a href="#_contents_ar5q">[Top]</a></p>
+        </content></div>
+    </sections></div><a name="_4460_documentation_notes_2y0t"></a><h1 class="heading">4.0 Additional Information</h1><div id="sectionSection4" class="section"><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <p xmlns="">This section describes how to get assistance with and provide feedback about SQL Server Compact Edition. </p>
+    </content><sections xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+      <a name="_3461_getting_sql_server_2005_assistance_d3jb" xmlns=""></a><h3 class="subHeading" xmlns="">4.1 Getting SQL Server Compact Edition Assistance</h3><div class="subSection" xmlns=""><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <p xmlns="">For more information, see the <a href="http://go.microsoft.com/fwlink/?LinkId=66523" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">SQL Server Compact Edition Forum</linkText></a> <a href="http://go.microsoft.com/fwlink/?LinkId=66523" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"></linkText></a>and <a href="http://go.microsoft.com/fwlink/?LinkId=67575" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">SQL Server Compact Edition Team Blog</linkText></a> Web sites. </p>
+          <p xmlns=""><a href="#_contents_ar5q">[Top]</a></p>
+        </content></div>
+      <a name="_3462_providing_feedback_on_sql_server_20_wluf" xmlns=""></a><h3 class="subHeading" xmlns="">4.2 Providing Feedback about SQL Server Compact Edition</h3><div class="subSection" xmlns=""><content xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">
+          <p xmlns="">To provide suggestions and bug reports about SQL Server Compact Edition:</p>
+          <ul xmlns=""><li>
+              Make suggestions and file bug reports about the features and user interface of SQL Server Compact Edition at the <a href="http://go.microsoft.com/fwlink/?LinkId=51684" alt=""><linkText xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5">MSDN product feedback Web site</linkText></a>.<br></br>
+            </li><li>
+              Send suggestions and report inaccuracies about the documentation by using the feedback functionality in SQL Server Compact Edition Books Online.<br></br>
+            </li></ul>
+          <p xmlns=""><a href="#_contents_ar5q">[Top]</a></p>
+        </content></div>
+    </sections></div><!--[if gte IE 5]>
+			<tool:tip element="seeAlsoToolTip" avoidmouse="false"/><tool:tip element="languageFilterToolTip" avoidmouse="false"/><tool:tip element="roleInfoSpan" avoidmouse="false"/>
+		<![endif]--></div>
+      <div id="footer">
+        
+			
+			© 2006 Microsoft Corporation. All rights reserved.
+		</a>
+ 	
+      </div>
+    </div>
+  </body>
+</html>

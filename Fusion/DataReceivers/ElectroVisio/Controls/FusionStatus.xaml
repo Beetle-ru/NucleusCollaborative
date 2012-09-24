@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="ElectroVisio.Controls.FusionStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" mc:Ignorable="d" d:DesignWidth="224" d:DesignHeight="432">
+    <StackPanel Orientation="Vertical" >
+        <Grid  >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tHeader" Text="Плавка" TextAlignment="Left" Background="#FF6F6F6F" Foreground="White" FontSize="14" Padding="5,3,0,0" />
+            <TextBlock Grid.Column="1" Name="tHeader1" Text="100500" TextAlignment="Left" Background="#FF6F6F6F" Foreground="White" FontSize="14" FontWeight="Bold"  Padding="5,3,0,3" />
+            
+        </Grid>
+        
+        <Grid >
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tName1"  Text="Нач. плавки" Padding="5,2,0,3" FontSize="12" TextAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1" Name="tValue1" Text="13.07.2012 16:30:33" FontWeight="Bold"   Padding="5,2,0,3" Background="#FFEEFFFF"></TextBlock>
+        </Grid>
+
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tName2"  Text="Пред. плавка"   Padding="5,2,0,3" FontSize="12" FontWeight="Normal" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1" Name="tValue2" FontWeight="Bold" Text="13.07.2012 13:01:13" Background="#FFCCFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+
+        <Grid Background="White">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tName3"  Text="Марка стали"   Padding="5,2,0,3" FontSize="12" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1"  FontWeight="Bold"  Name="tValue3" Text="У2128506" Background="#FFEEFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tName31"  Text="Опер. карта"   Padding="5,2,0,3" FontSize="12" FontWeight="Normal" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1"  Name="tValue31" FontWeight="Bold" Text="АЯ-777" Background="#FFCCFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+
+        <Grid Background="White">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tName32"  Text="Бригада" Padding="5,2,0,3" FontSize="12" FontWeight="Normal" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1"  Name="tValue32" FontWeight="Bold" Text="10" Background="#FFEEFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+
+        <Grid Background="#fafafa">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="tName33"  Text="№ по своду"   Padding="5,2,0,3" FontSize="12" FontWeight="Normal" ></TextBlock>
+            <TextBlock Grid.Column="1"  Name="tValue33" FontWeight="Bold" Text="32767" Background="#FFCCFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+
+        <Grid Background="White">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="35*"></ColumnDefinition>
+                <ColumnDefinition Width="50*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Name="tName34"  Text="№ по стенам"  Padding="5,2,0,3" FontSize="12" FontWeight="Normal" HorizontalAlignment="Left"></TextBlock>
+            <TextBlock Grid.Column="1"  Name="tValue34" FontWeight="Bold" Text="65535" Background="#FFEEFFFF"  Padding="5,2,0,3"></TextBlock>
+        </Grid>
+    </StackPanel>
+</UserControl>

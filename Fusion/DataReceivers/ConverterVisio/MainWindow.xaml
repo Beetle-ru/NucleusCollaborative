@@ -1,0 +1,334 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="ConverterVisio.MainWindow"
+        Title="Плавка" Height="1024" Width="1280" Icon="/ConverterVisio;component/Images/logo_spec3.jpg" ResizeMode="CanResize" SizeToContent="Manual" WindowStartupLocation="CenterScreen" WindowState="Normal" WindowStyle="ThreeDBorderWindow" MinWidth="1280" MinHeight="800" Loaded="Window_Loaded" x:Name="HeatWindow" UseLayoutRounding="True">
+    <Canvas>
+        <WrapPanel Orientation="Vertical">
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Width="Auto" Height="501">
+                <DockPanel DockPanel.Dock="Top" Height="56">
+                    <Image DockPanel.Dock="Left" Canvas.Left="0" Canvas.Top="0" Height="40" x:Name="imageLogo" Stretch="Fill" Width="42" Source="/ConverterVisio;component/Images/logo_spec3.jpg" Margin="5" />
+                    <TextBox DockPanel.Dock="Left" Canvas.Left="134" Canvas.Top="0" Height="56" x:Name="tbMessages" Width="572" BorderThickness="0" Text="Тут будут сообщения системы" />
+                    <Grid DockPanel.Dock="Left" Canvas.Left="654" Canvas.Top="0" Margin="5" Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="69*" />
+                            <ColumnDefinition Width="51*" />
+                            <ColumnDefinition Width="59*" />
+                            <ColumnDefinition Width="36*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Label x:Name="lbHeatNumberName" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Content="№ плавки"/>
+                        <Label x:Name="lbHeatNumberValue" Grid.Column="1" Content="34234553" Padding="2" FontSize="16" FontWeight="Normal" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbHeatTimeStartName" Grid.Row="1" Grid.Column="0" Content="Начало" FontWeight="Bold" />
+                        <Label x:Name="lbHeatTimeStartValue" Grid.Row="1" Grid.Column="1" Content="15:40:33" Padding="2" FontSize="16" FontWeight="Normal" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbDefinedTemperatureName" Grid.Column="2" Content="Тзадан" FontWeight="Bold" />
+                        <Label x:Name="lbDefinedTemperatureValue" Grid.Row="0" Grid.Column="3" Content="1600" FontSize="16" Padding="2" />
+                        <Label x:Name="lbDefinedСName" Grid.Row="1" Grid.Column="2" Content="Сзадан" FontWeight="Bold" />
+                        <Label x:Name="lbDefinedСValue" Grid.Row="1" Grid.Column="3" Content="0.4" FontSize="16" Padding="2" />
+                    </Grid>
+                    <Canvas Width="62" DockPanel.Dock="Left" x:Name="canvasBrigade" Height="85">
+                        <Image Source="/ConverterVisio;component/Images/2360588-firemans.jpg" Height="55" Width="67" Canvas.Top="1" Canvas.Left="-1" />
+                        <Label FontSize="24" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="21" Canvas.Top="22" FontWeight="Bold" Content="5"/>
+                    </Canvas>
+                    <Canvas Width="52" DockPanel.Dock="Left" x:Name="canvasConverter" VerticalAlignment="Stretch" HorizontalAlignment="Center" Height="63">
+                        <Image Source="/ConverterVisio;component/Images/converter.png" Height="53" Width="49" VerticalAlignment="Center" Canvas.Top="2" />
+                        <Label FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Canvas.Left="11" Canvas.Top="5" FontWeight="Bold" Content="{Binding Path=Number}" Height="54" Width="38" Name="lbConverterNumber"/>
+                    </Canvas>
+                    <DockPanel DockPanel.Dock="Right" VerticalAlignment="Center" Width="142" Margin="5">
+                        <Label DockPanel.Dock="Top" x:Name="lbDate" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Content="23.12.2011"/>
+                        <Label DockPanel.Dock="Bottom" x:Name="lbTime" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Content="15:48:34" Height="30" Width="84" />
+                    </DockPanel>
+                </DockPanel>
+                <WrapPanel>
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="26" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Label x:Name="lbScrap1" Grid.Column="0" Grid.Row="0" FontWeight="Bold" FontSize="14" HorizontalAlignment="Right" Content="Виды" Padding="2" />
+                        <Label x:Name="lbScrap2" Grid.Column="1" Grid.Row="0" FontWeight="Bold" FontSize="14" Content="скрапа" Padding="2" />
+                        <Label x:Name="lbSortHeader" Grid.Column="0" Grid.Row="1" FontWeight="SemiBold" HorizontalAlignment="Center" Content="Сорт" Padding="2" FontSize="14" />
+                        <Label x:Name="lbWeightHeader" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Content="Вес" FontWeight="SemiBold" Padding="2" FontSize="14" />
+                        <Label x:Name="lbSort1" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Content="42" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight1" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Content="234" Padding="2" FontSize="16" Height="24" Margin="10,0" VerticalAlignment="Top" />
+                        <Label x:Name="lbSort2" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Content="25" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight2" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Content="63" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort3" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" Content="55" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight3" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" Content="35" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort4" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" Content="64" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight4" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" Content="36" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort5" Grid.Column="0" Grid.Row="6" HorizontalAlignment="Center" Content="34" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight5" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" Content="346" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort6" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" Content="57" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight6" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" Content="331" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort7" Grid.Column="0" Grid.Row="8" HorizontalAlignment="Center" Content="63" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight7" Grid.Column="1" Grid.Row="8" HorizontalAlignment="Center" Content="563" Padding="2" FontSize="16" />
+                        <Label x:Name="lbSort8" Grid.Column="0" Grid.Row="9" HorizontalAlignment="Center" Content="Всего" FontWeight="SemiBold" Padding="2" FontSize="16" />
+                        <Label x:Name="lbWeight8" Grid.Column="1" Grid.Row="9" HorizontalAlignment="Center" Content="4134" Padding="2" FontSize="16" />
+                    </Grid>
+                </WrapPanel>
+                <WrapPanel Orientation="Vertical">
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Width="146">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90*" />
+                            <ColumnDefinition Width="56*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="27" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Label x:Name="lbChugun1" FontWeight="Bold" HorizontalAlignment="Right" Margin="14,0,0,0" FontSize="14" Content="Анализ" Width="59" HorizontalContentAlignment="Right" Padding="2" />
+                        <Label x:Name="lbChugun2" Grid.Column="1" Grid.Row="0" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Stretch" FontSize="14" Content="чугуна" Padding="2" />
+                        <Label x:Name="lbCName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="C" Padding="2" FontSize="16" FontWeight="Normal" />
+                        <Label x:Name="lbCValue" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Content="0.000" Padding="2" FontSize="16" Height="24" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" DataContext="{Binding}" />
+                        <Label x:Name="lbSiName" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Si" Padding="2" FontSize="16" FontWeight="Normal" Height="24" Margin="37,0" />
+                        <Label x:Name="lbSiValue" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbMnName" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Mn" Padding="2" FontSize="16" FontWeight="Normal" />
+                        <Label x:Name="lbMnValue" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbSName" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="S" Padding="2" FontSize="16" FontWeight="Normal" />
+                        <Label x:Name="lbSValue" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbPName" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="P" Padding="2" FontSize="16" FontWeight="Normal" />
+                        <Label x:Name="lbPValue" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Width="56" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbTotalWeightName" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Вес" FontWeight="Bold" Height="24" Margin="8,0" />
+                        <Label x:Name="lbTotalWeightValue" Grid.Column="1" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Center" Content="300" FontSize="16" Padding="2" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" />
+                        <Label x:Name="lbTemperatureName" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="2" Content="Температура" FontWeight="Bold" />
+                        <Label x:Name="lbTemperatureValue" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" Padding="2" Content="1300" FontSize="16" Margin="0,0,1,0" Width="55" HorizontalContentAlignment="Center" />
+                    </Grid>
+                    <Rectangle Height="88" Name="rO2" Panel.ZIndex="55" Stroke="#FF10FFEC" Width="9" HorizontalAlignment="Center" OpacityMask="#FF10FFEC" Fill="#FF10FFEC" Stretch="Fill" />
+                    <Border BorderBrush="Black" BorderThickness="1">
+                        <Grid Name="O2Grid" Width="144" VerticalAlignment="Top" Panel.ZIndex="56">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="50*" />
+                                <ColumnDefinition Width="50*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="24" />
+                                <RowDefinition Height="24" />
+                            </Grid.RowDefinitions>
+                            <Label Content="P" HorizontalAlignment="Left" HorizontalContentAlignment="Center"  Name="label2" Width="19" />
+                            <Label Content="" Grid.Column="1" Height="24" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="lH2OP" VerticalAlignment="Center" Margin="0,-1.5,0,22.5" Grid.RowSpan="2" Width="61" Grid.ColumnSpan="2" />
+                            <Label Content="кгс/см2"  Grid.Column="3" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="lH2OPComment" />
+                            <Label Content="Q" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" HorizontalContentAlignment="Center"  Name="label5" VerticalAlignment="Stretch" />
+                            <Label Content="" Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center" Name="lH2OQ" VerticalAlignment="Center" Margin="0,0,1,0" />
+                            <Label Content="м3/мин"  Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="lH2OQComment" />
+                        </Grid>
+                    </Border>
+                </WrapPanel>
+                <WindowsFormsHost VerticalAlignment="Top" x:Name="wfhZedGraph" Width="751" Margin="5" Height="415" FontWeight="SemiBold" HorizontalAlignment="Left" />
+                <Grid Width="183" Height="198" VerticalAlignment="Top" Margin="10" HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*" MinWidth="50" />
+                        <ColumnDefinition Width="50*" MinWidth="50" />
+                        <ColumnDefinition Width="25" />
+                        <ColumnDefinition Width="25" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+                    <Label Content="Фурма" Name="lLanceName" FontSize="14" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="14,0,0,0" Padding="2" Width="59" FontWeight="Normal" />
+                    <Label Content="" Name="lLanceValue" FontSize="14" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Padding="2" VerticalAlignment="Stretch" />
+                    <Rectangle Grid.Column="2" Grid.Row="0" Stroke="White" Fill="Lime" Name="rLanceColor" MouseLeftButtonUp="rLanceColor_MouseLeftButtonUp" IsManipulationEnabled="True"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="0" Name="cbShowLanceCurve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowLanceCurve_Checked"></CheckBox>
+                    <Label Content="Кислород" FontSize="14" FontWeight="Normal" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Name="lOFlowName" Padding="2" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="1" Height="24" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lOFlowValue" Padding="2" VerticalAlignment="Top" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="1" Stroke="White" Fill="Magenta" Name="rO2FlowColor" Height="24" VerticalAlignment="Bottom"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="1" Name="cbShowO2FlowCurve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowO2FlowCurve_Checked"></CheckBox>
+                    <Label Content="CO" FontSize="14" FontWeight="Normal" Grid.Column="0" Grid.Row="2" Height="24" HorizontalAlignment="Right" Margin="0" Name="lCOName" Padding="2" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lCOValue" Padding="2" VerticalAlignment="Stretch" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="2" Stroke="White" Fill="Red" Name="rCOColor" IsManipulationEnabled="True" OverridesDefaultStyle="True"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="2" Name="cbShowCOCurve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowCOCurve_Checked"></CheckBox>
+                    <Label Content="CO2" FontSize="14" FontWeight="Normal" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" Name="lCO2Name" Padding="2" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lCO2Value" Padding="2" VerticalAlignment="Stretch" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="3" Stroke="White" Fill="Orange" Name="rCO2Color"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="3" Name="cbShowCO2Curve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowCO2Curve_Checked"></CheckBox>
+                    <Label Content="N2" FontSize="14" FontWeight="Normal" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" Name="lN2Name" Padding="2" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lN2Value" Padding="2" VerticalAlignment="Stretch" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="4" Stroke="White" Fill="Black" Name="rN2Color"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="4" Name="cbShowN2Curve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowN2Curve_Checked"></CheckBox>
+                    <Label Content="H2" FontSize="14" FontWeight="Normal" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" Name="lH2Name" Padding="2" VerticalAlignment="Stretch" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Name="lH2Value" Padding="2" VerticalAlignment="Stretch" Width="56" />
+                    <Rectangle Grid.Column="2" Grid.Row="5" Stroke="White" Fill="Green" Name="rH2Color"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="5" Name="cbShowH2Curve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowH2Curve_Checked"></CheckBox>
+                    <Label Content="O2" FontWeight="Normal" Grid.Row="6" Height="24" HorizontalAlignment="Right" Name="lO2Name" VerticalAlignment="Top" FontSize="14" HorizontalContentAlignment="Right" Padding="2" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lO2Value" Padding="2" VerticalAlignment="Stretch" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="6" Stroke="White" Fill="Blue" Name="rO2Color"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="6" Name="cbShowO2Curve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowO2Curve_Checked"></CheckBox>
+                    <Label Content="Ar" FontWeight="Normal" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" Name="lArName" Padding="2" VerticalAlignment="Top" FontSize="14" HorizontalContentAlignment="Right" />
+                    <Label Content="" FontSize="16" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,1,0" Name="lArValue" Padding="2" VerticalAlignment="Stretch" Width="55" />
+                    <Rectangle Grid.Column="2" Grid.Row="7" Stroke="White" Fill="Turquoise" Name="rArColor"></Rectangle>
+                    <CheckBox Grid.Column="3" Grid.Row="7" Name="cbShowArCurve" IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Click="cbShowArCurve_Checked"></CheckBox>
+                </Grid>
+            </DockPanel>
+            <DockPanel Height="243" VerticalAlignment="Bottom">
+                <Canvas Width="684" Height="273" DockPanel.Dock ="Left" HorizontalAlignment="Left">
+                    <Image Height="155" x:Name="ConverterImage" Source="converter.png" Stretch="Fill" Width="127" Canvas.Left="138" Canvas.Top="61" />
+                    <Image Visibility="Hidden" Height="24" x:Name="imageFe" Source="fe.png" Stretch="Fill" Width="32" Canvas.Left="138" Canvas.Top="137" />
+                    <Image Visibility="Hidden" Height="24" x:Name="imageFe1" Source="fe.png" Stretch="Fill" Width="32" Canvas.Left="140" Canvas.Top="137" />
+                    <Image Visibility="Hidden" Height="24" x:Name="imageFe2" Source="fe.png" Stretch="Fill" Width="32" Canvas.Left="140" Canvas.Top="137" />
+                    <Image Visibility="Hidden" Height="24" x:Name="imageFe3" Source="fe.png" Stretch="Fill" Width="32" Canvas.Left="138" Canvas.Top="137" />
+                    <Image Visibility="Hidden" Height="12" x:Name="slag" Source="шлак.png" Stretch="Fill" Width="35" Canvas.Left="265" Canvas.Top="130" />
+                    <Image Visibility="Hidden" Height="12" x:Name="slag1" Source="шлак.png" Stretch="Fill" Width="35" Canvas.Left="265" Canvas.Top="130" />
+                    <Image Visibility="Hidden" Height="12" x:Name="slag2" Source="шлак.png" Stretch="Fill" Width="35" Canvas.Left="265" Canvas.Top="130" />
+                    <Image Visibility="Hidden" Height="12" x:Name="slag3" Source="шлак.png" Stretch="Fill" Width="35" Canvas.Left="265" Canvas.Top="130" />
+                    <Grid Width="144" Canvas.Left="293" Canvas.Top="22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95*" />
+                            <ColumnDefinition Width="39*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="27" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Высота фурмы" FontWeight="Bold" Grid.ColumnSpan="2" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="1,0,0,0" Name="label1" Width="103" />
+                        <Label Content="1233" Grid.Column="1" Height="27" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="lbLanceHeight" VerticalAlignment="Center" Width="42" />
+                        <Label Content="O2" FontWeight="Bold" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="1,25,39,2" Name="label3" VerticalAlignment="Stretch" Width="104" />
+                        <Label Content="2344" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="2,0,0,0" Name="lbO2Flow" VerticalAlignment="Center" Width="40" />
+                    </Grid>
+                    <Rectangle x:Name="Lance" Height="133" Stroke="Black" Width="8" StrokeThickness="4" Panel.ZIndex="55555" Canvas.Left="194" Canvas.Top="-94" />
+                    <Label Canvas.Left="229" Canvas.Top="215" Content="" Height="28" Name="lConverterAngle" Width="43" HorizontalAlignment="Left" />
+                    <Label Canvas.Left="134" Canvas.Top="215" Content="Угол наклона" Height="28" Name="llll" Width="96" FontWeight="Bold" />
+                </Canvas>
+                <Grid Margin="10" DockPanel.Dock="Right" VerticalAlignment="Top" Width="168">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="94*" />
+                        <ColumnDefinition Width="74*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lbChemAn1" HorizontalAlignment="Center" Content="Хим.анализ" FontSize="13" FontWeight="Bold" Width="84" Margin="10,1,0,23" Grid.RowSpan="2" />
+                    <Label x:Name="lbChemAn12" HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="стали" FontSize="13" FontWeight="Bold" Margin="5,1,0,23" Grid.Column="1" Grid.RowSpan="2" />
+                    <Label x:Name="lbChemAnCName" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="C" Padding="2" FontSize="16" Margin="35,0,45,0" />
+                    <Label x:Name="lbChemAnCValue" Grid.Column="1" Grid.Row="1" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnSiName" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Si" Padding="2" FontSize="16" Margin="34,0,44,0" />
+                    <Label x:Name="lbChemAnSiValue" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnMnName" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Mn" Padding="2" FontSize="16" Margin="28,0,38,0" />
+                    <Label x:Name="lbChemAnMnValue" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnPName" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="P" Padding="2" FontSize="16" Margin="36,0,46,0" />
+                    <Label x:Name="lbChemAnPValue" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnSName" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="S" Padding="2" FontSize="16" Margin="36,0,46,0" />
+                    <Label x:Name="lbChemAnSValue" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnN2Name" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="N2" Padding="2" FontSize="16" Margin="30,0,40,0" />
+                    <Label x:Name="lbChemAnN2alue" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                    <Label x:Name="lbChemAnSnName" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Sn" Padding="2" FontSize="16" Margin="31,0,41,0" />
+                    <Label x:Name="lbChemAnSnValue" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="11,0,21,0" />
+                </Grid>
+                <Grid VerticalAlignment="Top" Margin="10" DockPanel.Dock="Right" Width="171" Height="197">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="98*" />
+                        <ColumnDefinition Width="73*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lbSlagAn1" HorizontalAlignment="Right" Content="Хим.анализ" Width="88" FontWeight="Bold" FontSize="13" Margin="0,2,0,22" Grid.RowSpan="2" />
+                    <Label x:Name="lbSlagAn12" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="шлака" FontWeight="Bold" FontSize="13" Margin="0,2,0,22" Grid.RowSpan="2" />
+                    <Label x:Name="lbSlagAnCaOName" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="CaO" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnCaOValue" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Content="0.000" Height="24" Margin="0,0,6,0" Padding="2" FontSize="16" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnSiO2Name" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="SiO2" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnSiO2Value" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnFeOName" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="FeO" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnFeOValue" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnMnOName" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="MnO" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnMnOValue" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnMgOName" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="MgO" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnMgOValue" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnSName" Grid.Row="6" Content="S" Padding="2" FontSize="16" Margin="42,0,43,0" />
+                    <Label x:Name="lbSlagAnSalue" Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbSlagAnAl2O3Name" Grid.Column="0" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Al2O3" Padding="2" FontSize="16" />
+                    <Label x:Name="lbSlagAnAl2O3Value" Grid.Column="1" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.000" Padding="2" FontSize="16" Margin="0,0,6,0" Width="67" HorizontalContentAlignment="Center" />
+                </Grid>
+                <Grid Margin="10" DockPanel.Dock="Right" VerticalAlignment="Top" Width="162">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="101*" />
+                        <ColumnDefinition Width="61*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="24" />
+                        <RowDefinition Height="24" />
+                    </Grid.RowDefinitions>
+                    <Label x:Name="lbProbe1" Content="Данные" FontSize="13" FontWeight="Bold" Margin="21,0,0,0" />
+                    <Label x:Name="lbProbe2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Stretch" Content="зонда" FontSize="13" FontWeight="Bold" />
+                    <Label x:Name="lbProbeTemperatureName" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Content="Температура" Padding="2" Height="24" Margin="2,0" FontSize="14" />
+                    <Label x:Name="lbProbeTemperatureValue" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Content="1600" Height="24" Margin="0,0,6,0" Padding="2" FontSize="16" Width="75" HorizontalContentAlignment="Center" />
+                    <Label x:Name="lbProbeСName" Grid.Row="2" Content="Углерод" Padding="2" Margin="15,0" FontSize="14" />
+                    <Label x:Name="lbProbeСValue" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="0.43" Padding="2" FontSize="16" Margin="0,0,6,0" Width="75" HorizontalContentAlignment="Center" />
+                </Grid>
+            </DockPanel>
+        </WrapPanel>
+        <Grid Width="144" Canvas.Left="-1" Canvas.Top="503">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95*" />
+                <ColumnDefinition Width="39*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+            <Label x:Name="lbFurmaLengthName" HorizontalAlignment="Left" Margin="1,0,0,0" Content="Длина фурмы" FontWeight="Bold" Width="103" Grid.ColumnSpan="2" HorizontalContentAlignment="Center" />
+            <Label x:Name="lbFurmaLengthValue" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="1233" Width="42" Height="27" HorizontalContentAlignment="Center" />
+            <Label x:Name="lbBathWidthName" HorizontalAlignment="Center" VerticalAlignment="Stretch" Content="Глубина ванны" FontWeight="Bold" Width="104" Grid.ColumnSpan="2" Margin="1,25,39,2" Grid.RowSpan="2" HorizontalContentAlignment="Center" />
+            <Label x:Name="lbBathWidthValue" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Content="2344" Width="40" Grid.Column="1" Margin="2,0,0,0" HorizontalContentAlignment="Center" />
+        </Grid>
+        <Grid Width="144" Canvas.Left="-4" Canvas.Top="580">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="95*" />
+                <ColumnDefinition Width="39*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="27" />
+                <RowDefinition Height="24" />
+            </Grid.RowDefinitions>
+            <Label Content="Факт" FontWeight="Bold" Grid.ColumnSpan="2" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="1,0,0,0" Name="label4" Width="103" />
+            <Label Content="" Grid.Column="1" Height="27" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Name="lLancePositionFact" VerticalAlignment="Center" Width="42" />
+            <Label Content="Задан" FontWeight="Bold" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="1,25,39,2" Name="label7" VerticalAlignment="Stretch" Width="104" />
+            <Label Content="" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="2,0,0,0" Name="lLancePositionCalc" VerticalAlignment="Center" Width="40" />
+        </Grid>
+    </Canvas>
+</Window>

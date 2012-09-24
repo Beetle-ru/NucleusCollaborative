@@ -1,0 +1,1022 @@
+﻿<Page x:Class="ConverterUI.MainPage2"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      
+      ShowsNavigationUI="False"
+      mc:Ignorable="d" Title="MainPage" Width="1280" Height="904" xmlns:my="clr-namespace:ConverterUI">
+    <Page.Resources>
+        <my:MainPageLancePositionConverter x:Key="MainPageLancePositionConverter" >
+        </my:MainPageLancePositionConverter>
+    </Page.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Height="504" MinHeight="504">
+            <my:TrendsControl x:Name="trendsControl1" Width="1280" Loaded="trendsControl1_Loaded" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Height="400">
+            <Canvas Height="400" Width="391">
+                <Image Canvas.Left="126" Canvas.Top="129" Height="169" Name="image2" Stretch="Fill" Width="144" Source="/ConverterUI;component/Images/converter.png" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform Angle="{Binding Path=ConverterAngle}" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Canvas.Left="196" Canvas.Top="2" Height="120" Name="image3" RenderTransformOrigin="0.5,0.5" Source="/ConverterUI;component/Images/lance.png" Stretch="Fill" Width="7">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform Y="{Binding Path=LanceRealHeight, Converter={StaticResource MainPageLancePositionConverter}}" />
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <FlowDocumentScrollViewer Canvas.Left="1" Canvas.Top="-16" Height="97" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="200">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="14" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>
+                                                <Run Text="Положение фурмы" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <Run Text="Факт" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0" TextAlignment="Center">
+                                            <Paragraph Name="pLanceFact">
+                                                <TextBlock Text="{Binding Path=LanceRealHeight}" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <Run Text="Задан" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <Paragraph Name="pLancePlan">
+                                                <Run Text="{Binding Path=LanceHeight}" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="198" Canvas.Top="-16" Height="97" IsToolBarVisible="False" OverridesDefaultStyle="False" 
+                                          SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="181">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="14" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>
+                                                <Run Text="Расход O2,м3/мин" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <Run Text="Факт" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0" TextAlignment="Center">
+                                            <Paragraph>
+                                                <Run Text="{Binding Path=ORealFlow, StringFormat=F0}" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <Run Text="Задан" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <Paragraph>
+                                                <Run Text="{Binding Path=OFlow, StringFormat=F0}" />
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="198" Canvas.Top="47" Height="58" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="181">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="14" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <Run Text="Клапан" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1" TextAlignment="Center">
+                                            <Paragraph>
+                                                <Run Text="{Binding Path=ValveValue}" /> %
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="67" Canvas.Top="289" Height="77" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="272">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="16" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <Run Text="Угол наклона" />
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1" TextAlignment="Center">
+                                            <Paragraph Name="pConverterAngle" >
+                                                <TextBlock Name="tbConverterAngle" Text="{Binding Path=ConverterAngle}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+            </Canvas>
+            <Canvas Height="400" Width="873">
+                <FlowDocumentScrollViewer VerticalScrollBarVisibility="Hidden"  IsToolBarVisible="False" UseLayoutRounding="True" SnapsToDevicePixels="True" Width="899" Height="110" Margin="-10,-15,0,0">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="9"/>
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocument ColumnWidth="99999999" FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                        <Table CellSpacing="0">
+                            <TableRowGroup>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1">
+                                        <Paragraph Background="#FFCCCCCC">РБ16</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ14</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ15</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph  Background="#FFCCCCCC">РБ13</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC" OverridesDefaultStyle="{Binding Path=Bunker12FeederVibrating}">РБ12</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ11</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ10</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ9.2</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ9.1</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ8.2</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ8.1</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ7</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ6</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ5</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ4</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ2</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ3а</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ3</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                        <Paragraph Background="#FFCCCCCC">РБ1</Paragraph>
+                                    </TableCell>
+
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1,0,1,1">
+                                        <Paragraph>ТШС</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>SMN17</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>SMN17</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph >MN</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker12MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker11MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker10MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker9_2MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker9_1MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker8_2MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker8_1MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker7MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker6MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>
+                                            <TextBlock Text="{Binding Path=Bunker5MaterialName}"></TextBlock>
+                                        </Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>FESI65</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>FESICR</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>FEMN78</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>FEMN78</Paragraph>
+                                    </TableCell>
+                                    <TableCell BorderBrush="Black" BorderThickness="0,0,1,1">
+                                        <Paragraph>ИЗВЕСТЬ</Paragraph>
+                                    </TableCell>
+
+                                </TableRow>
+
+                            </TableRowGroup>
+                        </Table>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+
+                <FlowDocumentScrollViewer IsToolBarVisible="False" UseLayoutRounding="True" SnapsToDevicePixels="True" Width="118" Height="129" Margin="-10,65,0,0" Canvas.Left="0" Canvas.Top="-18" VerticalScrollBarVisibility="Disabled" OverridesDefaultStyle="False">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="FontSize" Value="12"/>
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                        <Table CellSpacing="0">
+                            <TableRowGroup>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                        <Paragraph  FontSize="15" Background="#FFCCCCCC">В9</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                        <Paragraph>0</Paragraph>
+                                    </TableCell>
+
+                                    <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                        <Paragraph>0</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,0"   ColumnSpan="2">
+                                        <Paragraph FontSize="11">SMN17</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,0"  ColumnSpan="2">
+                                        <Paragraph>0</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                        <Paragraph>ТШС</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+
+                                    <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                        <Paragraph>0</Paragraph>
+                                    </TableCell>
+                                </TableRow>
+                            </TableRowGroup>
+                        </Table>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="87" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="116">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15" Background="#FFCCCCCC">В8</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">SMN17</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>MN</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph  FontSize="11">0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="181" Canvas.Top="47" Height="158" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="153">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph  FontSize="15" Background="#FFCCCCCC">В7</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale7Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>---</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2" >
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker12MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2" >
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale7Material1Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2" >
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker11MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2" >
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale7Material2Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2" >
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker10MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2" >
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale7Material3Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="307" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="120">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15" Background="#FFCCCCCC">В6</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale6Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>---</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker9_2MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale6Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="405" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="110">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph  FontSize="15" Background="#FFCCCCCC">В5</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale5Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>---</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker8_2MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale5Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="479" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="102">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15" Background="#FFCCCCCC">В4</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale4Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>---</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker7MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale4Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="544" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="118">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15" Background="#FFCCCCCC">В3</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale3Weight}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>---</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker6MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale3Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph  FontSize="11">
+                                                <TextBlock Text="{Binding Path=Bunker5MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Scale3Material2Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="632" Canvas.Top="47" Height="129" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="118">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15" Background="#FFCCCCCC">В2</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">FESI65</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph  FontSize="11">FESICR</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="727" Canvas.Top="47" Height="158" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="146">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15"  Background="#FFCCCCCC">В1</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">FEMN78</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">FEMN78</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="11">ИЗВЕСТЬ</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1" ColumnSpan="2">
+                                            <Paragraph>0</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="201" Canvas.Top="218" Height="140" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="206">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15"  Background="#FFCCCCCC">ПБ2</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker12MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker2Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker11MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker2Material2Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker10MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker2Material3Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker9_2MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker2Material4Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer Canvas.Left="405" Canvas.Top="218" Height="140" IsToolBarVisible="False" OverridesDefaultStyle="False" SnapsToDevicePixels="True" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" Width="206">
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="TableCell">
+                            <Setter Property="TableCell.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Block.TextAlignment" Value="Center" />
+                            <Setter Property="TextElement.FontSize" Value="12" />
+                        </Style>
+                    </FlowDocumentScrollViewer.Resources>
+                    <FlowDocumentScrollViewer.Document>
+                        <FlowDocument FontFamily="Segoe UI" FontWeight="Bold" IsColumnWidthFlexible="True">
+                            <Table CellSpacing="0">
+                                <TableRowGroup>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0" ColumnSpan="2">
+                                            <Paragraph FontSize="15"  Background="#FFCCCCCC">ПБ1</Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker8_2MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker1Material1Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker7MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker1Material2Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker6MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,0">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker1Material3Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell BorderBrush="Black" BorderThickness="1,1,1,1">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker5MaterialName}"></TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                        <TableCell BorderBrush="Black" BorderThickness="0,1,1,1">
+                                            <Paragraph>
+                                                <TextBlock Text="{Binding Path=Bunker1Material4Weight}">
+                                                </TextBlock>
+                                            </Paragraph>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableRowGroup>
+                            </Table>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer.Document>
+                </FlowDocumentScrollViewer>
+            </Canvas>
+        </StackPanel>
+    </DockPanel>
+</Page>

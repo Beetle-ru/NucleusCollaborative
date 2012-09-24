@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Converter</RootNamespace>
+    <AssemblyName>Converter</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>monitor32.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TrendsManager">
+      <HintPath>..\..\libs\TrendsManager\bin\Debug\TrendsManager.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="API\ConverterAPI.cs" />
+    <Compile Include="API\IConverterAPI.cs" />
+    <Compile Include="API\PreMergeToMergedDeserializationBinder.cs" />
+    <Compile Include="API\StoredScheme.cs" />
+    <Compile Include="API\VersionConfigToNamespaceAssemblyObjectBinder.cs" />
+    <Compile Include="Classes\Addition.cs" />
+    <Compile Include="Classes\BathLevel.cs" />
+    <Compile Include="Classes\Blowing.cs" />
+    <Compile Include="Classes\ConverterAngle.cs" />
+    <Compile Include="Classes\HotMetalAnalysys.cs" />
+    <Compile Include="Classes\HotMetalAttributes.cs" />
+    <Compile Include="Classes\HeatAttributes.cs" />
+    <Compile Include="Classes\Heat.cs" />
+    <Compile Include="Classes\HotMetal.cs" />
+    <Compile Include="Classes\Lance.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\OffGas.cs" />
+    <Compile Include="Classes\ScrapBucket.cs" />
+    <Compile Include="Classes\SlagAnalysys.cs" />
+    <Compile Include="Classes\SteelAnalysys.cs" />
+    <Compile Include="Classes\SteelAttributes.cs" />
+    <Compile Include="Classes\SteelMakingClasses\Addition.cs" />
+    <Compile Include="Classes\SteelMakingClasses\Additions.cs" />
+    <Compile Include="Classes\SteelMakingClasses\Lance.cs" />
+    <Compile Include="Classes\SteelMakingClasses\Step.cs" />
+    <Compile Include="Classes\SteelMakingClasses\WeigherLine.cs" />
+    <Compile Include="Classes\Sublance.cs" />
+    <Compile Include="ConverterEventsHandler.cs" />
+    <Compile Include="EventsHandler\AdditionsEventNewHandler.cs" />
+    <Compile Include="EventsHandler\BlowingInterruptEventHandler.cs" />
+    <Compile Include="EventsHandler\BoilerWaterCoolingEventHandler.cs" />
+    <Compile Include="EventsHandler\BoundNameMaterialsHandler.cs" />
+    <Compile Include="EventsHandler\CalculatedCarboneHandler.cs" />
+    <Compile Include="EventsHandler\Command\comAdditionsSchemaEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\comBlowingSchemaEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\comJobW3Handler.cs" />
+    <Compile Include="EventsHandler\Command\comJobW4Handler.cs" />
+    <Compile Include="EventsHandler\Command\comJobW5Handler.cs" />
+    <Compile Include="EventsHandler\Command\comJobW6Handler.cs" />
+    <Compile Include="EventsHandler\Command\comJobW7Handler.cs" />
+    <Compile Include="EventsHandler\Command\comName1MatHandler.cs" />
+    <Compile Include="EventsHandler\Command\comName2MatHandler.cs" />
+    <Compile Include="EventsHandler\Command\comO2FlowRateEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\comAdditionsEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenSimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenW3SimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenW4SimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenW5SimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenW6SimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comOxigenW7SimilatorHandler.cs" />
+    <Compile Include="EventsHandler\Command\comRealOrSimulOxygenSelectHandler.cs" />
+    <Compile Include="EventsHandler\Command\comSelectOxygenModeW3Handler.cs" />
+    <Compile Include="EventsHandler\Command\comSelectOxygenModeW4Handler.cs" />
+    <Compile Include="EventsHandler\Command\comSelectOxygenModeW5Handler.cs" />
+    <Compile Include="EventsHandler\Command\comSelectOxygenModeW6Handler.cs" />
+    <Compile Include="EventsHandler\Command\comSelectOxygenModeW7Handler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntAdditionsSchemaEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntAdditionsEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntBlowingSchemaEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntO2FlowRateEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWatchDogPLC01EventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWatchDogPLC1EventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWatchDogPLC2EventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWatchDogPLC3EventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWeigher3JobReadyEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWeigher4JobReadyEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWeigher5JobReadyEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWeigher6JobReadyEventHandler.cs" />
+    <Compile Include="EventsHandler\Command\Counters\cntWeigher7JobReadyEventHandler.cs" />
+    <Compile Include="EventsHandler\ConverterAngleEventHandler.cs" />
+    <Compile Include="EventsHandler\BlowingEventHandler.cs" />
+    <Compile Include="EventsHandler\AdditionsEventHandler.cs" />
+    <Compile Include="EventsHandler\FixDataMfactorModelHandler.cs" />
+    <Compile Include="EventsHandler\HeatCommand\HeatEventHandler.cs" />
+    <Compile Include="EventsHandler\ModeLanceEventHandler.cs" />
+    <Compile Include="EventsHandler\ModeVerticalPathHandler.cs" />
+    <Compile Include="EventsHandler\OPCDirectReadHandler.cs" />
+    <Compile Include="EventsHandler\SlagOutbursHandler.cs" />
+    <Compile Include="EventsHandler\SteelMakingCommands\ReleaseWeigherHandler.cs" />
+    <Compile Include="EventsHandler\SteelMakingCommands\SteelMakingPatternHandler.cs" />
+    <Compile Include="EventsHandler\TappingEventHandler.cs" />
+    <Compile Include="EventsHandler\SublanceTemperatureEventHandler.cs" />
+    <Compile Include="EventsHandler\SublanceOxidationEventHandler.cs" />
+    <Compile Include="EventsHandler\SublanceCEventHandler.cs" />
+    <Compile Include="EventsHandler\SublanceStartEventHandler.cs" />
+    <Compile Include="EventsHandler\ScrapChargingEventHandler.cs" />
+    <Compile Include="EventsHandler\HotMetalPouringEventHandler.cs" />
+    <Compile Include="EventsHandler\DeslaggingEventHandler.cs" />
+    <Compile Include="EventsHandler\TestHandler.cs" />
+    <Compile Include="EventsHandler\TorkretingEventHandler.cs" />
+    <Compile Include="EventsHandler\SteelAnalysisEventHandler.cs" />
+    <Compile Include="EventsHandler\SlagBlowingEventHandler.cs" />
+    <Compile Include="EventsHandler\ScrapEventHandler.cs" />
+    <Compile Include="EventsHandler\ResetO2TotalVolEventHandler.cs" />
+    <Compile Include="EventsHandler\ReBlowingEventHandler.cs" />
+    <Compile Include="EventsHandler\OffGasAnalysisEventHandler.cs" />
+    <Compile Include="EventsHandler\MixerAnalysisEventHandler.cs" />
+    <Compile Include="EventsHandler\IgnitionEventHandler.cs" />
+    <Compile Include="EventsHandler\HotMetalLadleEventHandler.cs" />
+    <Compile Include="EventsHandler\HeatingScrapEventHandler.cs" />
+    <Compile Include="EventsHandler\HeatChangeEventHandler.cs" />
+    <Compile Include="EventsHandler\OffGasEventHandler.cs" />
+    <Compile Include="EventsHandler\LanceEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\Blowing\visSteelAttributesEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\Blowing\visBlowingFlowRatesEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\Blowing\visBlowinEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\Blowing\visBlowingHeatEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\Sublance\visSublanceEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visAlloyingBunker3AEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visAlloyingBunkersEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visAlloyingScalesEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visCalcinatingFurnacesEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visTractControlModeEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visAdditionBunkersEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visIndustrialBunkersEventHandler.cs" />
+    <Compile Include="EventsHandler\Visualisation\VerticalTract\visAdditionScalesEventHandler.cs" />
+    <Compile Include="EventsHandler\WeighersStateHandler.cs" />
+    <Compile Include="Events\AdditionsEvent.cs" />
+    <Compile Include="Events\BlowingEvent.cs" />
+    <Compile Include="Events\BlowingInterruptEvent.cs" />
+    <Compile Include="Events\BoilerWaterCoolingEvent.cs" />
+    <Compile Include="Events\BoundNameMaterialsEvent.cs" />
+    <Compile Include="Events\CalculatedCarboneEvent.cs" />
+    <Compile Include="Events\Command\comAdditionsSchemaEvent.cs" />
+    <Compile Include="Events\Command\comJobW3Event.cs" />
+    <Compile Include="Events\Command\comJobW4Event.cs" />
+    <Compile Include="Events\Command\comJobW5Event.cs" />
+    <Compile Include="Events\Command\comJobW6Event.cs" />
+    <Compile Include="Events\Command\comJobW7Event.cs" />
+    <Compile Include="Events\Command\comName1MatEvent.cs" />
+    <Compile Include="Events\Command\comName2MatEvent.cs" />
+    <Compile Include="Events\Command\comO2FlowRateEvent.cs" />
+    <Compile Include="Events\Command\comAdditionsEvent.cs" />
+    <Compile Include="Events\Command\comOxigenSimilatorEvent.cs" />
+    <Compile Include="Events\Command\comOxigenW3SimilatorEvent.cs" />
+    <Compile Include="Events\Command\comOxigenW4SimilatorEvent.cs" />
+    <Compile Include="Events\Command\comOxigenW5SimilatorEvent.cs" />
+    <Compile Include="Events\Command\comOxigenW6SimilatorEvent.cs" />
+    <Compile Include="Events\Command\comOxigenW7SimilatorEvent.cs" />
+    <Compile Include="Events\Command\comRealOrSimulOxygenSelectEvent.cs" />
+    <Compile Include="Events\Command\comSelectOxygenModeW3Event.cs" />
+    <Compile Include="Events\Command\comSelectOxygenModeW4Event.cs" />
+    <Compile Include="Events\Command\comSelectOxygenModeW5Event.cs" />
+    <Compile Include="Events\Command\comSelectOxygenModeW6Event.cs" />
+    <Compile Include="Events\Command\comSelectOxygenModeW7Event.cs" />
+    <Compile Include="Events\Command\Counters\cntO2FlowRateEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntBlowingSchemaEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntAdditionsEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntAdditionsSchemaEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntWatchDogPLC01Event.cs" />
+    <Compile Include="Events\Command\Counters\cntWatchDogPLC1Event.cs" />
+    <Compile Include="Events\Command\Counters\cntWatchDogPLC2Event.cs" />
+    <Compile Include="Events\Command\Counters\cntWatchDogPLC3Event.cs" />
+    <Compile Include="Events\Command\Counters\cntWeigher3JobReadyEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntWeigher4JobReadyEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntWeigher5JobReadyEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntWeigher6JobReadyEvent.cs" />
+    <Compile Include="Events\Command\Counters\cntWeigher7JobReadyEvent.cs" />
+    <Compile Include="Events\ConverterAngleEvent.cs" />
+    <Compile Include="ConverterBaseEvent.cs" />
+    <Compile Include="Events\AdditionsEventNew.cs" />
+    <Compile Include="Events\Command\comBlowingSchemaEvent.cs" />
+    <Compile Include="Events\DecompressionOffGasEvent.cs" />
+    <Compile Include="Events\FixDataMfactorModelEvent.cs" />
+    <Compile Include="Events\FlexEvent.cs" />
+    <Compile Include="Events\HeatCommand\HeatPeriod.cs" />
+    <Compile Include="Events\HeatCommand\HeatStep.cs" />
+    <Compile Include="Events\HeatCommand\LanceUnit.cs" />
+    <Compile Include="Events\HeatCommand\VerticalTractUnit.cs" />
+    <Compile Include="Events\HeatCommand\HeatEvent.cs" />
+    <Compile Include="Events\HeatCommand\HeatPhase.cs" />
+    <Compile Include="Events\ModeLanceEvent.cs" />
+    <Compile Include="Events\ModeVerticalPathEvent.cs" />
+    <Compile Include="Events\OPCDirectReadEvent.cs" />
+    <Compile Include="Events\SlagOutburstEvent.cs" />
+    <Compile Include="Events\SteelMakingCommands\ReleaseWeigherEvent.cs" />
+    <Compile Include="Events\SteelMakingCommands\SteelMakingPatternEvent.cs" />
+    <Compile Include="Events\SublanceTemperatureEvent.cs" />
+    <Compile Include="Events\SublanceOxidationEvent.cs" />
+    <Compile Include="Events\SublanceCEvent.cs" />
+    <Compile Include="Events\SublanceStartEvent.cs" />
+    <Compile Include="Events\ScrapChargingEvent.cs" />
+    <Compile Include="Events\HotMetalPouringEvent.cs" />
+    <Compile Include="Events\DeslaggingEvent.cs" />
+    <Compile Include="Events\TappingEvent.cs" />
+    <Compile Include="Events\HeatChangeEvent.cs" />
+    <Compile Include="Events\HeatingScrapEvent.cs" />
+    <Compile Include="Events\HotMetalLadleEvent.cs" />
+    <Compile Include="Events\IgnitionEvent.cs" />
+    <Compile Include="Events\LanceEvent.cs" />
+    <Compile Include="Events\MixerAnalysisEvent.cs" />
+    <Compile Include="Events\OffGasAnalysisEvent.cs" />
+    <Compile Include="Events\OffGasEvent.cs" />
+    <Compile Include="Events\ReBlowingEvent.cs" />
+    <Compile Include="Events\ResetO2TotalVolEvent.cs" />
+    <Compile Include="Events\ScrapEvent.cs" />
+    <Compile Include="Events\SlagBlowingEvent.cs" />
+    <Compile Include="Events\SteelAnalysisEvent.cs" />
+    <Compile Include="Events\TestEvent.cs" />
+    <Compile Include="Events\TorkretingEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\visSpectrluksEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\visSteelAttributesEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\visBlowingFlowRatesEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\visBlowingEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\visBlowingHeatEvent.cs" />
+    <Compile Include="Events\HeatSchemaStepEvent.cs" />
+    <Compile Include="Events\Visualisation\Sublance\visSublanceEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAdditionTotalEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAlloyingBunker3AEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visTractControlModeEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visCalcinatingFurnacesEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAlloyingBunkersEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAlloyingScalesEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visIndustrialBunkersEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAdditionScalesEvent.cs" />
+    <Compile Include="Events\Visualisation\VerticalTract\visAdditionBunkersEvent.cs" />
+    <Compile Include="Events\WeighersStateEvent.cs" />
+    <Compile Include="Module.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonTypes\CommonTypes.csproj">
+      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
+      <Name>CommonTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="monitor32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utills\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
