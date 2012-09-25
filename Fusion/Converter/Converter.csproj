@@ -225,6 +225,7 @@
     <Compile Include="Events\HeatCommand\HeatPhase.cs" />
     <Compile Include="Events\ModeLanceEvent.cs" />
     <Compile Include="Events\ModeVerticalPathEvent.cs" />
+    <Compile Include="Events\N2Event.cs" />
     <Compile Include="Events\O2Event.cs" />
     <Compile Include="Events\OPCDirectReadEvent.cs" />
     <Compile Include="Events\SlagOutburstEvent.cs" />
