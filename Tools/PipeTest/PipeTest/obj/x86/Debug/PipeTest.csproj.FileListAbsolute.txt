@@ -1,3 +1,0 @@
-C:\Users\Sergey\SVN\АСУ Плавка\Sources\tools\PipeTest\PipeTest\obj\x86\Debug\PipeTest.Form1.resources
-C:\Users\Sergey\SVN\АСУ Плавка\Sources\tools\PipeTest\PipeTest\obj\x86\Debug\PipeTest.Properties.Resources.resources
-C:\Users\Sergey\SVN\АСУ Плавка\Sources\tools\PipeTest\PipeTest\obj\x86\Debug\PipeTest.csproj.GenerateResource.Cache

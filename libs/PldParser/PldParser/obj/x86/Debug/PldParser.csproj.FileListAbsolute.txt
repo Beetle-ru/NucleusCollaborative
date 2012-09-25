@@ -1,5 +1,0 @@
-D:\SVN_Plavka\Sources\libs\PldParser\PldParser\bin\Debug\PldParser.dll
-D:\SVN_Plavka\Sources\libs\PldParser\PldParser\bin\Debug\PldParser.pdb
-D:\SVN_Plavka\Sources\libs\PldParser\PldParser\obj\x86\Debug\ResolveAssemblyReference.cache
-D:\SVN_Plavka\Sources\libs\PldParser\PldParser\obj\x86\Debug\PldParser.dll
-D:\SVN_Plavka\Sources\libs\PldParser\PldParser\obj\x86\Debug\PldParser.pdb

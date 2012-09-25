@@ -1,9 +1,0 @@
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\DBTrends.dll
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\DBTrends.pdb
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\CommonTypes.dll
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\OracleDBLayer.dll
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\CommonTypes.pdb
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\bin\Release\OracleDBLayer.pdb
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\obj\x86\Release\ResolveAssemblyReference.cache
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\obj\x86\Release\DBTrends.dll
-D:\SVN_Plavka\Sources\libs\DBTrends\DBTrends\obj\x86\Release\DBTrends.pdb

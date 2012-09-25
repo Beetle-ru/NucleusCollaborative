@@ -1,3 +1,0 @@
-D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\bin\Release\OPCdotNETLib.dll
-D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\obj\x86\Release\ResolveAssemblyReference.cache
-D:\SVN_Plavka\Sources\libs\External\OPCdotNETLib\obj\x86\Release\OPCdotNETLib.dll
