@@ -23,6 +23,12 @@ namespace CSVArchiver
         public double CSubLance { get; set; }
         public int Ignition { get; set; }
         public int Decompression { get; set; }
+        public double QOxygenCL { get; set; }
+        public double POxygenCL { get; set; }
+        public double TOxygenCL { get; set; }
+        public double DPOxygenCL { get; set; }
+        public int QNitrogenLanceWindow { get; set; }
+        public int QNitrogenBoiler { get; set; }
 
         public char Separator;
 
@@ -46,12 +52,17 @@ namespace CSVArchiver
             CSubLance = -1.0;
             Ignition = -1;
             Decompression = -1;
-
+            QOxygenCL = -1.0;
+            POxygenCL = -1.0;
+            TOxygenCL = -1.0;
+            DPOxygenCL = -1.0;
+            QNitrogenLanceWindow = -1;
+            QNitrogenBoiler = -1;
         }
         public string GetHeader()
         {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}",
+            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}",
                 Separator,
                 "Time",
                 "Heigth lance",
@@ -67,7 +78,13 @@ namespace CSVArchiver
                 "C calculated",
                 "C sublance",
                 "Ignition",
-                "DecompressionOffGasEvent"
+                "DecompressionOffGasEvent",
+                "QOxygen",
+                "POxygen",
+                "TOxygen",
+                "DeltaPOxygen",
+                "QNitrogenLanceWindow",
+                "QNitrogenBoiler"
                 );
             return str;
         }
@@ -75,7 +92,7 @@ namespace CSVArchiver
         public override string ToString()
         {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}",
+            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}",
                 Separator,
                 CurrentTime,
                 LanceHeigth,
@@ -91,7 +108,13 @@ namespace CSVArchiver
                 CCalc,
                 CSubLance,
                 Ignition,
-                Decompression
+                Decompression,
+                QOxygenCL,
+                POxygenCL,
+                TOxygenCL,
+                DPOxygenCL,
+                QNitrogenLanceWindow,
+                QNitrogenBoiler
                 );
             return str;
         }
@@ -113,6 +136,12 @@ namespace CSVArchiver
         public double CSubLance { get; set; }
         public int Ignition { get; set; }
         public RollingAverage Decompression { get; set; }
+        public RollingAverage QOxygenCL { get; set; }
+        public RollingAverage POxygenCL { get; set; }
+        public RollingAverage TOxygenCL { get; set; }
+        public RollingAverage DPOxygenCL { get; set; }
+        public RollingAverage QNitrogenLanceWindow { get; set; }
+        public RollingAverage QNitrogenBoiler { get; set; }
         
         public SecDataSmooth()
         {
@@ -130,6 +159,12 @@ namespace CSVArchiver
             CSubLance = 0.0;
             Ignition = 0;
             Decompression = new RollingAverage();
+            QOxygenCL = new RollingAverage();
+            POxygenCL = new RollingAverage();
+            TOxygenCL = new RollingAverage();
+            DPOxygenCL = new RollingAverage();
+            QNitrogenLanceWindow = new RollingAverage();
+            QNitrogenBoiler = new RollingAverage();
         }
         public SecData GetSecData(int sec)
         {
@@ -148,6 +183,12 @@ namespace CSVArchiver
             sd.CSubLance = CSubLance;
             sd.Ignition = Ignition;
             sd.Decompression = (int)Decompression.Average(sec);
+            sd.QOxygenCL = QOxygenCL.Average(sec);
+            sd.POxygenCL = POxygenCL.Average(sec);
+            sd.TOxygenCL = TOxygenCL.Average(sec);
+            sd.DPOxygenCL = DPOxygenCL.Average(sec);
+            sd.QNitrogenLanceWindow = (int)QNitrogenLanceWindow.Average(sec);
+            sd.QNitrogenBoiler = (int)QNitrogenBoiler.Average(sec);
             return sd;
         }
     }

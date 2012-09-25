@@ -25,7 +25,7 @@ namespace CSVArchiver
                 var lanceEvent = newEvent as LanceEvent;
                 Program.SDS.LanceHeigth.Add(lanceEvent.LanceHeight);
                 Program.SDS.OxygenRate.Add(lanceEvent.O2Flow);
-                Program.OxygenRate = lanceEvent.O2Flow;
+                Program.OxygenRate.Add(lanceEvent.O2Flow);
             }
             if (newEvent is OffGasAnalysisEvent)
             {
@@ -62,6 +62,30 @@ namespace CSVArchiver
             {
                 var doge = newEvent as DecompressionOffGasEvent;
                 Program.SDS.Decompression.Add(doge.Decompression);
+            }
+            if (newEvent is O2Event)
+            {
+                var o2e = newEvent as O2Event;
+                if (o2e.RightLanceIsSelected && !o2e.LeftLanceIsSelected)
+                {
+                    Program.SDS.QOxygenCL.Add(o2e.QOxygenRight);
+                    Program.SDS.POxygenCL.Add(o2e.POxygenRight);
+                    Program.SDS.TOxygenCL.Add(o2e.TOxygenRight);
+                    Program.SDS.DPOxygenCL.Add(o2e.DPOxygenRight);
+                }
+                else
+                {
+                    Program.SDS.QOxygenCL.Add(o2e.QOxygenLeft);
+                    Program.SDS.POxygenCL.Add(o2e.POxygenLeft);
+                    Program.SDS.TOxygenCL.Add(o2e.TOxygenLeft);
+                    Program.SDS.DPOxygenCL.Add(o2e.DPOxygenLeft);
+                }
+            }
+            if (newEvent is N2Event)
+            {
+                var n2e = newEvent as N2Event;
+                Program.SDS.QNitrogenLanceWindow.Add(n2e.QNitrogenLanceWindow);
+                Program.SDS.QNitrogenBoiler.Add(n2e.QNitrogenBoiler);
             }
             if (newEvent is HeatChangeEvent)
             {

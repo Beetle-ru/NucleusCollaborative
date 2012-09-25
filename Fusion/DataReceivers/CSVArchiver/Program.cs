@@ -20,7 +20,7 @@ namespace CSVArchiver
         private static Timer m_timer;
         private static Thread receiver_thread;
         static ConnectionProvider.Client m_listenGate;
-        public static double OxygenRate;
+        public static RollingAverage OxygenRate;
         static void Main(string[] args)
         {
             Init();
@@ -39,6 +39,7 @@ namespace CSVArchiver
             System.IO.Directory.CreateDirectory(Dir);
             SDList = new List<SecData>();
             SDS = new SecDataSmooth();
+            OxygenRate = new RollingAverage(300);
             
         }
 
@@ -69,7 +70,8 @@ namespace CSVArchiver
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
             const int smoothTime = 1; //sec
-            if (OxygenRate > 0)
+            const int oxySmoothTime = 10; //sec
+            if (OxygenRate.Average(oxySmoothTime) > 0)
             {
                 SDList.Add(SDS.GetSecData(smoothTime));
                 InstantLogger.msg(SDList.Last().ToString());
