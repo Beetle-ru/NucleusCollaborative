@@ -147,7 +147,7 @@ namespace HeatCharge
 
             AddDef(32, "Fe", 55.8);
             fp[32].O2Stoichio = 11.2;
-            fp[32].E_ox1 = 4.61594;
+            fp[32].E_ox1 = 2.7; //4.61594;
             fp[32].isO2balanced = true;
 
             for (var i = 33; i <= 40; i++) AddDef(i, "?" + i);
