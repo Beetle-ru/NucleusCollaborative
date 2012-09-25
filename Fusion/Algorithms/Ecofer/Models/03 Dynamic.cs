@@ -71,8 +71,8 @@ namespace Models
             switch (mRunningType)
             {
                 case RunningType.RealTime: mClock = new Data.Clock(); break;
-                case RunningType.Simulation: mClock = new Data.Clock(Common.Global.M3_DeltaT_s); break;
-                case RunningType.RealTimeDataSimulation: mClock = new Data.Clock(Common.Global.M3_DeltaT_s); break;
+                case RunningType.Simulation: mClock = new Data.Clock(aDeltaT_s); break;
+                case RunningType.RealTimeDataSimulation: mClock = new Data.Clock(aDeltaT_s); break;
             }
 
             mRequestQueue = new Queue<object>();
@@ -128,8 +128,18 @@ namespace Models
                     mCSVOutput.Append(';'); mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode.StartsWith("01")).ToArray().Sum(aR => aR.Amount_kg)); // m_SŽ
                     mCSVOutput.Append(';'); mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode.StartsWith("02")).ToArray().Sum(aR => aR.Amount_kg));
                     mCSVOutput.Append(';');
+                    double sum = 0.0;
                     if (Data.MINP.MINP_GD_ModelMaterials.ContainsKey(Enumerations.MINP_GD_Material_ModelMaterial.Coke))
-                        mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke].ShortCode).ToArray().Sum(aR => aR.Amount_kg));
+                    {
+                        foreach (var v in mInputData.ChargedMaterials)
+                        {
+                            if (v.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke].ShortCode)
+                            {
+                                sum += v.Amount_kg;
+                            }
+                        }
+                        mCSVOutput.Append(sum);
+                    }
                     else
                         mCSVOutput.Append("");
                     mCSVOutput.Append(';');
@@ -421,7 +431,7 @@ namespace Models
             // correction phases ~ L1 tempmeas, correction, L1 lance parking
             IEnumerable<PhaseItem> lCorrectionPhases = mInputData.OxygenBlowingPhases.Where(aR => aR.PhaseGroup == PhasePrimaryDivision.OxygenBlowingCorrection);
 
-            if (mRunningType == RunningType.RealTimeDataSimulation) return true;
+            if (mRunningType == RunningType.RealTimeDataSimulation || mRunningType == RunningType.Simulation) return true;
 
             if (lCorrectionPhases.Count() != 3) return false;
             Data.PhaseItem lPhaseL1TempMeas = lCorrectionPhases.First();
@@ -1425,5 +1435,10 @@ namespace Models
 
         private string mHeatNumber;
         private StringBuilder mCSVOutput;
+        // CHEREPOVETS ADDITIONS
+        public ModelPhaseState State()
+        {
+            return mCurrentPhaseState;
+        }
     }
 }

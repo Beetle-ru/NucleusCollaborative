@@ -56,6 +56,13 @@ namespace Data
             mCurrentVisiblePhase = null;
             mPhasesItems = new List<PhaseItem>();
         }
+        public Phases(List<PhaseItem> aPhases)
+        {
+            mCurrentPhase = null;
+            mCurrentVisiblePhase = null;
+            mPhasesItems = aPhases;
+            RefreshReferences();
+        }
         public Phases(DTO.MINP_ProcessPatternDTO aProcessPattern, DTO.MINP_HeatAimDataDTO aHeatAimData)
         {
             mCurrentPhase = null;
@@ -411,8 +418,8 @@ namespace Data
                 OperatorConfirmation = false,
                 OperatorVisible = false,
                 O2Amount_Nm3 = aOxygenAmount_Nm3,
-                O2Flow_Nm3_min = 1,
-                LanceDistance_mm = 1
+                O2Flow_Nm3_min = 1200,
+                LanceDistance_mm = 400
             });
             // Parking position
             mPhasesItems.Add(new PhaseItemL1Command()
