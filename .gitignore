@@ -1,5 +1,15 @@
 obj/ # игнорировать директории obj
+obj
 *.user # игнорировать все .user 
 *.suo
 *.pdb
 !.gitignore
+
+_ReSharper.Fusion.All/
+_ReSharper.Fusion.All
+
+*.exe
+*.dll
+*.config
+
+bin/
