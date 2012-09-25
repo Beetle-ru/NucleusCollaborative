@@ -1,0 +1,5 @@
+obj/ # игнорировать директории obj
+*.user # игнорировать все .user 
+*.suo
+*.pdb
+!.gitignore
