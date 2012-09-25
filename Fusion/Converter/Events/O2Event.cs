@@ -8,6 +8,10 @@ using Core;
 
 namespace Converter
 {
+
+    /// <summary>
+    /// Событие по кислороду
+    /// </summary>
     [Serializable]
     [DataContract]
     //[PLCGroup(Location = "PLC13", Destination = "Converter1")] возможно для других ковертеров отличается
