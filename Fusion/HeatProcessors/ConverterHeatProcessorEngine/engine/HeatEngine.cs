@@ -40,6 +40,7 @@ namespace ConverterHeatProcessorEngine
         private static List<bool> m_releaseWeighersState;                             // Идет процесс выгрузки по кнопке весов 5 шт 
         private static List<int> m_cntWeighersJobReady;                               // Счетчики готовности заданий для весов
         private static Int64 m_heatNumber;                                            // Номер текущей плавки
+        private static int m_lanceHeight;                                             // Высота фурмы (инициализации неподлежит - всегда актуально)
 
         public static int Init()
         {

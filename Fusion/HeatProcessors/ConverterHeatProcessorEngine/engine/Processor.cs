@@ -24,6 +24,12 @@ namespace ConverterHeatProcessorEngine
                 }
             }
 
+            if (newEvent is LanceEvent)
+            {
+                var le = newEvent as LanceEvent;
+                m_lanceHeight = le.LanceHeight;
+            }
+
             if (newEvent is BlowingEvent)
             {
                 var newBE = newEvent as BlowingEvent;
