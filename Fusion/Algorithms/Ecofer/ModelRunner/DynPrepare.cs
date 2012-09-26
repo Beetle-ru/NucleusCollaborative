@@ -514,7 +514,7 @@ NEXT_HEAT:
 
         public static void FireFlexEvent(int nS, ConnectionProvider.FlexHelper f, Models.Dynamic mo)
         {
-            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.PerSecond");
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.PerSecond_shadow");
             fex.AddArg("@RelativeSecond", nS);
             double mT = mo.LastOutputData.m_Kov;
             fex.AddArg("C", (double)mo.LastOutputData.FP_Kov[0]);
