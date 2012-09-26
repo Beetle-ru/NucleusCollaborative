@@ -16,7 +16,12 @@ namespace ConverterHeatProcessorEngine
         {
             if (newEvent is HeatChangeEvent)
             {
-                SafeInit();
+                var hce = newEvent as HeatChangeEvent;
+                if (m_heatNumber != hce.HeatNumber)
+                {
+                    SafeInit();
+                    m_heatNumber = hce.HeatNumber;
+                }
             }
 
             if (newEvent is BlowingEvent)

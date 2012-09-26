@@ -21,7 +21,7 @@ namespace ConverterHeatProcessorEngine
         private static int m_lanceCurrentFrame;
         private static int m_additionsCurrentFrame;
         private static SteelMakingPatternEvent SmPattern { set; get; }                // шаблон хранимый в классе 
-        static List<AdditionsQuant> AdditionsQuantList { set; get; }                  // уплотненная структура данных по добавокам
+        private static List<AdditionsQuant> AdditionsQuantList { set; get; }          // уплотненная структура данных по добавокам
         private static ConnectionProvider.Client m_pushGate;
         private static ConnectionProvider.Client m_listenGate;
         private const int LanceMaxStepsFrame = 20;                                    // количество шагов в кадре для фурмы по умолчанию 20
@@ -39,6 +39,7 @@ namespace ConverterHeatProcessorEngine
         private static List<WeigherState> m_weighersStatePrevious;                    // Состояния весов 5 шт для хранения предыдущего значения 
         private static List<bool> m_releaseWeighersState;                             // Идет процесс выгрузки по кнопке весов 5 шт 
         private static List<int> m_cntWeighersJobReady;                               // Счетчики готовности заданий для весов
+        private static Int64 m_heatNumber;                                            // Номер текущей плавки
 
         public static int Init()
         {
@@ -67,6 +68,7 @@ namespace ConverterHeatProcessorEngine
                 m_counterNotToGive = 0;
                 m_counterAllowToAdd = 0;
                 m_lanceCurrentFrame = 0;
+                m_heatNumber = -1;
 
                 SmPattern = new SteelMakingPatternEvent();
                 AdditionsQuantList = new List<AdditionsQuant>();
