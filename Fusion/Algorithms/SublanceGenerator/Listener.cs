@@ -41,10 +41,11 @@ namespace SublanceGenerator
                     var hce = evt as HeatChangeEvent;
                     l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                     Iterator.Renit();
-                    Int64 rem;
-                    Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
-                    Iterator.HeatNumber = res*100000 + rem;
-                    
+                    //Int64 rem;
+                    //Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
+                    //Iterator.HeatNumber = res*100000 + rem;
+                    Iterator.HeatNumber = hce.HeatNumber;
+
                 }
                 if (evt is FlexEvent)
                 {
