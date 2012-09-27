@@ -14,12 +14,12 @@ namespace Converter
     /// </summary>
     [Serializable]
     [DataContract]
-    //[PLCGroup(Location = "PLC13", Destination = "Converter1")] возможно для других ковертеров отличается
+    [PLCGroup(Location = "PLC13", Destination = "Converter1")]
     [PLCGroup(Location = "PLC23", Destination = "Converter2")]
-    //[PLCGroup(Location = "PLC33", Destination = "Converter3")] возможно для других ковертеров отличается
-    //[DBGroup(UnitNumber = 1, DisplayName = "Обьем и температура отходящих газов", IsTrendGroup = true, BindingPropertyName = "OffGasHistory")]
+    [PLCGroup(Location = "PLC33", Destination = "Converter3")]
+    [DBGroup(UnitNumber = 1)]
     [DBGroup(UnitNumber = 2)]
-    //[DBGroup(UnitNumber = 3, DisplayName = "Обьем и температура отходящих газов", IsTrendGroup = true, BindingPropertyName = "OffGasHistory")]
+    [DBGroup(UnitNumber = 3)]
     public class N2Event : ConverterBaseEvent
     {
         /// <summary>
