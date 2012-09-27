@@ -117,7 +117,7 @@ namespace ModelRunner
         }
         public void OnEvent(BaseEvent evt)
         {
-            using (var l = new Logger("FlexEventSaver"))
+            using (var l = new Logger("ModelRunner::Listener"))
             {
                 if (evt is FlexEvent)
                 {
