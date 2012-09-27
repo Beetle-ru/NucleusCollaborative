@@ -11,6 +11,8 @@ _ReSharper.Fusion.All
 *.exe
 *.dll
 *.config
+!app.config
+!App.config
 
 bin/
 
