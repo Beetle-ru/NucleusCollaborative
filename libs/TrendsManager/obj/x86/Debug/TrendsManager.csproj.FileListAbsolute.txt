@@ -1,7 +1,0 @@
-D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Debug\TrendsManager.dll
-D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Debug\TrendsManager.pdb
-D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Debug\CommonTypes.dll
-D:\SVN_Plavka\Sources\libs\TrendsManager\bin\Debug\CommonTypes.pdb
-D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Debug\ResolveAssemblyReference.cache
-D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Debug\TrendsManager.dll
-D:\SVN_Plavka\Sources\libs\TrendsManager\obj\x86\Debug\TrendsManager.pdb

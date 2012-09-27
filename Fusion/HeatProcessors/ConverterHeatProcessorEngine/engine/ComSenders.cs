@@ -568,7 +568,10 @@ namespace ConverterHeatProcessorEngine
         {
             //m_pushGate.PushEvent();
             m_pushGate.PushEvent(new comAdditionsSchemaEvent());
-            m_pushGate.PushEvent(new comBlowingSchemaEvent());
+
+            m_pushGate.PushEvent(m_lanceHeight > 1
+                                     ? new comBlowingSchemaEvent() {LancePositionStep1 = m_lanceHeight, O2VolStep1 = 0}
+                                     : new comBlowingSchemaEvent());
 
             Thread.Sleep(DelayRefrashData);
             m_pushGate.PushEvent(new cntWeigher3JobReadyEvent() { Counter = cntValue });

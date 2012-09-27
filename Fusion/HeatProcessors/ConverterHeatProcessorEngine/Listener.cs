@@ -24,7 +24,8 @@ namespace ConverterHeatProcessorEngine
                 (newEvent is BlowingEvent)                    || 
                 (newEvent is WeighersStateEvent)              || 
                 (newEvent is ReleaseWeigherEvent)             ||
-                (newEvent is HeatChangeEvent) 
+                (newEvent is HeatChangeEvent)                 ||
+                (newEvent is LanceEvent) 
                 )
             {
                 //HeatEngine.SmPattern = newEvent as SteelMakingPatternEvent;

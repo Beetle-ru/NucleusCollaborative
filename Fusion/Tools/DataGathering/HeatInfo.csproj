@@ -127,15 +127,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\libs\OracleDBLayer\OracleDBLayer\OracleDBLayer.csproj">
+    <ProjectReference Include="..\..\..\libs\OracleDBLayer\OracleDBLayer\OracleDBLayer.csproj">
       <Project>{978D795F-DC2A-45F0-99C5-F430436E48B0}</Project>
       <Name>OracleDBLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\CommonTypes\CommonTypes.csproj">
+    <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
       <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
       <Name>CommonTypes</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Converter\Converter.csproj">
+    <ProjectReference Include="..\..\Converter\Converter.csproj">
       <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
       <Name>Converter</Name>
     </ProjectReference>
