@@ -13,3 +13,5 @@ _ReSharper.Fusion.All
 *.config
 
 bin/
+
+*.exe.stackdump
