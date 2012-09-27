@@ -15,6 +15,7 @@ namespace SublanceGenerator
         public static Int64 HeatNumber;
         private const int SmoothInterval = 15;
         private static double m_oxygenStartValue ;
+        private static bool m_isNotfired;
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -22,6 +23,7 @@ namespace SublanceGenerator
             HotMetallMass = 300;
             HeatNumber = 0;
             m_oxygenStartValue = 0;
+            m_isNotfired = true;
         }
         public static void Renit()
         {
@@ -29,16 +31,22 @@ namespace SublanceGenerator
         }
         public static void Iterate()
         {
-            var oxy = Oxigen.Average(SmoothInterval);
-            var co = CarbonMonoxide.Average(SmoothInterval);
-            if (Verificate(oxy, co, HotMetallMass))
+            using (var l = new Logger("Iterate"))
             {
-                var fex = new ConnectionProvider.FlexHelper("Model.SublanceStart");
-                fex.AddArg("OxygenStartValue", m_oxygenStartValue);
-                fex.AddArg("CurrentOxygen", oxy);
-                fex.AddArg("CurrentCo", co);
-                fex.AddArg("CurrentHotMetallMass", HotMetallMass);
-                fex.Fire(Program.MainGate);
+                var oxy = Oxigen.Average(SmoothInterval);
+                var co = CarbonMonoxide.Average(SmoothInterval);
+                if (Verificate(oxy, co, HotMetallMass) && m_isNotfired)
+                {
+                    var fex = new ConnectionProvider.FlexHelper("Model.SublanceStart");
+                    fex.AddArg("OxygenStartValue", m_oxygenStartValue);
+                    fex.AddArg("CurrentOxygen", oxy);
+                    fex.AddArg("CurrentCo", co);
+                    fex.AddArg("CurrentHotMetallMass", HotMetallMass);
+                    fex.Fire(Program.MainGate);
+                    string msg = String.Format("SublanceStart fired: \n{0}", fex.evt.ToString());
+                    l.msg(msg);
+                    m_isNotfired = false;
+                }
             }
         }
         private static bool Verificate(double oxigen, double carbonMonoxide, double hotMetallMass)
@@ -46,7 +54,7 @@ namespace SublanceGenerator
             const int transformValue = 64;
             const int coTreshold = 15;
             m_oxygenStartValue = OxygenStartValue(hotMetallMass, transformValue);
-            return (m_oxygenStartValue > oxigen) && (carbonMonoxide < coTreshold);
+            return (m_oxygenStartValue < oxigen) && (carbonMonoxide < coTreshold);
         }
         private static double OxygenStartValue(double hotMetallMass, int transformValue)
         {
