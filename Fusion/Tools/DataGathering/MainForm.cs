@@ -10,12 +10,10 @@ using CommonTypes;
 using Converter.Trends;
 using System.IO;
 using HeatInfo;
-using ZedGraph;
 using System.Runtime.Serialization.Formatters.Binary;
 using Converter;
 using Core;
 using System.Threading;
-using Bestcode.MathParser;
 using DataGathering;
 using System.Reflection;
 
