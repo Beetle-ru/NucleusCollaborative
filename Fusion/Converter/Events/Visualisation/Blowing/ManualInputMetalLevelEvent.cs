@@ -26,8 +26,8 @@ namespace Converter
 
         [DataMember]
         [DBPoint(IsStored = true)]
-        [PLCPoint(Location = "DB5,W10")]
-        public int ManualInputMetalLevel { set; get; }                   // Уровень металла в конвертере (вводимый параметр)# AS31/REC_S31.L3_metal_lev
+        [PLCPoint(Location = "DB5,REAL10")]
+        public Double ManualInputMetalLevel { set; get; }                   // Уровень металла в конвертере (вводимый параметр)# AS31/REC_S31.L3_metal_lev
 
 
 
