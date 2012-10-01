@@ -254,6 +254,7 @@
     <Compile Include="Events\SteelAnalysisEvent.cs" />
     <Compile Include="Events\TestEvent.cs" />
     <Compile Include="Events\TorkretingEvent.cs" />
+    <Compile Include="Events\Visualisation\Blowing\ManualInputMetalLevelEvent.cs" />
     <Compile Include="Events\Visualisation\Blowing\visSpectrluksEvent.cs" />
     <Compile Include="Events\Visualisation\Blowing\visSteelAttributesEvent.cs" />
     <Compile Include="Events\Visualisation\Blowing\visBlowingFlowRatesEvent.cs" />
