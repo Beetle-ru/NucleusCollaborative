@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{0D2CEA9A-9FD7-42AE-9E0D-6479FA497842}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <NoStandardLibraries>false</NoStandardLibraries>
+    <AssemblyName>ModelRunner</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>Ecofer</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ModelRunner.DynPrepare</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pulse.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonTypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Core\bin\Debug\CommonTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="ConnectionProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ConnectionProvider\bin\Debug\ConnectionProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Converter, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Converter\bin\Debug\Converter.dll</HintPath>
+    </Reference>
+    <Reference Include="Implements, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Core\bin\Debug\Implements.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Appearance.cs" />
+    <Compile Include="Common\ElementIndex.cs" />
+    <Compile Include="Common\Enumerations.cs" />
+    <Compile Include="Common\EventArgs.cs" />
+    <Compile Include="Common\Global.cs" />
+    <None Include="App.Config" />
+    <None Include="Common\Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\Properties\Resource.Application.L2BatchPrepairing.Designer.cs" />
+    <Compile Include="Common\Properties\Resource.Application.L2ModelConverter.Designer.cs" />
+    <Compile Include="Common\Properties\Resource.BL.Designer.cs" />
+    <Compile Include="Common\Properties\Resource.Data.Designer.cs" />
+    <Compile Include="Common\Properties\Resource.Enumerations.Designer.cs" />
+    <Compile Include="Common\Properties\Resources.UI.Designer.cs" />
+    <Compile Include="Configuration\Config.cs" />
+    <Compile Include="Configuration\Global.cs" />
+    <None Include="Configuration\Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\Clock.cs" />
+    <Compile Include="Data\EventArgs\CommunicationL1L2EventArgs.cs" />
+    <Compile Include="Data\EventArgs\CommunicationL2L1EventArgs.cs" />
+    <Compile Include="Data\EventArgs\DynamicModelEventArgs.cs" />
+    <Compile Include="Data\EventArgs\PhasesEventArgs.cs" />
+    <Compile Include="Data\EventArgs\SimulationEventArgs.cs" />
+    <Compile Include="Data\Graph\O2RequestItem.cs" />
+    <Compile Include="Data\Heat.cs" />
+    <Compile Include="Data\L3L2.cs" />
+    <Compile Include="Data\MINP.cs" />
+    <Compile Include="Data\Model\BatchPreparationInput.cs" />
+    <Compile Include="Data\Model\BatchPreparationOutput.cs" />
+    <Compile Include="Data\Model\ChargingInput.cs" />
+    <Compile Include="Data\Model\ChargingOutput.cs" />
+    <Compile Include="Data\Model\DynamicInput.cs" />
+    <Compile Include="Data\Model\DynamicOutput.cs" />
+    <Compile Include="Data\Model\DynamicState.cs" />
+    <Compile Include="Data\MOUT.cs" />
+    <Compile Include="Data\PhaseItem.cs" />
+    <Compile Include="Data\Phases.cs" />
+    <Compile Include="Data\ProcessPattern\OxygenBlowingGraphDataItem.cs" />
+    <None Include="Data\Properties\AssemblyInfo.cs" />
+    <Compile Include="Data\Simulation\RealTimeResult.cs" />
+    <Compile Include="DTO\L1L2_BunkerMaterialDTO.cs" />
+    <Compile Include="DTO\L1L2_CommandDTO.cs" />
+    <Compile Include="DTO\L1L2_CyclicDTO.cs" />
+    <Compile Include="DTO\L1L2_MatAddDTO.cs" />
+    <Compile Include="DTO\L1L2_TempMeasDTO.cs" />
+    <Compile Include="DTO\L2L1_AlloyRecipeDTO.cs" />
+    <Compile Include="DTO\L2L1_AlloyRecipeItemsDTO.cs" />
+    <Compile Include="DTO\L2L1_AnnounceDTO.cs" />
+    <Compile Include="DTO\L2L1_BunkerMaterialsDTO.cs" />
+    <Compile Include="DTO\L2L1_CommandDTO.cs" />
+    <Compile Include="DTO\L2L1_OxygenBlowingDTO.cs" />
+    <Compile Include="DTO\L3L2_HeatScheduleDTO.cs" />
+    <Compile Include="DTO\L3L2_MaterialDTO.cs" />
+    <Compile Include="DTO\L3L2_MaterialItemsDTO.cs" />
+    <Compile Include="DTO\L3L2_SteelGradeDTO.cs" />
+    <Compile Include="DTO\L3L2_SteelGradeItemsDTO.cs" />
+    <Compile Include="DTO\LAL2_SlagAnalysisDTO.cs" />
+    <Compile Include="DTO\LAL2_SteelAnalysisDTO.cs" />
+    <Compile Include="DTO\MINP_CyclicDTO.cs" />
+    <Compile Include="DTO\MINP_GD_BunkerMaterialDTO.cs" />
+    <Compile Include="DTO\MINP_GD_MaterialDTO.cs" />
+    <Compile Include="DTO\MINP_GD_MaterialElementDTO.cs" />
+    <Compile Include="DTO\MINP_GD_MaterialItemsDTO.cs" />
+    <Compile Include="DTO\MINP_GD_ModelParametersDTO.cs" />
+    <Compile Include="DTO\MINP_GD_ProcessPatternDTO.cs" />
+    <Compile Include="DTO\MINP_GD_ProcessPatternOxygenDTO.cs" />
+    <Compile Include="DTO\MINP_GD_ProcessPatternSlagDTO.cs" />
+    <Compile Include="DTO\MINP_GD_SteelGradeDTO.cs" />
+    <Compile Include="DTO\MINP_GD_SteelGradeItemsDTO.cs" />
+    <Compile Include="DTO\MINP_HeatAimDataDTO.cs" />
+    <Compile Include="DTO\MINP_HeatDTO.cs" />
+    <Compile Include="DTO\MINP_MatAddDTO.cs" />
+    <Compile Include="DTO\MINP_ModelParametersDTO.cs" />
+    <Compile Include="DTO\MINP_PhaseChangeDTO.cs" />
+    <Compile Include="DTO\MINP_ProcessPatternDTO.cs" />
+    <Compile Include="DTO\MINP_ProcessPatternOxygenDTO.cs" />
+    <Compile Include="DTO\MINP_ProcessPatternSlagDTO.cs" />
+    <Compile Include="DTO\MINP_TempMeasDTO.cs" />
+    <Compile Include="DTO\MISC_WatchdogDTO.cs" />
+    <Compile Include="DTO\MOUT_AlloyRecipeDTO.cs" />
+    <Compile Include="DTO\MOUT_AlloyRecipeItemsDTO.cs" />
+    <Compile Include="DTO\MOUT_MessageDTO.cs" />
+    <Compile Include="DTO\MOUT_OxygenBlowingDTO.cs" />
+    <Compile Include="DTO\MOUT_SlagAnalysisDTO.cs" />
+    <Compile Include="DTO\MOUT_SteelAnalysisDTO.cs" />
+    <Compile Include="DTO\MOUT_TemperatureTimeDTO.cs" />
+    <Compile Include="DTO\Partial\MOUT_SlagAnalysisDTO.cs" />
+    <None Include="DTO\Properties\AssemblyInfo.cs" />
+    <Compile Include="DTO\SIM_RealHeatDTO.cs" />
+    <Compile Include="DTO\SIM_RealHeat_CyclicDTO.cs" />
+    <Compile Include="DTO\SIM_RealHeat_MatAddDTO.cs" />
+    <Compile Include="DTO\SIM_RealHeat_SlagAnalysisDTO.cs" />
+    <Compile Include="DTO\SIM_RealHeat_SteelAnalysisDTO.cs" />
+    <Compile Include="DTO\SIM_RealHeat_TempMeasDTO.cs" />
+    <Compile Include="ModelRunner\DynPrepare.cs" />
+    <Compile Include="ModelRunner\FPCarrier.cs" />
+    <Compile Include="ModelRunner\Listener.cs" />
+    <Compile Include="ModelRunner\Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\01 BatchPreparation.cs" />
+    <Compile Include="Models\02 Charging.cs" />
+    <Compile Include="Models\03 Dynamic.cs" />
+    <None Include="Models\Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Common\bin\Debug\Common.dll" />
+    <Content Include="Common\bin\Debug\Common.pdb" />
+    <Content Include="Common\Common.csproj" />
+    <Content Include="Common\obj\Debug\Common.csproj.FileListAbsolute.txt" />
+    <Content Include="Common\obj\Debug\Common.dll" />
+    <Content Include="Common\obj\Debug\Common.pdb" />
+    <Content Include="Configuration\bin\Debug\Configuration.dll" />
+    <Content Include="Configuration\bin\Debug\Configuration.pdb" />
+    <Content Include="Configuration\Configuration.csproj" />
+    <Content Include="Configuration\obj\Debug\Configuration.csproj.FileListAbsolute.txt" />
+    <Content Include="Configuration\obj\Debug\Configuration.dll" />
+    <Content Include="Configuration\obj\Debug\Configuration.pdb" />
+    <Content Include="Data\bin\Debug\Common.dll" />
+    <Content Include="Data\bin\Debug\Common.pdb" />
+    <Content Include="Data\bin\Debug\Configuration.dll" />
+    <Content Include="Data\bin\Debug\Configuration.pdb" />
+    <Content Include="Data\bin\Debug\Data.dll" />
+    <Content Include="Data\bin\Debug\Data.pdb" />
+    <Content Include="Data\bin\Debug\DTO.dll" />
+    <Content Include="Data\bin\Debug\DTO.pdb" />
+    <Content Include="Data\Data.csproj" />
+    <Content Include="Data\obj\Debug\Data.csproj.FileListAbsolute.txt" />
+    <Content Include="Data\obj\Debug\Data.dll" />
+    <Content Include="Data\obj\Debug\Data.pdb" />
+    <Content Include="DTO\bin\Debug\DTO.dll" />
+    <Content Include="DTO\bin\Debug\DTO.pdb" />
+    <Content Include="DTO\DTO.csproj" />
+    <Content Include="DTO\obj\Debug\DTO.csproj.FileListAbsolute.txt" />
+    <Content Include="DTO\obj\Debug\DTO.dll" />
+    <Content Include="DTO\obj\Debug\DTO.pdb" />
+    <Content Include="ModelRunner\bin\Debug\alglibnet2.dll" />
+    <Content Include="ModelRunner\bin\Debug\Common.dll" />
+    <Content Include="ModelRunner\bin\Debug\Common.pdb" />
+    <Content Include="ModelRunner\bin\Debug\CommonTypes.dll" />
+    <Content Include="ModelRunner\bin\Debug\CommonTypes.pdb" />
+    <Content Include="ModelRunner\bin\Debug\ConnectionProvider.dll" />
+    <Content Include="ModelRunner\bin\Debug\ConnectionProvider.pdb" />
+    <Content Include="ModelRunner\bin\Debug\Converter.dll" />
+    <Content Include="ModelRunner\bin\Debug\Converter.pdb" />
+    <Content Include="ModelRunner\bin\Debug\Data.dll" />
+    <Content Include="ModelRunner\bin\Debug\Data.pdb" />
+    <Content Include="ModelRunner\bin\Debug\DTO.dll" />
+    <Content Include="ModelRunner\bin\Debug\DTO.pdb" />
+    <Content Include="ModelRunner\bin\Debug\HeatCharge.dll" />
+    <Content Include="ModelRunner\bin\Debug\HeatCharge.pdb" />
+    <Content Include="ModelRunner\bin\Debug\Implements.dll" />
+    <Content Include="ModelRunner\bin\Debug\Implements.pdb" />
+    <Content Include="ModelRunner\bin\Debug\ModelRunner.exe" />
+    <Content Include="ModelRunner\bin\Debug\ModelRunner.pdb" />
+    <Content Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe" />
+    <Content Include="ModelRunner\bin\Debug\Models.dll" />
+    <Content Include="ModelRunner\bin\Debug\Models.pdb" />
+    <Content Include="ModelRunner\ModelRunner.csproj" />
+    <Content Include="ModelRunner\obj\x86\Debug\ModelRunner.csproj.FileListAbsolute.txt" />
+    <Content Include="ModelRunner\obj\x86\Debug\ModelRunner.exe" />
+    <Content Include="ModelRunner\obj\x86\Debug\ModelRunner.pdb" />
+    <Content Include="Models\bin\Debug\Common.dll" />
+    <Content Include="Models\bin\Debug\Common.pdb" />
+    <Content Include="Models\bin\Debug\CommonTypes.dll" />
+    <Content Include="Models\bin\Debug\CommonTypes.pdb" />
+    <Content Include="Models\bin\Debug\Configuration.dll" />
+    <Content Include="Models\bin\Debug\Configuration.pdb" />
+    <Content Include="Models\bin\Debug\ConnectionProvider.dll" />
+    <Content Include="Models\bin\Debug\ConnectionProvider.pdb" />
+    <Content Include="Models\bin\Debug\Converter.dll" />
+    <Content Include="Models\bin\Debug\Converter.pdb" />
+    <Content Include="Models\bin\Debug\Data.dll" />
+    <Content Include="Models\bin\Debug\Data.pdb" />
+    <Content Include="Models\bin\Debug\DTO.dll" />
+    <Content Include="Models\bin\Debug\DTO.pdb" />
+    <Content Include="Models\bin\Debug\Implements.dll" />
+    <Content Include="Models\bin\Debug\Implements.pdb" />
+    <Content Include="Models\bin\Debug\Models.dll" />
+    <Content Include="Models\bin\Debug\Models.pdb" />
+    <Content Include="Models\Models.csproj" />
+    <Content Include="Models\obj\Debug\Models.csproj.FileListAbsolute.txt" />
+    <Content Include="Models\obj\Debug\Models.dll" />
+    <Content Include="Models\obj\Debug\Models.pdb" />
+    <Content Include="Pulse.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resource.Application.L2BatchPrepairing.resources" />
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resource.Application.L2ModelConverter.resources" />
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resource.BL.resources" />
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resource.Data.resources" />
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resource.Enumerations.resources" />
+    <EmbeddedResource Include="Common\obj\Debug\Common.Properties.Resources.UI.resources" />
+    <EmbeddedResource Include="Common\Properties\Resource.Application.L2BatchPrepairing.resx" />
+    <EmbeddedResource Include="Common\Properties\Resource.Application.L2ModelConverter.resx" />
+    <EmbeddedResource Include="Common\Properties\Resource.BL.resx" />
+    <EmbeddedResource Include="Common\Properties\Resource.Data.resx" />
+    <EmbeddedResource Include="Common\Properties\Resource.Enumerations.resx" />
+    <EmbeddedResource Include="Common\Properties\Resources.UI.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Common\obj\Debug\GenerateResource.read.1.tlog" />
+    <None Include="Common\obj\Debug\GenerateResource.write.1.tlog" />
+    <None Include="Configuration\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Data\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Data\obj\Debug\ResolveAssemblyReference.cache" />
+    <None Include="Data\Properties\DataSources\Phase.datasource" />
+    <None Include="DTO\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="ModelRunner\App.config" />
+    <None Include="ModelRunner\bin\Debug\ModelRunner.exe.config" />
+    <None Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe.config" />
+    <None Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe.manifest" />
+    <None Include="ModelRunner\obj\x86\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="ModelRunner\obj\x86\Debug\ResolveAssemblyReference.cache" />
+    <None Include="Models\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Models\obj\Debug\ResolveAssemblyReference.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\obj\Debug\TempPE\" />
+    <Folder Include="Configuration\obj\Debug\TempPE\" />
+    <Folder Include="Data\obj\Debug\TempPE\" />
+    <Folder Include="DTO\obj\Debug\TempPE\" />
+    <Folder Include="ModelRunner\obj\x86\Debug\TempPE\" />
+    <Folder Include="Models\obj\Debug\TempPE\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
+  <ProjectExtensions>
+    <VisualStudio AllowExistingFolder="true" />
+  </ProjectExtensions>
+</Project>
