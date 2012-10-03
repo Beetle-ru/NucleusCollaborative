@@ -77,6 +77,10 @@ namespace CSVArchiver
                 SDList.Add(SDS.GetSecData(smoothTime));
                 InstantLogger.msg(SDList.Last().ToString());
             }
+            else
+            {
+                Console.Write(".");
+            }
             
         }
 
