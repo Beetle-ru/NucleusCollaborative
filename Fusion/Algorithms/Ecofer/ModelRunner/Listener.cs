@@ -15,10 +15,15 @@ namespace ModelRunner
 {
     class Listener : IEventListener
     {
-        public static RollingAverage avox = new RollingAverage();
+        public static RollingAverage avox = new RollingAverage(1200.1133);
+        public static RollingAverage avofg = new RollingAverage(360000.1133);
+        public static RollingAverage avofg_pco = new RollingAverage(10.1133);
+        public static RollingAverage avofg_pco2 = new RollingAverage(10.1133);
         public static long HeatNumber = -1;
         public static double IronWeight = 300000;
+        public static string IronReason = "DEFAULT";
         public static double ScrapWeight = 114000;
+        public static string ScrapReason = "DEFAULT";
         public static int Converter = 0;
         public static int ForceBlow = 0;
 
@@ -129,14 +134,18 @@ namespace ModelRunner
                         {
                             l.msg("Iron Correction from HMI: {0}\n", corr);
                             IronWeight = corr * 1000;
+                            IronReason = "OPERATOR";
+                            DynPrepare.FireIronEvent();
                         }
                     }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
                     {
                         if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumber))
                         {
-                            l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["Correction"]);
                             IronWeight = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000;
+                            IronReason = "PIPE";
+                            l.msg("Iron Correction from Pipe: {0}\n", IronWeight);
+                            DynPrepare.FireIronEvent();
                         }
                         else l.msg(
                             "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
@@ -151,8 +160,11 @@ namespace ModelRunner
                 else if (evt is LanceEvent)
                 {
                     var lae = evt as LanceEvent;
-                    l.msg("Oxygen Flow: {0}", lae.O2Flow);
                     avox.Add(ForceBlow == -1 ? 0 : ForceBlow == 0 ? 100.0 : lae.O2Flow);
+                    if (lae.O2Flow > 0.0)
+                    {
+                        l.msg("Oxygen Flow: {0}", lae.O2Flow);
+                    }
                 }
                 else if (evt is HeatChangeEvent)
                 {
@@ -161,6 +173,13 @@ namespace ModelRunner
                     Int64 rem;
                     Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
                     HeatNumber = res * 100000 + rem;
+                    IronWeight = 300011;
+                    IronReason = "DEFAULT";
+                    ScrapWeight = 114011;
+                    ScrapReason = "DEFAULT";
+                    avofg.Add(6000.1133);
+                    avofg_pco.Add(0.1133);
+                    avofg_pco2.Add(0.1133);
                 }
                 else if (evt is ScrapEvent)
                 {
@@ -169,6 +188,7 @@ namespace ModelRunner
                     if (se.ConverterNumber == Converter)
                     {
                         ScrapWeight = se.TotalWeight;
+                        ScrapReason = "SCRAPEVENT";
                     }
                 }
                 else if (evt is SteelMakingPatternEvent)
@@ -229,6 +249,7 @@ namespace ModelRunner
                 else if (evt is visAdditionTotalEvent)
                 {
                     var vate = evt as visAdditionTotalEvent;
+                    l.msg("{0}", vate);
                     m_bunkersTotalMass[0] = vate.RB5TotalWeight;
                     m_bunkersTotalMass[1] = vate.RB6TotalWeight;
                     m_bunkersTotalMass[2] = vate.RB7TotalWeight;
@@ -238,6 +259,19 @@ namespace ModelRunner
                     m_bunkersTotalMass[6] = vate.RB11TotalWeight;
                     m_bunkersTotalMass[7] = vate.RB12TotalWeight;
                     MVBounder();
+                }
+                else if (evt is OffGasEvent)
+                {
+                    var wgtotal = evt as OffGasEvent;
+                    //l.msg("{0}", wgtotal);
+                    avofg.Add(wgtotal.OffGasFlow);
+                }
+                else if (evt is OffGasAnalysisEvent)
+                {
+                    var wgpercent = evt as OffGasAnalysisEvent;
+                    //l.msg("{0}", wgpercent);
+                    avofg_pco.Add(wgpercent.CO);
+                    avofg_pco2.Add(wgpercent.CO2);
                 }
             }
         }

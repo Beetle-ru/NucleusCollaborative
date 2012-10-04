@@ -18,12 +18,13 @@ namespace Implements
             }
             public RA_Item()
             {
-                val = Double.NaN;
+                val = 0.0;
                 time = DateTime.MinValue;
             }
         }
 
         private int _N_;
+        private double _DEFVAL_;
         private RA_Item[] m_buffer;
         public void Reset()
         {
@@ -32,9 +33,10 @@ namespace Implements
                 m_buffer[i] = new RA_Item();
             }
         }
-        public RollingAverage(int bufsize = 50)
+        public RollingAverage(double defval = Double.NaN, int bufsize = 50)
         {
             _N_ = bufsize;
+            _DEFVAL_ = defval;
             m_buffer = new RA_Item[_N_];
             Reset();
         }
@@ -52,6 +54,7 @@ namespace Implements
         }
         public void Add(Double val)
         {
+            if (Double.IsNaN(val)) return;
             lock (m_buffer)
             {
                 m_buffer[m_current] = new RA_Item(val);
@@ -73,7 +76,7 @@ namespace Implements
                     ix = _prev(ix);
                     if (++cnt > _N_) break;
                 }
-                if (cnt == 0) return Double.NaN;
+                if (cnt == 0) return _DEFVAL_;
                 return sum / cnt;
             }
         }

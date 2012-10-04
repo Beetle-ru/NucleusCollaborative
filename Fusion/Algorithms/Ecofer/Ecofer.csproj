@@ -55,10 +55,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Converter\bin\Debug\Converter.dll</HintPath>
     </Reference>
-    <Reference Include="Implements, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Core\bin\Debug\Implements.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -274,9 +270,13 @@
     <None Include="Configuration\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="Data\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <None Include="Data\obj\Debug\ResolveAssemblyReference.cache" />
-    <None Include="Data\Properties\DataSources\Phase.datasource" />
+    <None Include="Data\Properties\DataSources\Phase.datasource">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DTO\obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <None Include="ModelRunner\App.config" />
+    <None Include="ModelRunner\App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ModelRunner\bin\Debug\ModelRunner.exe.config" />
     <None Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe.config" />
     <None Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe.manifest" />
@@ -292,6 +292,12 @@
     <Folder Include="DTO\obj\Debug\TempPE\" />
     <Folder Include="ModelRunner\obj\x86\Debug\TempPE\" />
     <Folder Include="Models\obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
+      <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
+      <Name>Implements</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>
