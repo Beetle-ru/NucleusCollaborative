@@ -66,6 +66,7 @@
     <EmbeddedResource Include="Runer.resx">
       <DependentUpon>Runer.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="order.csv" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
