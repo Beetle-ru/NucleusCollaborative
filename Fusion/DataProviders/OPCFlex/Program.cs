@@ -18,25 +18,8 @@ namespace OPCFlex
         static void Main(string[] args)
         {
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
-            var a = Assembly.LoadFrom(MainConf.AppSettings.Settings["Module"].Value);
-            var EventsList = BaseEvent.GetEvents();
 
-            var flexEventIsFound = false;
-            foreach (var evtType in EventsList)
-            {
-                if (evtType.Name == "FlexEvent")
-                {
-                    FlexEventType = evtType;
-                    flexEventIsFound = true;
-                }
-            }
-            if (!flexEventIsFound)
-            {
-                Console.WriteLine("FlexEvent is not found in the assembly");
-                return;
-            }
-
-            MainGate = new ConnectionProvider.Client(new CoreListener(FlexEventType));
+            MainGate = new ConnectionProvider.Client(new CoreListener());
             MainGate.Subscribe();
             
             Console.ReadLine();

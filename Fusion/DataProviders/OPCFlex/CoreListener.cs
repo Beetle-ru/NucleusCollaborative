@@ -8,12 +8,12 @@ using Implements;
 using Core;
 using OPC.Data;
 using OPC.Common;
+using Converter;
 
 namespace OPCFlex
 {
     internal class CoreListener : IEventListener
     {
-        private Type m_flexEventType;
         private object conv(string str)
         {
             var res = new byte[6] {0x20, 0x20, 0x20, 0x20, 0x20, 0x20};
@@ -28,23 +28,22 @@ namespace OPCFlex
         }
 
 
-        public CoreListener(Type flexEventType)
+        public CoreListener()
         {
             using (Logger l = new Logger("CoreListener"))
             {
-                m_flexEventType = flexEventType;
                 l.msg("Started", "Listener", InstantLogger.TypeMessage.unimportant);
             }
         }
 
         public void OnEvent(BaseEvent evt)
         {
-            
             using (Logger l = new Logger("OnEvent"))
             {
-                if (evt.GetType() == m_flexEventType)
+                if (evt is FlexEvent)
                 {
-                    Console.WriteLine(evt);
+                    var fe = evt as FlexEvent;
+                    Console.WriteLine(fe);
                 }
             }
         }
