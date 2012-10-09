@@ -73,7 +73,26 @@ namespace OPCFlex
                     }
                 }
             }
-            
+        }
+
+        public bool ThisI(string operation)
+        {
+            return operation == ObjEvent.Operation;
+        }
+
+        public bool ThisI(Guid id)
+        {
+            return id == ObjEvent.Id;
+        }
+
+        public bool ThisI(DateTime time)
+        {
+            return time == ObjEvent.Time;
+        }
+
+        public bool ThisI(FlexEventFlag flags)
+        {
+            return flags == ObjEvent.Flags;
         }
     }
 }
