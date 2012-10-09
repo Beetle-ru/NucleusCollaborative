@@ -75,6 +75,7 @@ namespace SimpleRuner
             this.cb_appNames.Name = "cb_appNames";
             this.cb_appNames.Size = new System.Drawing.Size(233, 21);
             this.cb_appNames.TabIndex = 3;
+            this.cb_appNames.SelectedIndexChanged += new System.EventHandler(this.cb_appNames_SelectedIndexChanged);
             // 
             // t_startApp
             // 
@@ -95,10 +96,6 @@ namespace SimpleRuner
             this.Name = "Runer";
             this.Text = "Runer";
             this.ResumeLayout(false);
-
-            /////////////////////////////////////////////////////////////////////////
-            
-            //this.ProgrammList = new List<string>();
 
         }
 
