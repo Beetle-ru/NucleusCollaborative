@@ -7,5 +7,11 @@ namespace OPCFlex
 {
     class CartridgeElement
     {
+        public List<Element> ElementList; 
+        public CartridgeElement()
+        {
+            ElementList = new List<Element>();
+        }
+
     }
 }
