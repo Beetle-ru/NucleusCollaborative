@@ -1,4 +1,6 @@
-﻿namespace SimpleRuner
+﻿using System.Collections.Generic;
+
+namespace SimpleRuner
 {
     partial class Runer
     {
@@ -93,6 +95,10 @@
             this.Name = "Runer";
             this.Text = "Runer";
             this.ResumeLayout(false);
+
+            /////////////////////////////////////////////////////////////////////////
+            
+            //this.ProgrammList = new List<string>();
 
         }
 

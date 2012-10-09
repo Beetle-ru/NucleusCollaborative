@@ -15,9 +15,12 @@ namespace SimpleRuner
         public const string DataFilePath = "order.csv";
         public const char Separator = ';';
         public List<string> Order = new List<string>();
+        public Dictionary<int, string> ProgrammDic = new Dictionary<int, string>();
         public Runer()
         {
             InitializeComponent();
+            cb_appNames.Items.Add("SimpleRunner log");
+            cb_appNames.SelectedIndex = 0;
         }
 
         private void t_startApp_Tick(object sender, EventArgs e)
@@ -63,15 +66,26 @@ namespace SimpleRuner
                 throw e;
             }
 
+            int index = 0;
             for (int i = 0; i < Order.Count; i++)
             {
                 if (!Order[i].StartsWith("_"))
                 {
                     cb_appNames.Items.Add(Order[i].Replace(Separator, ' '));
+                    ProgrammDic.Add(i,Order[i]);
+                    tb_log.Text += String.Format("i = {0}, cb.item = {1}\n", i, cb_appNames.Items.Count -1);
+                }
+                else
+                {
+                    CmdExecutor(Order[i]);
                 }
             }
         }
         public void OrderExecutor()
+        {
+            
+        }
+        public void CmdExecutor(string cmd)
         {
             
         }
