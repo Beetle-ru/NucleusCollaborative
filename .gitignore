@@ -1,6 +1,8 @@
 */obj/ # игнорировать директории obj
 obj
 *.user # игнорировать все .user 
+*.sln.DotSettings.user
+
 *.suo
 *.pdb
 !.gitignore
