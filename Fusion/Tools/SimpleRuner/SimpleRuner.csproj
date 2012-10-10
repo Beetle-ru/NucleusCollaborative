@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppExecutor.cs" />
+    <Compile Include="MsgLoop.cs" />
     <Compile Include="Runer.cs">
       <SubType>Form</SubType>
     </Compile>
