@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Converter;
 
 namespace OPCFlex
 {
@@ -13,5 +14,9 @@ namespace OPCFlex
             ElementList = new List<Element>();
         }
 
+        public void Add(FlexEvent descriptionEvent)
+        {
+            ElementList.Add(new Element(descriptionEvent));
+        }
     }
 }

@@ -11,26 +11,29 @@ namespace OPCFlex
     {
         private FlexEvent m_descriptionEvent;
         public FlexEvent ObjEvent;
+        public const char Separator = ';';
 
         public Element(FlexEvent descriptionEvent)
         {
-            const char separator = ';';
+            
 
-            ObjEvent = new FlexEvent(descriptionEvent.Operation);
-            ObjEvent.Flags = descriptionEvent.Flags;
+            m_descriptionEvent = descriptionEvent;
+
+            ObjEvent = new FlexEvent(m_descriptionEvent.Operation);
+            ObjEvent.Flags = m_descriptionEvent.Flags;
             ObjEvent.Id = Guid.NewGuid();
             ObjEvent.Time = DateTime.Now;
 
-            for (int i = 0; i < descriptionEvent.Arguments.Count; i++)
+            for (int i = 0; i < m_descriptionEvent.Arguments.Count; i++)
             {
-                if (descriptionEvent.Arguments.ElementAt(i).Value is string)
+                if (m_descriptionEvent.Arguments.ElementAt(i).Value is string)
                 {
-                    var key = descriptionEvent.Arguments.ElementAt(i).Key;
+                    var key = m_descriptionEvent.Arguments.ElementAt(i).Key;
                     if (!ObjEvent.Arguments.ContainsKey(key))
                     {
                         //format description:
                         // type;fullPLCAdress
-                        string[] values = ((string) descriptionEvent.Arguments.ElementAt(i).Value).Split(separator);
+                        string[] values = ((string)m_descriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
                         if (values.Count() == 2)
                         {
                             if (values[0] == "int")
@@ -93,6 +96,29 @@ namespace OPCFlex
         public bool ThisI(FlexEventFlag flags)
         {
             return flags == ObjEvent.Flags;
+        }
+
+        public FlexEvent GetDescription()
+        {
+            return m_descriptionEvent;
+        }
+        /// <summary>
+        /// returned key
+        /// </summary>
+        /// <param name="adress"></param>
+        /// <returns></returns>
+        public string FindByAdress(string adress)
+        {
+            for (int i = 0; i < m_descriptionEvent.Arguments.Count; i++)
+            {
+                string[] values = ((string)m_descriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
+                if (values[1] == adress)
+                {
+                    return m_descriptionEvent.Arguments.ElementAt(i).Key;
+                }
+                
+            }
+            return "";
         }
     }
 }
