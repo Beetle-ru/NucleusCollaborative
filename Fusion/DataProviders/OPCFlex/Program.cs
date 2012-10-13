@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using CommonTypes;
 using System.Configuration;
+using Converter;
 
 namespace OPCFlex
 {
@@ -22,6 +23,11 @@ namespace OPCFlex
             MainGate = new ConnectionProvider.Client(new CoreListener());
             MainGate.Subscribe();
             
+            FlexEvent desc = new FlexEvent("test");
+            desc.Arguments.Add("first","int;PLC1,DB1W1");
+            CartridgeElement ce =new CartridgeElement();
+            ce.Add(desc);
+
             Console.ReadLine();
         }
     }
