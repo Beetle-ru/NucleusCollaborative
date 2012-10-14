@@ -19,36 +19,40 @@ namespace OPCFlex
             ElementList.Add(new Element(descriptionEvent));
         }
 
-        public List<Path> FindByClientHandle(int clientHandle)
+        public Path FindByClientHandle(int clientHandle)
         {
-            var lp = new List<Path>();
+            var p = new Path();
             for (int e = 0; e < ElementList.Count; e++)
             {
                 for (int a = 0; a < ElementList[e].ClientHandles.Arguments.Count; a++)
                 {
                     if (clientHandle == ElementList[e].GetClientHandle(a))
                     {
-                        lp.Add(new Path() { ElementId = e, ArgumentId = a});
+                        p.ElementId = e;
+                        p.ArgumentId = a;
+                        return p;
                     }
                 }
             }
-            return lp;
+            return p;
         }
 
-        public List<Path> FindByServerHandle(int serverHandle)
+        public Path FindByServerHandle(int serverHandle)
         {
-            var lp = new List<Path>();
+            var p = new Path();
             for (int e = 0; e < ElementList.Count; e++)
             {
                 for (int a = 0; a < ElementList[e].ServerHandles.Arguments.Count; a++)
                 {
                     if (serverHandle == ElementList[e].GetServerHandle(a))
                     {
-                        lp.Add(new Path() { ElementId = e, ArgumentId = a });
+                        p.ElementId = e;
+                        p.ArgumentId = a;
+                        return p;
                     }
                 }
             }
-            return lp;
+            return p;
         }
 
         public object GetValueByPath(Path p)

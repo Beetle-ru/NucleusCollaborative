@@ -1,0 +1,12 @@
+<Config>;;;
+Flags;1;;
+Operation;ExampleEvent;;
+;;;
+<Arguments>;;;
+Converter1;value1;int;PLC11,DB1,W1
+Converter1;value2;double;PLC11,DB1,REAL20
+Converter1;value3;string;PLC11,DB1,STRING30,6
+;;;
+Converter2;value1;int;PLC12,DB1,W1
+Converter2;value2;double;PLC12,DB1,REAL20
+Converter2;value3;string;PLC12,DB1,STRING30,6
