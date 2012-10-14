@@ -19,19 +19,57 @@ namespace OPCFlex
             ElementList.Add(new Element(descriptionEvent));
         }
 
-        public Path FindByHandleClient(int handleClient)
+        public List<Path> FindByClientHandle(int clientHandle)
         {
-            var p = new Path();
+            var lp = new List<Path>();
             for (int e = 0; e < ElementList.Count; e++)
             {
-                //for (int a = 0; a < ElementList[e].; a++)
-                //{
-                    
-                //}
+                for (int a = 0; a < ElementList[e].ClientHandles.Arguments.Count; a++)
+                {
+                    if (clientHandle == ElementList[e].GetClientHandle(a))
+                    {
+                        lp.Add(new Path() { ElementId = e, ArgumentId = a});
+                    }
+                }
             }
-            return p;
+            return lp;
         }
+
+        public List<Path> FindByServerHandle(int serverHandle)
+        {
+            var lp = new List<Path>();
+            for (int e = 0; e < ElementList.Count; e++)
+            {
+                for (int a = 0; a < ElementList[e].ServerHandles.Arguments.Count; a++)
+                {
+                    if (serverHandle == ElementList[e].GetServerHandle(a))
+                    {
+                        lp.Add(new Path() { ElementId = e, ArgumentId = a });
+                    }
+                }
+            }
+            return lp;
+        }
+
+        public object GetValueByPath(Path p)
+        {
+            return ElementList[p.ElementId].ObjEvent.Arguments.ElementAt(p.ArgumentId).Value;
+        }
+
+        public bool SetValueByPath(Path p, object value)
+        {
+            var key = ElementList[p.ElementId].ObjEvent.Arguments.ElementAt(p.ArgumentId).Key;
+            if (ElementList[p.ElementId].ObjEvent.Arguments[key].GetType() == value.GetType())
+            {
+                ElementList[p.ElementId].ObjEvent.Arguments[key] = value;
+                return true;
+            }
+            return false;
+        }
+
     }
+
+
     class Path
     {
         public int ElementId { get; set; }
