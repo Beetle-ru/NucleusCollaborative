@@ -191,7 +191,8 @@ namespace CarboneProcessor
                                                    HeightLanceCentimeters = heatData.HeightLanceCentimeters,
                                                    OxygenVolumeRate = heatData.OxygenVolumeRate
                                                };
-                    RemainCarbonPercent = Decarbonater.MultiFactorCarbonMass(heatData.MatrixStateData, currentStateData);
+                    var CMCarbon = Decarbonater.MultiFactorCarbonMass(heatData.MatrixStateData, currentStateData);
+                    if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
 
                     if (MomentFixDataForMFactorModel(heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent)) // фиксируем для обучения
                     {
