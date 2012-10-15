@@ -171,18 +171,6 @@ namespace CarboneProcessor
                             heatData.CarbonOxideVolumePercent,
                             heatData.CarbonOxideVolumePercentPrevious
                             );
-                        //if (MomentFixDataForMFactorModel()) // фиксируем для обучения
-                        //{
-                        //    if (m_noFixData)
-                        //    {
-                        //        CurrentHeatResult.OxygenVolumeRate = heatData.OxygenVolumeRate;
-                        //        CurrentHeatResult.SteelCarbonCalculationPercent = RemainCarbonPercent;
-                        //        CurrentHeatResult.CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent;
-                        //        CurrentHeatResult.HeightLanceCentimeters = heatData.HeightLanceCentimeters;
-                        //        Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
-                        //        m_noFixData = false;
-                        //    }
-                        //}
                     }
                     else
                     {
@@ -251,9 +239,7 @@ namespace CarboneProcessor
 
         static public void HardFixData(MFCMDataFull currentHeatResult)
         {
-            if ((currentHeatResult.SteelCarbonCalculationPercent != 0) &&
-                (currentHeatResult.SteelCarbonPercent > 0)
-                )
+            if (VerificateDataHF(currentHeatResult))
             {
                 Program.MatrixStateDataFull.RemoveAt(0);
                 Program.MatrixStateDataFull.Add(currentHeatResult);
@@ -274,6 +260,27 @@ namespace CarboneProcessor
             Program.SaveMatrix(Program.Path,Program.Separator,Program.MatrixStateDataFull);
             Program.SaveMatrix(Program.ArchFileName, Program.Separator, Program.MatrixStateDataFullTotal);
             //StartHeating();
+        }
+
+        static public bool VerificateDataHF(MFCMDataFull currentHeatResult)
+        {
+            var result = false;
+            const double minCarbonPercent = 0.03;
+            const double maxCarbonPercent = 0.1;
+            const double minOxygenVolumeRate = 600;
+            const double maxOxygenVolumeRate = 1400;
+            const double maxHeightLance = 230;
+            const double maxCarbonMonoxideVolumePercent = 30;
+            const double maxCarbonOxideVolumePercent = 30;
+            result = (currentHeatResult.SteelCarbonCalculationPercent != 0) &&
+                     (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
+                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
+                     (currentHeatResult.OxygenVolumeRate > minOxygenVolumeRate) &&
+                     (currentHeatResult.OxygenVolumeRate < maxOxygenVolumeRate) &&
+                     (currentHeatResult.HeightLanceCentimeters <= maxHeightLance) &&
+                     (currentHeatResult.CarbonMonoxideVolumePercent <= maxCarbonMonoxideVolumePercent) &&
+                     (currentHeatResult.CarbonOxideVolumePercent <= maxCarbonOxideVolumePercent);
+            return result;
         }
 
         static public void EnqueueWaitC(MFCMDataFull currentHeatResult)
