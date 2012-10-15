@@ -19,7 +19,19 @@ namespace SublanceGenerator
         {
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
-        
+        public Int64 HeatNumberToShort(Int64 heatNLong)
+        {
+            Int64 reminder = 0;
+            Int64 res = Math.DivRem(heatNLong, 10000, out reminder);
+            return res * 1000 + reminder;
+        }
+
+        public Int64 HeatNumberToLong(Int64 heatNShort)
+        {
+            Int64 reminder = 0;
+            Int64 res = Math.DivRem(heatNShort, 10000, out reminder);
+            return res * 100000 + reminder;
+        }
         public void OnEvent(BaseEvent evt)
         {
             using (var l = new Logger("FlexEventSaver"))
@@ -52,7 +64,7 @@ namespace SublanceGenerator
                     var fxe = evt as FlexEvent;
                     if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
                     {
-                        if ((string) fxe.Arguments["SHEATNO"] == Convert.ToString(Iterator.HeatNumber))
+                        if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumberToLong(Iterator.HeatNumber)))
                         {
                             l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
                             Iterator.HotMetallMass = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]);

@@ -83,7 +83,7 @@ namespace CarboneProcessor
                         RemainCarbonPercent = GetCarbonPercent(RemainCarbonMass, heatData.IronMass,
                                                                heatData.IronCarbonPercent,
                                                                heatData.ScrapMass, heatData.ScrapCarbonPercent);
-                        if (TotalCarbonMass > 0)
+                        if (TotalCarbonMass > 0 && heatData.OxygenVolumeRate > 0)
                         {
                             TotalCarbonMassCalculated = true;
                             l.msg("##### [TotalCarbonMassCalculated: {0}][RemainCarbonPercent]", TotalCarbonMass,
@@ -438,8 +438,8 @@ namespace CarboneProcessor
         {
             IronMass = 300000.1133; //!!!!!!!!!!!!!!!!!
             IronCarbonPercent = 4.1133; //!!!!!!!!!!!!!!!!!!!!!!!
-            //ScrapMass = 150000.0; //!!!!!!!!!!!!!!!!!!!!!                     
-            ScrapMass = 0.0;
+            ScrapMass = 150000.0; //!!!!!!!!!!!!!!!!!!!!!                     
+            //ScrapMass = 0.0;
             ScrapCarbonPercent = 0.21;
             SteelCarbonPercent = 0.04;
             CarbonMonoxideVolumePercent = 0.0;

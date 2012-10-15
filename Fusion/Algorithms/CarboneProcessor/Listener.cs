@@ -18,18 +18,29 @@ namespace CarboneProcessor
     {
         private static double m_carbonMonoxideVolumePercentPrevious;
         private static double m_carbonOxideVolumePercentPrevious;
+        private static double m_lastScrapMass;
+        private static double m_lastHotIronMass;
         public Listener()
         {
             m_carbonMonoxideVolumePercentPrevious = 0.0;
             m_carbonOxideVolumePercentPrevious = 0.0;
+            m_lastHotIronMass = 300000.1135;
+            m_lastScrapMass = 150000.1135;
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
         
-        public Int64 HeatNumberRemooveAxcess(Int64 heatNSpectroluks)
+        public Int64 HeatNumberToShort(Int64 heatNLong)
         {
             Int64 reminder = 0;
-            Int64 res = Math.DivRem(heatNSpectroluks, 10000, out reminder);
+            Int64 res = Math.DivRem(heatNLong, 10000, out reminder);
             return res * 1000 + reminder;
+        }
+
+        public Int64 HeatNumberToLong(Int64 heatNShort)
+        {
+            Int64 reminder = 0;
+            Int64 res = Math.DivRem(heatNShort, 10000, out reminder);
+            return res * 100000 + reminder;
         }
 
         public void OnEvent(BaseEvent newEvent)
@@ -37,6 +48,24 @@ namespace CarboneProcessor
            // InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.error);
             using (var l = new Logger("Listener"))
             {
+                if (newEvent is FlexEvent)
+                {
+                    var fxe = newEvent as FlexEvent;
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
+                    {
+                        if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumberToLong(CIterator.CurrentHeatResult.NumberHeat)))
+                        {
+                            l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000;
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                CIterator.CurrentHeatResult.NumberHeat, fxe.Arguments["SHEATNO"]
+                                );
+                    }
+                }
+
                 if (newEvent is HeatChangeEvent)
                 {
                     var heatChangeEvent = newEvent as HeatChangeEvent;
@@ -65,7 +94,7 @@ namespace CarboneProcessor
                 if (newEvent is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = newEvent as visSpectrluksEvent;
-                    CIterator.AddCarbonToQueue(HeatNumberRemooveAxcess(vse.HeatNumber), vse.C);
+                    CIterator.AddCarbonToQueue(HeatNumberToShort(vse.HeatNumber), vse.C);
                 }
                 if (newEvent is ScrapEvent)
                 {
@@ -73,6 +102,7 @@ namespace CarboneProcessor
                     if (scrapEvent.ConverterNumber == Program.ConverterNumber)
                     {
                         CIterator.DataCurrentHeat.ScrapMass = scrapEvent.TotalWeight;
+                        m_lastScrapMass = scrapEvent.TotalWeight;
                         l.msg("Scrap mass: {0}", CIterator.DataCurrentHeat.ScrapMass);
                     }
                 }
@@ -83,7 +113,7 @@ namespace CarboneProcessor
                     l.msg("Iron carbon Percent: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
                     if (CIterator.DataCurrentHeat.IronCarbonPercent <= 0)
                     {
-                        CIterator.DataCurrentHeat.IronCarbonPercent = 5.1133;
+                        CIterator.DataCurrentHeat.IronCarbonPercent = 4.1133;
                         l.err("Iron carbon Percent is bad, default value: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
                     }
                 }
@@ -104,42 +134,31 @@ namespace CarboneProcessor
                 if (newEvent is LanceEvent)
                 {
                     var lanceEvent = newEvent as LanceEvent;
-                    //CIterator.DataCurrentHeat.OxygenVolumeRate = lanceEvent.O2Flow;
                     CIterator.DataSmoothCurrent.OxygenVolumeRate.Add(lanceEvent.O2Flow);
                     l.msg("Oxygen volume rate: {0}", lanceEvent.O2Flow);
-                    //CIterator.DataCurrentHeat.OxygenVolumeCurrent = lanceEvent.O2TotalVol;
                     CIterator.DataSmoothCurrent.OxygenVolumeCurrent.Add(lanceEvent.O2TotalVol);
                     l.msg("Oxygen volume current: {0}", lanceEvent.O2TotalVol);
-                    //CIterator.DataCurrentHeat.HeightLanceCentimeters = lanceEvent.LanceHeight;
                     CIterator.DataSmoothCurrent.HeightLanceCentimeters.Add((double)lanceEvent.LanceHeight);
-                    //CIterator.SetMaxDownLancePosition(lanceEvent.LanceHeight); // самое низкое положение за плавку для старта многофакторной модели
-                    //CIterator.SmoothSecondLancePosition.Add((double)lanceEvent.LanceHeight);
                     CIterator.CalculateLanceSpeed(lanceEvent.LanceHeight); // фиксация данных по скорости и положению фурмы для старта многофакторной модели
                     l.msg("Height lance: {0}", lanceEvent.LanceHeight);
-                    //CIterator.MomentFixDataForMFactorModel();
                 }
                 if (newEvent is OffGasAnalysisEvent)
                 {
                     var offGasAnalysisEvent = newEvent as OffGasAnalysisEvent;
-                    //CIterator.DataCurrentHeat.CarbonMonoxideVolumePercentPrevious =
-                    //    CIterator.DataCurrentHeat.CarbonMonoxideVolumePercent;
                     CIterator.DataSmoothCurrent.CarbonMonoxideVolumePercentPrevious.Add(m_carbonMonoxideVolumePercentPrevious);
                     m_carbonMonoxideVolumePercentPrevious = offGasAnalysisEvent.CO;
-                    //CIterator.DataCurrentHeat.CarbonOxideVolumePercentPrevious =
-                    //    CIterator.DataCurrentHeat.CarbonOxideVolumePercent;
                     CIterator.DataSmoothCurrent.CarbonOxideVolumePercentPrevious.Add(m_carbonOxideVolumePercentPrevious);
                     m_carbonOxideVolumePercentPrevious = offGasAnalysisEvent.CO2;
-                    //CIterator.DataCurrentHeat.CarbonMonoxideVolumePercent = offGasAnalysisEvent.CO;
                     CIterator.DataSmoothCurrent.CarbonMonoxideVolumePercent.Add(offGasAnalysisEvent.CO);
-                    //CIterator.DataCurrentHeat.CarbonOxideVolumePercent = offGasAnalysisEvent.CO2;
                     CIterator.DataSmoothCurrent.CarbonOxideVolumePercent.Add(offGasAnalysisEvent.CO2);
                 }
                 if (newEvent is OffGasEvent)
                 {
                     var offGasEvent = newEvent as OffGasEvent;
-                    //CIterator.DataCurrentHeat.OffgasVolumeRate = offGasEvent.OffGasFlow;
                     CIterator.DataSmoothCurrent.OffgasVolumeRate.Add(offGasEvent.OffGasFlow);
                     CIterator.DataCurrentHeat = CIterator.DataSmoothCurrent.GetHeatData(CIterator.DataCurrentHeat, CIterator.PeriodSec);
+                    CIterator.DataCurrentHeat.IronMass = m_lastHotIronMass;
+                    CIterator.DataCurrentHeat.ScrapMass = m_lastScrapMass;
                     CIterator.Iterate(CIterator.DataCurrentHeat);
                     l.msg("Iterate");
                     l.msg("[Heat number: {0}][Carbone calculation percent: {1}][Carbone calculation mass: {2}]",
