@@ -181,6 +181,7 @@
     <Compile Include="Events\Command\comJobW5Event.cs" />
     <Compile Include="Events\Command\comJobW6Event.cs" />
     <Compile Include="Events\Command\comJobW7Event.cs" />
+    <Compile Include="Events\Command\comMeteringEvent.cs" />
     <Compile Include="Events\Command\comName1MatEvent.cs" />
     <Compile Include="Events\Command\comName2MatEvent.cs" />
     <Compile Include="Events\Command\comO2FlowRateEvent.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Events\Command\comSelectOxygenModeW5Event.cs" />
     <Compile Include="Events\Command\comSelectOxygenModeW6Event.cs" />
     <Compile Include="Events\Command\comSelectOxygenModeW7Event.cs" />
+    <Compile Include="Events\Command\comPrepareMeteringEvent.cs" />
     <Compile Include="Events\Command\Counters\cntO2FlowRateEvent.cs" />
     <Compile Include="Events\Command\Counters\cntBlowingSchemaEvent.cs" />
     <Compile Include="Events\Command\Counters\cntAdditionsEvent.cs" />
