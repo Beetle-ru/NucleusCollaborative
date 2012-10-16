@@ -1,5 +1,5 @@
 ﻿#define LANCE_IN_PARKING_POSITION_NOSIGNAL
-#define MAIN_OXYGEN_BLOWING_ONLY
+//#define MAIN_OXYGEN_BLOWING_ONLY
 
 using System;
 using System.Collections.Generic;
@@ -1348,7 +1348,7 @@ namespace Models
             mCurrentPhase = mCorrectionOxygenBlowingPhase;
             if (PhaseChanged != null) PhaseChanged(this, new Data.EventArgs.CurrentPhaseChangedEventArgs(mCurrentPhase.PreviousPhase, mCurrentPhase, mCurrentPhase));
         }
-        private void SwitchPhaseToL1OxygenLanceParking()
+        public void SwitchPhaseToL1OxygenLanceParking()
         {
             mCurrentPhaseState = ModelPhaseState.S45_Waiting4LanceParking;
             mCurrentPhase = mInputData.OxygenBlowingPhases.Single(aR => aR is Data.PhaseItemL1Command && ((Data.PhaseItemL1Command)aR).L1Command == Enumerations.L2L1_Command.OxygenLanceToParkingPosition);

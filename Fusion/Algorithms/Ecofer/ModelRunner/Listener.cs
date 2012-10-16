@@ -41,11 +41,11 @@ namespace ModelRunner
                 m_bunkersTotalMass.Add(0.0);
                 m_bunkersNames.Add("");
             }
-            CurrWeight.Add("ИЗВЕСТ", 1);
-            CurrWeight.Add("ДОЛОМС", 1);
-            CurrWeight.Add("ДОЛМИТ", 1);
-            CurrWeight.Add("ФОМ", 1);
-            CurrWeight.Add("КОКС", 1);
+            CurrWeight.Add("LIME", 1);
+            CurrWeight.Add("DOLOMS", 1);
+            CurrWeight.Add("DOLMAX", 1);
+            CurrWeight.Add("FOM", 1);
+            CurrWeight.Add("COKE", 1);
         }
         public static string Encoder(string str)
         {
@@ -64,60 +64,71 @@ namespace ModelRunner
             }
             return str;
         }
-        public static void MVBounder()
+        public static void MVBounder(Logger l)
         {
             Dictionary<string, double> MVDic = new Dictionary<string, double>();
             for (var i = 0; i < bunkersCount; i++)
             {
+                ///! AR: reset bunkerNames if empty
                 if ((m_bunkersNames[i] != "") && (m_bunkersTotalMass[i] != 0))
                 {
                     if (Encoder(m_bunkersNames[i]) == "ИЗВЕСТ")
                     {
-                        if (CurrWeight["ИЗВЕСТ"] < (int)m_bunkersTotalMass[i])
+                        if (CurrWeight["LIME"] < (int)m_bunkersTotalMass[i])
                         {
-                            Console.WriteLine("Обнаружена ИЗВЕСТ");
-                            MatAdd.Add(DynPrepare.AddCaO((int)m_bunkersTotalMass[i] - CurrWeight["ИЗВЕСТ"]));
-                            CurrWeight["ИЗВЕСТ"] = (int) m_bunkersTotalMass[i];
+                            MatAdd.Add(DynPrepare.AddCaO((int)m_bunkersTotalMass[i] - CurrWeight["LIME"]));
+                            CurrWeight["LIME"] = (int) m_bunkersTotalMass[i];
+                            l.msg("Material added LIME: {0}", (int)m_bunkersTotalMass[i]);
                         }
                     }
                     else if (Encoder(m_bunkersNames[i]) == "ДОЛОМС")
                     {
-                        if (CurrWeight["ДОЛОМС"] < (int)m_bunkersTotalMass[i])
+                        if (CurrWeight["DOLOMS"] < (int)m_bunkersTotalMass[i])
                         {
-                            Console.WriteLine("Обнаружен ДОЛОМС");
-                            MatAdd.Add(DynPrepare.AddDolomS((int)m_bunkersTotalMass[i] - CurrWeight["ДОЛОМС"]));
-                            CurrWeight["ДОЛОМС"] = (int) m_bunkersTotalMass[i];
+                            MatAdd.Add(DynPrepare.AddDolomS((int)m_bunkersTotalMass[i] - CurrWeight["DOLOMS"]));
+                            CurrWeight["DOLOMS"] = (int) m_bunkersTotalMass[i];
+                            l.msg("Material added DOLOMS: {0}", (int)m_bunkersTotalMass[i]);
                         }
                     }
                     else if (Encoder(m_bunkersNames[i]) == "ДОЛМИТ")
                     {
-                        if (CurrWeight["ДОЛМИТ"] < (int)m_bunkersTotalMass[i])
+                        if (CurrWeight["DOLMAX"] < (int)m_bunkersTotalMass[i])
                         {
-                            Console.WriteLine("Обнаружен ДОЛМИТ");
-                            MatAdd.Add(DynPrepare.AddDolom((int)m_bunkersTotalMass[i] - CurrWeight["ДОЛМИТ"]));
-                            CurrWeight["ДОЛМИТ"] = (int) m_bunkersTotalMass[i];
+                            MatAdd.Add(DynPrepare.AddDolom((int)m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
+                            CurrWeight["DOLMAX"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added DOLMIT: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "МАХГ  ")
+                    {
+                        if (CurrWeight["DOLMAX"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddDolom((int)m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
+                            CurrWeight["DOLMAX"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added MAXG: {0}", (int)m_bunkersTotalMass[i]);
                         }
                     }
                     else if (Encoder(m_bunkersNames[i]) == "ФОМ   ")
                     {
-                        if (CurrWeight["ФОМ"] < (int)m_bunkersTotalMass[i])
+                        if (CurrWeight["FOM"] < (int)m_bunkersTotalMass[i])
                         {
-                            Console.WriteLine("Обнаружен ФОМ");
-                            MatAdd.Add(DynPrepare.AddFom((int)m_bunkersTotalMass[i] - CurrWeight["ФОМ"]));
-                            CurrWeight["ФОМ"] = (int) m_bunkersTotalMass[i];
+                            MatAdd.Add(DynPrepare.AddFom((int)m_bunkersTotalMass[i] - CurrWeight["FOM"]));
+                            CurrWeight["FOM"] = (int) m_bunkersTotalMass[i];
+                            l.msg("Material Added FOM: {0}", (int)m_bunkersTotalMass[i]);
                         }
                     }
                     else if (Encoder(m_bunkersNames[i]) == "KOKS  ")
                     {
-                        if (CurrWeight["КОКС"] < (int)m_bunkersTotalMass[i])
+                        if (CurrWeight["COKE"] < (int)m_bunkersTotalMass[i])
                         {
-                            Console.WriteLine("Обнаружен КОКС");
-                            MatAdd.Add(DynPrepare.AddCoke((int)m_bunkersTotalMass[i] - CurrWeight["КОКС"]));
-                            CurrWeight["КОКС"] = (int) m_bunkersTotalMass[i];
+                            MatAdd.Add(DynPrepare.AddCoke((int)m_bunkersTotalMass[i] - CurrWeight["COKE"]));
+                            CurrWeight["COKE"] = (int) m_bunkersTotalMass[i];
+                            l.msg("Material added COKE: {0}", (int)m_bunkersTotalMass[i]);
                         }
                     }
 
                 }
+                //else throw new Exception("Either bunker names or values are empty");
             }
         }
         public void OnEvent(BaseEvent evt)
@@ -143,13 +154,28 @@ namespace ModelRunner
                         if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumber))
                         {
                             IronWeight = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000;
-                            IronReason = "PIPE";
+                            IronReason = "PIPE-W";
                             l.msg("Iron Correction from Pipe: {0}\n", IronWeight);
                             DynPrepare.FireIronEvent();
                         }
                         else l.msg(
                             "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
                             HeatNumber, fxe.Arguments["SHEATNO"]
+                            );
+                    }
+                    else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
+                        {
+                            DynPrepare.fxeIron = fxe;
+                            IronWeight = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                            IronReason = "PIPE-X";
+                            l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
+                            DynPrepare.FireIronEvent();
+                        }
+                        else l.msg(
+                            "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
+                            HeatNumber, fxe.Arguments["HEAT_NO"]
                             );
                     }
                     else
@@ -169,17 +195,24 @@ namespace ModelRunner
                 else if (evt is HeatChangeEvent)
                 {
                     var hce = evt as HeatChangeEvent;
+                    if (HeatNumber == hce.HeatNumber) return;
                     l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                     Int64 rem;
                     Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
                     HeatNumber = res * 100000 + rem;
                     IronWeight = 300011;
                     IronReason = "DEFAULT";
-                    ScrapWeight = 114011;
+                    ScrapWeight = 113311;
                     ScrapReason = "DEFAULT";
                     avofg.Add(6000.1133);
                     avofg_pco.Add(0.1133);
                     avofg_pco2.Add(0.1133);
+                    DynPrepare.fxeIron = null;
+                    CurrWeight["LIME"] = 1;
+                    CurrWeight["DOLOMS"] = 1;
+                    CurrWeight["DOLMAX"] = 1;
+                    CurrWeight["FOM"] = 1;
+                    CurrWeight["COKE"] = 1;
                 }
                 else if (evt is ScrapEvent)
                 {
@@ -258,7 +291,7 @@ namespace ModelRunner
                     m_bunkersTotalMass[5] = vate.RB10TotalWeight;
                     m_bunkersTotalMass[6] = vate.RB11TotalWeight;
                     m_bunkersTotalMass[7] = vate.RB12TotalWeight;
-                    MVBounder();
+                    MVBounder(l);
                 }
                 else if (evt is OffGasEvent)
                 {

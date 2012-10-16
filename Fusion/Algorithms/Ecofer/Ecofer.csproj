@@ -71,7 +71,9 @@
     <Compile Include="Common\Enumerations.cs" />
     <Compile Include="Common\EventArgs.cs" />
     <Compile Include="Common\Global.cs" />
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Common\Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Properties\Resource.Application.L2BatchPrepairing.Designer.cs" />
     <Compile Include="Common\Properties\Resource.Application.L2ModelConverter.Designer.cs" />

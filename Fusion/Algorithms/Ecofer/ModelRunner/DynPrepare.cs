@@ -18,11 +18,15 @@ namespace ModelRunner
 {
     internal class DynPrepare
     {
+        //public static long oHeatNumber;
         public static Client CoreGate;
         private const int _N_matElements = 74;
         private static List<string> StrList = new List<string>();
         public static DynamicInput aInputData = new DynamicInput();
-
+        public static FlexEvent fxeIron = null;
+        private static DTO.MINP_MatAddDTO matIron;
+        public static long HeatNumber = -1;
+        private static int EmptyBlowCount = 0;
         private static void OutLine(String str)
         {
             Console.WriteLine(str + Environment.NewLine);
@@ -36,15 +40,29 @@ namespace ModelRunner
             matIron.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matIron.MINP_GD_Material.ShortCode = matIron.ShortCode;
             matIron.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 1400.0));
+            if (fxeIron == null)
+            {
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 1400.0));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 4.75));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.55));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.27));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.062));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.017));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ti", 0.1));
+            }
+            else
+            {
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Convert.ToDouble(fxeIron.Arguments["HM_TEMP"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", Convert.ToDouble(fxeIron.Arguments["ANA_C"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", Convert.ToDouble(fxeIron.Arguments["ANA_SI"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", Convert.ToDouble(fxeIron.Arguments["ANA_MN"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", Convert.ToDouble(fxeIron.Arguments["ANA_P"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", Convert.ToDouble(fxeIron.Arguments["ANA_S"])));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ti", Convert.ToDouble(fxeIron.Arguments["ANA_TI"])));
+            }
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 340.0));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 4.75));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.55));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.27));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.062));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.017));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.02));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.007));
@@ -255,6 +273,7 @@ namespace ModelRunner
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
+                    //Thread.Sleep(5000);
                     // запрашиваем привязку бункеров к материалам
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
                     // навески
@@ -280,8 +299,8 @@ namespace ModelRunner
                     {
                         MINP.MINP_GD_MaterialElements.Add(i, mael[i]);
                     }
-                    var oHeatNumber = Listener.HeatNumber;
-                    NEXT_HEAT:
+                    HeatNumber = Listener.HeatNumber;
+NEXT_HEAT:
                     DynPrepare.aInputData.OxygenBlowingPhases = new List<PhaseItem>();
                     var ph1 = new PhaseItemL1Command();
                     var ph2 = new PhaseItemOxygenBlowing();
@@ -292,7 +311,7 @@ namespace ModelRunner
                     ph2 = new PhaseItemOxygenBlowing();
                     ph2.PhaseName = "OxyBlowStep0";
                     ph2.LanceDistance_mm = 300;
-                    ph2.O2Amount_Nm3 = 20000;
+                    ph2.O2Amount_Nm3 = 15000;
                     ph2.O2Flow_Nm3_min = 1000;
                     ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
                     DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
@@ -321,13 +340,15 @@ namespace ModelRunner
                         Thread.Sleep(1000);
                         Console.Write(".");
                     }
+                    HeatNumber = Listener.HeatNumber;
 
                     # region Charging
 
                     aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
 
                     // Iron
-                    aInputData.ChargedMaterials.Add(AddIron((int) Listener.IronWeight));
+                    matIron = AddIron((int) Listener.IronWeight);
+                    aInputData.ChargedMaterials.Add(matIron);
                     //goto LABEL_START;
 
                     // Scrap
@@ -465,7 +486,14 @@ namespace ModelRunner
 
                     #endregion
 
-                    aInputData.HotMetal_Temperature = 1440;
+                    for (int i = 0; i < matIron.MINP_GD_Material.MINP_GD_MaterialItems.Count; i++)
+                    {
+                        if (matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].MINP_GD_MaterialElement.Index == 69)
+                        {
+                            aInputData.HotMetal_Temperature = (int)matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].Amount_p;
+                            break;
+                        }
+                    }
                     aInputData.Scrap_Temperature = 15;
 
                     #region Define Oxygen Blowing Phases
@@ -500,9 +528,21 @@ namespace ModelRunner
                                                        ((PhaseItemL1Command) e.CurrentPhase).L1Command ==
                                                        Enumerations.L2L1_Command.OxygenLanceToParkingPosition)
                                                    {
-                                                       l.msg("Model finished.");
                                                        FireTemperatureEvent(lModel);
+                                                       FireXimstalEvent(lModel);
+                                                       FireXimslagEvent(lModel);
+                                                       FireAdditionsEvent(lModel);
                                                        lModel.Stop();
+                                                       l.msg("Model finished. HEATNO={0}", HeatNumber);
+                                                   }
+                                                   else if (e.CurrentPhase is PhaseItemL1Command &&
+                                                       ((PhaseItemL1Command) e.CurrentPhase).L1Command ==
+                                                       Enumerations.L2L1_Command.TemperatureMeasurement)
+                                                   {
+                                                       var lTM = new MINP_TempMeasDTO();
+                                                       lTM.Temperature = (int)lModel.LastOutputData.T_Tavby;
+                                                       lModel.EnqueueTemperatureMeasured(lTM);
+                                                       l.msg("Waiting for temperature measurement: {0}", lTM.Temperature);
                                                    }
                                                };
                     lModel.ModelLoopDone += (s, e) =>
@@ -510,11 +550,22 @@ namespace ModelRunner
                                                     SimulationOxygenBlowing();
                                                     FireFlexEvent(++nStep, null, lModel);
                                                     //Thread.Sleep(1000);
-                                                    foreach (var m in Listener.MatAdd)
+                                                    if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == lModel.State())
                                                     {
-                                                        lModel.EnqueueMaterialAdded(m);
+                                                        foreach (var m in Listener.MatAdd)
+                                                        {
+                                                            lModel.EnqueueMaterialAdded(m);
+                                                        }
+                                                        Listener.MatAdd.Clear();
                                                     }
-                                                    Listener.MatAdd.Clear();
+                                                    else if (Dynamic.ModelPhaseState.S30_Correction == lModel.State())
+                                                    {
+                                                        if (Listener.avox.Average(10) < 10.0)
+                                                        {
+                                                            if (++EmptyBlowCount > 5) lModel.SwitchPhaseToL1OxygenLanceParking();
+                                                        }
+                                                        else EmptyBlowCount = 0;
+                                                    }
                                                 };
                     lModel.Start();
                     do
@@ -526,9 +577,9 @@ namespace ModelRunner
                     {
                         Thread.Sleep(1000);
                         Console.Write("+");
-                    } while (oHeatNumber == Listener.HeatNumber);
-                    oHeatNumber = Listener.HeatNumber;
-                    Console.WriteLine();
+                    } while (HeatNumber == Listener.HeatNumber);
+                    l.msg("Heat Number old: {0}, new: {1}", HeatNumber, Listener.HeatNumber);
+                    HeatNumber = Listener.HeatNumber;
                     nStep = 0;
 
                     goto NEXT_HEAT;
@@ -586,6 +637,46 @@ namespace ModelRunner
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Temperature");
             fex.AddArg("Heat_No", Listener.HeatNumber);
             fex.AddArg("Final_T", (double)mo.LastOutputData.T_Tavby);
+            fex.Fire(CoreGate);
+        }
+
+        public static void FireXimstalEvent(Models.Dynamic mo)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.XIMSTAL");
+            fex.AddArg("Heat_No", Listener.HeatNumber);
+            fex.AddArg("Final_C", (double)mo.LastOutputData.FP_Kov[0]);
+            fex.AddArg("Final_Si", (double)mo.LastOutputData.FP_Kov[1]);
+            fex.AddArg("Final_Mn", (double)mo.LastOutputData.FP_Kov[2]);
+            fex.AddArg("Final_P", (double)mo.LastOutputData.FP_Kov[3]);
+            fex.AddArg("Final_Al", (double)mo.LastOutputData.FP_Kov[5]);
+            fex.AddArg("Final_Cr", (double)mo.LastOutputData.FP_Kov[7]);
+            fex.AddArg("Final_V", (double)mo.LastOutputData.FP_Kov[10]);
+            fex.AddArg("Final_Ti", (double)mo.LastOutputData.FP_Kov[11]);
+            fex.AddArg("Final_Fe", (double)mo.LastOutputData.FP_Kov[32]);
+            fex.Fire(CoreGate);
+        }
+
+        public static void FireXimslagEvent(Models.Dynamic mo)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.XIMSLAG");
+            fex.AddArg("Heat_No", Listener.HeatNumber);
+            fex.AddArg("Final_FeO", (double)mo.LastOutputData.FP_Struska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddArg("Final_CaO", (double)mo.LastOutputData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddArg("Final_SiO2", (double)mo.LastOutputData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddArg("Final_MnO", (double)mo.LastOutputData.FP_Struska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddArg("Final_MgO", (double)mo.LastOutputData.FP_Struska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.Fire(CoreGate);
+        }
+
+        public static void FireAdditionsEvent(Models.Dynamic mo)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Additions");
+            fex.AddArg("Heat_No", Listener.HeatNumber);
+            fex.AddArg("LIME", (double)Listener.CurrWeight["LIME"]);
+            fex.AddArg("DOLOMS", (double)Listener.CurrWeight["DOLOMS"]);
+            fex.AddArg("DOLMAX", (double)Listener.CurrWeight["DOLMAX"]);
+            fex.AddArg("FOM", (double)Listener.CurrWeight["FOM"]);
+            fex.AddArg("COKE", (double)Listener.CurrWeight["COKE"]);
             fex.Fire(CoreGate);
         }
 
@@ -648,7 +739,7 @@ namespace ModelRunner
                 lCyclicDTO.TimeProcessed = Data.Clock.Current.ActualTime;
                 lCyclicDTO.OxygenConsumption_m3 = lO2Consumption;
                 lCyclicDTO.OxygenFlow_Nm3_min = (int) Listener.avox.Average(_3_);
-                var d = Math.Round(Listener.avofg.Average(_3_) * 0.00333333333333);
+                var d = Math.Round(Listener.avofg.Average(_3_) * 0.0166666666666667);
                 lCyclicDTO.WastegasFlow_Nm3_min = (int) d;
                 lCyclicDTO.Wastegas_CO2_p = (int) Listener.avofg_pco2.Average(_3_);
                 lCyclicDTO.Wastegas_CO_p = (int) Listener.avofg_pco.Average(_3_);

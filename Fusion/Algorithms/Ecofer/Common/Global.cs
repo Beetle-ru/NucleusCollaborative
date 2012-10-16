@@ -87,7 +87,7 @@ namespace Common
 
         public static float M3_SimulationWasteGas_Podil_na_C = 0.95f;
         public static float M3_SimulationWasteGas_C_kov_zlom = 0.0015f;
-        public static float M3_V_Wastegas = 1.4f;
+        public static float M3_V_Wastegas = 0.24f; //1.4f;
 
         public static float M3_End_Condition_O2_Min = 90;
         public static float M3_End_Condition_O2_Aim = 100;
