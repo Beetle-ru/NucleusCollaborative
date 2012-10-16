@@ -83,7 +83,7 @@ namespace OPCFledged
                                 var s = string.Format(opcAddressFmt_, plcg.Location,
                                                       OPCFledged.OpcConnector.cnv(plcp.Location));
                                 l.msg("        " + prop.Name + " = " +
-                                                  prop.GetValue(newEvent, null).ToString());
+                                      prop.GetValue(newEvent, null).ToString());
                                 l.msg("            IsWritable = " + plcp.IsWritable.ToString());
                                 l.msg("            " + plcp.Location + " % " + s);
                                 l.msg("            " + newEvent.GetType());
@@ -115,6 +115,15 @@ namespace OPCFledged
                                                 }
                                                 arrItmV.Add(wb.ToArray());
                                             }
+                                            else if (prop.PropertyType == (typeof (System.Boolean)))
+                                            {
+                                                if (!OpcConnector.FlagStore.ContainsKey(v.ItemID))
+                                                {
+                                                    l.err("First reference to <{0}> found on writing!!!", v.ItemID);
+                                                    OpcConnector.FlagStore.Add(v.ItemID, 0);
+                                                }
+                                                arrItmV.Add(BoolExpressions.SetBit(OpcConnector.FlagStore[v.ItemID], plcp.BitNumber, Convert.ToBoolean(prop.GetValue(newEvent, null))));
+                                            }
                                             else arrItmV.Add(prop.GetValue(newEvent, null));
                                         }
                                         eureka = true;
@@ -142,9 +151,9 @@ namespace OPCFledged
                             if (HRESULTS.Failed(aE[i]))
                             {
                                 l.err("Item srvH={0} failed with HRESULT=0x{1:x} -- value {2}",
-                                                  arrSrvH[i],
-                                                  aE[i],
-                                                  arrItmV[i]
+                                      arrSrvH[i],
+                                      aE[i],
+                                      arrItmV[i]
                                     );
                             }
                             else

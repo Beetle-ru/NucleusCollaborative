@@ -60,6 +60,7 @@ namespace OPCFledged
         public static int[] m_Handles_srv;
         public static Type[] EventsList;
         private static List<CommonTypes.BaseEvent> EventStore = new List<CommonTypes.BaseEvent>();
+        public static Dictionary<string, byte> FlagStore = new Dictionary<string, byte>(); 
 
         public OpcConnector(string progId, string opcDestination, string opcAddressFmt, int opcConvSchema = 0, int reqUpdateRate_ms = 500)
         {
@@ -293,6 +294,10 @@ namespace OPCFledged
                             l.msg("boolean type");
                             var _nb_ = ((PLCPoint)_p_.GetCustomAttributes(false)[m_Item_props[s.HandleClient].eventPlcpId]).BitNumber;
                             _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], BoolExpressions.GetBit(Convert.ToByte(s.DataValue), _nb_), null);
+                            var itemID = m_Item_defs.ElementAt(s.HandleClient).ItemID;
+                            if (FlagStore.ContainsKey(itemID)) FlagStore[itemID] = Convert.ToByte(s.DataValue);
+                            else FlagStore.Add(itemID, Convert.ToByte(s.DataValue));
+                            
                         }
                         else if (_p_.PropertyType == (typeof(System.Int32)))
                         {
