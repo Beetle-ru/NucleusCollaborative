@@ -51,13 +51,35 @@ namespace SublanceGenerator
                 if (evt is HeatChangeEvent)
                 {
                     var hce = evt as HeatChangeEvent;
-                    l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
-                    Iterator.Renit();
-                    //Int64 rem;
-                    //Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
-                    //Iterator.HeatNumber = res*100000 + rem;
-                    Iterator.HeatNumber = hce.HeatNumber;
+                    if (Iterator.HeatNumber != hce.HeatNumber)
+                    {
+                        l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
+                        Iterator.Renit();
+                        Iterator.HeatNumber = hce.HeatNumber;
+                    }
+                    else
+                    {
+                        l.msg("Heat No Changed. Heat ID: {0}", hce.HeatNumber);
+                    }
 
+                }
+                if (evt is CalculatedCarboneEvent)
+                {
+                    var cce = evt as CalculatedCarboneEvent;
+                    Iterator.Ck = cce.CarbonePercent;
+                }
+                if (evt is SublanceStartEvent)
+                {
+                    var sse = evt as SublanceStartEvent;
+                    if (sse.SublanceStartFlag == 1)
+                    {
+                        l.msg("Sublance begin metering");
+                    }
+                    if (sse.SublanceStartFlag == 1)
+                    {
+                        Iterator.EndMetering();
+                        l.msg("Sublance end metering");
+                    }
                 }
                 if (evt is FlexEvent)
                 {
@@ -72,8 +94,53 @@ namespace SublanceGenerator
                         else
                             l.msg(
                                 "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
-                                Iterator.HeatNumber, fxe.Arguments["SHEATNO"]
+                                HeatNumberToLong(Iterator.HeatNumber), fxe.Arguments["SHEATNO"]
                                 );
+                    }
+                    if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
+                    {
+                        var key = "C";
+                        if (fxe.Arguments.ContainsKey(key))
+                        {
+                            try
+                            {
+                                Iterator.TargetCk = (double)fxe.Arguments[key];
+                            }
+                            catch (Exception e)
+                            {
+                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                            }
+                        }
+                        key = "Cu";
+                        if (fxe.Arguments.ContainsKey(key))
+                        {
+                            try
+                            {
+                                Iterator.TargetCku = (double)fxe.Arguments[key];
+                            }
+                            catch (Exception e)
+                            {
+                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                            }
+                        }
+                    }
+                    if (fxe.Operation.StartsWith("ConverterUI.ZondAccept"))
+                    {
+                        var key = "SId";
+                        if (fxe.Arguments.ContainsKey(key))
+                        {
+                            try
+                            {
+                                if (Iterator.SIdK == (Guid)fxe.Arguments[key])
+                                {
+                                    Iterator.BeginMetering();
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                            }
+                        }
                     }
                 }
             }
