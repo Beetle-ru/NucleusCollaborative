@@ -1134,7 +1134,7 @@ namespace Models
                     mCSVOutput.Append(';'); mCSVOutput.Append(lActualTime.Date);
                     mCSVOutput.Append(';'); mCSVOutput.Append(lActualTime.TimeOfDay);
                     mCSVOutput.Append(';'); mCSVOutput.Append(Data.Clock.Current.Duration);
-                    mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenConsumption_m3);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenConsumption_m3 > 0 ? lCyclicData.OxygenConsumption_m3.ToString() : "");
                     mCSVOutput.Append(';'); mCSVOutput.Append("");
                     mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenFlow_Nm3_min);
                     mCSVOutput.Append(';'); mCSVOutput.Append(""); // m_SŽ
