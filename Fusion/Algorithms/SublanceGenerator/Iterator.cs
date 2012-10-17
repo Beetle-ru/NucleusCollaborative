@@ -23,7 +23,8 @@ namespace SublanceGenerator
         private static bool m_isNotfiredB; // бубноский не стреляли
         private static bool m_isNotfiredK; // куркинский не стреляли
         public static Guid SIdK; // куркинский sId для проверки подтверждения
-        private static bool m_isBeganMetering; // запустили измерение
+        public static bool IsBeganMetering; // запустили измерение
+        public static int LanceMod; // режим управления фурмой
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -38,7 +39,7 @@ namespace SublanceGenerator
             Ck = 0;
             ZondIsAccepted = false;
             SIdK = SIdGen(); // присваиваем id текущей сессии для куркина
-            m_isBeganMetering = false;
+            IsBeganMetering = false;
         }
         public static void Renit()
         {
@@ -94,17 +95,25 @@ namespace SublanceGenerator
         }
         private static Guid SIdGen()
         {
-            return new Guid();
+            return Guid.NewGuid();
         }
         public static void BeginMetering()
         {
-            Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = true});
-            Program.MainGate.PushEvent(new comMeteringEvent() { StartMetering = true});
+            if (LanceMod == 3)
+            {
+                Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = true});
+                Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = true});
+                IsBeganMetering = true;
+            }
         }
         public static void EndMetering()
         {
-            Program.MainGate.PushEvent(new comMeteringEvent() { StartMetering = false });
-            Program.MainGate.PushEvent(new comPrepareMeteringEvent() { StartPrepareMetering = false });
+            if (LanceMod == 3)
+            {
+                Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = false});
+                Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = false});
+                IsBeganMetering = false;
+            }
         }
     }
 }
