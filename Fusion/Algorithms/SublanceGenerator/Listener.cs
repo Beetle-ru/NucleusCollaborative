@@ -66,7 +66,25 @@ namespace SublanceGenerator
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
-                    Iterator.Ck = cce.CarbonePercent;
+                    if (Iterator.Ck != cce.CarbonePercent)
+                    {
+                        //Console.WriteLine("Ck = " + Iterator.Ck);
+                        Iterator.Ck = cce.CarbonePercent;
+                    }
+
+                }
+                if (evt is ModeLanceEvent)
+                {
+                    var mle = evt as ModeLanceEvent;
+                    l.msg("Lance mode changed {0}, O2 mode {1}", mle.LanceMode, mle.O2FlowMode);
+                    if (mle.LanceMode == mle.O2FlowMode)
+                    {
+                        Iterator.LanceMod = mle.LanceMode;
+                    }
+                    else
+                    {
+                        Iterator.LanceMod = -1;
+                    }
                 }
                 if (evt is SublanceStartEvent)
                 {
@@ -75,10 +93,13 @@ namespace SublanceGenerator
                     {
                         l.msg("Sublance begin metering");
                     }
-                    if (sse.SublanceStartFlag == 1)
+                    if (sse.SublanceStartFlag == 0)
                     {
-                        Iterator.EndMetering();
-                        l.msg("Sublance end metering");
+                        if (Iterator.IsBeganMetering)
+                        {
+                            Iterator.EndMetering();
+                            l.msg("Sublance end metering");
+                        }
                     }
                 }
                 if (evt is FlexEvent)
@@ -100,6 +121,7 @@ namespace SublanceGenerator
                     if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {
                         var key = "C";
+                        l.msg(fxe.ToString());
                         if (fxe.Arguments.ContainsKey(key))
                         {
                             try
@@ -127,6 +149,7 @@ namespace SublanceGenerator
                     if (fxe.Operation.StartsWith("ConverterUI.ZondAccept"))
                     {
                         var key = "SId";
+                        l.msg(fxe.ToString());
                         if (fxe.Arguments.ContainsKey(key))
                         {
                             try
