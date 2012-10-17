@@ -77,7 +77,14 @@ namespace SublanceGenerator
                 {
                     var mle = evt as ModeLanceEvent;
                     l.msg("Lance mode changed {0}, O2 mode {1}", mle.LanceMode, mle.O2FlowMode);
-                    Iterator.LanceMod = mle.LanceMode;
+                    if (mle.LanceMode == mle.O2FlowMode)
+                    {
+                        Iterator.LanceMod = mle.LanceMode;
+                    }
+                    else
+                    {
+                        Iterator.LanceMod = -1;
+                    }
                 }
                 if (evt is SublanceStartEvent)
                 {
