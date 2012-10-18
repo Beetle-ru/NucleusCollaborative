@@ -23,7 +23,10 @@ namespace Converter
     //   Пересчитывается в каждом цикле расчета модели"								
 
     //   "(A2) Заданный общий расход O2 для замера изм.фурмой
-    //   Величина передается в начале главной продувки."								
+    //   Величина передается в начале главной продувки."	
+	
+	
+	// на 18.10.12 - это событие используется только для подачи команды на старт замера				
 
 
     [Serializable]
@@ -40,11 +43,11 @@ namespace Converter
         [DataMember]
         [DBPoint(IsStored = true)]
         [PLCPoint(IsWritable = true, Location = "DB1,INT168")]
-        public int O2TotalVol { set; get; }               // общий O2 расход                                              # SP_CX_O2VOL_TOTAL
+        public int O2TotalVol { set; get; }               // общий O2 расход   --- на момент 18.10.12 не используется    # SP_CX_O2VOL_TOTAL
 
         [DataMember]
         [DBPoint(IsStored = true)]
         [PLCPoint(IsWritable = true, Location = "DB1,INT170")]
-        public int SublanceStartO2Vol { set; get; }       // O2 расход для замера изм.фурмой                              # SP_CX_O2VOL_INBLOWSTART
+        public int SublanceStartO2Vol { set; get; }       // 1 -- старт замера, 0 -- нет замера                           # SP_CX_O2VOL_INBLOWSTART
     }
 }
