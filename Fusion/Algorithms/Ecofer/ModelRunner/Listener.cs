@@ -24,6 +24,7 @@ namespace ModelRunner
         public static string IronReason = "DEFAULT";
         public static double ScrapWeight = 114000;
         public static string ScrapReason = "DEFAULT";
+        public static double ScrapDanger = 0.0;
         public static int Converter = 0;
         public static int ForceBlow = 0;
 
@@ -31,7 +32,18 @@ namespace ModelRunner
         private static List<double> m_bunkersTotalMass = new List<double>();
         private static List<string> m_bunkersNames = new List<string>();
         public static List<MINP_MatAddDTO> MatAdd = new List<MINP_MatAddDTO>();
-        public static Dictionary<string, int> CurrWeight = new Dictionary<string, int>(); 
+        public static Dictionary<string, int> CurrWeight = new Dictionary<string, int>();
+        private class VBItem
+        {
+            public double coeff;
+            public string scraps;
+            public VBItem(double c, string s)
+            {
+                coeff = c;
+                scraps = s;
+            }
+        }
+        private static List<VBItem> lvb = new List<VBItem>(); 
         public Listener()
         {
             Converter = Convert.ToInt32(ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["Converter"].Value);
@@ -46,6 +58,22 @@ namespace ModelRunner
             CurrWeight.Add("DOLMAX", 1);
             CurrWeight.Add("FOM", 1);
             CurrWeight.Add("COKE", 1);
+            lvb.Add(new VBItem(0.2, "=3="));
+            lvb.Add(new VBItem(0.3, "=8=24=36="));
+            lvb.Add(new VBItem(0.5, "=18=2=73="));
+            lvb.Add(new VBItem(0.8, "=99=66="));
+            lvb.Add(new VBItem(1.0, "=89=33=35=28=98=96="));
+        }
+        private static double VBProb(int ScrapType, int ScrapWeight)
+        {
+            foreach (var lvbi in lvb)
+            {
+                if (lvbi.scraps.Contains(string.Format("={0}=", ScrapType)))
+                {
+                    return 5*lvbi.coeff*ScrapWeight;
+                }
+            }
+            return 0.0;
         }
         public static string Encoder(string str)
         {
@@ -204,6 +232,7 @@ namespace ModelRunner
                     IronReason = "DEFAULT";
                     ScrapWeight = 113311;
                     ScrapReason = "DEFAULT";
+                    ScrapDanger = 0.0;
                     avofg.Add(6000.1133);
                     avofg_pco.Add(0.1133);
                     avofg_pco2.Add(0.1133);
@@ -222,6 +251,16 @@ namespace ModelRunner
                     {
                         ScrapWeight = se.TotalWeight;
                         ScrapReason = "SCRAPEVENT";
+                        ScrapDanger = 0.2;
+                        ScrapDanger += VBProb(se.ScrapType1, se.Weight1);
+                        ScrapDanger += VBProb(se.ScrapType2, se.Weight2);
+                        ScrapDanger += VBProb(se.ScrapType3, se.Weight3);
+                        ScrapDanger += VBProb(se.ScrapType4, se.Weight4);
+                        ScrapDanger += VBProb(se.ScrapType5, se.Weight5);
+                        ScrapDanger += VBProb(se.ScrapType6, se.Weight6);
+                        ScrapDanger += VBProb(se.ScrapType7, se.Weight7);
+                        ScrapDanger += VBProb(se.ScrapType8, se.Weight8);
+                        ScrapDanger /= ScrapWeight;
                     }
                 }
                 else if (evt is SteelMakingPatternEvent)
