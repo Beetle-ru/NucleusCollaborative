@@ -90,6 +90,11 @@ namespace NeuralProcessorC
                 calculatedCarboneEvent.model = "Complex neural Model";
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
                 calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
+                var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.Calc");
+                fex.AddArg("TypeNeural", "8x8 non linear");
+                fex.AddArg("C", RemainCarbonPercent);
+                fex.Fire(Program.PushGate);
+                l.msg("fired carbon:\n{0}",fex.evt.ToString());
                 //Program.PushGate.PushEvent(calculatedCarboneEvent);
                 //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
             }
@@ -97,9 +102,7 @@ namespace NeuralProcessorC
 
         public static void HardFixData(MFCMDataFull currentHeatResult)
         {
-            if ((currentHeatResult.SteelCarbonCalculationPercent != 0) &&
-                (currentHeatResult.SteelCarbonPercent > 0)
-                )
+            if (VerificateDataHF(currentHeatResult))
             {
                 Program.MatrixStateDataFull.RemoveAt(0);
                 Program.MatrixStateDataFull.Add(currentHeatResult);
@@ -116,7 +119,26 @@ namespace NeuralProcessorC
             Program.SaveMatrix(Program.ArchFileName, Program.Separator, Program.MatrixStateDataFullTotal);
             //StartHeating();
         }
-
+        static public bool VerificateDataHF(MFCMDataFull currentHeatResult)
+        {
+            var result = false;
+            const double minCarbonPercent = 0.03;
+            const double maxCarbonPercent = 0.1;
+            const double minOxygenVolumeRate = 600;
+            const double maxOxygenVolumeRate = 1400;
+            const double maxHeightLance = 230;
+            const double maxCarbonMonoxideVolumePercent = 30;
+            const double maxCarbonOxideVolumePercent = 30;
+            result = (currentHeatResult.SteelCarbonCalculationPercent != 0) &&
+                     (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
+                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
+                     (currentHeatResult.OxygenVolumeRate > minOxygenVolumeRate) &&
+                     (currentHeatResult.OxygenVolumeRate < maxOxygenVolumeRate) &&
+                     (currentHeatResult.HeightLanceCentimeters <= maxHeightLance) &&
+                     (currentHeatResult.CarbonMonoxideVolumePercent <= maxCarbonMonoxideVolumePercent) &&
+                     (currentHeatResult.CarbonOxideVolumePercent <= maxCarbonOxideVolumePercent);
+            return result;
+        }
         public static void EnqueueWaitC(MFCMDataFull currentHeatResult)
         {
             long numberHeat = currentHeatResult.NumberHeat;

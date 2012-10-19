@@ -253,7 +253,7 @@ namespace CarboneProcessor
             DataArchSec.NumberHeating = CurrentHeatResult.NumberHeat;
             DataArchSec.Separator = Program.Separator;
             DataArchSec.TimeHeating = DateTime.Now.ToString();
-            File.WriteAllText(DataArchSec.HeatingName, DataArchSec.ToString());
+            //File.WriteAllText(DataArchSec.HeatingName, DataArchSec.ToString());
 
             for (int iD = 0; iD < Program.MatrixStateDataFull.Count; iD++)
             {

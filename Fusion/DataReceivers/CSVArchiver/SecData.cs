@@ -29,6 +29,15 @@ namespace CSVArchiver
         public double DPOxygenCL { get; set; }
         public int QNitrogenLanceWindow { get; set; }
         public int QNitrogenBoiler { get; set; }
+        public double RB5 { get; set; }
+        public double RB6 { get; set; }
+        public double RB7 { get; set; }
+        public double RB8 { get; set; }
+        public double RB9 { get; set; }
+        public double RB10 { get; set; }
+        public double RB11 { get; set; }
+        public double RB12 { get; set; }
+        public double NeuralC { get; set; }
 
         public char Separator;
 
@@ -58,11 +67,21 @@ namespace CSVArchiver
             DPOxygenCL = -1.0;
             QNitrogenLanceWindow = -1;
             QNitrogenBoiler = -1;
+            RB5 = -1.0;
+            RB6 = -1.0;
+            RB7 = -1.0;
+            RB8 = -1.0;
+            RB9 = -1.0;
+            RB10 = -1.0;
+            RB11 = -1.0;
+            RB12 = -1.0;
+            NeuralC = -1.0;
         }
         public string GetHeader()
         {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}",
+            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
+                "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
                 Separator,
                 "Time",
                 "Heigth lance",
@@ -84,7 +103,16 @@ namespace CSVArchiver
                 "TOxygen",
                 "DeltaPOxygen",
                 "QNitrogenLanceWindow",
-                "QNitrogenBoiler"
+                "QNitrogenBoiler",
+                "RB5",
+                "RB6",
+                "RB7",
+                "RB8",
+                "RB9",
+                "RB10",
+                "RB11",
+                "RB12",
+                "NeuralC"
                 );
             return str;
         }
@@ -92,7 +120,8 @@ namespace CSVArchiver
         public override string ToString()
         {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}",
+            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
+                "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
                 Separator,
                 CurrentTime,
                 LanceHeigth,
@@ -114,7 +143,16 @@ namespace CSVArchiver
                 TOxygenCL,
                 DPOxygenCL,
                 QNitrogenLanceWindow,
-                QNitrogenBoiler
+                QNitrogenBoiler,
+                RB5,
+                RB6,
+                RB7,
+                RB8,
+                RB9,
+                RB10,
+                RB11,
+                RB12,
+                NeuralC
                 );
             return str;
         }
@@ -142,6 +180,15 @@ namespace CSVArchiver
         public RollingAverage DPOxygenCL { get; set; }
         public RollingAverage QNitrogenLanceWindow { get; set; }
         public RollingAverage QNitrogenBoiler { get; set; }
+        public double RB5 { get; set; }
+        public double RB6 { get; set; }
+        public double RB7 { get; set; }
+        public double RB8 { get; set; }
+        public double RB9 { get; set; }
+        public double RB10 { get; set; }
+        public double RB11 { get; set; }
+        public double RB12 { get; set; }
+        public RollingAverage NeuralC { get; set; }
         
         public SecDataSmooth()
         {
@@ -165,6 +212,15 @@ namespace CSVArchiver
             DPOxygenCL = new RollingAverage();
             QNitrogenLanceWindow = new RollingAverage();
             QNitrogenBoiler = new RollingAverage();
+            RB5 = -1.0;
+            RB6 = -1.0;
+            RB7 = -1.0;
+            RB8 = -1.0;
+            RB9 = -1.0;
+            RB10 = -1.0;
+            RB11 = -1.0;
+            RB12 = -1.0;
+            NeuralC = new RollingAverage();
         }
         public SecData GetSecData(int sec)
         {
@@ -189,6 +245,15 @@ namespace CSVArchiver
             sd.DPOxygenCL = DPOxygenCL.Average(sec);
             sd.QNitrogenLanceWindow = (int)QNitrogenLanceWindow.Average(sec);
             sd.QNitrogenBoiler = (int)QNitrogenBoiler.Average(sec);
+            sd.RB5 = RB5;
+            sd.RB6 = RB6;
+            sd.RB7 = RB7;
+            sd.RB8 = RB8;
+            sd.RB9 = RB9;
+            sd.RB10 = RB10;
+            sd.RB11 = RB11;
+            sd.RB12 = RB12;
+            sd.NeuralC = NeuralC.Average(sec);
             return sd;
         }
     }
