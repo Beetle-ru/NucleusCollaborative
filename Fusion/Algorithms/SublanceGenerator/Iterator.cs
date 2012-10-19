@@ -101,6 +101,7 @@ namespace SublanceGenerator
         public static void BeginMetering()
         {
             Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 1});
+            IsBeganMetering = true;
             //if (LanceMod == 3)
             //{
             //    Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = true});
@@ -111,6 +112,7 @@ namespace SublanceGenerator
         public static void EndMetering()
         {
             Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 0 });
+            IsBeganMetering = false;
             //if (LanceMod == 3)
             //{
             //    Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = false});

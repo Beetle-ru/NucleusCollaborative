@@ -94,13 +94,21 @@ namespace SublanceGenerator
                     {
                         l.msg("Sublance begin metering");
                     }
-                    if (sse.SublanceStartFlag != 1)
+                    if (sse.SublanceStartFlag == 0)
                     {
                         if (Iterator.IsBeganMetering)
                         {
                             Iterator.EndMetering();
                             l.msg("Sublance end metering");
                         }
+                    }
+                }
+                if (evt is MeteringCounterEvent)
+                {
+                    if (Iterator.IsBeganMetering)
+                    {
+                        Iterator.EndMetering();
+                        l.msg("Sublance end metering of Metering counter");
                     }
                 }
                 if (evt is FlexEvent)
