@@ -345,7 +345,7 @@ NEXT_HEAT:
                     {
                         var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
                         fex.AddArg("Heat_No", Listener.HeatNumber);
-                        fex.AddArg("Prob", Listener.ScrapDanger;
+                        fex.AddArg("Prob", Listener.ScrapDanger);
                         fex.AddArg("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
                         fex.Fire(CoreGate);
                     }

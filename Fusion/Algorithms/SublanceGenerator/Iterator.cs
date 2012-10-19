@@ -25,6 +25,7 @@ namespace SublanceGenerator
         public static Guid SIdK; // куркинский sId для проверки подтверждения
         public static bool IsBeganMetering; // запустили измерение
         public static int LanceMod; // режим управления фурмой
+        public static int MeteringCounter; // счетчик замеров
         public static void Init()
         {
             Oxigen = new RollingAverage();

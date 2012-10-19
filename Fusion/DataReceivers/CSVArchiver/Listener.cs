@@ -114,7 +114,7 @@ namespace CSVArchiver
                     if (fxe.Operation.StartsWith("NeuralProcessorC.Calc"))
                     {
                         var key = "C";
-                        l.msg(fxe.ToString());
+                        //l.msg(fxe.ToString());
                         if (fxe.Arguments.ContainsKey(key))
                         {
                             try
