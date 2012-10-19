@@ -56,6 +56,7 @@ namespace SublanceGenerator
                         l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                         Iterator.Renit();
                         Iterator.HeatNumber = hce.HeatNumber;
+                        
                     }
                     else
                     {
@@ -93,7 +94,7 @@ namespace SublanceGenerator
                     {
                         l.msg("Sublance begin metering");
                     }
-                    if (sse.SublanceStartFlag == 0)
+                    if (sse.SublanceStartFlag != 1)
                     {
                         if (Iterator.IsBeganMetering)
                         {

@@ -43,6 +43,7 @@ namespace SublanceGenerator
         }
         public static void Renit()
         {
+            EndMetering();
             Init();
         }
         public static void Iterate()
