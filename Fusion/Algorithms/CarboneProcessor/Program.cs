@@ -17,19 +17,20 @@ namespace CarboneProcessor
     {
         public static Client PushGate;
         private static Client m_listenGate;
-        public static List<MFCMDataFull> MatrixStateDataFull;
+        public static Dictionary<int,Matrix> MatrixStateDataFull = new Dictionary<int, Matrix>();
         public static List<MFCMDataFull> MatrixStateDataFullTotal = new List<MFCMDataFull>();
         public static Dictionary<Int64, MFCMDataFull> WaitCarbonDic = new Dictionary<Int64, MFCMDataFull>(); // очередь ожидания углерода
         public const string PathArch = @"Archives";
         public static string ArchFileName = PathArch + @"\" + ArchNameGenerate("res");
         //public static string ArchFileName = PathArch + @"\" + ArchNameGenerate("res");
-        public static string Path;
+        public static Dictionary<int, string> ModelsPathDic = new Dictionary<int, string>();
         public static char Separator;
         public static int ConverterNumber;
+        
         static void Main(string[] args)
         {
             Directory.CreateDirectory(PathArch);
-            Path = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["matrix"].Value;
+
             try
             {
                 Separator = ((string)ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["separator"].Value).ToCharArray()[0];
@@ -42,8 +43,8 @@ namespace CarboneProcessor
                 throw e;
             }
 
-            LoadMatrix(Path, Separator, out MatrixStateDataFull);
-            
+
+            AnyMatryxLoader();
             CIterator.Init();
 
             //CIterator.DataCurrentHeat.MatrixStateData = MFCMDataGenerate(MatrixStateDataFull);
@@ -107,7 +108,7 @@ namespace CarboneProcessor
                 string[] strings = new string[matrixStateDataFull.Count];
                 for (int dataCnt = 0; dataCnt < matrixStateDataFull.Count; dataCnt++)
                 {
-                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}",
                                                      separator,
                                                      matrixStateDataFull[dataCnt].IdHeat,
                                                      matrixStateDataFull[dataCnt].NumberHeat,
@@ -116,7 +117,8 @@ namespace CarboneProcessor
                                                      matrixStateDataFull[dataCnt].HeightLanceCentimeters,
                                                      matrixStateDataFull[dataCnt].OxygenVolumeRate,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercent,
-                                                     matrixStateDataFull[dataCnt].SteelCarbonCalculationPercent
+                                                     matrixStateDataFull[dataCnt].SteelCarbonCalculationPercent,
+                                                     matrixStateDataFull[dataCnt].MFMEquationId
                         );
                 }
                 try
@@ -153,6 +155,18 @@ namespace CarboneProcessor
                 outMFCMData[i].SteelCarbonPercent = inMfcmDataFull[i].SteelCarbonPercent;
             }
             return outMFCMData;
+        }
+
+        private static void AnyMatryxLoader()
+        {
+            const int mfmEquations = 2;
+            for (int mfmEquation = 0; mfmEquation < mfmEquations; mfmEquation++)
+            {
+                ModelsPathDic.Add(mfmEquation, ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings[String.Format("matrix_{0}", mfmEquation)].Value);
+                List<MFCMDataFull> loadedMatrixFull;
+                LoadMatrix(ModelsPathDic[mfmEquation], Separator, out loadedMatrixFull);
+                MatrixStateDataFull.Add(mfmEquation, new Matrix() { MatrixList = loadedMatrixFull });
+            }
         }
     }
 }

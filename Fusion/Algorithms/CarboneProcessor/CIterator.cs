@@ -30,6 +30,7 @@ namespace CarboneProcessor
         private static double m_previosSecondLancePosition; // предыдущее положение фурмы для определения скорости
         private static double m_lanceSpeed;
         public static bool FirstHeating = true;
+        private static int m_currentMatrix;
         private static bool m_noFixData;
 
         static public void Init()
@@ -37,7 +38,7 @@ namespace CarboneProcessor
             m_sw = new Stopwatch();
             CurrentHeatResult = new MFCMDataFull();
             DataCurrentHeat = new HeatData();
-            CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull); //!!
+            //CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull); //!!
             DataArchSec = new SecondDataArch();
             DataSmoothCurrent = new HeatDataSmoother(100);
             m_smoothSecondLancePosition = new RollingAverage();
@@ -191,7 +192,11 @@ namespace CarboneProcessor
                                                    HeightLanceCentimeters = heatData.HeightLanceCentimeters,
                                                    OxygenVolumeRate = heatData.OxygenVolumeRate
                                                };
-                    var CMCarbon = Decarbonater.MultiFactorCarbonMass(heatData.MatrixStateData, currentStateData);
+                    //MFMChooser
+                    //var CMCarbon = Decarbonater.MultiFactorCarbonMass(heatData.MatrixStateData, currentStateData);
+                    m_currentMatrix = MFMChooser(heatData);
+                    var matrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull[m_currentMatrix].MatrixList);
+                    var CMCarbon = Decarbonater.MultiFactorCarbonMass(matrixStateData, currentStateData);
                     //if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
                     RemainCarbonPercent = CMCarbon;
 
@@ -239,27 +244,32 @@ namespace CarboneProcessor
             
         }
 
-        static public void HardFixData(MFCMDataFull currentHeatResult)
+        static public void HardFixData(MFCMDataFull currentHeatResult, int matrixId)
         {
             if (VerificateDataHF(currentHeatResult))
             {
-                Program.MatrixStateDataFull.RemoveAt(0);
-                Program.MatrixStateDataFull.Add(currentHeatResult);
-                CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull);
+                Program.MatrixStateDataFull[matrixId].MatrixList.RemoveAt(0);
+                Program.MatrixStateDataFull[matrixId].MatrixList.Add(currentHeatResult);
+                var indexF = Program.MatrixStateDataFull[matrixId].MatrixList.Count - 1;
+                Program.MatrixStateDataFull[matrixId].MatrixList[indexF].MFMEquationId = matrixId;
+                //CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull);
             }
+            
             Program.MatrixStateDataFullTotal.Add(currentHeatResult);
+            var indexFT = Program.MatrixStateDataFullTotal.Count - 1;
+            Program.MatrixStateDataFullTotal[indexFT].MFMEquationId = matrixId;
 
-            DataArchSec.HeatingName = Program.PathArch + @"\" + Program.ArchNameGenerate("Sec");
-            DataArchSec.NumberHeating = CurrentHeatResult.NumberHeat;
-            DataArchSec.Separator = Program.Separator;
-            DataArchSec.TimeHeating = DateTime.Now.ToString();
+            //DataArchSec.HeatingName = Program.PathArch + @"\" + Program.ArchNameGenerate("Sec");
+            //DataArchSec.NumberHeating = CurrentHeatResult.NumberHeat;
+            //DataArchSec.Separator = Program.Separator;
+            //DataArchSec.TimeHeating = DateTime.Now.ToString();
             //File.WriteAllText(DataArchSec.HeatingName, DataArchSec.ToString());
 
-            for (int iD = 0; iD < Program.MatrixStateDataFull.Count; iD++)
+            for (int iD = 0; iD < Program.MatrixStateDataFull[matrixId].MatrixList.Count; iD++)
             {
-                Program.MatrixStateDataFull[iD].IdHeat = iD;
+                Program.MatrixStateDataFull[matrixId].MatrixList[iD].IdHeat = iD;
             }
-            Program.SaveMatrix(Program.Path,Program.Separator,Program.MatrixStateDataFull);
+            Program.SaveMatrix(Program.ModelsPathDic[matrixId], Program.Separator, Program.MatrixStateDataFull[matrixId].MatrixList);
             Program.SaveMatrix(Program.ArchFileName, Program.Separator, Program.MatrixStateDataFullTotal);
             //StartHeating();
         }
@@ -319,7 +329,7 @@ namespace CarboneProcessor
                 if(Program.WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0)
                 {
                     var key = Program.WaitCarbonDic.ElementAt(i).Key;
-                    HardFixData(Program.WaitCarbonDic[key]);
+                    HardFixData(Program.WaitCarbonDic[key], m_currentMatrix);
                     Program.WaitCarbonDic.Remove(key);
                 }
                 else
@@ -421,6 +431,11 @@ namespace CarboneProcessor
                        ((carbonOxideVolumePercent - carbonOxideVolumePercentPrevious) > 0)
                    );
         }
+
+        static private int MFMChooser(HeatData hd)
+        {
+            return (hd.CarbonMonoxideVolumePercent - hd.CarbonMonoxideVolumePercentPrevious) > 0 ? 0 : 1;
+        }
     }
 
     class HeatData
@@ -441,7 +456,7 @@ namespace CarboneProcessor
         public double OxygenVolumeRate                          { set; get; }
         public double OxygenVolumeCurrent                       { set; get; }
         public double OxygenVolumeTotal                         { set; get; }
-        public List<MFCMData> MatrixStateData                   { set; get; }
+        //public List<MFCMData> MatrixStateData                   { set; get; }
 
         public HeatData()
         {
@@ -460,7 +475,7 @@ namespace CarboneProcessor
             OxygenVolumeRate = 0.0;
             OxygenVolumeCurrent = 0.0;
             OxygenVolumeTotal = 20000;
-            MatrixStateData = new List<MFCMData>();                  
+            //MatrixStateData = new List<MFCMData>();                  
         }
     }
     class HeatDataSmoother
