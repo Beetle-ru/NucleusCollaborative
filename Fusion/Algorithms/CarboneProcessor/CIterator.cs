@@ -197,8 +197,8 @@ namespace CarboneProcessor
                     m_currentMatrix = MFMChooser(heatData);
                     var matrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull[m_currentMatrix].MatrixList);
                     var CMCarbon = Decarbonater.MultiFactorCarbonMass(matrixStateData, currentStateData);
-                    //if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
-                    RemainCarbonPercent = CMCarbon;
+                    if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
+                    //RemainCarbonPercent = CMCarbon;
 
                     if (MomentFixDataForMFactorModel(heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent)) // фиксируем для обучения
                     {
@@ -209,6 +209,7 @@ namespace CarboneProcessor
                             CurrentHeatResult.CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent;
                             CurrentHeatResult.CarbonOxideVolumePercent = heatData.CarbonOxideVolumePercent;
                             CurrentHeatResult.HeightLanceCentimeters = heatData.HeightLanceCentimeters;
+                            CurrentHeatResult.MFMEquationId = m_currentMatrix; // фиксируем матрицу по которой учим
                             EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
                             Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
                             m_noFixData = false;
@@ -233,7 +234,7 @@ namespace CarboneProcessor
                 else
                 {
                     DataArchSec.SD[DataArchSec.SD.Count - 1].Model = "Multi Factor Model";
-                    l.msg("Multi Factor Model");
+                    l.msg("Multi Factor Model № {0}", m_currentMatrix);
                 }
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
                 calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
@@ -244,20 +245,21 @@ namespace CarboneProcessor
             
         }
 
-        static public void HardFixData(MFCMDataFull currentHeatResult, int matrixId)
+        static public void HardFixData(MFCMDataFull currentHeatResult)
         {
+            int matrixId = currentHeatResult.MFMEquationId;
             if (VerificateDataHF(currentHeatResult))
             {
                 Program.MatrixStateDataFull[matrixId].MatrixList.RemoveAt(0);
                 Program.MatrixStateDataFull[matrixId].MatrixList.Add(currentHeatResult);
-                var indexF = Program.MatrixStateDataFull[matrixId].MatrixList.Count - 1;
-                Program.MatrixStateDataFull[matrixId].MatrixList[indexF].MFMEquationId = matrixId;
+                //var indexF = Program.MatrixStateDataFull[matrixId].MatrixList.Count - 1;
+                //Program.MatrixStateDataFull[matrixId].MatrixList[indexF].MFMEquationId = matrixId;
                 //CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull);
             }
             
             Program.MatrixStateDataFullTotal.Add(currentHeatResult);
-            var indexFT = Program.MatrixStateDataFullTotal.Count - 1;
-            Program.MatrixStateDataFullTotal[indexFT].MFMEquationId = matrixId;
+            //var indexFT = Program.MatrixStateDataFullTotal.Count - 1;
+            //Program.MatrixStateDataFullTotal[indexFT].MFMEquationId = matrixId;
 
             //DataArchSec.HeatingName = Program.PathArch + @"\" + Program.ArchNameGenerate("Sec");
             //DataArchSec.NumberHeating = CurrentHeatResult.NumberHeat;
@@ -329,7 +331,7 @@ namespace CarboneProcessor
                 if(Program.WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0)
                 {
                     var key = Program.WaitCarbonDic.ElementAt(i).Key;
-                    HardFixData(Program.WaitCarbonDic[key], m_currentMatrix);
+                    HardFixData(Program.WaitCarbonDic[key]);
                     Program.WaitCarbonDic.Remove(key);
                 }
                 else
@@ -434,7 +436,7 @@ namespace CarboneProcessor
 
         static private int MFMChooser(HeatData hd)
         {
-            return (hd.CarbonMonoxideVolumePercent - hd.CarbonMonoxideVolumePercentPrevious) > 0 ? 0 : 1;
+            return (hd.CarbonMonoxideVolumePercent < hd.CarbonMonoxideVolumePercentPrevious) ? 0 : 1;
         }
     }
 
