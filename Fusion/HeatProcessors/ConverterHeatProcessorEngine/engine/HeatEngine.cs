@@ -44,6 +44,7 @@ namespace ConverterHeatProcessorEngine
 
         public static int Init()
         {
+            m_pushGate = new ConnectionProvider.Client();
             SafeInit();
             var listenThread = new Thread(ListenThread);
             listenThread.IsBackground = true;
@@ -74,7 +75,7 @@ namespace ConverterHeatProcessorEngine
                 SmPattern = new SteelMakingPatternEvent();
                 AdditionsQuantList = new List<AdditionsQuant>();
                 m_weightCurrentSteps = new List<WatchSteps>();
-                m_pushGate = new ConnectionProvider.Client();
+                //m_pushGate = new ConnectionProvider.Client(); // судя по всему так делать нельзя
                 m_jobAllowToAdd = new List<int>();
                 m_weighersState = new List<WeigherState>();
                 m_weighersStatePrevious = new List<WeigherState>();
