@@ -436,7 +436,8 @@ namespace CarboneProcessor
 
         static private int MFMChooser(HeatData hd)
         {
-            return (hd.CarbonMonoxideVolumePercent < hd.CarbonMonoxideVolumePercentPrevious) ? 0 : 1;
+            //return (hd.CarbonMonoxideVolumePercent < hd.CarbonMonoxideVolumePercentPrevious) ? 0 : 1;
+            return (hd.CarbonOxideVolumePercent > hd.CarbonOxideVolumePercentPrevious) ? 0 : 1;
         }
     }
 
