@@ -239,7 +239,7 @@ namespace CarboneProcessor
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
                 calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
                 calculatedCarboneEvent.model = DataArchSec.SD[DataArchSec.SD.Count - 1].Model;
-                Program.PushGate.PushEvent(calculatedCarboneEvent);
+                //Program.PushGate.PushEvent(calculatedCarboneEvent);
                 //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
             }
             
