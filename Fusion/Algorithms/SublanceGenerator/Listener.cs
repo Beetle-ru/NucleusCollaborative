@@ -56,6 +56,7 @@ namespace SublanceGenerator
                         l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                         Iterator.Renit();
                         Iterator.HeatNumber = hce.HeatNumber;
+                        
                     }
                     else
                     {
@@ -95,11 +96,29 @@ namespace SublanceGenerator
                     }
                     if (sse.SublanceStartFlag == 0)
                     {
+                        var str = String.Format("Receive end metering signal\n");
+                        
                         if (Iterator.IsBeganMetering)
                         {
                             Iterator.EndMetering();
-                            l.msg("Sublance end metering");
+                            str += String.Format("Sublance end metering");
                         }
+                        l.msg(str);
+                    }
+                }
+                if (evt is MeteringCounterEvent)
+                {
+                    var mce = evt as MeteringCounterEvent;
+                    if (mce.Cnt != Iterator.MeteringCounter)
+                    {
+                        Iterator.MeteringCounter = mce.Cnt;
+                        var str = String.Format("Metering counter changed");
+                        if (Iterator.IsBeganMetering)
+                        {
+                            Iterator.EndMetering();
+                            str += String.Format("Sublance end metering of Metering counter");
+                        }
+                        l.msg(str);
                     }
                 }
                 if (evt is FlexEvent)

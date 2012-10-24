@@ -19,6 +19,8 @@ namespace CSVArchPlayer
         public static List<HeatData> HDataList;
         public static ConnectionProvider.Client MainGate;
         private static double m_totalO2;
+        private static bool m_vPathIsOutput;
+        private static VPathData m_vPathDataLast;
 
         static void Main(string[] args)
         {
@@ -31,6 +33,7 @@ namespace CSVArchPlayer
                 {
                     m_position = 0;
                     MainGate = new Client();
+                    m_vPathDataLast = new VPathData();
                     m_timer = new Timer(1000);
                     m_timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                     m_timer.Enabled = true;
@@ -55,16 +58,45 @@ namespace CSVArchPlayer
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("{0} | {1}\t| {2}\t| {3}\t| {4}\t| {5}\t| {6}\t| {7}",
-                HDataList[m_position].HeightLance,
-                HDataList[m_position].RateO2,
-                HDataList[m_position].H2,
-                HDataList[m_position].O2,
-                HDataList[m_position].CO,
-                HDataList[m_position].CO2,
-                HDataList[m_position].N2,
-                HDataList[m_position].Ar
-               );
+            m_vPathIsOutput = !VPathDataIsEqual(HDataList[m_position].Bunkers, m_vPathDataLast);
+            if (m_vPathIsOutput)
+            {
+                Console.WriteLine(
+                    "{0:000} | {1:0000.0} | {2:00.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} " +
+                    "| {8:0000} | {9:0000} | {10:0000} | {11:0000} | {12:0000} | {13:0000} | {14:0000} | {15:0000}",
+                    HDataList[m_position].HeightLance,
+                    HDataList[m_position].RateO2,
+                    HDataList[m_position].H2,
+                    HDataList[m_position].O2,
+                    HDataList[m_position].CO,
+                    HDataList[m_position].CO2,
+                    HDataList[m_position].N2,
+                    HDataList[m_position].Ar,
+                    HDataList[m_position].Bunkers.RB5,
+                    HDataList[m_position].Bunkers.RB6,
+                    HDataList[m_position].Bunkers.RB7,
+                    HDataList[m_position].Bunkers.RB8,
+                    HDataList[m_position].Bunkers.RB9,
+                    HDataList[m_position].Bunkers.RB10,
+                    HDataList[m_position].Bunkers.RB11,
+                    HDataList[m_position].Bunkers.RB12
+                );
+                m_vPathDataLast = HDataList[m_position].Bunkers;
+            }
+            else
+            {
+                Console.WriteLine(
+                    "{0:000} | {1:0000.0} | {2:00.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0}",
+                    HDataList[m_position].HeightLance,
+                    HDataList[m_position].RateO2,
+                    HDataList[m_position].H2,
+                    HDataList[m_position].O2,
+                    HDataList[m_position].CO,
+                    HDataList[m_position].CO2,
+                    HDataList[m_position].N2,
+                    HDataList[m_position].Ar
+                );
+            }
             var le = new LanceEvent();
             le.LanceHeight = HDataList[m_position].HeightLance;
             le.O2Flow = HDataList[m_position].RateO2;
@@ -85,10 +117,21 @@ namespace CSVArchPlayer
             var bE = new BlowingEvent();
             bE.O2TotalVol = (int)m_totalO2;
 
+            var vate = new visAdditionTotalEvent();
+            vate.RB5TotalWeight = HDataList[m_position].Bunkers.RB5;
+            vate.RB6TotalWeight = HDataList[m_position].Bunkers.RB6;
+            vate.RB7TotalWeight = HDataList[m_position].Bunkers.RB7;
+            vate.RB8TotalWeight = HDataList[m_position].Bunkers.RB8;
+            vate.RB9TotalWeight = HDataList[m_position].Bunkers.RB9;
+            vate.RB10TotalWeight = HDataList[m_position].Bunkers.RB10;
+            vate.RB11TotalWeight = HDataList[m_position].Bunkers.RB11;
+            vate.RB12TotalWeight = HDataList[m_position].Bunkers.RB12;
+
             MainGate.PushEvent(le);
             MainGate.PushEvent(offGA);
             MainGate.PushEvent(offG);
             MainGate.PushEvent(bE);
+            if (m_vPathIsOutput) MainGate.PushEvent(vate);
 
             if (m_position < HDataList.Count)
             {
@@ -102,6 +145,7 @@ namespace CSVArchPlayer
         private static List<HeatData> LoadHd(string fileName)
         {
             var heatDataList = new List<HeatData>();
+            m_vPathIsOutput = false;
             string[] strings;
             try
             {
@@ -130,6 +174,18 @@ namespace CSVArchPlayer
                     heatDataList[itemCounter].N2 = Convertion.StrToDouble(values[7]);
                     heatDataList[itemCounter].Ar = Convertion.StrToDouble(values[8]);
                     heatDataList[itemCounter].VOffGas = Convertion.StrToDouble(values[9]);
+                    if (values.Count() >= 28)
+                    {
+                        heatDataList[itemCounter].Bunkers.RB5 = Convertion.StrToDouble(values[21]);
+                        heatDataList[itemCounter].Bunkers.RB6 = Convertion.StrToDouble(values[22]);
+                        heatDataList[itemCounter].Bunkers.RB7 = Convertion.StrToDouble(values[23]);
+                        heatDataList[itemCounter].Bunkers.RB8 = Convertion.StrToDouble(values[24]);
+                        heatDataList[itemCounter].Bunkers.RB9 = Convertion.StrToDouble(values[25]);
+                        heatDataList[itemCounter].Bunkers.RB10 = Convertion.StrToDouble(values[26]);
+                        heatDataList[itemCounter].Bunkers.RB11 = Convertion.StrToDouble(values[27]);
+                        heatDataList[itemCounter].Bunkers.RB12 = Convertion.StrToDouble(values[28]);
+                        //m_vPathIsOutput = true;
+                    }
                     itemCounter++;
                 }
             }
@@ -174,6 +230,19 @@ namespace CSVArchPlayer
             str += "CSVArchPlayer -f [fileName.csv]\n";
             str += "--------------------------------------";
             Console.WriteLine(str);
+        }
+        private static bool VPathDataIsEqual(VPathData vpd1, VPathData vpd2)
+        {
+            bool res = 
+                (vpd1.RB5 != vpd2.RB5) || 
+                (vpd1.RB6 != vpd2.RB6) || 
+                (vpd1.RB7 != vpd2.RB7) || 
+                (vpd1.RB8 != vpd2.RB8) || 
+                (vpd1.RB9 != vpd2.RB9) || 
+                (vpd1.RB10 != vpd2.RB10) || 
+                (vpd1.RB11 != vpd2.RB11) || 
+                (vpd1.RB12 != vpd2.RB12);
+            return !res;
         }
     }
 

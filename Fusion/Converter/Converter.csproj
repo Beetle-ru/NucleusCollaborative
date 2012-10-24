@@ -225,6 +225,7 @@
     <Compile Include="Events\HeatCommand\VerticalTractUnit.cs" />
     <Compile Include="Events\HeatCommand\HeatEvent.cs" />
     <Compile Include="Events\HeatCommand\HeatPhase.cs" />
+    <Compile Include="Events\MeteringCounterEvent.cs" />
     <Compile Include="Events\ModeLanceEvent.cs" />
     <Compile Include="Events\ModeVerticalPathEvent.cs" />
     <Compile Include="Events\N2Event.cs" />

@@ -25,6 +25,7 @@ namespace SublanceGenerator
         public static Guid SIdK; // куркинский sId для проверки подтверждения
         public static bool IsBeganMetering; // запустили измерение
         public static int LanceMod; // режим управления фурмой
+        public static int MeteringCounter; // счетчик замеров
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -43,6 +44,7 @@ namespace SublanceGenerator
         }
         public static void Renit()
         {
+            EndMetering();
             Init();
         }
         public static void Iterate()
@@ -99,21 +101,25 @@ namespace SublanceGenerator
         }
         public static void BeginMetering()
         {
-            if (LanceMod == 3)
-            {
-                Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = true});
-                Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = true});
-                IsBeganMetering = true;
-            }
+            Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 1});
+            IsBeganMetering = true;
+            //if (LanceMod == 3)
+            //{
+            //    Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = true});
+            //    Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = true});
+            //    IsBeganMetering = true;
+            //}
         }
         public static void EndMetering()
         {
-            if (LanceMod == 3)
-            {
-                Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = false});
-                Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = false});
-                IsBeganMetering = false;
-            }
+            Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 0 });
+            IsBeganMetering = false;
+            //if (LanceMod == 3)
+            //{
+            //    Program.MainGate.PushEvent(new comMeteringEvent() {StartMetering = false});
+            //    Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = false});
+            //    IsBeganMetering = false;
+            //}
         }
     }
 }

@@ -93,9 +93,9 @@ namespace BlowingSchemaEvent_generator
                 Console.WriteLine("transmitter...................................................................................[started]\n");
             }*/
 
-           // mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 223311 });
+           mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
 
-            //mainGate.PushEvent(new visSpectrluksEvent() { HeatNumber = 2201133, C = 0.1133 });
+            //mainGate.PushEvent(new visSpectrluksEvent() { HeatNumber = 2201111, C = 0.05 });
             
             InstantLogger.log("transmitter", "Started", InstantLogger.TypeMessage.important);
             string[] strings;
