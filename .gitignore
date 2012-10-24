@@ -10,6 +10,9 @@ obj
 _ReSharper.Fusion.All/
 _ReSharper.Fusion.All
 
+_ReSharper.*/
+_ReSharper.*
+
 *.exe
 *.dll
 *.config
