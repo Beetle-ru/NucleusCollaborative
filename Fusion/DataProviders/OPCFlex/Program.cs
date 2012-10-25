@@ -18,13 +18,14 @@ namespace OPCFlex
 
         static void Main(string[] args)
         {
+
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
 
             MainGate = new ConnectionProvider.Client(new CoreListener());
             MainGate.Subscribe();
             
-            FlexEvent desc = new FlexEvent("test");
-            desc.Arguments.Add("first","int;PLC1,DB1W1");
+            FlexEvent desc = new FlexEvent("sample-flex-event");
+            desc.Arguments.Add("first-opc-item","int;PLC1,DB1W1");
             CartridgeElement ce =new CartridgeElement();
             ce.Add(desc);
 

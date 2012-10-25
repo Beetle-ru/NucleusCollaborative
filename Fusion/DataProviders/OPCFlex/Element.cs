@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using ConnectionProvider;
 using Converter;
+using Implements;
 
 namespace OPCFlex
 {
     class Element
     {
-        private FlexEvent m_descriptionEvent;
+        public readonly FlexEvent DescriptionEvent;
         public FlexEvent ClientHandles;
         public FlexEvent ServerHandles;
         public FlexEvent ObjEvent;
@@ -23,31 +24,31 @@ namespace OPCFlex
             //ClientHandles = -1;
             //ServerHandles = -1;
 
-            m_descriptionEvent = descriptionEvent;
+            DescriptionEvent = descriptionEvent;
 
-            ObjEvent = new FlexEvent(m_descriptionEvent.Operation);
-            ObjEvent.Flags = m_descriptionEvent.Flags;
+            ObjEvent = new FlexEvent(DescriptionEvent.Operation);
+            ObjEvent.Flags = DescriptionEvent.Flags;
             ObjEvent.Id = Guid.NewGuid();
             ObjEvent.Time = DateTime.Now;
 
-            ClientHandles = new FlexEvent(String.Format("ClientHandles.{0}",m_descriptionEvent.Operation));
+            ClientHandles = new FlexEvent(String.Format("ClientHandles.{0}", DescriptionEvent.Operation));
             ClientHandles.Id = Guid.NewGuid();
             ClientHandles.Time = DateTime.Now;
 
-            ServerHandles = new FlexEvent(String.Format("ServerHandles.{0}", m_descriptionEvent.Operation));
+            ServerHandles = new FlexEvent(String.Format("ServerHandles.{0}", DescriptionEvent.Operation));
             ServerHandles.Id = Guid.NewGuid();
             ServerHandles.Time = DateTime.Now;
 
-            for (int i = 0; i < m_descriptionEvent.Arguments.Count; i++)
+            for (int i = 0; i < DescriptionEvent.Arguments.Count; i++)
             {
-                if (m_descriptionEvent.Arguments.ElementAt(i).Value is string)
+                if (DescriptionEvent.Arguments.ElementAt(i).Value is string)
                 {
-                    var key = m_descriptionEvent.Arguments.ElementAt(i).Key;
+                    var key = DescriptionEvent.Arguments.ElementAt(i).Key;
                     if (!ObjEvent.Arguments.ContainsKey(key))
                     {
                         //format description:
                         // type;fullPLCAdress
-                        string[] values = ((string)m_descriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
+                        string[] values = ((string)DescriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
                         if (values.Count() == 2)
                         {
                             if (values[0] == "int")
@@ -92,33 +93,33 @@ namespace OPCFlex
             }
             for (int i = 0; i < ObjEvent.Arguments.Count; i++)
             {
-                int _int = -1;
+                int _int = Int32.MinValue;
                 var key = ObjEvent.Arguments.ElementAt(i).Key;
                 ClientHandles.Arguments.Add(key, _int);
                 ServerHandles.Arguments.Add(key, _int);
             }
         }
 
-        public void SetClientHandle(int clientHandle, string key)
+        public void SetClientHandle(int clientHandle, string key, Logger l)
         {
             if (ClientHandles.Arguments.ContainsKey(key))
             {
                 ClientHandles.Arguments[key] = clientHandle;
             }
+            else
+            {
+                l.err("Invalid key <{0}> passed to SetClientHandle", key);   
+            }
         }
 
         public void SetClientHandle(int clientHandle, int id)
         {
-            if (id < ClientHandles.Arguments.Count)
-            {
-                var key = (string)ClientHandles.Arguments.ElementAt(id).Value;
-                ClientHandles.Arguments[key] = clientHandle;
-            }
+            ClientHandles.Arguments[ClientHandles.Arguments.ElementAt(id).Key] = clientHandle;
         }
 
         public int GetClientHandle(string key)
         {
-            int clientHandle = -1;
+            int clientHandle = Int32.MinValue;
             if (ClientHandles.Arguments.ContainsKey(key))
             {
                  clientHandle = (int)ClientHandles.Arguments[key];
@@ -128,7 +129,7 @@ namespace OPCFlex
 
         public int GetClientHandle(int id)
         {
-            int clientHandle = -1;
+            int clientHandle = Int32.MinValue;
             if (id < ClientHandles.Arguments.Count)
             {
                 var key = (string)ClientHandles.Arguments.ElementAt(id).Value;
@@ -156,7 +157,7 @@ namespace OPCFlex
 
         public int GetServerHandle(string key)
         {
-            int serverHandle = -1;
+            int serverHandle = Int32.MinValue;
             if (ServerHandles.Arguments.ContainsKey(key))
             {
                 serverHandle = (int)ServerHandles.Arguments[key];
@@ -166,7 +167,7 @@ namespace OPCFlex
 
         public int GetServerHandle(int id)
         {
-            int serverHandle = -1;
+            int serverHandle = Int32.MinValue;
             if (id < ServerHandles.Arguments.Count)
             {
                 var key = (string)ServerHandles.Arguments.ElementAt(id).Value;
@@ -175,29 +176,29 @@ namespace OPCFlex
             return serverHandle;
         }
 
-        public bool ThisI(string operation)
+        public bool IsMe(string operation)
         {
             return operation == ObjEvent.Operation;
         }
 
-        public bool ThisI(Guid id)
+        public bool IsMe(Guid id)
         {
             return id == ObjEvent.Id;
         }
 
-        public bool ThisI(DateTime time)
+        public bool IsMe(DateTime time)
         {
             return time == ObjEvent.Time;
         }
 
-        public bool ThisI(FlexEventFlag flags)
+        public bool IsMe(FlexEventFlag flags)
         {
             return flags == ObjEvent.Flags;
         }
 
         public FlexEvent GetDescription()
         {
-            return m_descriptionEvent;
+            return DescriptionEvent;
         }
         /// <summary>
         /// returned key
@@ -206,12 +207,12 @@ namespace OPCFlex
         /// <returns></returns>
         public string FindByAdress(string adress)
         {
-            for (int i = 0; i < m_descriptionEvent.Arguments.Count; i++)
+            for (int i = 0; i < DescriptionEvent.Arguments.Count; i++)
             {
-                string[] values = ((string)m_descriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
+                string[] values = ((string)DescriptionEvent.Arguments.ElementAt(i).Value).Split(Separator);
                 if (values[1] == adress)
                 {
-                    return m_descriptionEvent.Arguments.ElementAt(i).Key;
+                    return DescriptionEvent.Arguments.ElementAt(i).Key;
                 }
                 
             }
