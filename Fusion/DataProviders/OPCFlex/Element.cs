@@ -85,6 +85,7 @@ namespace OPCFlex
                             } else
                             {
                                 // unknow type
+                                //Console.WriteLine("unknow type");
                             }
                         }
                     }
