@@ -28,6 +28,10 @@ namespace OPCFlex
             CartridgeElement ce =new CartridgeElement();
             ce.Add(desc);
 
+            LoaderCSV descriptionLoader = new LoaderCSV();
+            descriptionLoader.Load("PATH");
+
+            Console.WriteLine("OPCFlex is running, press enter to exit");
             Console.ReadLine();
         }
     }
