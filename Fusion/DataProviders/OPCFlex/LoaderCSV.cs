@@ -14,8 +14,6 @@ namespace OPCFlex
         public string Path;
         private readonly List<string> m_files;
         public const char Separator = ';';
-        public const string ConfKey = "<Config>";
-        public const string ArgKey = "<Arguments>";
         public string Destination;
 
         enum ConfigSections
@@ -147,7 +145,7 @@ namespace OPCFlex
         static class ParseKeys
         {
             // fields
-            public const string ConfFields = "<Config>";
+            public const string ConfFields = "<Event>";
             public const string ArgFields = "<Arguments>";
             // keys
             public const string FlagsKey = "Flags";
