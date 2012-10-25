@@ -15,20 +15,31 @@ namespace OPCFlex
         public static Configuration MainConf;
         public static Type FlexEventType;
         public static ConnectionProvider.Client MainGate;
+        public static string Destination;
+        public static string CfgPath;
 
         static void Main(string[] args)
         {
 
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
+            Destination = MainConf.AppSettings.Settings["OPCDestination"].Value;
+            CfgPath = MainConf.AppSettings.Settings["CfgPath"].Value;
 
             MainGate = new ConnectionProvider.Client(new CoreListener());
             MainGate.Subscribe();
-            
-            FlexEvent desc = new FlexEvent("sample-flex-event");
-            desc.Arguments.Add("first-opc-item","int;PLC1,DB1W1");
-            CartridgeElement ce =new CartridgeElement();
-            ce.Add(desc);
 
+
+            LoaderCSV descriptionLoader = new LoaderCSV(Destination);
+            CartridgeElement ce = new CartridgeElement();
+            var descriptions = descriptionLoader.LoadAndGet(CfgPath);
+
+            foreach (var description in descriptions)
+            {
+                ce.Add(description);
+                Console.WriteLine(description.ToString());
+                Console.WriteLine();
+            }
+            Console.WriteLine("OPCFlex is running, press enter to exit");
             Console.ReadLine();
         }
     }

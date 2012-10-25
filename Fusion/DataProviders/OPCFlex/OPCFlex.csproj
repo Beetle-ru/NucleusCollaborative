@@ -50,6 +50,7 @@
     <Compile Include="CartridgeElement.cs" />
     <Compile Include="CoreListener.cs" />
     <Compile Include="Element.cs" />
+    <Compile Include="LoaderCSV.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
