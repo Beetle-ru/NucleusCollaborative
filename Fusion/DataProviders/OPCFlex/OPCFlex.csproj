@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pulse3.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="OPCdotNETLib">
       <HintPath>..\..\..\libs\External\OPCdotNETLib\bin\Debug\OPCdotNETLib.dll</HintPath>
@@ -77,6 +80,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="ExampleEvent.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Pulse3.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
