@@ -76,9 +76,9 @@ namespace CorrectionCT
                         {
                             var oxygenOnHeating = (int) (row.Cell["OxygenOnHeating"]);
                             var heating = (int) (row.Cell["Heating"]);
-                            double missingOxy = (oxygenOnHeating/heating)*differenceT;
-                            l.msg("Missing Oxygen T = {0}", missingOxy);
-                            return (int)Math.Round(missingOxy);
+                            double correctionOxy = (oxygenOnHeating/heating)*differenceT;
+                            l.msg("Correction Oxygen T = {0}", correctionOxy);
+                            return (int)Math.Round(correctionOxy);
                         }
                         else
                         {
@@ -112,9 +112,9 @@ namespace CorrectionCT
                             differenceC = Math.Abs(differenceC);
                             var oxygenOnCarbon = (int)(row.Cell["OxygenOnCarbon"]);
                             const double carbonConsumption = 0.01;
-                            double missingOxy = (oxygenOnCarbon / carbonConsumption) * differenceC;
-                            l.msg("Missing Oxygen C = {0}", missingOxy);
-                            return (int)Math.Round(missingOxy);
+                            double correctionOxy = (oxygenOnCarbon / carbonConsumption) * differenceC;
+                            l.msg("Correction Oxygen C = {0}", correctionOxy);
+                            return (int)Math.Round(correctionOxy);
                         }
                         else
                         {
@@ -127,13 +127,13 @@ namespace CorrectionCT
         }
         public static void Iterator()
         {
-            var missingOxyT = CalcT(MatrixT, Data);
-            var missingOxyC = CalcC(MatrixC, Data);
-            if (missingOxyT != 0 && missingOxyC != 0)
+            var correctionOxyT = CalcT(MatrixT, Data);
+            var correctionOxyC = CalcC(MatrixC, Data);
+            if (correctionOxyT != 0 && correctionOxyC != 0)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
-                fex.AddArg("MissingOxygenT", missingOxyT); // int
-                fex.AddArg("MissingOxygenC", missingOxyC); // int
+                fex.AddArg("CorrectionOxygenT", correctionOxyT); // int
+                fex.AddArg("CorrectionOxygenC", correctionOxyC); // int
                 fex.AddArg("CurrentC", Data.CurrentC); // double
                 fex.AddArg("TargetC", Data.TargetC); // double
                 fex.AddArg("CurrentT", Data.CurrentT); // int
