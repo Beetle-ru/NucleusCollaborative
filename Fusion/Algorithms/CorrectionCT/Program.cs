@@ -49,7 +49,7 @@ namespace CorrectionCT
             MainGate = new ConnectionProvider.Client(new Listener());
             MainGate.Subscribe();
         }
-        static void Reset()
+        public static void Reset()
         {
             Data = new Estimates();
         }
