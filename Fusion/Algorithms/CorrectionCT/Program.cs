@@ -15,6 +15,7 @@ namespace CorrectionCT
         public static char Separator;
         public static ConnectionProvider.Client MainGate;
         public static Estimates Data;
+        public static bool IsFiered;
         static void Main(string[] args)
         {
             Init();
@@ -26,7 +27,7 @@ namespace CorrectionCT
             MatrixT = new CSVTableParser();
             MatrixC = new CSVTableParser();
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
-            Data = new Estimates();
+            Reset();
 
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             MatrixT.FileName = MainConf.AppSettings.Settings["matrixT"].Value;
@@ -52,6 +53,7 @@ namespace CorrectionCT
         public static void Reset()
         {
             Data = new Estimates();
+            IsFiered = false;
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -129,7 +131,7 @@ namespace CorrectionCT
         {
             var correctionOxyT = CalcT(MatrixT, Data);
             var correctionOxyC = CalcC(MatrixC, Data);
-            if (correctionOxyT != 0 && correctionOxyC != 0)
+            if (correctionOxyT != 0 && correctionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
                 fex.AddArg("CorrectionOxygenT", correctionOxyT); // int
@@ -140,6 +142,8 @@ namespace CorrectionCT
                 fex.AddArg("TargetT", Data.TargetT); // int
 
                 fex.Fire(Program.MainGate);
+
+                IsFiered = true;
 
                 InstantLogger.msg(fex.evt.ToString());
             }
