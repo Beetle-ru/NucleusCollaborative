@@ -12,33 +12,34 @@ namespace Implements
         public String FileName;
         public List<Row> Rows = new List<Row>();
         public char Separator = ';';
-        private Row m_row = new Row();
+        //private Row m_row = new Row();
 
-        public void ColumnCreator()
+        public Row ColumnCreator()
         {
-            Rows = new List<Row>();
-            m_row = new Row();
+            //Rows = new List<Row>();
+            var row = new Row();
             foreach (ColumnPath columnPath in Description)
             {
-                if (!m_row.Cell.ContainsKey(columnPath.ColumnName))
+                if (!row.Cell.ContainsKey(columnPath.ColumnName))
                 {
                     //m_row.Cell.Add(columnPath.ColumnName, Activator.CreateInstance(columnPath.ColumnType));
                     if (columnPath.ColumnType == typeof(int))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, 0);
+                        row.Cell.Add(columnPath.ColumnName, 0);
                     }
                     
                     if (columnPath.ColumnType == typeof(double))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, 0.0);
+                        row.Cell.Add(columnPath.ColumnName, 0.0);
                     }
 
                     if (columnPath.ColumnType == typeof(string))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, "");
+                        row.Cell.Add(columnPath.ColumnName, "");
                     }
                 }
             }
+            return row;
         }
 
         public void Load()
@@ -56,18 +57,19 @@ namespace Implements
                 return;
             }
 
-            try
-            {
+            //try
+            //{
                 if (strings.Any())
                 {
-                    ColumnCreator();
+                    //ColumnCreator();
+                    Rows = new List<Row>();
                     string[] headers = strings[0].Split(Separator);
                     for (int strCnt = 1; strCnt < strings.Count(); strCnt++)
                     {
                         string[] values = strings[strCnt].Split(Separator);
                         if (values.Any())
                         {
-                            Rows.Add(m_row);
+                            Rows.Add(ColumnCreator());
                             var currentRow = Rows.Count - 1;
                             for (int colNumber = 0; colNumber < headers.Count(); colNumber++)
                             {
@@ -90,13 +92,13 @@ namespace Implements
                     return;
                 }
 
-            }
-            catch (Exception e)
-            {
-                InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
-                //Console.WriteLine("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
-                return;
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
+            //    //Console.WriteLine("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
+            //    return;
+            //}
         }
 
         private object UniverConv(string str, Type type)
