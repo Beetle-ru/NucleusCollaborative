@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Implements
 {
-    class CSVTableParser
+    public class CSVTableParser
     {
         public List<ColumnPath> Description = new List<ColumnPath>();
         public String FileName;
         public List<Row> Rows = new List<Row>();
-        public const char Separator = ';';
+        public char Separator = ';';
         private Row m_row = new Row();
 
         public void ColumnCreator()
@@ -166,14 +166,14 @@ namespace Implements
         }
     }
 
-    class ColumnPath
+    public class ColumnPath
     {
         //public int ColumnNumber;
         public string ColumnName;
         public Type ColumnType;
     }
 
-    class Row
+    public class Row
     {
         public Dictionary<string, object> Cell = new Dictionary<string, object>();
     }
