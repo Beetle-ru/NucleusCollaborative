@@ -16,7 +16,6 @@ namespace Implements
 
         public Row ColumnCreator()
         {
-            //Rows = new List<Row>();
             var row = new Row();
             foreach (ColumnPath columnPath in Description)
             {
@@ -57,11 +56,10 @@ namespace Implements
                 return;
             }
 
-            //try
-            //{
+            try
+            {
                 if (strings.Any())
                 {
-                    //ColumnCreator();
                     Rows = new List<Row>();
                     string[] headers = strings[0].Split(Separator);
                     for (int strCnt = 1; strCnt < strings.Count(); strCnt++)
@@ -92,13 +90,13 @@ namespace Implements
                     return;
                 }
 
-            //}
-            //catch (Exception e)
-            //{
-            //    InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
-            //    //Console.WriteLine("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
-            //    return;
-            //}
+            }
+            catch (Exception e)
+            {
+                InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
+                //Console.WriteLine("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
+                return;
+            }
         }
 
         private object UniverConv(string str, Type type)
