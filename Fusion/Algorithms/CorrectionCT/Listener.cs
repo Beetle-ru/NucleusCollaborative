@@ -40,11 +40,13 @@ namespace CorrectionCT
                 {
                     var ste = evt as SublanceTemperatureEvent;
                     Program.Data.CurrentT = ste.SublanceTemperature;
+                    Program.Iterator();
                 }
                 if (evt is SublanceCEvent)
                 {
                     var sce = evt as SublanceCEvent;
                     Program.Data.CurrentC = sce.C;
+                    Program.Iterator();
                 }
                 if (evt is FlexEvent)
                 {
