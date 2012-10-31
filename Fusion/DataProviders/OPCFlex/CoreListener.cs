@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ConnectionProvider;
 using CommonTypes;
 using Implements;
-using Core;
-using OPC.Data;
-using OPC.Common;
 using Converter;
 
 namespace OPCFlex

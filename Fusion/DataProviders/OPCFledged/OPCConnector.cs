@@ -268,7 +268,7 @@ namespace OPCFledged
                 }
                 else
                 {
-                    l.err("oEvent is no DataChangeEventArgs or no ReadCompleteEventArgs");
+                    l.err("oEvent is neither DataChangeEventArgs nor ReadCompleteEventArgs");
                     return;
                 }
                 l.msg("gh={0} id={1} me={2} mq={3}", groupHandleClient, transactionID, masterError, masterQuality);
