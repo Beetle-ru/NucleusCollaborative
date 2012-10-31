@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Estimates.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +56,8 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="matrixC.csv" />
+    <None Include="matrixT.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">

@@ -6,39 +6,39 @@ using System.Text;
 
 namespace Implements
 {
-    class CSVTableParser
+    public class CSVTableParser
     {
         public List<ColumnPath> Description = new List<ColumnPath>();
         public String FileName;
         public List<Row> Rows = new List<Row>();
-        public const char Separator = ';';
-        private Row m_row = new Row();
+        public char Separator = ';';
+        //private Row m_row = new Row();
 
-        public void ColumnCreator()
+        public Row ColumnCreator()
         {
-            Rows = new List<Row>();
-            m_row = new Row();
+            var row = new Row();
             foreach (ColumnPath columnPath in Description)
             {
-                if (!m_row.Cell.ContainsKey(columnPath.ColumnName))
+                if (!row.Cell.ContainsKey(columnPath.ColumnName))
                 {
                     //m_row.Cell.Add(columnPath.ColumnName, Activator.CreateInstance(columnPath.ColumnType));
                     if (columnPath.ColumnType == typeof(int))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, 0);
+                        row.Cell.Add(columnPath.ColumnName, 0);
                     }
                     
                     if (columnPath.ColumnType == typeof(double))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, 0.0);
+                        row.Cell.Add(columnPath.ColumnName, 0.0);
                     }
 
                     if (columnPath.ColumnType == typeof(string))
                     {
-                        m_row.Cell.Add(columnPath.ColumnName, "");
+                        row.Cell.Add(columnPath.ColumnName, "");
                     }
                 }
             }
+            return row;
         }
 
         public void Load()
@@ -60,14 +60,14 @@ namespace Implements
             {
                 if (strings.Any())
                 {
-                    ColumnCreator();
+                    Rows = new List<Row>();
                     string[] headers = strings[0].Split(Separator);
                     for (int strCnt = 1; strCnt < strings.Count(); strCnt++)
                     {
                         string[] values = strings[strCnt].Split(Separator);
                         if (values.Any())
                         {
-                            Rows.Add(m_row);
+                            Rows.Add(ColumnCreator());
                             var currentRow = Rows.Count - 1;
                             for (int colNumber = 0; colNumber < headers.Count(); colNumber++)
                             {
@@ -166,14 +166,14 @@ namespace Implements
         }
     }
 
-    class ColumnPath
+    public class ColumnPath
     {
         //public int ColumnNumber;
         public string ColumnName;
         public Type ColumnType;
     }
 
-    class Row
+    public class Row
     {
         public Dictionary<string, object> Cell = new Dictionary<string, object>();
     }
