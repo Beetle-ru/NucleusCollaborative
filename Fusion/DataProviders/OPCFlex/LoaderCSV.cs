@@ -52,7 +52,13 @@ namespace OPCFlex
             var files = Directory.GetFiles(path);
             foreach (var file in files)
             {
-                if (!file.StartsWith("-"))
+                var element = file.Split('\\');
+                var isIgnored = false;
+                foreach (var e in element)
+                {
+                    if (e.StartsWith("-")) isIgnored = true;
+                }
+                if (!isIgnored)
                 {
                     m_files.Add(file);    
                 }
