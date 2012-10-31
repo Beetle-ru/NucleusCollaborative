@@ -38,7 +38,7 @@ namespace OPCFlex
                 if (evt is FlexEvent)
                 {
                     var fe = evt as FlexEvent;
-                    Console.WriteLine(fe);
+                    //Console.WriteLine("\n" + fe);
                 }
             }
         }

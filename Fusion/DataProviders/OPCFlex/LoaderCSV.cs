@@ -116,7 +116,7 @@ namespace OPCFlex
                                         {
                                             if (values.Count() >= 3)
                                             {
-                                                description.Arguments.Add(values[1], values[2]);
+                                                description.Arguments.Add(values[1], new Element(values[2]));
                                             }
                                         }
                                     break;

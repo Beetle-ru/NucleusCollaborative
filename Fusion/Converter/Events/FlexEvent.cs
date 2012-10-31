@@ -7,10 +7,12 @@ using CommonTypes;
 
 namespace Converter
 {
+    [Flags]
     public enum FlexEventFlag
     {
         FlexEventCreated = 1,
         FlexEventFired = FlexEventCreated << 1,
+        FlexEventOpcNotification = FlexEventFired << 1,
     }
     [Serializable]
     [DataContract]
