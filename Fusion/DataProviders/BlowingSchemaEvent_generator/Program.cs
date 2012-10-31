@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Threading;
 using System.Globalization;
-
+using ConnectionProvider;
 using Core;
 using Converter;
 using Implements;
@@ -92,8 +92,12 @@ namespace BlowingSchemaEvent_generator
             {
                 Console.WriteLine("transmitter...................................................................................[started]\n");
             }*/
-
-           mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
+            var fex = new FlexHelper("OPC.Flex.Suka");
+            fex.AddArg("val-i2", 1133);
+            fex.AddArg("val-r4", -11.33);
+            fex.AddArg("val-s", "Zalupa");
+            fex.Fire(mainGate);
+           //mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
 
             //mainGate.PushEvent(new visSpectrluksEvent() { HeatNumber = 2201111, C = 0.05 });
             

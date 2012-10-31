@@ -91,7 +91,7 @@ namespace OPCFlex
         }
         private static void OnDataChange(object sender, DataChangeEventArgs e)
         {
-            var sb = new StringBuilder("=========== OnDataChange :: ");
+            var sb = new StringBuilder("=========== OnDataChange ");
             foreach (var s in e.sts)
             {
                 //Console.WriteLine("cHandle = {0} val = {1} qual = {2}", s.HandleClient, s.DataValue, s.Quality);
