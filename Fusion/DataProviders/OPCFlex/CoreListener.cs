@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ConnectionProvider;
 using CommonTypes;
 using Implements;
-using Core;
-using OPC.Data;
-using OPC.Common;
 using Converter;
 
 namespace OPCFlex
@@ -43,7 +38,7 @@ namespace OPCFlex
                 if (evt is FlexEvent)
                 {
                     var fe = evt as FlexEvent;
-                    Console.WriteLine(fe);
+                    //Console.WriteLine("\n" + fe);
                 }
             }
         }

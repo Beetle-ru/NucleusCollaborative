@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartridgeElement.cs" />
     <Compile Include="CoreListener.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="LoaderCSV.cs" />
