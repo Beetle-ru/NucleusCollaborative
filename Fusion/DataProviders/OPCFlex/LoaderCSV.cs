@@ -52,7 +52,10 @@ namespace OPCFlex
             var files = Directory.GetFiles(path);
             foreach (var file in files)
             {
-                m_files.Add(file);
+                if (!file.StartsWith("-"))
+                {
+                    m_files.Add(file);    
+                }
             }
         }
 
