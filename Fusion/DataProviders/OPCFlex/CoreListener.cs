@@ -39,7 +39,6 @@ namespace OPCFlex
                 if (evt is FlexEvent)
                 {
                     var fex = evt as FlexEvent;
-                    //Console.WriteLine("\n" + fex);
                     if ((fex.Flags & FlexEventFlag.FlexEventOpcNotification) == 0)
                     {
                         int[] aE;
@@ -47,7 +46,7 @@ namespace OPCFlex
                         {
                             if (fex.Operation == d.Operation)
                             {
-                                Console.WriteLine("matching event {0} ", fex.Operation);
+                                Console.WriteLine("Matching FlexEvent \"{0}\"", fex.Operation);
                                 var sHandles = new List<int>();
                                 var values = new List<object>();
                                 foreach (var fa in fex.Arguments)
@@ -58,6 +57,7 @@ namespace OPCFlex
                                         {
                                             // Copy Value by ServerHandle
                                             sHandles.Add(((Element) da.Value).sHandle);
+                                            ((Element) da.Value).val = fa.Value;
                                             values.Add(fa.Value);
                                         }
                                     }
@@ -67,6 +67,10 @@ namespace OPCFlex
                             }
                         }
                     }
+                }
+                else if (evt is OPCDirectReadEvent)
+                {
+                    
                 }
             }
         }

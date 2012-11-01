@@ -107,7 +107,11 @@ namespace OPCFlex
                     fex.evt.Flags = d.Flags;
                     foreach (var a in d.Arguments)
                     {
-                        fex.AddArg(a.Key, ((Element)a.Value).val);
+                        var v = ((Element)a.Value).val;
+                        Console.WriteLine(v.GetType().ToString());
+
+                        if (v is string) Console.WriteLine("&&&&&&&");
+                        fex.AddArg(a.Key, v);
                     }
                     fex.Fire(MainGate);
                     d.Flags ^= FlexEventFlag.FlexEventOpcNotification;
