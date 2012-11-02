@@ -1,0 +1,12 @@
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=IDB07;PASSWORD=d40pjcp;USER ID=KPBOF PipeName=PIPE_BOF1
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=KPBOF;PASSWORD=mod7lhd6;USER ID=MODEL PipeName=PIPE_BOF1
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=IDB07;PASSWORD=d40pjcp;USER ID=KPBOF PipeName=PIPE_BOF2
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=KPBOF;PASSWORD=mod7lhd6;USER ID=MODEL PipeName=PIPE_BOF2
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=IDB07;PASSWORD=d40pjcp;USER ID=KPBOF PipeName=PIPE_BOF3
+.......   ~~~   ***TRACE ::PipeCatcher::PipeCatcher   ~~~ (07.09.2012 11:23:50) 
+A new DBReader created ConnStr=DATA SOURCE=KPBOF;PASSWORD=mod7lhd6;USER ID=MODEL PipeName=PIPE_BOF3
