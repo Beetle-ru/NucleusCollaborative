@@ -91,7 +91,7 @@ namespace NeuralProcessorC
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
                 calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
                 var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.Calc");
-                fex.AddArg("TypeNeural", "8x8 non linear");
+                fex.AddArg("TypeNeural", "8 non linear");
                 fex.AddArg("C", RemainCarbonPercent);
                 fex.Fire(Program.PushGate);
                 l.msg("fired carbon:\n{0}",fex.evt.ToString());
