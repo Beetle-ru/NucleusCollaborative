@@ -95,10 +95,10 @@ namespace OPCFlex
             foreach (var s in e.sts)
             {
                 //Console.WriteLine("cHandle = {0} val = {1} qual = {2}", s.HandleClient, s.DataValue, s.Quality);
-                sb.AppendFormat("{0};", s.HandleClient);
+                sb.AppendFormat("{0}", s.HandleClient);
                 SetValue(s.HandleClient, s.DataValue);
+                sb.Append(";");
             }
-            Console.WriteLine(sb);
             foreach (var d in descriptions)
             {
                 if ((d.Flags & FlexEventFlag.FlexEventOpcNotification) != 0)
@@ -108,15 +108,27 @@ namespace OPCFlex
                     foreach (var a in d.Arguments)
                     {
                         var v = ((Element)a.Value).val;
-                        Console.WriteLine(v.GetType().ToString());
+                        if (v is byte[])
+                        {
+                            var vv = v as byte[];
+                            string s = "";
+                            for (var i = 0; i < vv.Length; i++)
+                            {
+                                int c = vv[i];
+                                if (c > 127) c += 0x0350;
+                                s += Convert.ToChar(c);
+                            }
+                            sb.AppendFormat("/{0}", s);
+                            v = s;
 
-                        if (v is string) Console.WriteLine("&&&&&&&");
+                        }
                         fex.AddArg(a.Key, v);
                     }
                     fex.Fire(MainGate);
                     d.Flags ^= FlexEventFlag.FlexEventOpcNotification;
                 }
             }
+            Console.WriteLine(sb);
         }
         private static void SetServerHandle(int CH, int SH)
         {
