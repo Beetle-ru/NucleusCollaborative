@@ -58,6 +58,7 @@ namespace Models
         // public methods, constructor
         public Dynamic(Data.Model.DynamicInput aInputData, int aDeltaT_s, RunningType aRunningType = RunningType.RealTime)
         {
+            mRecalculateFromTheBeginning = false;
             mInputData = aInputData;
             mCurrentOutputData = new Data.Model.DynamicOutput();
             mOutputData = new Dictionary<DateTime, Data.Model.DynamicOutput>();
@@ -233,7 +234,10 @@ namespace Models
                         mCSVOutput.Append(';'); mCSVOutput.Append("");
                     }
                     else
+                    {
                         mCSVOutput.Append(';'); mCSVOutput.Append(0);
+                    }
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCO2Buffer);
                     mCSVOutput.AppendLine();
                 }
                 catch { }
@@ -273,6 +277,22 @@ namespace Models
         public void EnqueueMaterialAdded(DTO.MINP_MatAddDTO aMaterial)
         {
             mRequestQueue.Enqueue(aMaterial);
+        }
+        /// <summary>
+        /// Can be called only in MainOxygenBlowingPhase.
+        /// </summary>
+        public void RecalculateFromBeginning()
+        {
+            if (mCurrentPhase.PhaseGroup != PhasePrimaryDivision.OxygenBlowing)
+                throw new ApplicationException("Dynamic model can be recalculated only within main oxygen blowing phase.");
+            mRecalculateFromTheBeginning = true;
+        }
+        /// <summary>
+        /// Runs simulation from the beginning of the heat until now with modified model input data.
+        /// </summary>
+        private void RecalculateFromBeginningInThread()
+        {
+            throw new NotImplementedException();
         }
 
         private void StartSimulationTimer()
@@ -320,6 +340,7 @@ namespace Models
             mCurrentStateData.c_Struska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
             for (int i = 0; i < Global.MATERIALELEMENTS_COUNT; i++) mCurrentStateData.FP_Tavby[i] = 0;
             mCurrentStateData.E_Elements = new Dictionary<Enumerations.M3ElementEnum, float>();
+            mCO2Buffer = 0;
             #endregion
 
             #region m, E, T Tavby
@@ -333,6 +354,7 @@ namespace Models
                 {
                     mCurrentStateData.FP_Tavby[i] += nItem.Amount_kg * MINP.FP(nItem.MINP_GD_Material, i);
                 }
+                mCO2Buffer += nItem.Amount_kg * MINP.FP(nItem.MINP_GD_Material, 44);
             }
 
             for (int i = 0; i < Global.MATERIALELEMENTS_COUNT; i++)
@@ -431,7 +453,7 @@ namespace Models
             // correction phases ~ L1 tempmeas, correction, L1 lance parking
             IEnumerable<PhaseItem> lCorrectionPhases = mInputData.OxygenBlowingPhases.Where(aR => aR.PhaseGroup == PhasePrimaryDivision.OxygenBlowingCorrection);
 
-            if (mRunningType == RunningType.RealTimeDataSimulation || mRunningType == RunningType.Simulation) return true;
+            if (mRunningType == RunningType.RealTimeDataSimulation) return true;
 
             if (lCorrectionPhases.Count() != 3) return false;
             Data.PhaseItem lPhaseL1TempMeas = lCorrectionPhases.First();
@@ -453,6 +475,8 @@ namespace Models
         private void ControlLoop(object aState)
         {
             StopSimulationTimer();
+
+            if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
 
             #region Current phase validation
             if (mCurrentPhase == null)
@@ -731,6 +755,8 @@ namespace Models
 
             float lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
             mCurrentStateData.E_Tavby += lH_Cold;
+            // CO2 buffer
+            mCO2Buffer += aMatAdd.Amount_kg * MINP.FP(aMatAdd.MINP_GD_Material, 44);
         }
         
         private Data.Model.DynamicOutput ModelLoop()
@@ -807,8 +833,32 @@ namespace Models
             }
             else
             {
+                float lCO2 = (float)lCyclicData.Wastegas_CO2_p.Value;
+
+                #region CO2 buffer
+                if (Global.M3_CO2_Buffer)
+                {
+                    if (mCO2Buffer > 0)
+                    {
+                        float lCO2Calc = (float)lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min * (float)lCyclicData.Wastegas_CO2_p.Value / 100
+                            * MINP.Mm(44) / MINP.O2_Stechio(44) * Global.M3_V_Wastegas;
+
+                        if (mCO2Buffer > lCO2Calc)
+                        {
+                            lCO2 = 0;
+                            mCO2Buffer -= lCO2Calc;
+                        }
+                        else
+                        {
+                            lCO2 = lCO2 * lCO2Calc / mCO2Buffer;
+                            mCO2Buffer = 0;
+                        }
+                    }
+                }
+                #endregion
+
                 lm_O2_blownC = (float)(lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min
-                    * (lCyclicData.Wastegas_CO_p.Value + lCyclicData.Wastegas_CO2_p.Value) / 100
+                    * (lCyclicData.Wastegas_CO_p.Value + lCO2) / 100
                     * (1 + Global.PostCombustion) * MINP.Mm(28) / MINP.O2_Stechio(0)) * Global.M3_V_Wastegas;
 
                 if (lm_O2_blown <= lm_O2_blownC)
@@ -1099,7 +1149,22 @@ namespace Models
                 mCurrentStateData.E_Tavby -= mCurrentStateData.E_Elements[lEleIndex];
             }
 
+            float lZtratovyVykonAkt = 0;
+
+            if (Global.M3_Stat_T_ON)
+            {
+                float lTDiff = mCurrentStateData.T_Tavby - Global.M3_Stat_T_korekce;
+                float lTAdapt =
+                    Global.M3_Stat_Ztratovy_vykon_lin * lTDiff
+                    + Global.M3_Stat_Ztratovy_vykon_kvad * lTDiff * lTDiff
+                    + Global.M3_Stat_Ztratovy_vykon_kub * lTDiff * lTDiff * lTDiff;
+                if (lTAdapt < 0) lTAdapt = 0;
+
+                lZtratovyVykonAkt = lTAdapt;
+            }
+
             mCurrentStateData.E_Tavby -= (Global.H_Akumulace + Global.TauTavby * Global.ZtratovyVykon / 60) / (Global.TauTavby * 60 / mDeltaT_s);
+            mCurrentStateData.E_Tavby -= lZtratovyVykonAkt;
 
             mCurrentStateData.E_Tavby += (lm_Delta_Ele[Enumerations.M3ElementEnum.Fe] + lm_Odprasky_krok) * (MINP.FP(Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Odprasky], 71) / MINP.ConversionVector(71)
                 * (Data.MINP.HeatAimData.FinalTemperature - MINP.FP(MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Steel], 72))
@@ -1205,7 +1270,10 @@ namespace Models
                         mCSVOutput.Append(';'); mCSVOutput.Append(lDeCSpaliny / (lCyclicData.OxygenConsumption_m3 - lCyclicDataPrevious.OxygenConsumption_m3) / 11.2 * 12 * (1 + Global.PostCombustion) / 1000000);
                     }
                     else
+                    {
                         mCSVOutput.Append(';'); mCSVOutput.Append(0);
+                    }
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCO2Buffer);
                     mCSVOutput.AppendLine();
                 }
                 catch { }
@@ -1371,7 +1439,7 @@ namespace Models
                     
                     using (StreamWriter lOutputCsvFile = new StreamWriter(Path.Combine(Global.M3_GenerateOutputFileDirectory, String.Format("{1}_{0:yyyy_MM_dd HH_mm_ss}.csv", DateTime.Now, mHeatNumber))))
                     {
-                        lOutputCsvFile.WriteLine("Krok;Datum;Cas;Doba tavby;O2 [m3];Vyska [cm];O2 intenzita [m3/min];m_SZ;m_SROT;m_KOKS;m_LIME;m_DOLOMIT;m_FOM;m_CaCO3;PRUTOK SPALIN;teplota spalin;CO;CO2;O2;H2;N2;Ar;T_MER;%C_MER;T;m_T;m_k;m_s;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;E_Tavby;E_C;E_Si;E_Mn;E_P;E_Al;E_Cr;E_V;E_Ti;E_Fe;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;B;rychlost deC spaliny;rychlost deC tavenina;Vyuziti O2 na deC;m C Corr;% C Corr");
+                        lOutputCsvFile.WriteLine("Krok;Datum;Cas;Doba tavby;O2 [m3];Vyska [cm];O2 intenzita [m3/min];m_SZ;m_SROT;m_KOKS;m_LIME;m_DOLOMIT;m_FOM;m_CaCO3;PRUTOK SPALIN;teplota spalin;CO;CO2;O2;H2;N2;Ar;T_MER;%C_MER;T;m_T;m_k;m_s;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;E_Tavby;E_C;E_Si;E_Mn;E_P;E_Al;E_Cr;E_V;E_Ti;E_Fe;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;B;rychlost deC spaliny;rychlost deC tavenina;Vyuziti O2 na deC;CO2 Buffer;m C Corr;% C Corr");
 
                         // extend StringBuilder about C_Corr statistical data
                         int lLastIndex = mCSVOutput.ToString().IndexOf(Environment.NewLine) + 1;
@@ -1426,6 +1494,7 @@ namespace Models
         private float mSondaRemaining_s;
         private float mC_kov_end;
         private float mC_kov_start;
+        private float mCO2Buffer;
 
         private int mCSVCoke;
         private int mCSVLime;
@@ -1435,6 +1504,8 @@ namespace Models
 
         private string mHeatNumber;
         private StringBuilder mCSVOutput;
+        private bool mRecalculateFromTheBeginning;
+
         // CHEREPOVETS ADDITIONS
         public ModelPhaseState State()
         {
