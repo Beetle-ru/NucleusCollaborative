@@ -54,6 +54,7 @@ namespace Common
 
         public static int MATERIALELEMENTS_COUNT = 74;
         public static int MATERIALELEMENTS_STEEL_COUNT = 50;
+        public static int MATERIALELEMENTS_STEEL_TO_FE_COUNT = 33;
         public static int MATERIALELEMENTS_SLAG_COUNT = 15;
         public static int MATERIALELEMENTS_SLAG_STARTINDEX = 50;
         public static int MATERIALELEMENTS_STEELANDSLAG_COUNT = 65;
@@ -106,10 +107,25 @@ namespace Common
         public static float M3_Stat_C_konec_random = 0.01f;
         public static float M3_Stat_OpozdeniKonceFoukani = 50;
 
+        public static bool M3_Stat_T_ON = true;
+        public static float M3_Stat_Ztratovy_vykon_lin = 7.92f * 0.0625f; // kWh/min/K
+        public static float M3_Stat_Ztratovy_vykon_kvad = 0.0528f * 0.0625f; // kWh/min/K/K
+        public static float M3_Stat_Ztratovy_vykon_kub = 0.000634f * 0.0625f; // kWh/min/K/K/K
+        public static float M3_Stat_T_korekce = 1600;
+
+        public static bool M3_CO2_Buffer = true;
+
         public static float M_Odprasky = 3000;// 3000; // kg
         public static float TauTavby = 15; // min
         public static float ZtratovyVykon = 300; // kWh/min
         public static float H_Akumulace = 18000; //kWh    
+
+        public static float MA_Step = 0.05f;
+        public static float MA_Posun = 1;
+        public static float MA_DeltaK = 10;
+        public static float MA_Eps = 10;
+
+        public static float M2_Dolom_Temp = 40;
 
         public static float SIM_WastegasFlow_Conversion = 0.002857f;
     }

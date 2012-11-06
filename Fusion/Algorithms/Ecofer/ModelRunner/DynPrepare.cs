@@ -16,9 +16,21 @@ using System.Linq;
 
 namespace ModelRunner
 {
+    [Flags]
+    public enum ModelRunReady
+    {
+        BlowingStarted = 1,
+        ModelStarted = BlowingStarted << 1,
+        IronDefined = ModelStarted << 1,
+        ScrapDefined = IronDefined << 1,
+        AdditionsDefined = ScrapDefined << 1,
+    }
+
     internal class DynPrepare
     {
         //public static long oHeatNumber;
+        public static ModelRunReady HeatFlags = 0;
+        public static Dynamic DynModel;
         public static Client CoreGate;
         private const int _N_matElements = 74;
         private static List<string> StrList = new List<string>();
@@ -334,13 +346,29 @@ NEXT_HEAT:
                     ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
                     DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
                     Listener.avox.Add(0.0);
-                    while (Listener.avox.Average(10) == 0.0)
+                    while (/*Listener.avox.Average(10) == 0.0*/ 0 == (HeatFlags & ModelRunReady.BlowingStarted))
                     {
                         Listener.avox.Add(0.0);
                         Thread.Sleep(1000);
                         Console.Write(".");
                     }
                     HeatNumber = Listener.HeatNumber;
+                    if (0 == (HeatFlags & ModelRunReady.IronDefined))
+                    {
+                        FireModelNoDataEvent("Нет данных по чугуну");
+                        goto WAIT_END_OF_HEAT;
+                    }
+                    else if (0 == (HeatFlags & ModelRunReady.ScrapDefined))
+                    {
+                        FireModelNoDataEvent("Нет данных по лому");
+                        goto WAIT_END_OF_HEAT;
+                    }
+                    else if (0 == (HeatFlags & ModelRunReady.AdditionsDefined))
+                    {
+                        FireModelNoDataEvent("Нет данных по сыпучим");
+                        goto WAIT_END_OF_HEAT;
+                    }
+                    HeatFlags |= ModelRunReady.ModelStarted;
                     if (Listener.ScrapDanger > 0.25)
                     {
                         var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
@@ -516,16 +544,16 @@ NEXT_HEAT:
                     Data.MINP.Phases = new Phases(aInputData.OxygenBlowingPhases);
                     Data.MINP.Phases.SwitchToNextPhase();
 
-                    var lModel = new Dynamic(aInputData, 1, Dynamic.RunningType.RealTime);
+                    DynModel = new Dynamic(aInputData, 1, Dynamic.RunningType.RealTime);
 
                     foreach (var m in Listener.MatAdd)
                     {
-                        lModel.EnqueueMaterialAdded(m);
+                        DynModel.EnqueueMaterialAdded(m);
                     }
                     Listener.MatAdd.Clear();
                     SimulationOxygenBlowing();
 
-                    lModel.PhaseChanged += (s, e) =>
+                    DynModel.PhaseChanged += (s, e) =>
                                                {
                                                    l.msg("Phase Duration: {0}, Next phase is {1}",
                                                                      Data.Clock.Current.Duration,
@@ -536,11 +564,8 @@ NEXT_HEAT:
                                                        ((PhaseItemL1Command) e.CurrentPhase).L1Command ==
                                                        Enumerations.L2L1_Command.OxygenLanceToParkingPosition)
                                                    {
-                                                       FireTemperatureEvent(lModel);
-                                                       FireXimstalEvent(lModel);
-                                                       FireXimslagEvent(lModel);
-                                                       FireAdditionsEvent(lModel);
-                                                       lModel.Stop();
+                                                       FireAdditionsEvent(DynModel);
+                                                       DynModel.Stop();
                                                        l.msg("Model finished. HEATNO={0}", HeatNumber);
                                                    }
                                                    else if (e.CurrentPhase is PhaseItemL1Command &&
@@ -548,39 +573,40 @@ NEXT_HEAT:
                                                        Enumerations.L2L1_Command.TemperatureMeasurement)
                                                    {
                                                        var lTM = new MINP_TempMeasDTO();
-                                                       lTM.Temperature = (int)lModel.LastOutputData.T_Tavby;
-                                                       lModel.EnqueueTemperatureMeasured(lTM);
+                                                       lTM.Temperature = (int)DynModel.LastOutputData.T_Tavby;
+                                                       DynModel.EnqueueTemperatureMeasured(lTM);
                                                        l.msg("Waiting for temperature measurement: {0}", lTM.Temperature);
                                                    }
                                                };
-                    lModel.ModelLoopDone += (s, e) =>
+                    DynModel.ModelLoopDone += (s, e) =>
                                                 {
                                                     SimulationOxygenBlowing();
-                                                    FireFlexEvent(++nStep, null, lModel);
+                                                    FireFlexEvent(++nStep, null, DynModel);
                                                     //Thread.Sleep(1000);
-                                                    if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == lModel.State())
+                                                    if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
                                                     {
                                                         foreach (var m in Listener.MatAdd)
                                                         {
-                                                            lModel.EnqueueMaterialAdded(m);
+                                                            DynModel.EnqueueMaterialAdded(m);
                                                         }
                                                         Listener.MatAdd.Clear();
                                                     }
-                                                    else if (Dynamic.ModelPhaseState.S30_Correction == lModel.State())
+                                                    else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
                                                     {
                                                         if (Listener.avox.Average(10) < 10.0)
                                                         {
-                                                            if (++EmptyBlowCount > 5) lModel.SwitchPhaseToL1OxygenLanceParking();
+                                                            if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
                                                         }
                                                         else EmptyBlowCount = 0;
                                                     }
                                                 };
-                    lModel.Start();
+                    DynModel.Start();
                     do
                     {
                         Thread.Sleep(1000);
-                    } while (lModel.State() < Dynamic.ModelPhaseState.S50_Finished);
+                    } while (DynModel.State() < Dynamic.ModelPhaseState.S50_Finished);
                     Console.WriteLine();
+WAIT_END_OF_HEAT:
                     do
                     {
                         Thread.Sleep(1000);
@@ -592,7 +618,7 @@ NEXT_HEAT:
 
                     goto NEXT_HEAT;
 
-                    lModel.Dispose();
+                    DynModel.Dispose();
                     throw new Exception("************** End Of Heat ***************");
                 }
                 catch (Exception e)
@@ -631,6 +657,14 @@ NEXT_HEAT:
             fex.Fire(CoreGate);
         }
 
+        public static void FireModelNoDataEvent(string Reason)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.NoData");
+            fex.AddArg("Heat_No", Listener.HeatNumber);
+            fex.AddArg("Reason", Reason);
+            fex.Fire(CoreGate);
+        }
+
         public static void FireIronEvent()
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Iron");
@@ -638,6 +672,7 @@ NEXT_HEAT:
             fex.AddArg("Iron_Weight", Listener.IronWeight);
             fex.AddArg("Iron_Reason", Listener.IronReason);
             fex.Fire(CoreGate);
+            HeatFlags |= ModelRunReady.IronDefined;
         }
 
         public static void FireTemperatureEvent(Models.Dynamic mo)
@@ -645,6 +680,7 @@ NEXT_HEAT:
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Temperature");
             fex.AddArg("Heat_No", Listener.HeatNumber);
             fex.AddArg("Final_T", (double)mo.LastOutputData.T_Tavby);
+            fex.AddArg("Final_C", (double)mo.LastOutputData.FP_Kov[0]);
             fex.Fire(CoreGate);
         }
 

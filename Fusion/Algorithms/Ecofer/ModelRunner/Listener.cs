@@ -72,11 +72,6 @@ namespace ModelRunner
             CurrWeight.Add("DOLMAX", 1);
             CurrWeight.Add("FOM", 1);
             CurrWeight.Add("COKE", 1);
-            ModWeight.Add("LIME", 0);
-            ModWeight.Add("DOLOMS", 0);
-            ModWeight.Add("DOLMAX", 0);
-            ModWeight.Add("FOM", 0);
-            ModWeight.Add("COKE", 0);
             lvb.Add(new VBItem(0.2, "=3="));
             lvb.Add(new VBItem(0.3, "=8=24=36="));
             lvb.Add(new VBItem(0.5, "=18=2=73="));
@@ -223,11 +218,11 @@ namespace ModelRunner
 
         private void CollectAdditions(SteelMakingPatternEvent smpe)
         {
-            ModWeight["LIME"] = 1;
-            ModWeight["DOLOMS"] = 1;
-            ModWeight["DOLMAX"] = 1;
-            ModWeight["FOM"] = 1;
-            ModWeight["COKE"] = 1;
+            ModWeight["LIME"] = 0;
+            ModWeight["DOLOMS"] = 0;
+            ModWeight["DOLMAX"] = 0;
+            ModWeight["FOM"] = 0;
+            ModWeight["COKE"] = 0;
             for (var step = 0; step < smpe.steps.Count; step++)
             {
                 for (int weirline = 0; weirline < smpe.steps[step].weigherLines.Count; weirline++)
@@ -330,6 +325,7 @@ namespace ModelRunner
                     CurrWeight["DOLMAX"] = 1;
                     CurrWeight["FOM"] = 1;
                     CurrWeight["COKE"] = 1;
+                    DynPrepare.HeatFlags = 0;
                 }
                 else if (evt is ScrapEvent)
                 {
@@ -349,6 +345,7 @@ namespace ModelRunner
                         ScrapDanger += VBProb(se.ScrapType7, se.Weight7);
                         ScrapDanger += VBProb(se.ScrapType8, se.Weight8);
                         ScrapDanger /= ScrapWeight;
+                        DynPrepare.HeatFlags |= ModelRunReady.ScrapDefined;
                     }
                 }
                 else if (evt is SteelMakingPatternEvent)
@@ -369,6 +366,7 @@ namespace ModelRunner
                     fex.AddArg("FOM", (double)ModWeight["FOM"]);
                     fex.AddArg("COKE", (double)ModWeight["COKE"]);
                     fex.Fire(DynPrepare.CoreGate);
+                    DynPrepare.HeatFlags |= ModelRunReady.AdditionsDefined;
                 }
                 else if (evt is BoundNameMaterialsEvent)
                 {
@@ -410,6 +408,39 @@ namespace ModelRunner
                     //l.msg("{0}", wgpercent);
                     avofg_pco.Add(wgpercent.CO);
                     avofg_pco2.Add(wgpercent.CO2);
+                }
+                else if (evt is SublanceStartEvent)
+                {
+                    var zamer = evt as SublanceStartEvent;
+                    if (zamer.SublanceStartFlag == 0)
+                    {
+                        if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
+                        {
+                            DynPrepare.FireTemperatureEvent(DynPrepare.DynModel);
+                            DynPrepare.FireXimstalEvent(DynPrepare.DynModel);
+                        }
+                    }
+
+                }
+                else if (evt is TappingEvent)
+                {
+                    var sliv = evt as TappingEvent;
+                    if (sliv.TappingFlag == 0)
+                    {
+                        if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
+                        {
+                            DynPrepare.FireXimslagEvent(DynPrepare.DynModel);
+                        }
+                    }
+                }
+                else if (evt is BlowingEvent)
+                {
+                    var blow = evt as BlowingEvent;
+                    if (blow.BlowingFlag == 1)
+                    {
+                        DynPrepare.HeatFlags |= ModelRunReady.BlowingStarted;
+                        l.msg("Heat {0} : main blowing started *************************", HeatNumber);
+                    }
                 }
             }
         }
