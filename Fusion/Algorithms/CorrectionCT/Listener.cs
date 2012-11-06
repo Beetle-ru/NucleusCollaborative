@@ -48,6 +48,12 @@ namespace CorrectionCT
                     Program.Data.CurrentC = sce.C;
                     Program.Iterator();
                 }
+                if (evt is BlowingEvent)
+                {
+                    var be = evt as BlowingEvent;
+                    Program.CurrentOxygen = be.O2TotalVol;
+                    Program.Iterator();
+                }
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
@@ -55,28 +61,43 @@ namespace CorrectionCT
                     {
                         var key = "C";
                         l.msg(fxe.ToString());
-                        if (fxe.Arguments.ContainsKey(key))
+                        try
                         {
-                            try
+                            Program.Data.TargetC = (double)fxe.Arguments[key];
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                        }
+
+                        key = "T";
+                        try
+                        {
+                            Program.Data.TargetT = (int)fxe.Arguments[key];
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
+                    if (fxe.Operation.StartsWith("ConverterUI.RBBAccept"))
+                    {
+                        var key = "SId";
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            if (Program.SidB == (Guid)fxe.Arguments[key])
                             {
-                                Program.Data.TargetC = (double)fxe.Arguments[key];
-                            }
-                            catch (Exception e)
-                            {
-                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                                key = "AutomaticStop";
+                                Program.AutomaticStop = (bool) fxe.Arguments[key];
+
+                                key = "EndBlowingOxygen";
+                                Program.EndBlowingOxygen = (int) fxe.Arguments[key];
                             }
                         }
-                        key = "T";
-                        if (fxe.Arguments.ContainsKey(key))
+                        catch (Exception e)
                         {
-                            try
-                            {
-                                Program.Data.TargetT = (int)fxe.Arguments[key];
-                            }
-                            catch (Exception e)
-                            {
-                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
-                            }
+                            l.err("ConverterUI.RBBAccept - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }

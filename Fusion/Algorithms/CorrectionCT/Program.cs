@@ -16,6 +16,13 @@ namespace CorrectionCT
         public static ConnectionProvider.Client MainGate;
         public static Estimates Data;
         public static bool IsFiered;
+        public static Guid SidB;
+        public static bool AutomaticStop;
+        public static int CurrentOxygen;
+        public static int CorrectionOxyT;
+        public static int CorrectionOxyC;
+        public static int EndBlowingOxygen;
+        public static bool BlowStopSignalPushed;
         static void Main(string[] args)
         {
             Init();
@@ -54,6 +61,14 @@ namespace CorrectionCT
         {
             Data = new Estimates();
             IsFiered = false;
+            SidB = Guid.NewGuid();
+            AutomaticStop = false;
+            CurrentOxygen = 0;
+            CorrectionOxyT = 0;
+            CorrectionOxyC = 0;
+            EndBlowingOxygen = 0;
+            BlowStopSignalPushed = false;
+            StopBlowFlagRelease();
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -129,17 +144,18 @@ namespace CorrectionCT
         }
         public static void Iterator()
         {
-            var correctionOxyT = CalcT(MatrixT, Data);
-            var correctionOxyC = CalcC(MatrixC, Data);
-            if (correctionOxyT != 0 && correctionOxyC != 0 && !IsFiered)
+            CorrectionOxyT = CalcT(MatrixT, Data);
+            CorrectionOxyC = CalcC(MatrixC, Data);
+            if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
-                fex.AddArg("CorrectionOxygenT", correctionOxyT); // int
-                fex.AddArg("CorrectionOxygenC", correctionOxyC); // int
+                fex.AddArg("CorrectionOxygenT", CorrectionOxyT); // int
+                fex.AddArg("CorrectionOxygenC", CorrectionOxyC); // int
                 fex.AddArg("CurrentC", Data.CurrentC); // double
                 fex.AddArg("TargetC", Data.TargetC); // double
                 fex.AddArg("CurrentT", Data.CurrentT); // int
                 fex.AddArg("TargetT", Data.TargetT); // int
+                fex.AddArg("Sid", SidB); // Guid
 
                 fex.Fire(Program.MainGate);
 
@@ -147,6 +163,18 @@ namespace CorrectionCT
 
                 InstantLogger.msg(fex.evt.ToString());
             }
+            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed)
+            {
+                DoStopBlow();
+            }
+        }
+        public static void DoStopBlow()
+        {
+            
+        }
+        public static void StopBlowFlagRelease()
+        {
+
         }
     }
 }
