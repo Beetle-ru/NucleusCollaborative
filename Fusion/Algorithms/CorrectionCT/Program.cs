@@ -66,7 +66,7 @@ namespace CorrectionCT
             CurrentOxygen = 0;
             CorrectionOxyT = 0;
             CorrectionOxyC = 0;
-            EndBlowingOxygen = 0;
+            EndBlowingOxygen = int.MaxValue;
             BlowStopSignalPushed = false;
             StopBlowFlagRelease();
         }
@@ -163,7 +163,7 @@ namespace CorrectionCT
 
                 InstantLogger.msg(fex.evt.ToString());
             }
-            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed)
+            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop)
             {
                 DoStopBlow();
             }
