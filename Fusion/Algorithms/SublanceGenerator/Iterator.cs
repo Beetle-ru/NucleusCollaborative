@@ -44,6 +44,7 @@ namespace SublanceGenerator
         }
         public static void Renit()
         {
+            StopBlowFlagRelease();
             EndMetering();
             Init();
         }
@@ -120,6 +121,24 @@ namespace SublanceGenerator
             //    Program.MainGate.PushEvent(new comPrepareMeteringEvent() {StartPrepareMetering = false});
             //    IsBeganMetering = false;
             //}
+        }
+        public static void BlowingEndRequest()
+        {
+            var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.BlowingEndRequest");
+            fex.AddArg("SId", SIdK);
+            fex.Fire(Program.MainGate);
+        }
+        public static void DoStopBlow()
+        {
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal", 1);
+            fex.Fire(Program.MainGate);
+        }
+        public static void StopBlowFlagRelease()
+        {
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal", 0);
+            fex.Fire(Program.MainGate);
         }
     }
 }
