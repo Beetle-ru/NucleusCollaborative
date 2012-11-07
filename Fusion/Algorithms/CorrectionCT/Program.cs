@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Converter;
 using Implements;
 using System.Configuration;
 
@@ -34,7 +35,7 @@ namespace CorrectionCT
             MatrixT = new CSVTableParser();
             MatrixC = new CSVTableParser();
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
-            Reset();
+            
 
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             MatrixT.FileName = MainConf.AppSettings.Settings["matrixT"].Value;
@@ -54,8 +55,10 @@ namespace CorrectionCT
             MatrixC.Description.Add(new ColumnPath() { ColumnName = "OxygenOnCarbon", ColumnType = typeof(int) });
             MatrixC.Load();
 
+            var o = new FlexEvent();
             MainGate = new ConnectionProvider.Client(new Listener());
             MainGate.Subscribe();
+            Reset();
         }
         public static void Reset()
         {
@@ -170,11 +173,15 @@ namespace CorrectionCT
         }
         public static void DoStopBlow()
         {
-            
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal",1);
+            fex.Fire(Program.MainGate);
         }
         public static void StopBlowFlagRelease()
         {
-
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal", 0);
+            fex.Fire(Program.MainGate);
         }
     }
 }
