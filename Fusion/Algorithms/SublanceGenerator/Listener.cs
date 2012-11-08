@@ -100,27 +100,28 @@ namespace SublanceGenerator
                         
                         if (Iterator.IsBeganMetering)
                         {
-                            Iterator.EndMetering();
+                            //Iterator.EndMetering();
+                            Iterator.BlowingEndRequest();
                             str += String.Format("Sublance end metering");
                         }
                         l.msg(str);
                     }
                 }
-                if (evt is MeteringCounterEvent)
-                {
-                    var mce = evt as MeteringCounterEvent;
-                    if (mce.Cnt != Iterator.MeteringCounter)
-                    {
-                        Iterator.MeteringCounter = mce.Cnt;
-                        var str = String.Format("Metering counter changed");
-                        if (Iterator.IsBeganMetering)
-                        {
-                            Iterator.EndMetering();
-                            str += String.Format("Sublance end metering of Metering counter");
-                        }
-                        l.msg(str);
-                    }
-                }
+                //if (evt is MeteringCounterEvent)
+                //{
+                //    var mce = evt as MeteringCounterEvent;
+                //    if (mce.Cnt != Iterator.MeteringCounter)
+                //    {
+                //        Iterator.MeteringCounter = mce.Cnt;
+                //        var str = String.Format("Metering counter changed");
+                //        if (Iterator.IsBeganMetering)
+                //        {
+                //            Iterator.EndMetering();
+                //            str += String.Format("Sublance end metering of Metering counter");
+                //        }
+                //        l.msg(str);
+                //    }
+                //}
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
