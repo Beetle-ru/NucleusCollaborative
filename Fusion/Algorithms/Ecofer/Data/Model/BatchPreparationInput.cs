@@ -21,7 +21,7 @@ namespace Data.Model
         }
 
         // calculation input
-        public int? HotMetal_t; // t, 0-1000
+        public int? HotMetal_t;
         public int? Scrap_t;
         public int? Total_t;
 

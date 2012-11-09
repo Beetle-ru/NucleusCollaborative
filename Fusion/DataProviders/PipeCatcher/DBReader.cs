@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ConnectionProvider;
 using Oracle.DataAccess.Client;
 using Oracle.DataAccess.Types;
 using Implements;
@@ -87,16 +88,16 @@ namespace PipeCatcher
                 var str = String.Format("\nCALL {0}({1})", ProcName, RecId);
                 if (OraReader.HasRows)
                 {
-                    FlexEvent evt = new FlexEvent("PipeCatcher.Call." + ProcName);
+                    var f = new FlexHelper("PipeCatcher.Call." + ProcName);
                     str += "+++";
                     OraReader.Read();
-                    evt.Arguments.Add("@ProcName", ProcName);
+                    f.AddArg("@ProcName", ProcName);
                     for (int i = 0; i < OraReader.FieldCount; i++)
                     {
-                        evt.Arguments.Add(OraReader.GetName(i), OraReader[i]);
+                        f.AddArg(OraReader.GetName(i), OraReader[i]);
                         str += "\n" + OraReader.GetName(i) + "\t: " + OraReader[i];
                     }
-                    Program.CoreGate.PushEvent(evt);
+                    f.Fire(Program.CoreGate);
                 }
                 else
                 {

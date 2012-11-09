@@ -7,6 +7,8 @@ namespace Data.Model
 {
     public class ChargingOutput
     {
+        public float? ReplaceDolomitCoef;
+
         public float ForecastTemperature_C;
         public int OxygenAmountTotalEnd_Nm3;
         public float OxygenAmountTotal1stStep_Nm3;

@@ -25,6 +25,14 @@ namespace Data
             mSimulationSteps = 0;
             ResetStartTime();
         }
+        public Clock(DateTime aStartTime, int aSimulationDeltaT_s)
+        {
+            Current = this;
+            mSimulation = true;
+            mSimulationDeltaT_s = aSimulationDeltaT_s;
+            mSimulationSteps = 0;
+            StartTime = aStartTime;
+        }
 
         public void ResetStartTime()
         {
@@ -33,6 +41,10 @@ namespace Data
         public void IncSimulationStep()
         {
             mSimulationSteps++;
+        }
+        public void BackToStart()
+        {
+
         }
 
         private bool mSimulation;

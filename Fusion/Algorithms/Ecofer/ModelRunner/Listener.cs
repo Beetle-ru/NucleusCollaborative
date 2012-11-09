@@ -216,7 +216,7 @@ namespace ModelRunner
             DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
         }
 
-        private void CollectAdditions(SteelMakingPatternEvent smpe)
+        private void CollectAdditions(SteelMakingPatternEvent smpe, Logger l)
         {
             ModWeight["LIME"] = 0;
             ModWeight["DOLOMS"] = 0;
@@ -231,9 +231,20 @@ namespace ModelRunner
                     {
                         if (smpe.steps[step].weigherLines[weirline].BunkerId == bunkerId)
                         {
-                            var weight = smpe.steps[step].weigherLines[weirline].PortionWeight;
-                            var name = m_bunkersNames[bunkerId];
-                            ModWeight[matRename[name]] += (int) weight;
+                            try
+                            {
+                                var weight = smpe.steps[step].weigherLines[weirline].PortionWeight;
+                                var name = m_bunkersNames[bunkerId];
+                                ModWeight[matRename[name]] += (int)weight;
+                            }
+                            catch(Exception e)
+                            {
+                                var sb = new StringBuilder("SteelMakking trap:");
+                                sb.AppendFormat(" step={0}", step);
+                                sb.AppendFormat(" bunkerId={0}", bunkerId);
+                                sb.AppendFormat(" weirline={0}", weirline);
+                                l.err("exceptioninfo {0}\n\t{1}", sb.ToString(), e.ToString());
+                            }
                         }
                     }
                 }
@@ -282,6 +293,7 @@ namespace ModelRunner
                             IronReason = "PIPE-X";
                             l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
                             DynPrepare.FireIronEvent();
+                            DynPrepare.HeatFlags |= ModelRunReady.IronDefined;
                         }
                         else
                             l.msg(
@@ -289,9 +301,9 @@ namespace ModelRunner
                                 HeatNumber, fxe.Arguments["HEAT_NO"]
                                 );
                     }
-                    else
+                    else if (fxe.Operation.StartsWith("Model.Dynamic"))
                     {
-                        l.msg("FlexEvent Appeared: {0}\n", fxe);
+                        l.msg("Model Related Event Appeared: {0}\n", fxe);
                     }
                 }
                 else if (evt is LanceEvent)
@@ -353,7 +365,7 @@ namespace ModelRunner
                     var smpe = evt as SteelMakingPatternEvent;
                     l.msg("SteelMakingPattern Event: {0}", smpe);
                     CollectOxygen(smpe);
-                    CollectAdditions(smpe);
+                    CollectAdditions(smpe, l);
                     var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Template.Additions");
                     fex.AddArg("Heat_No", HeatNumber);
                     fex.AddArg("Iron_Weight", IronWeight);
@@ -412,6 +424,7 @@ namespace ModelRunner
                 else if (evt is SublanceStartEvent)
                 {
                     var zamer = evt as SublanceStartEvent;
+                    l.msg("Received: {0}", zamer);
                     if (zamer.SublanceStartFlag == 0)
                     {
                         if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
@@ -425,6 +438,7 @@ namespace ModelRunner
                 else if (evt is TappingEvent)
                 {
                     var sliv = evt as TappingEvent;
+                    l.msg("Received: {0}", sliv);
                     if (sliv.TappingFlag == 0)
                     {
                         if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
@@ -436,10 +450,13 @@ namespace ModelRunner
                 else if (evt is BlowingEvent)
                 {
                     var blow = evt as BlowingEvent;
-                    if (blow.BlowingFlag == 1)
+                    if (0 == (DynPrepare.HeatFlags & ModelRunReady.BlowingStarted))
                     {
-                        DynPrepare.HeatFlags |= ModelRunReady.BlowingStarted;
-                        l.msg("Heat {0} : main blowing started *************************", HeatNumber);
+                        if (blow.BlowingFlag == 1)
+                        {
+                            DynPrepare.HeatFlags |= ModelRunReady.BlowingStarted;
+                            l.msg("Heat {0} : main blowing started *************************", HeatNumber);
+                        }
                     }
                 }
             }

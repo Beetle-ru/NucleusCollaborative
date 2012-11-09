@@ -15,10 +15,34 @@ namespace Models
         {
             mInputData = aInputData;
         }
+        /// <summary>
+        /// Returns ratio between DOlomit MgO and Dolomit S MgO if both of them are available.
+        /// Expects Dolomit S as Slag former 1.
+        /// </summary>
+        /// <returns></returns>
+        public static float? GetDomolitReplacementCoef()
+        {
+            DTO.MINP_GD_MaterialDTO lDolom_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.Dolomite];
+            DTO.MINP_GD_MaterialDTO lDolomS_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1];
+
+            if (lDolom_DTO != null && lDolomS_DTO != null)
+            {
+                try
+                {
+                    return (float?)(lDolom_DTO.MINP_GD_MaterialItems.Single(aR => aR.MINP_GD_MaterialElement.Index == Common.ElementIndex.Slag_MgO).Amount_p /
+                        lDolomS_DTO.MINP_GD_MaterialItems.Single(aR => aR.MINP_GD_MaterialElement.Index == Common.ElementIndex.Slag_MgO).Amount_p);
+                }
+                catch { };
+            }
+
+            return null;
+        }
 
         public Data.Model.ChargingOutput Run()
         {
             Data.Model.ChargingOutput lOutputData = new Data.Model.ChargingOutput();
+
+            lOutputData.ReplaceDolomitCoef = null;
 
             float lSuma_m_SZ_real = 0;
             float[] lStredni_SZ = new float[Global.MATERIALELEMENTS_COUNT];

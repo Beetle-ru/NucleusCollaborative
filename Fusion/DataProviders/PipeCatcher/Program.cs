@@ -16,7 +16,7 @@ namespace PipeCatcher
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        private static void Main(string[] argv)
         {
             using (var l = new Logger("PipeCatcher"))
             {
@@ -41,7 +41,7 @@ namespace PipeCatcher
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
 
-                    Application.Run(new Catcher(dbrlist));
+                    Application.Run(new Catcher(dbrlist, System.IO.Directory.GetCurrentDirectory()));
                 }
                 catch (Exception e)
                 {
