@@ -98,7 +98,7 @@ namespace Implements
 
 
     public static class InstantLogger
-    {
+    { 
         private static object consoleLocker = new object();
         private static object fileLocker = new object();
         private static object processLocker = new object();
