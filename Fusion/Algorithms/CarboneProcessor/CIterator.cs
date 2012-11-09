@@ -197,8 +197,8 @@ namespace CarboneProcessor
                     m_currentMatrix = MFMChooser(heatData);
                     var matrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull[m_currentMatrix].MatrixList);
                     var CMCarbon = Decarbonater.MultiFactorCarbonMass(matrixStateData, currentStateData);
-                    if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
-                    //RemainCarbonPercent = CMCarbon;
+                    //if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
+                    RemainCarbonPercent = CMCarbon;
 
                     if (MomentFixDataForMFactorModel(heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent)) // фиксируем для обучения
                     {
