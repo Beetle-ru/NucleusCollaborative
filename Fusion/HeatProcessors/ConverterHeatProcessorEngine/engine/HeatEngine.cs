@@ -95,7 +95,7 @@ namespace ConverterHeatProcessorEngine
                     // сделать всу остальную очистку
 
                 }
-
+                SetControlMode(false); // запираем визуху
                 ResetAllState(1133); // обнуляем все задания в контроллере
                 ResetAllState(1135); // повторяем чтоб убедиться в том что счетчики точно переключились
 

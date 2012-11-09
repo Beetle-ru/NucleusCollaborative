@@ -237,116 +237,6 @@ namespace ConverterHeatProcessorEngine
             return 0;
         }
 
-        //public static int SenderWeigherLoadMaterial(List<WeigherQuant> weigherQuant)
-        //{
-        //   // m_pushGate.PushEvent(new HeatSchemaStepEvent() { Step = currentStep });
-        //    comAdditionsSchemaEvent bunkers = new comAdditionsSchemaEvent();
-            
-        //    // заполняем значениями, что не заполнили останется -1 - важно для правильной работы весов(только 1 материал грузим)
-        //    int weigher = 0;
-        //    if (weigherQuant[weigher].BunkerId == 0)                                           // W3 RB5 (0,0)
-        //    {
-        //        bunkers.Material1Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material1 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    if (weigherQuant[weigher].BunkerId == 1)                                           // W3 RB6 (0,1)
-        //    {
-        //        bunkers.Material2Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material2 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    weigher = 1;
-        //    if (weigherQuant[weigher].BunkerId == 2)                                           // W4 RB7 (1,2)
-        //    {
-        //        bunkers.Material3Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material3 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    weigher = 2;
-        //    if (weigherQuant[weigher].BunkerId == 3)                                           // W5 RB8 (2,3)
-        //    {
-        //        bunkers.Material4Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material4 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    weigher = 3;
-        //    if (weigherQuant[weigher].BunkerId == 4)                                           // W6 RB9 (3,4)
-        //    {
-        //        bunkers.Material5Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material5 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    weigher = 4;
-        //    if (weigherQuant[weigher].BunkerId == 5)                                           // W7 RB10 (4,5)
-        //    {
-        //        bunkers.Material6Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material6 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    if (weigherQuant[weigher].BunkerId == 6)                                           // W7 RB11 (4,6)
-        //    {
-        //        bunkers.Material7Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material7 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //    if (weigherQuant[weigher].BunkerId == 7)                                           // W7 RB12 (4,7)
-        //    {
-        //        bunkers.Material8Portion1Weight = weigherQuant[weigher].PortionWeight;
-        //        bunkers.O2VolPortion1Material8 = weigherQuant[weigher].OxygenTreshold;
-        //    }
-        //  //  m_pushGate.PushEvent(bunkers);                                                     // отправляем задание
-
-        //    for (int i = 0; i < weigherQuant.Count; i++)
-        //    {
-        //        var quant = weigherQuant[i];
-        //        if (quant.PortionWeight > 0)
-        //        {
-        //            InstantLogger.log("JOB SENDER:");
-        //            Thread.Sleep(DelayRefrashData);
-        //            m_pushGate.PushEvent(bunkers);                                                     // отправляем задание если есть хотябы 1 вес
-        //            Thread.Sleep(DelayRefrashData);
-        //            break;
-        //        }
-        //    }
-        //    Random rnd1 = new Random();
-        //    for (int weigherCnt = 0; weigherCnt < WeightCounter; weigherCnt++)
-        //    {
-        //        switch (weigherCnt)
-        //        {
-        //            case 0:
-        //                if (weigherQuant[weigherCnt].PortionWeight > 0)
-        //                {
-        //                    m_pushGate.PushEvent(new cntWeigher3JobReadyEvent() { Counter = m_cntWeighersJobReady[weigherCnt]++ });              // подтверждаем задание для весов w3
-        //                    InstantLogger.log(string.Format("job for w3 ==> {0}", weigherQuant[weigherCnt].ToString()));
-        //                }
-        //                break;
-        //            case 1:
-        //                if (weigherQuant[weigherCnt].PortionWeight > 0)
-        //                {
-        //                    m_pushGate.PushEvent(new cntWeigher4JobReadyEvent() { Counter = m_cntWeighersJobReady[weigherCnt]++ });              // подтверждаем задание для весов w4
-        //                    InstantLogger.log(string.Format("job for w4 ==> {0}", weigherQuant[weigherCnt].ToString()));
-        //                }
-        //                break;
-        //            case 2:
-        //                if (weigherQuant[weigherCnt].PortionWeight > 0)
-        //                {
-        //                    m_pushGate.PushEvent(new cntWeigher5JobReadyEvent() { Counter = m_cntWeighersJobReady[weigherCnt]++ });              // подтверждаем задание для весов w5
-        //                    InstantLogger.log(string.Format("job for w5 ==> {0}", weigherQuant[weigherCnt].ToString()));
-        //                }
-        //                break;
-        //            case 3:
-        //                if (weigherQuant[weigherCnt].PortionWeight > 0)
-        //                {
-        //                    m_pushGate.PushEvent(new cntWeigher6JobReadyEvent() { Counter = m_cntWeighersJobReady[weigherCnt]++ });              // подтверждаем задание для весов w6
-        //                    InstantLogger.log(string.Format("job for w6 ==> {0}", weigherQuant[weigherCnt].ToString()));
-        //                }
-        //                break;
-        //            case 4:
-        //                if (weigherQuant[weigherCnt].PortionWeight > 0)
-        //                {
-        //                    m_pushGate.PushEvent(new cntWeigher7JobReadyEvent() { Counter = m_cntWeighersJobReady[weigherCnt]++ });              // подтверждаем задание для весов w7
-        //                    InstantLogger.log(string.Format("job for w7 ==> {0}", weigherQuant[weigherCnt].ToString()));
-        //                }
-        //                break;
-        //        }
-        //    }
-        //    return 0;
-        //}
-
         public static int SenderWeigherLoadMaterial(List<WeigherQuant> weigherQuant)
         {
             // m_pushGate.PushEvent(new HeatSchemaStepEvent() { Step = currentStep });
@@ -590,6 +480,21 @@ namespace ConverterHeatProcessorEngine
             }
 
             Thread.Sleep(DelayRefrashData);
+        }
+        public static void SetControlMode(bool isAutomatic)
+        {
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComControlMode");
+            if (isAutomatic)
+            {
+                fex.AddArg("LanceMode", 3);
+                fex.AddArg("VpathMode", 3);
+            }
+            else
+            {
+                fex.AddArg("LanceMode", 0);
+                fex.AddArg("VpathMode", 0);
+            }
+            fex.Fire(m_pushGate);
         }
     }
 }
