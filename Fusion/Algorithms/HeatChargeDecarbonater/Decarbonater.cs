@@ -80,8 +80,8 @@ namespace HeatCharge
 
             if (m_complexCmp == null)
             {
-                //alglib.mlpcreate0(NIn, NOut, out m_complexCmp);
-                alglib.mlpcreate1(NIn, 8, NOut, out m_complexCmp);
+                alglib.mlpcreate0(NIn, NOut, out m_complexCmp);
+                //alglib.mlpcreate1(NIn, 8, NOut, out m_complexCmp);
                 //alglib.mlpcreate2(NIn, 8, 8, NOut, out m_complexCmp);
             }
 

@@ -100,27 +100,28 @@ namespace SublanceGenerator
                         
                         if (Iterator.IsBeganMetering)
                         {
-                            Iterator.EndMetering();
+                            //Iterator.EndMetering();
+                            Iterator.BlowingEndRequest();
                             str += String.Format("Sublance end metering");
                         }
                         l.msg(str);
                     }
                 }
-                if (evt is MeteringCounterEvent)
-                {
-                    var mce = evt as MeteringCounterEvent;
-                    if (mce.Cnt != Iterator.MeteringCounter)
-                    {
-                        Iterator.MeteringCounter = mce.Cnt;
-                        var str = String.Format("Metering counter changed");
-                        if (Iterator.IsBeganMetering)
-                        {
-                            Iterator.EndMetering();
-                            str += String.Format("Sublance end metering of Metering counter");
-                        }
-                        l.msg(str);
-                    }
-                }
+                //if (evt is MeteringCounterEvent)
+                //{
+                //    var mce = evt as MeteringCounterEvent;
+                //    if (mce.Cnt != Iterator.MeteringCounter)
+                //    {
+                //        Iterator.MeteringCounter = mce.Cnt;
+                //        var str = String.Format("Metering counter changed");
+                //        if (Iterator.IsBeganMetering)
+                //        {
+                //            Iterator.EndMetering();
+                //            str += String.Format("Sublance end metering of Metering counter");
+                //        }
+                //        l.msg(str);
+                //    }
+                //}
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
@@ -169,19 +170,42 @@ namespace SublanceGenerator
                     {
                         var key = "SId";
                         l.msg(fxe.ToString());
-                        if (fxe.Arguments.ContainsKey(key))
+                        try
                         {
-                            try
+                            if (Iterator.SIdK == (Guid)fxe.Arguments[key])
                             {
-                                if (Iterator.SIdK == (Guid)fxe.Arguments[key])
+                                Iterator.BeginMetering();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("ConverterUI.ZondAccept - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
+                    if (fxe.Operation.StartsWith("ConverterUI.BlowingEndResponce"))
+                    {
+                        var key = "SId";
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            if (Iterator.SIdK == (Guid)fxe.Arguments[key])
+                            {
+                                //Iterator.BeginMetering();
+                                key = "EndNow";
+                                if ((bool)fxe.Arguments[key])
                                 {
-                                    Iterator.BeginMetering();
+                                    Iterator.DoStopBlow();
+                                    Iterator.EndMetering();
+                                }
+                                else
+                                {
+                                    Iterator.EndMetering();
                                 }
                             }
-                            catch (Exception e)
-                            {
-                                l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
-                            }
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("ConverterUI.BlowingEndResponce - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }

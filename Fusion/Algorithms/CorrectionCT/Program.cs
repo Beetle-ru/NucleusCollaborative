@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Converter;
 using Implements;
 using System.Configuration;
 
@@ -16,6 +17,13 @@ namespace CorrectionCT
         public static ConnectionProvider.Client MainGate;
         public static Estimates Data;
         public static bool IsFiered;
+        public static Guid SidB;
+        public static bool AutomaticStop;
+        public static int CurrentOxygen;
+        public static int CorrectionOxyT;
+        public static int CorrectionOxyC;
+        public static int EndBlowingOxygen;
+        public static bool BlowStopSignalPushed;
         static void Main(string[] args)
         {
             Init();
@@ -27,7 +35,7 @@ namespace CorrectionCT
             MatrixT = new CSVTableParser();
             MatrixC = new CSVTableParser();
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
-            Reset();
+            
 
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             MatrixT.FileName = MainConf.AppSettings.Settings["matrixT"].Value;
@@ -47,13 +55,23 @@ namespace CorrectionCT
             MatrixC.Description.Add(new ColumnPath() { ColumnName = "OxygenOnCarbon", ColumnType = typeof(int) });
             MatrixC.Load();
 
+            var o = new FlexEvent();
             MainGate = new ConnectionProvider.Client(new Listener());
             MainGate.Subscribe();
+            Reset();
         }
         public static void Reset()
         {
             Data = new Estimates();
             IsFiered = false;
+            SidB = Guid.NewGuid();
+            AutomaticStop = false;
+            CurrentOxygen = 0;
+            CorrectionOxyT = 0;
+            CorrectionOxyC = 0;
+            EndBlowingOxygen = int.MaxValue;
+            BlowStopSignalPushed = false;
+            StopBlowFlagRelease();
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -129,17 +147,18 @@ namespace CorrectionCT
         }
         public static void Iterator()
         {
-            var correctionOxyT = CalcT(MatrixT, Data);
-            var correctionOxyC = CalcC(MatrixC, Data);
-            if (correctionOxyT != 0 && correctionOxyC != 0 && !IsFiered)
+            CorrectionOxyT = CalcT(MatrixT, Data);
+            CorrectionOxyC = CalcC(MatrixC, Data);
+            if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
-                fex.AddArg("CorrectionOxygenT", correctionOxyT); // int
-                fex.AddArg("CorrectionOxygenC", correctionOxyC); // int
+                fex.AddArg("CorrectionOxygenT", CorrectionOxyT); // int
+                fex.AddArg("CorrectionOxygenC", CorrectionOxyC); // int
                 fex.AddArg("CurrentC", Data.CurrentC); // double
                 fex.AddArg("TargetC", Data.TargetC); // double
                 fex.AddArg("CurrentT", Data.CurrentT); // int
                 fex.AddArg("TargetT", Data.TargetT); // int
+                fex.AddArg("Sid", SidB); // Guid
 
                 fex.Fire(Program.MainGate);
 
@@ -147,6 +166,22 @@ namespace CorrectionCT
 
                 InstantLogger.msg(fex.evt.ToString());
             }
+            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop)
+            {
+                DoStopBlow();
+            }
+        }
+        public static void DoStopBlow()
+        {
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal",1);
+            fex.Fire(Program.MainGate);
+        }
+        public static void StopBlowFlagRelease()
+        {
+            var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
+            fex.AddArg("EndBlowingSignal", 0);
+            fex.Fire(Program.MainGate);
         }
     }
 }
