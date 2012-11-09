@@ -403,6 +403,35 @@ namespace Data
                             .Where(aR => !aR.O2Amount_Nm3.HasValue);
             foreach (var nItem in lResult) nItem.O2Amount_Nm3 = aO2Amount_Nm3;
         }
+        /// <summary>
+        /// Dolomit is replaced by Dolomit S.
+        /// If the method is called again then Dolomit will not be found.
+        /// </summary>
+        /// <param name="aCoef"></param>
+        public void ReplaceDolomit(float aCoef)
+        {
+            if (CurrentPhase == null) return;
+
+            DTO.MINP_GD_MaterialDTO lDolom_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.Dolomite];
+            DTO.MINP_GD_MaterialDTO lDolomS_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1];
+
+            PhaseItem lPhaseItem = CurrentPhase;
+            while (lPhaseItem != null)
+            {
+                if (lPhaseItem is PhaseItemMatAdd)
+                {
+                    PhaseItemMatAdd lPhaseItemMatAdd = (PhaseItemMatAdd)lPhaseItem;
+
+                    foreach (var nDolomit in lPhaseItemMatAdd.AlloyRecipe.MOUT_AlloyRecipeItems.Where(aR => aR.MINP_GD_Material.Code == lDolom_DTO.Code))
+                    {
+                        nDolomit.MINP_GD_Material = lDolomS_DTO;
+                        if (nDolomit.Amount_kg.HasValue) nDolomit.Amount_kg = (int)Math.Round(nDolomit.Amount_kg.Value * aCoef);
+                    }
+                }
+
+                lPhaseItem = lPhaseItem.NextPhase;
+            }
+        }
         public List<PhaseItem> GetPhasesForDynamicModel()
         {
             return Items.Where(aR => aR.PhaseGroup == PhasePrimaryDivision.OxygenBlowing || aR.PhaseGroup == PhasePrimaryDivision.OxygenBlowingCorrection).ToList();

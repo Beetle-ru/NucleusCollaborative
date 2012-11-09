@@ -89,6 +89,7 @@ namespace Models
         public void Start()
         {
             mHeatNumber = Data.MINP.Heat.HeatNumber;
+            mPaused = false;
 
             // check if oxygen amount is available
             if (!ArePhasesValid()) throw new ApplicationException("Defined OxygenBlowingPhases in model input data are not valid.");
@@ -131,16 +132,7 @@ namespace Models
                     mCSVOutput.Append(';');
                     double sum = 0.0;
                     if (Data.MINP.MINP_GD_ModelMaterials.ContainsKey(Enumerations.MINP_GD_Material_ModelMaterial.Coke))
-                    {
-                        foreach (var v in mInputData.ChargedMaterials)
-                        {
-                            if (v.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke].ShortCode)
-                            {
-                                sum += v.Amount_kg;
-                            }
-                        }
-                        mCSVOutput.Append(sum);
-                    }
+                        mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke].ShortCode).ToArray().Sum(aR => aR.Amount_kg));
                     else
                         mCSVOutput.Append("");
                     mCSVOutput.Append(';');
@@ -264,6 +256,20 @@ namespace Models
 
             if (mCurrentPhaseState != ModelPhaseState.S90_Aborted) mCurrentPhaseState = ModelPhaseState.S50_Finished;
         }
+        public void Pause()
+        {
+            // for simulation
+            StopSimulationTimer();
+            // mPaused for real time
+            mPaused = true;
+        }
+        public void Resume()
+        {
+            // for simulation
+            StartSimulationTimer();
+            // mPaused for real time
+            mPaused = false;
+        }
         public void Dispose()
         {
             Stop();
@@ -280,19 +286,73 @@ namespace Models
         }
         /// <summary>
         /// Can be called only in MainOxygenBlowingPhase.
+        /// Recalculates the model in the next ControlLoop call.
+        /// The model cannot be paused.
         /// </summary>
-        public void RecalculateFromBeginning()
+        /// <remarks>
+        /// 1) Call Pause().
+        /// 2) Do modifications in model input data (Data.MINP structure).
+        /// 3) Call RecalculateFromBeginning().
+        /// 4) Call Resume().
+        /// </remarks>
+        public void RecalculateFromBeginning(Data.Model.ChargingInput aInputData)
         {
             if (mCurrentPhase.PhaseGroup != PhasePrimaryDivision.OxygenBlowing)
                 throw new ApplicationException("Dynamic model can be recalculated only within main oxygen blowing phase.");
             mRecalculateFromTheBeginning = true;
+            mInputData.HotMetal_Temperature = aInputData.HotMetal_Temperature;
+            mInputData.Scrap_Temperature = aInputData.Scrap_Temperature;
+            mInputData.ChargedMaterials = Data.MINP.MINP_MatAdds.Where(aR => aR.Code.StartsWith("01") || aR.Code.StartsWith("02")).ToList();
         }
         /// <summary>
         /// Runs simulation from the beginning of the heat until now with modified model input data.
         /// </summary>
         private void RecalculateFromBeginningInThread()
         {
-            throw new NotImplementedException();
+            mRecalculateFromTheBeginning = false;
+            if (mRunningType == RunningType.RealTime) mTimer.Change(-1, -1);
+            RunningType lPreviousRunningType = mRunningType;
+            mRunningType = RunningType.Simulation;
+
+            // new Initialization
+            Initialization();
+
+            DateTime lStartTime = Data.Clock.Current.StartTime;
+            DateTime lNow = Data.Clock.Current.ActualTime;
+            List<DTO.MINP_CyclicDTO> lMINP_CyclicData = Data.MINP.MINP_Cyclic.OrderBy(aR => aR.TimeProcessed).ToList();
+            List<DTO.MINP_MatAddDTO> lMINP_MatAddData = Data.MINP.MINP_MatAdds.Where(aR => !aR.Code.StartsWith("01") && !aR.Code.StartsWith("02")).OrderBy(aR => aR.TimeProcessed).ToList();
+            Data.MINP.MINP_Cyclic = new List<DTO.MINP_CyclicDTO>();
+            Data.MINP.MINP_MatAdds = new List<DTO.MINP_MatAddDTO>();
+            int lStepsCount = mStepsCount;
+            mStepsCount = 0;
+
+            Data.Clock lOldClock = Data.Clock.Current;
+            new Data.Clock(lStartTime, mDeltaT_s);
+            mOutputData.Clear();
+
+            // loops
+            while (mStepsCount < lStepsCount)
+            {
+                if (lMINP_CyclicData.Count > 0)
+                {
+                    Data.MINP.MINP_Cyclic.Add(lMINP_CyclicData[0]);
+                    lMINP_CyclicData.RemoveAt(0);
+                }
+
+                while (lMINP_MatAddData.Count > 0 && lMINP_MatAddData[0].TimeProcessed <= Data.Clock.Current.ActualTime)
+                {
+                    Data.MINP.MINP_MatAdds.Add(lMINP_MatAddData[0]);
+                    EnqueueMaterialAdded(lMINP_MatAddData[0]);
+                    lMINP_MatAddData.RemoveAt(0);
+                }
+
+                ControlLoop(null);
+            }
+
+            Data.Clock.Current = lOldClock;
+
+            mRunningType = lPreviousRunningType;
+            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(0));
         }
 
         private void StartSimulationTimer()
@@ -474,6 +534,8 @@ namespace Models
 
         private void ControlLoop(object aState)
         {
+            if (mPaused) return;
+
             StopSimulationTimer();
 
             if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
@@ -1476,6 +1538,7 @@ namespace Models
         private int mDeltaT_s;
         private float mDeltaT_min;
         private System.Threading.Timer mTimer;
+        private bool mPaused;
 
         private ModelPhaseState mCurrentPhaseState;
         private Data.PhaseItem mCurrentPhase;

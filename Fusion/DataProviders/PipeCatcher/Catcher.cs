@@ -12,6 +12,7 @@ namespace PipeCatcher
     public partial class Catcher : Form
     {
         private List<DBReader> m_dbrList;
+        private string m_caption;
         private void LogStr(String str)
         {
             rtbReport.Text += String.Format("{0}\n", str);
@@ -23,10 +24,11 @@ namespace PipeCatcher
             rtbReport.Clear();
         }
 
-        public Catcher(List<DBReader> dbrList)
+        public Catcher(List<DBReader> dbrList, string caption)
         {
             if (dbrList.Count == 0) throw new Exception("No DBReader specified!!!");
             m_dbrList = dbrList;
+            m_caption = caption;
             InitializeComponent();
         }
 
@@ -36,6 +38,7 @@ namespace PipeCatcher
             LogStr("Начало работы: " + DateTime.Now);
             txbProcName.Text = "PCK_DATA.PGET_XIMSLAG";
             txbRecId.Text = "3434633";
+            Text = m_caption; //System.IO.Directory.GetCurrentDirectory();
         }
 
         private void btnStartStop_Click(object sender, EventArgs e)

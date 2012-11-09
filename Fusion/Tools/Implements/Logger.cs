@@ -98,12 +98,15 @@ namespace Implements
 
 
     public static class InstantLogger
-    {
+    { 
         private static object consoleLocker = new object();
         private static object fileLocker = new object();
         private static object processLocker = new object();
         private static string path = "logs";
-        private static string logFileName = path + @"\" + logNameGenerate();
+        private static string logFileName()
+        {
+            return path + @"\" + logNameGenerate();
+        }
         private static StreamWriter logFile;
         private static bool writeLogFile = true;
         private static bool writeLogFileInitialised = false;
@@ -129,7 +132,7 @@ namespace Implements
                 try
                 {
                     if (!writeLogFileInitialised)
-                        writeLogFileInit();
+                        LogFileInit();
                     lock (fileLocker)
                     {
                         logFile.Write(message + "\n");
@@ -244,7 +247,7 @@ namespace Implements
                     try
                     {
                         if (!writeLogFileInitialised)
-                            writeLogFileInit();
+                            LogFileInit();
                         lock (fileLocker)
                         {
                             logFile.Write(".......   " + header + " (" + timeNow + ") \n");
@@ -326,10 +329,10 @@ namespace Implements
             return timeLine;
         }
 
-        private static void writeLogFileInit()
+        public static void LogFileInit()
         {
             System.IO.Directory.CreateDirectory(path);
-            logFile = File.CreateText(logFileName);
+            logFile = File.CreateText(logFileName());
             logFile.AutoFlush = true;
             writeLogFileInitialised = true;
         }

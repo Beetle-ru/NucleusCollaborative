@@ -29,6 +29,7 @@ namespace ModelRunner
     internal class DynPrepare
     {
         //public static long oHeatNumber;
+        public static DateTime cTime = DateTime.Now;
         public static ModelRunReady HeatFlags = 0;
         public static Dynamic DynModel;
         public static Client CoreGate;
@@ -285,13 +286,14 @@ namespace ModelRunner
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
-                    //Thread.Sleep(5000);
+                    Thread.Sleep(1000);
+                    // текущий номер плавки
+                    CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
+                    Thread.Sleep(1000);
                     // запрашиваем привязку бункеров к материалам
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
                     // навески
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(visAdditionTotalEvent).Name });
-                    // текущий номер плавки
-                    CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
                     int nStep = 0;
 
                     for (var i = 0; i < _N_matElements; i++)
@@ -355,18 +357,18 @@ NEXT_HEAT:
                     HeatNumber = Listener.HeatNumber;
                     if (0 == (HeatFlags & ModelRunReady.IronDefined))
                     {
-                        FireModelNoDataEvent("Нет данных по чугуну");
-                        goto WAIT_END_OF_HEAT;
+                        FireModelNoDataEvent("Нет данных по чугуну", "IRON");
+                        //goto WAIT_END_OF_HEAT;
                     }
-                    else if (0 == (HeatFlags & ModelRunReady.ScrapDefined))
+                    if (0 == (HeatFlags & ModelRunReady.ScrapDefined))
                     {
-                        FireModelNoDataEvent("Нет данных по лому");
-                        goto WAIT_END_OF_HEAT;
+                        FireModelNoDataEvent("Нет данных по лому", "SCRAP");
+                        //goto WAIT_END_OF_HEAT;
                     }
-                    else if (0 == (HeatFlags & ModelRunReady.AdditionsDefined))
+                    if (0 == (HeatFlags & ModelRunReady.AdditionsDefined))
                     {
-                        FireModelNoDataEvent("Нет данных по сыпучим");
-                        goto WAIT_END_OF_HEAT;
+                        FireModelNoDataEvent("Нет данных по сыпучим", "ADDMAT");
+                        //goto WAIT_END_OF_HEAT;
                     }
                     HeatFlags |= ModelRunReady.ModelStarted;
                     if (Listener.ScrapDanger > 0.25)
@@ -530,7 +532,7 @@ NEXT_HEAT:
                             break;
                         }
                     }
-                    aInputData.Scrap_Temperature = 15;
+                    aInputData.Scrap_Temperature = 0;
 
                     #region Define Oxygen Blowing Phases
 
@@ -612,12 +614,17 @@ WAIT_END_OF_HEAT:
                         Thread.Sleep(1000);
                         Console.Write("+");
                     } while (HeatNumber == Listener.HeatNumber);
+                    if (cTime.Day != DateTime.Now.Day)
+                    {
+                        cTime = DateTime.Now;
+                        InstantLogger.LogFileInit();
+                    }
                     l.msg("Heat Number old: {0}, new: {1}", HeatNumber, Listener.HeatNumber);
                     HeatNumber = Listener.HeatNumber;
                     nStep = 0;
 
                     goto NEXT_HEAT;
-
+ 
                     DynModel.Dispose();
                     throw new Exception("************** End Of Heat ***************");
                 }
@@ -657,11 +664,12 @@ WAIT_END_OF_HEAT:
             fex.Fire(CoreGate);
         }
 
-        public static void FireModelNoDataEvent(string Reason)
+        public static void FireModelNoDataEvent(string Reason, string RCode)
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.NoData");
             fex.AddArg("Heat_No", Listener.HeatNumber);
             fex.AddArg("Reason", Reason);
+            fex.AddArg("RCode", RCode);
             fex.Fire(CoreGate);
         }
 
@@ -672,7 +680,6 @@ WAIT_END_OF_HEAT:
             fex.AddArg("Iron_Weight", Listener.IronWeight);
             fex.AddArg("Iron_Reason", Listener.IronReason);
             fex.Fire(CoreGate);
-            HeatFlags |= ModelRunReady.IronDefined;
         }
 
         public static void FireTemperatureEvent(Models.Dynamic mo)
