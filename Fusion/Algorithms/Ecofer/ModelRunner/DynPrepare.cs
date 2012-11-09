@@ -624,7 +624,7 @@ WAIT_END_OF_HEAT:
                     nStep = 0;
 
                     goto NEXT_HEAT;
-
+ 
                     DynModel.Dispose();
                     throw new Exception("************** End Of Heat ***************");
                 }

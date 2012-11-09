@@ -392,7 +392,7 @@ namespace ModelRunner
                     m_bunkersNames[4] = bnme.Bunker9MaterialName;
                     m_bunkersNames[5] = bnme.Bunker10MaterialName;
                     m_bunkersNames[6] = bnme.Bunker11MaterialName;
-                    m_bunkersNames[7] = bnme.Bunker12MaterialName;
+                    m_bunkersNames[7] = bnme.Bunker12MaterialName; 
                 }
                 else if (evt is visAdditionTotalEvent)
                 {
