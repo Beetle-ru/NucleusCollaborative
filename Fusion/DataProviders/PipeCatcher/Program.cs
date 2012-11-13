@@ -41,7 +41,7 @@ namespace PipeCatcher
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
 
-                    Application.Run(new Catcher(dbrlist, System.IO.Directory.GetCurrentDirectory()));
+                    Application.Run(new Catcher(dbrlist, Application.ExecutablePath));
                 }
                 catch (Exception e)
                 {
