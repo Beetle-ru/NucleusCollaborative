@@ -96,6 +96,10 @@ namespace CorrectionCT
                                 {
                                     Program.EndNowHandler();
                                 }
+                                else
+                                {
+                                    Program.EndMeteringAccept();
+                                }
 
                                 //key = "EndBlowingOxygen";
                                 //Program.EndBlowingOxygen = (int) fxe.Arguments[key];

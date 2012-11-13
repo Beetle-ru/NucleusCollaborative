@@ -86,6 +86,8 @@ namespace SublanceGenerator
                 if(EndMeteringAccept && EndMeteringAlow)
                 {
                     EndMetering();
+                    EndMeteringAccept = false;
+                    EndMeteringAlow = false;
                     l.msg("End metering by iterator");
                 }
             }
