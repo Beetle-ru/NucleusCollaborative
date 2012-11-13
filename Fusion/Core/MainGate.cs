@@ -17,6 +17,7 @@ namespace Core
         InstanceContextMode = InstanceContextMode.PerSession)]
     public class MainGateService : IMainGate
     {
+        private DateTime cTime = DateTime.Now;
         public bool Autentificate(string login, string password)
         {
             return true;
@@ -26,15 +27,23 @@ namespace Core
         {
             try
             {
-                if (Core.Instance.Module != null)
+                if (cTime.Day != DateTime.Now.Day)
                 {
-                    Core.Instance.Module.PushEvent(baseEvent);
+                    cTime = DateTime.Now;
+                    InstantLogger.log("", "To be continued...", InstantLogger.TypeMessage.important);
+                    InstantLogger.LogFileInit();
+                    InstantLogger.log("", "...Continuing", InstantLogger.TypeMessage.important);
                 }
-                else
-                {
-                    InstantLogger.log(baseEvent.ToString(), "Fail to transfer to Core.Instance.Module",
-                                      InstantLogger.TypeMessage.error);
-                }
+                baseEvent.Time = DateTime.Now;
+                //if (Core.Instance.Module != null)
+                //{
+                //    Core.Instance.Module.PushEvent(baseEvent);
+                //}
+                //else
+                //{
+                //    InstantLogger.log(baseEvent.ToString(), "Fail to transfer to Core.Instance.Module",
+                //                      InstantLogger.TypeMessage.error);
+                //}
                 if (PushEventToClients(baseEvent))
                 {
                     InstantLogger.log("", "Done processing", InstantLogger.TypeMessage.normal);
@@ -96,14 +105,20 @@ namespace Core
             });
             try
             {
+                bool firstLoop = true;
                 foreach (var callback in subscribers)
                 {
                     if (((ICommunicationObject) callback).State == CommunicationState.Opened)
                     {
                         TaskInfo ti = new TaskInfo(baseEvent, callback);
                         result = System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback(OnEventTask), ti);
-                        InstantLogger.log(baseEvent.ToString(), "message is delivered -- OnEvent processing initiated",
-                                          InstantLogger.TypeMessage.unimportant);
+                        if (firstLoop)
+                        {
+                            InstantLogger.log(baseEvent.ToString(), "message is delivered -- OnEvent processing initiated",
+                                              InstantLogger.TypeMessage.unimportant);
+                            firstLoop = false;
+
+                        }
                         //callback.OnEvent(baseEvent);
                         result = true;
                     }

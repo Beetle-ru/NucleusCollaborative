@@ -29,6 +29,7 @@ namespace OPCFledged
 
         private string opcDestination_;
         private string opcAddressFmt_;
+        private DateTime cTime = DateTime.Now;
 
         public CoreListener(string opcAddressFmt, string opcDestination)
         {
@@ -44,6 +45,13 @@ namespace OPCFledged
         {
             using (Logger l = new Logger("OnEvent"))
             {
+                if (cTime.Day != DateTime.Now.Day)
+                {
+                    cTime = DateTime.Now;
+                    InstantLogger.log("", "To be continued...", InstantLogger.TypeMessage.important);
+                    InstantLogger.LogFileInit();
+                    InstantLogger.log("", "...Continuing", InstantLogger.TypeMessage.important);
+                }
                 l.msg(newEvent.GetType().FullName);
                 if (newEvent is OPCDirectReadEvent)
                 {
@@ -82,11 +90,13 @@ namespace OPCFledged
                                 plcp = (PLCPoint) x;
                                 var s = string.Format(opcAddressFmt_, plcg.Location,
                                                       OPCFledged.OpcConnector.cnv(plcp.Location));
-                                l.msg("        " + prop.Name + " = " +
+                                var sb = new StringBuilder();
+                                sb.AppendFormat("        " + prop.Name + " = " +
                                       prop.GetValue(newEvent, null).ToString());
-                                l.msg("            IsWritable = " + plcp.IsWritable.ToString());
-                                l.msg("            " + plcp.Location + " % " + s);
-                                l.msg("            " + newEvent.GetType());
+                                sb.AppendFormat("\n            IsWritable = " + plcp.IsWritable.ToString());
+                                sb.AppendFormat("\n            " + plcp.Location + " % " + s);
+                                sb.AppendFormat("\n            " + newEvent.GetType());
+                                l.msg(sb.ToString());
                                 int index = 0;
                                 bool eureka = false;
                                 while (index < OpcConnector.m_Item_defs.Count)
