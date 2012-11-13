@@ -26,6 +26,8 @@ namespace SublanceGenerator
         public static bool IsBeganMetering; // запустили измерение
         public static int LanceMod; // режим управления фурмой
         public static int MeteringCounter; // счетчик замеров
+        public static bool EndMeteringAccept; // конец замера подтвержден
+        public static bool EndMeteringAlow; // конец замера разрешен
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -41,6 +43,8 @@ namespace SublanceGenerator
             ZondIsAccepted = false;
             SIdK = SIdGen(); // присваиваем id текущей сессии для куркина
             IsBeganMetering = false;
+            EndMeteringAccept = false;
+            EndMeteringAlow = false;
         }
         public static void Renit()
         {
@@ -56,7 +60,7 @@ namespace SublanceGenerator
                 var co = CarbonMonoxide.Average(SmoothInterval);
                 if (VerificateB(oxy, co, HotMetallMass) && m_isNotfiredB)
                 {
-                    var fex = new ConnectionProvider.FlexHelper("Model.SublanceStart");
+                    var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.RecommendMetering.B");
                     fex.AddArg("OxygenStartValue", m_oxygenStartValue);
                     fex.AddArg("CurrentOxygen", oxy);
                     fex.AddArg("CurrentCo", co);
@@ -78,6 +82,13 @@ namespace SublanceGenerator
                     string msg = String.Format("RecommendMetering.K fired: \n{0}", fex.evt.ToString());
                     l.msg(msg);
                     m_isNotfiredK = false;
+                }
+                if(EndMeteringAccept && EndMeteringAlow)
+                {
+                    EndMetering();
+                    EndMeteringAccept = false;
+                    EndMeteringAlow = false;
+                    l.msg("End metering by iterator");
                 }
             }
         }
@@ -122,12 +133,12 @@ namespace SublanceGenerator
             //    IsBeganMetering = false;
             //}
         }
-        public static void BlowingEndRequest()
-        {
-            var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.BlowingEndRequest");
-            fex.AddArg("SId", SIdK);
-            fex.Fire(Program.MainGate);
-        }
+        //public static void BlowingEndRequest()
+        //{
+        //    var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.BlowingEndRequest");
+        //    fex.AddArg("SId", SIdK);
+        //    fex.Fire(Program.MainGate);
+        //}
         public static void DoStopBlow()
         {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");

@@ -91,8 +91,18 @@ namespace CorrectionCT
                                 key = "AutomaticStop";
                                 Program.AutomaticStop = (bool) fxe.Arguments[key];
 
-                                key = "EndBlowingOxygen";
-                                Program.EndBlowingOxygen = (int) fxe.Arguments[key];
+                                key = "EndNow";
+                                if ((bool) fxe.Arguments[key])
+                                {
+                                    Program.EndNowHandler();
+                                }
+                                else
+                                {
+                                    Program.EndMeteringAccept();
+                                }
+
+                                //key = "EndBlowingOxygen";
+                                //Program.EndBlowingOxygen = (int) fxe.Arguments[key];
                             }
                         }
                         catch (Exception e)

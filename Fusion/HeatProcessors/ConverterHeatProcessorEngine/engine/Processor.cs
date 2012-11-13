@@ -111,7 +111,8 @@ namespace ConverterHeatProcessorEngine
 
                     SenderWeigherLoadMaterial(WeigherQuantizer());   // задание для вертикального тракта
                     //SenderWeigherLoadMaterial(WeigherQuantizerWE());   // задание для вертикального тракта с учетом пустых весов
-                    
+                    SetControlMode(true); // отпираем визуху
+
 
                 }
             }
