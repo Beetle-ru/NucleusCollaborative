@@ -149,6 +149,7 @@ namespace CorrectionCT
         {
             CorrectionOxyT = CalcT(MatrixT, Data);
             CorrectionOxyC = CalcC(MatrixC, Data);
+            EndBlowingOxygen = CorrectionOxyT; // додувать по температуре
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
@@ -176,11 +177,22 @@ namespace CorrectionCT
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal",1);
             fex.Fire(Program.MainGate);
+            BlowStopSignalPushed = true;
         }
         public static void StopBlowFlagRelease()
         {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 0);
+            fex.Fire(Program.MainGate);
+        }
+        public static void EndNowHandler()
+        {
+            DoStopBlow();
+            EndMeteringAccept();
+        }
+        public static void EndMeteringAccept()
+        {
+            var fex = new ConnectionProvider.FlexHelper("CorrectionCT.EndMeteringAccept");
             fex.Fire(Program.MainGate);
         }
     }

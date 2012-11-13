@@ -101,8 +101,14 @@ namespace SublanceGenerator
                         if (Iterator.IsBeganMetering)
                         {
                             //Iterator.EndMetering();
-                            Iterator.BlowingEndRequest();
-                            str += String.Format("Sublance end metering");
+                            //Iterator.BlowingEndRequest();
+                            Iterator.EndMeteringAlow = true;
+                            if (Iterator.EndMeteringAccept)
+                            {
+                                Iterator.EndMetering();
+
+                                str += String.Format("Sublance end metering");
+                            }
                         }
                         l.msg(str);
                     }
@@ -182,32 +188,37 @@ namespace SublanceGenerator
                             l.err("ConverterUI.ZondAccept - {1} : \n{0}", e.ToString(), key);
                         }
                     }
-                    if (fxe.Operation.StartsWith("ConverterUI.BlowingEndResponce"))
+                    if (fxe.Operation.StartsWith("CorrectionCT.EndMeteringAccept"))
                     {
-                        var key = "SId";
                         l.msg(fxe.ToString());
-                        try
-                        {
-                            if (Iterator.SIdK == (Guid)fxe.Arguments[key])
-                            {
-                                //Iterator.BeginMetering();
-                                key = "EndNow";
-                                if ((bool)fxe.Arguments[key])
-                                {
-                                    Iterator.DoStopBlow();
-                                    Iterator.EndMetering();
-                                }
-                                else
-                                {
-                                    Iterator.EndMetering();
-                                }
-                            }
-                        }
-                        catch (Exception e)
-                        {
-                            l.err("ConverterUI.BlowingEndResponce - {1} : \n{0}", e.ToString(), key);
-                        }
+                        Iterator.EndMeteringAccept = true;
                     }
+                    //if (fxe.Operation.StartsWith("ConverterUI.BlowingEndResponce"))
+                    //{
+                    //    var key = "SId";
+                    //    l.msg(fxe.ToString());
+                    //    try
+                    //    {
+                    //        if (Iterator.SIdK == (Guid)fxe.Arguments[key])
+                    //        {
+                    //            //Iterator.BeginMetering();
+                    //            key = "EndNow";
+                    //            if ((bool)fxe.Arguments[key])
+                    //            {
+                    //                Iterator.DoStopBlow();
+                    //                Iterator.EndMetering();
+                    //            }
+                    //            else
+                    //            {
+                    //                Iterator.EndMetering();
+                    //            }
+                    //        }
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        l.err("ConverterUI.BlowingEndResponce - {1} : \n{0}", e.ToString(), key);
+                    //    }
+                    //}
                 }
             }
         }
