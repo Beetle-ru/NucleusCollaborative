@@ -182,7 +182,7 @@ namespace ConverterHeatProcessorEngine
                     {
                         m_weightCurrentSteps[weigher].Increase();
                         weigherJob = true;
-                        //m_jobAllowToAdd[weigher] = -1; // !!! проверить, возможно из-за отсутствия обнуления наблюдается бага с навесками
+                        m_jobAllowToAdd[weigher] = -1; // !!! проверить, возможно из-за отсутствия обнуления наблюдается бага с навесками
                     }
                 }
             }
