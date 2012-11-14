@@ -159,7 +159,7 @@ namespace CarboneProcessor
                     CIterator.DataCurrentHeat = CIterator.DataSmoothCurrent.GetHeatData(CIterator.DataCurrentHeat, CIterator.PeriodSec);
                     CIterator.DataCurrentHeat.IronMass = m_lastHotIronMass;
                     CIterator.DataCurrentHeat.ScrapMass = m_lastScrapMass;
-                    CIterator.Iterate(CIterator.DataCurrentHeat);
+                    //CIterator.Iterate(CIterator.DataCurrentHeat);
                     l.msg("Iterate");
                     l.msg("[Heat number: {0}][Carbone calculation percent: {1}][Carbone calculation mass: {2}]",
                         CIterator.CurrentHeatResult.NumberHeat,

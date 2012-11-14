@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using ConnectionProvider;
 using Converter;
 using System.Configuration;
@@ -46,7 +47,8 @@ namespace CarboneProcessor
 
             AnyMatryxLoader();
             CIterator.Init();
-
+            CIterator.IterateTimer.Elapsed += new ElapsedEventHandler(CIterator.IterateTimeOut);
+            CIterator.IterateTimer.Enabled = true;
             //CIterator.DataCurrentHeat.MatrixStateData = MFCMDataGenerate(MatrixStateDataFull);
 
             var o = new HeatChangeEvent();
