@@ -14,7 +14,6 @@ namespace SublanceGenerator
 {
     class Listener : IEventListener
     {
-
         public Listener()
         {
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
@@ -192,6 +191,32 @@ namespace SublanceGenerator
                     {
                         l.msg(fxe.ToString());
                         Iterator.EndMeteringAccept = true;
+                    }
+                    if (fxe.Operation.StartsWith("OPC.SublanceHeigth"))
+                    {
+                        var key = "Heigth";
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            var sublanceHeigthNow = (int) fxe.Arguments[key];
+                            var derivative = sublanceHeigthNow - Iterator.SublanceHeigth;
+                            Iterator.SublanceHeigth = (int)fxe.Arguments[key];
+                            if (Iterator.SublanceRaised(derivative,sublanceHeigthNow,Iterator.SublanceTreshold))
+                            {
+                                Iterator.EndMeteringAlow = true;
+                                if (Iterator.EndMeteringAccept)
+                                {
+                                    Iterator.EndMetering();
+                                    l.msg("Sublance end metering");
+                                }
+                            }
+                            
+                           
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("OPC.SublanceHeigth - {1} : \n{0}", e.ToString(), key);
+                        }
                     }
                     //if (fxe.Operation.StartsWith("ConverterUI.BlowingEndResponce"))
                     //{
