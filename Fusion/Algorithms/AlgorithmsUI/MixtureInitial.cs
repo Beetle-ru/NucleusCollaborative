@@ -49,29 +49,29 @@ namespace AlgorithmsUI
             Checker.cErr = Color.DeepPink;
             mainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
             GetValueByKey("IronTask", txbIronTask);
-            GetValueByKey("ScrapTask", txbScrapTask);
-            GetValueByKey("SteelTask", txbSteelTask);
             GetValueByKey("IronTemp", txbIronTemp);
             GetValueByKey("ScrapTemp", txbScrapTemp);
             GetValueByKey("SteelTemp", txbSteelTemp);
             GetValueByKey("Basiticy", txbBasiticy);
-            GetValueByKey("PercentMgO", txbMgO);
-            GetValueByKey("PercentFeO", txbFeO);
+            GetValueByKey("LimeTask", txbLimeIn);
+            GetValueByKey("DolmaxTask", txbDolomIn);
             GetValueByKey("FomTask", txbFomIn);
             GetValueByKey("LimeStoneTask", txbLimeStoneIn);
             GetValueByKey("CokeTask", txbCokeIn);
+            GetValueByKey("PercentMgO", txbMgO);
+            GetValueByKey("PercentFeO", txbFeO);
             ch_Iron = new ChemTable("Химия чугуна", "IronChemistry");
             ch_Iron.LoadCSVData();
             ch_Scrap = new ChemTable("Химия лома", "ScrapChemistry");
             ch_Scrap.LoadCSVData();
+            ch_Lime = new ChemTable("Химия извести", "LimeChemistry");
+            ch_Lime.LoadCSVData();
+            ch_LimeStone = new ChemTable("Химия доломита", "LimeStoneChemistry");
+            ch_LimeStone.LoadCSVData();
             ch_Fom = new ChemTable("Химия ФОМа", "FomChemistry");
             ch_Fom.LoadCSVData();
             ch_CaCO3 = new ChemTable("Химия известняка", "CaCO3Chemistry");
             ch_CaCO3.LoadCSVData();
-            ch_LimeStone = new ChemTable("Химия доломита", "LimeStoneChemistry");
-            ch_LimeStone.LoadCSVData();
-            ch_Lime = new ChemTable("Химия извести", "LimeChemistry");
-            ch_Lime.LoadCSVData();
             ch_Coke = new ChemTable("Химия кокса", "CokeChemistry");
             ch_Coke.LoadCSVData();
             ch_Dust = new ChemTable("Химия отходящих пылей", "DustChemistry");
@@ -79,36 +79,20 @@ namespace AlgorithmsUI
             btnCalculate.Select();
         }
 
-        private void rbnIron_CheckedChanged(object sender, EventArgs e)
-        {
-            txbIronTask.Enabled = true;
-            txbScrapTask.Enabled = false;
-            txbSteelTask.Enabled = false;
-        }
-
-        private void rbnScrap_CheckedChanged(object sender, EventArgs e)
-        {
-            txbIronTask.Enabled = false;
-            txbScrapTask.Enabled = true;
-            txbSteelTask.Enabled = false;
-        }
-
-        private void rbnSteel_CheckedChanged(object sender, EventArgs e)
-        {
-            txbIronTask.Enabled = false;
-            txbScrapTask.Enabled = false;
-            txbSteelTask.Enabled = true;
-        }
-
+        private List<CheckBox> calcList = new List<CheckBox>(); 
         private void MixtureInitial_Load(object sender, EventArgs e)
         {
-            rbnIron.Checked = true;
-
-        }
-
-        private void txbSteelTemp_TextChanged(object sender, EventArgs e)
-        {
-
+            calcList.Add(calcVapno);
+            calcVapno.Tag = txbLimeIn;
+            calcDolmax.Tag = txbDolomIn;
+            calcFom.Tag = txbFomIn;
+            calcVapenec.Tag = txbLimeStoneIn;
+            calcList.Add(calcVapno);
+            calcList.Add(calcDolmax);
+            calcList.Add(calcFom);
+            calcList.Add(calcVapenec);
+            calcVapno.CheckState = CheckState.Checked;
+            calcDolmax.CheckState = CheckState.Checked;
         }
 
         private bool isInputCorrect()
@@ -122,38 +106,51 @@ namespace AlgorithmsUI
             txbScrapTemp.BackColor = color;
             result &= Checker.isDoubleCorrect(txbSteelTemp.Text, out color, new dMargin(1600, 1800));
             txbSteelTemp.BackColor = color;
-            if (rbnIron.Checked)
-            {
-                result &= Checker.isDoubleCorrect(txbIronTask.Text, out color, new dMargin(200, 400));
-                txbIronTask.BackColor = color;
-                Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskIron;
-            }
-            else if (rbnScrap.Checked)
-            {
-                result &= Checker.isDoubleCorrect(txbScrapTask.Text, out color, new dMargin(100, 200));
-                txbScrapTask.BackColor = color;
-                Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskScrap;
-            }
-            else if (rbnSteel.Checked)
-            {
-                result &= Checker.isDoubleCorrect(txbSteelTask.Text, out color, new dMargin(300, 600));
-                txbSteelTask.BackColor = color;
-                Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskSteel;
-            }
+            result &= Checker.isDoubleCorrect(txbIronTask.Text, out color, new dMargin(200, 400));
+            txbIronTask.BackColor = color;
+            Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskIron;
             result &= Checker.isDoubleCorrect(txbBasiticy.Text, out color, new dMargin(1, 4));
             txbBasiticy.BackColor = color;
+            result &= Checker.isDoubleCorrect(txbFeO.Text, out color, new dMargin(10, 40));
+            txbFeO.BackColor = color;
+            if (txbLimeIn.Visible)
+            {
+                result &= Checker.isDoubleCorrect(txbLimeIn.Text, out color, new dMargin(0, 20000));
+                txbLimeIn.BackColor = color;
+            }
+            if (txbDolomIn.Visible)
+            {
+                result &= Checker.isDoubleCorrect(txbDolomIn.Text, out color, new dMargin(0, 20000));
+                txbDolomIn.BackColor = color;
+            }
+            if (txbFomIn.Visible)
+            {
+                result &= Checker.isDoubleCorrect(txbFomIn.Text, out color, new dMargin(0, 20000));
+                txbFomIn.BackColor = color;
+            }
+            if (txbLimeStoneIn.Visible)
+            {
+                result &= Checker.isDoubleCorrect(txbLimeStoneIn.Text, out color, new dMargin(0, 20000));
+                txbLimeStoneIn.BackColor = color;
+            }
+            if (calcSelectedCount < 2)
+            {
+                foreach (var cle in calcList)
+                {
+                    cle.BackColor = (cle.CheckState == CheckState.Unchecked) ? Checker.cEmpty : SystemColors.Control;
+                }
+                result = false;
+            }
+            else
+            {
+                foreach (var cle in calcList) cle.BackColor = SystemColors.Control;
+            }
+            result &= Checker.isDoubleCorrect(txbCokeIn.Text, out color, new dMargin(0, 1000));
+            txbCokeIn.BackColor = color;
             result &= Checker.isDoubleCorrect(txbMgO.Text, out color, new dMargin(10, 40));
             txbMgO.BackColor = color;
             result &= Checker.isDoubleCorrect(txbFeO.Text, out color, new dMargin(10, 40));
             txbFeO.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbFeO.Text, out color, new dMargin(10, 40));
-            txbFeO.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbFomIn.Text, out color, new dMargin(0, 20000));
-            txbFomIn.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbLimeStoneIn.Text, out color, new dMargin(0, 20000));
-            txbLimeStoneIn.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbCokeIn.Text, out color, new dMargin(0, 1000));
-            txbCokeIn.BackColor = color;
             if (!result)
             {
                 LogStr("Заполните значения в желтых секторах, исправьте в красных и фиолетовых");
@@ -224,15 +221,18 @@ namespace AlgorithmsUI
             if (isInputCorrect())
             {
                 btnCalculate.Enabled = false;
+                Mixture1.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
                 Mixture1.t_Iron = SetDoubleByKey("IronTemp", txbIronTemp);
                 Mixture1.t_Scrap = SetDoubleByKey("ScrapTemp", txbScrapTemp);
                 Mixture1.t_Steel = SetDoubleByKey("SteelTemp", txbSteelTemp);
                 Mixture1.basiticy = SetDoubleByKey("Basiticy", txbBasiticy);
-                Mixture1.p_MgO = SetDoubleByKey("PercentMgO", txbMgO);
-                Mixture1.p_FeO = SetDoubleByKey("PercentFeO", txbFeO);
+                Mixture1.m_Vapno = SetDoubleByKey("LimeTask", txbLimeIn) * 0.001;
+                Mixture1.m_Dolmax = SetDoubleByKey("DolmaxTask", txbDolomIn) * 0.001;
                 Mixture1.m_Fom = SetDoubleByKey("FomTask", txbFomIn) * 0.001;
                 Mixture1.m_CaCO3 = SetDoubleByKey("LimeStoneTask", txbLimeStoneIn) * 0.001;
                 Mixture1.m_Coke = SetDoubleByKey("CokeTask", txbCokeIn) * 0.001;
+                Mixture1.p_MgO = SetDoubleByKey("PercentMgO", txbMgO);
+                Mixture1.p_FeO = SetDoubleByKey("PercentFeO", txbFeO);
                 mainConf.Save();
                 LogStr("Рассчет запущен " + DateTime.Now);
                 initChemistry(Mixture1.s_Iron, ch_Iron);
@@ -253,21 +253,8 @@ namespace AlgorithmsUI
                     NextStep();
                     if (Mixture1.Ready()) break;
                 }
-                switch (Mixture1.s_CalcTask)
-                {
-                    case Mixture1.CalcTask.CalcTaskIron:
-                        Mixture1.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
-                        Mixture1.scaleFactor = Mixture1.m_IronTask / Mixture1.m_Iron;
-                        break;
-                    case Mixture1.CalcTask.CalcTaskScrap:
-                        Mixture1.m_ScrapTask = SetDoubleByKey("ScrapTask", txbScrapTask);
-                        Mixture1.scaleFactor = Mixture1.m_ScrapTask / Mixture1.m_Scrap;
-                        break;
-                    case Mixture1.CalcTask.CalcTaskSteel:
-                        Mixture1.m_SteelTask = SetDoubleByKey("SteelTask", txbSteelTask);
-                        Mixture1.scaleFactor = Mixture1.m_SteelTask / Mixture1.m_Steel;
-                        break;
-                }
+                Mixture1.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
+                Mixture1.scaleFactor = Mixture1.m_IronTask / Mixture1.m_Iron;
                 Mixture1.PostCalc();
                 ShowResults();
                 LogStr("Рассчет окончен " + DateTime.Now);
@@ -310,11 +297,6 @@ namespace AlgorithmsUI
             }
         }
 
-        private void panSlagInput_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void btnIronControl_Click(object sender, EventArgs e)
         {
             ch_Scrap.ShowDialog();
@@ -339,6 +321,29 @@ namespace AlgorithmsUI
         {
             if (btnCalculate.Size.Width < 200) btnCalculate.Text = "Счет";
             else btnCalculate.Text = "Выполнить рассчет";
+        }
+
+        private CheckBox calcLastSelected = null;
+        private int calcSelectedCount = 0;
+        private void aCalcCheckedChanged(object sender, EventArgs e)
+        {
+            var cb = sender as CheckBox;
+            var tb = cb.Tag as TextBox;
+            if (cb.Checked)
+            {
+                tb.Visible = false;
+                if (++calcSelectedCount > 2)
+                {
+                    calcLastSelected.CheckState = CheckState.Unchecked;
+                }
+                calcLastSelected = cb;
+            }
+            else
+            {
+                tb.Visible = true;
+                calcSelectedCount -= 1;
+                calcLastSelected = null;
+            }
         }
 
     }

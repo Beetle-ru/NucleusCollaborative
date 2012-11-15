@@ -32,6 +32,42 @@
             this.basement = new System.Windows.Forms.Panel();
             this.splitIronScrap = new System.Windows.Forms.SplitContainer();
             this.rtbReport = new System.Windows.Forms.RichTextBox();
+            this.panSlagInput = new System.Windows.Forms.TableLayoutPanel();
+            this.txbIronTask = new System.Windows.Forms.TextBox();
+            this.panScrapTemp = new System.Windows.Forms.Panel();
+            this.lblScrapTemp = new System.Windows.Forms.Label();
+            this.txbScrapTemp = new System.Windows.Forms.TextBox();
+            this.lblDolom = new System.Windows.Forms.Label();
+            this.lblVapno = new System.Windows.Forms.Label();
+            this.btnIronChem = new System.Windows.Forms.Button();
+            this.btnScrapChem = new System.Windows.Forms.Button();
+            this.txbCokeIn = new System.Windows.Forms.TextBox();
+            this.txbLimeStoneIn = new System.Windows.Forms.TextBox();
+            this.lblScrap = new System.Windows.Forms.Label();
+            this.lblIron = new System.Windows.Forms.Label();
+            this.lblBasiticy = new System.Windows.Forms.Label();
+            this.lblCokeIn = new System.Windows.Forms.Label();
+            this.lblLimeStoneIn = new System.Windows.Forms.Label();
+            this.lblFomIn = new System.Windows.Forms.Label();
+            this.txbBasiticy = new System.Windows.Forms.TextBox();
+            this.txbFomIn = new System.Windows.Forms.TextBox();
+            this.btnFomChem = new System.Windows.Forms.Button();
+            this.btnLimeStoneChem = new System.Windows.Forms.Button();
+            this.lblMgO = new System.Windows.Forms.Label();
+            this.txbMgO = new System.Windows.Forms.TextBox();
+            this.lblFeO = new System.Windows.Forms.Label();
+            this.txbFeO = new System.Windows.Forms.TextBox();
+            this.txbLimeIn = new System.Windows.Forms.TextBox();
+            this.txbDolomIn = new System.Windows.Forms.TextBox();
+            this.panIronTemp = new System.Windows.Forms.Panel();
+            this.lblIronTemp = new System.Windows.Forms.Label();
+            this.txbIronTemp = new System.Windows.Forms.TextBox();
+            this.calcDolmax = new System.Windows.Forms.CheckBox();
+            this.calcFom = new System.Windows.Forms.CheckBox();
+            this.calcVapenec = new System.Windows.Forms.CheckBox();
+            this.calcVapno = new System.Windows.Forms.CheckBox();
+            this.panControl = new System.Windows.Forms.Panel();
+            this.btnCalculate = new System.Windows.Forms.Button();
             this.panAuxOut = new System.Windows.Forms.TableLayoutPanel();
             this.txtSn = new System.Windows.Forms.TextBox();
             this.txtW = new System.Windows.Forms.TextBox();
@@ -74,15 +110,6 @@
             this.txbScrapOut = new System.Windows.Forms.TextBox();
             this.lblScrapMass = new System.Windows.Forms.Label();
             this.lblSteelOut = new System.Windows.Forms.Label();
-            this.control = new System.Windows.Forms.TableLayoutPanel();
-            this.btnCalculate = new System.Windows.Forms.Button();
-            this.controlLabel = new System.Windows.Forms.Panel();
-            this.taskSelector = new System.Windows.Forms.TableLayoutPanel();
-            this.txbScrapTask = new System.Windows.Forms.TextBox();
-            this.txbSteelTask = new System.Windows.Forms.TextBox();
-            this.rbnIron = new System.Windows.Forms.RadioButton();
-            this.rbnScrap = new System.Windows.Forms.RadioButton();
-            this.rbnSteel = new System.Windows.Forms.RadioButton();
             this.heading = new System.Windows.Forms.FlowLayoutPanel();
             this.panTitleHeading = new System.Windows.Forms.Panel();
             this.lblTitleHeading = new System.Windows.Forms.Label();
@@ -101,52 +128,20 @@
             this.panCarbonPercent = new System.Windows.Forms.Panel();
             this.lblCarbonPercent = new System.Windows.Forms.Label();
             this.txbCarbonPercent = new System.Windows.Forms.TextBox();
-            this.btnLimeStoneChem = new System.Windows.Forms.Button();
-            this.btnFomChem = new System.Windows.Forms.Button();
-            this.txbFomIn = new System.Windows.Forms.TextBox();
-            this.txbBasiticy = new System.Windows.Forms.TextBox();
-            this.lblFomIn = new System.Windows.Forms.Label();
-            this.lblLimeStoneIn = new System.Windows.Forms.Label();
-            this.lblCokeIn = new System.Windows.Forms.Label();
-            this.lblBasiticy = new System.Windows.Forms.Label();
-            this.lblIron = new System.Windows.Forms.Label();
-            this.lblScrap = new System.Windows.Forms.Label();
-            this.txbLimeStoneIn = new System.Windows.Forms.TextBox();
-            this.panIronTemp = new System.Windows.Forms.Panel();
-            this.txbCokeIn = new System.Windows.Forms.TextBox();
-            this.btnScrapChem = new System.Windows.Forms.Button();
-            this.txbMgO = new System.Windows.Forms.TextBox();
-            this.txbFeO = new System.Windows.Forms.TextBox();
-            this.btnIronChem = new System.Windows.Forms.Button();
-            this.panSlagInput = new System.Windows.Forms.TableLayoutPanel();
-            this.lblMgO = new System.Windows.Forms.Label();
-            this.lblFeO = new System.Windows.Forms.Label();
-            this.lblVapno = new System.Windows.Forms.Label();
-            this.lblDolom = new System.Windows.Forms.Label();
-            this.txbLimeIn = new System.Windows.Forms.TextBox();
-            this.txbDolomIn = new System.Windows.Forms.TextBox();
-            this.txbIronTemp = new System.Windows.Forms.TextBox();
-            this.lblIronTemp = new System.Windows.Forms.Label();
-            this.panScrapTemp = new System.Windows.Forms.Panel();
-            this.lblScrapTemp = new System.Windows.Forms.Label();
-            this.txbScrapTemp = new System.Windows.Forms.TextBox();
-            this.txbIronTask = new System.Windows.Forms.TextBox();
-            this.calcVapno = new System.Windows.Forms.CheckBox();
-            this.calcDolmax = new System.Windows.Forms.CheckBox();
-            this.calcFom = new System.Windows.Forms.CheckBox();
-            this.calcVapenec = new System.Windows.Forms.CheckBox();
             this.basement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).BeginInit();
             this.splitIronScrap.Panel1.SuspendLayout();
             this.splitIronScrap.Panel2.SuspendLayout();
             this.splitIronScrap.SuspendLayout();
+            this.panSlagInput.SuspendLayout();
+            this.panScrapTemp.SuspendLayout();
+            this.panIronTemp.SuspendLayout();
+            this.panControl.SuspendLayout();
             this.panAuxOut.SuspendLayout();
             this.panCommonOut.SuspendLayout();
             this.panSteelOut.SuspendLayout();
             this.panIronMass.SuspendLayout();
             this.panScrapMass.SuspendLayout();
-            this.control.SuspendLayout();
-            this.taskSelector.SuspendLayout();
             this.heading.SuspendLayout();
             this.panTitleHeading.SuspendLayout();
             this.panSteelBrand.SuspendLayout();
@@ -154,9 +149,6 @@
             this.panHeatID.SuspendLayout();
             this.panSteelTemp.SuspendLayout();
             this.panCarbonPercent.SuspendLayout();
-            this.panIronTemp.SuspendLayout();
-            this.panSlagInput.SuspendLayout();
-            this.panScrapTemp.SuspendLayout();
             this.SuspendLayout();
             // 
             // basement
@@ -165,7 +157,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.basement.Controls.Add(this.splitIronScrap);
-            this.basement.Controls.Add(this.control);
             this.basement.Controls.Add(this.heading);
             this.basement.Location = new System.Drawing.Point(0, 0);
             this.basement.Name = "basement";
@@ -186,9 +177,10 @@
             // splitIronScrap.Panel2
             // 
             this.splitIronScrap.Panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.splitIronScrap.Panel2.Controls.Add(this.panControl);
             this.splitIronScrap.Panel2.Controls.Add(this.panAuxOut);
             this.splitIronScrap.Panel2.Controls.Add(this.panCommonOut);
-            this.splitIronScrap.Size = new System.Drawing.Size(1117, 548);
+            this.splitIronScrap.Size = new System.Drawing.Size(1117, 637);
             this.splitIronScrap.SplitterDistance = 754;
             this.splitIronScrap.TabIndex = 2;
             // 
@@ -200,9 +192,444 @@
             this.rtbReport.ForeColor = System.Drawing.Color.GreenYellow;
             this.rtbReport.Location = new System.Drawing.Point(0, 390);
             this.rtbReport.Name = "rtbReport";
-            this.rtbReport.Size = new System.Drawing.Size(754, 158);
+            this.rtbReport.Size = new System.Drawing.Size(754, 244);
             this.rtbReport.TabIndex = 2;
             this.rtbReport.Text = "";
+            // 
+            // panSlagInput
+            // 
+            this.panSlagInput.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.panSlagInput.ColumnCount = 4;
+            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.60596F));
+            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.06071F));
+            this.panSlagInput.Controls.Add(this.txbIronTask, 1, 0);
+            this.panSlagInput.Controls.Add(this.panScrapTemp, 2, 1);
+            this.panSlagInput.Controls.Add(this.lblDolom, 0, 4);
+            this.panSlagInput.Controls.Add(this.lblVapno, 0, 3);
+            this.panSlagInput.Controls.Add(this.btnIronChem, 3, 0);
+            this.panSlagInput.Controls.Add(this.btnScrapChem, 3, 1);
+            this.panSlagInput.Controls.Add(this.txbCokeIn, 1, 7);
+            this.panSlagInput.Controls.Add(this.txbLimeStoneIn, 1, 6);
+            this.panSlagInput.Controls.Add(this.lblScrap, 0, 1);
+            this.panSlagInput.Controls.Add(this.lblIron, 0, 0);
+            this.panSlagInput.Controls.Add(this.lblBasiticy, 0, 2);
+            this.panSlagInput.Controls.Add(this.lblCokeIn, 0, 7);
+            this.panSlagInput.Controls.Add(this.lblLimeStoneIn, 0, 6);
+            this.panSlagInput.Controls.Add(this.lblFomIn, 0, 5);
+            this.panSlagInput.Controls.Add(this.txbBasiticy, 1, 2);
+            this.panSlagInput.Controls.Add(this.txbFomIn, 1, 5);
+            this.panSlagInput.Controls.Add(this.btnFomChem, 3, 5);
+            this.panSlagInput.Controls.Add(this.btnLimeStoneChem, 3, 6);
+            this.panSlagInput.Controls.Add(this.lblMgO, 0, 8);
+            this.panSlagInput.Controls.Add(this.txbMgO, 1, 8);
+            this.panSlagInput.Controls.Add(this.lblFeO, 0, 9);
+            this.panSlagInput.Controls.Add(this.txbFeO, 1, 9);
+            this.panSlagInput.Controls.Add(this.txbLimeIn, 1, 3);
+            this.panSlagInput.Controls.Add(this.txbDolomIn, 1, 4);
+            this.panSlagInput.Controls.Add(this.panIronTemp, 2, 0);
+            this.panSlagInput.Controls.Add(this.calcDolmax, 2, 4);
+            this.panSlagInput.Controls.Add(this.calcFom, 2, 5);
+            this.panSlagInput.Controls.Add(this.calcVapenec, 2, 6);
+            this.panSlagInput.Controls.Add(this.calcVapno, 2, 3);
+            this.panSlagInput.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panSlagInput.Location = new System.Drawing.Point(0, 0);
+            this.panSlagInput.Name = "panSlagInput";
+            this.panSlagInput.RowCount = 10;
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.54904F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.22548F));
+            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.22548F));
+            this.panSlagInput.Size = new System.Drawing.Size(754, 384);
+            this.panSlagInput.TabIndex = 1;
+            // 
+            // txbIronTask
+            // 
+            this.txbIronTask.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbIronTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbIronTask.Location = new System.Drawing.Point(175, 10);
+            this.txbIronTask.Name = "txbIronTask";
+            this.txbIronTask.Size = new System.Drawing.Size(112, 21);
+            this.txbIronTask.TabIndex = 49;
+            // 
+            // panScrapTemp
+            // 
+            this.panScrapTemp.Controls.Add(this.lblScrapTemp);
+            this.panScrapTemp.Controls.Add(this.txbScrapTemp);
+            this.panScrapTemp.Location = new System.Drawing.Point(335, 45);
+            this.panScrapTemp.Name = "panScrapTemp";
+            this.panScrapTemp.Size = new System.Drawing.Size(112, 34);
+            this.panScrapTemp.TabIndex = 28;
+            // 
+            // lblScrapTemp
+            // 
+            this.lblScrapTemp.AutoSize = true;
+            this.lblScrapTemp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblScrapTemp.Location = new System.Drawing.Point(0, 0);
+            this.lblScrapTemp.Name = "lblScrapTemp";
+            this.lblScrapTemp.Size = new System.Drawing.Size(91, 13);
+            this.lblScrapTemp.TabIndex = 22;
+            this.lblScrapTemp.Text = "Температура, °C";
+            // 
+            // txbScrapTemp
+            // 
+            this.txbScrapTemp.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.txbScrapTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbScrapTemp.Location = new System.Drawing.Point(0, 13);
+            this.txbScrapTemp.Name = "txbScrapTemp";
+            this.txbScrapTemp.Size = new System.Drawing.Size(112, 21);
+            this.txbScrapTemp.TabIndex = 22;
+            // 
+            // lblDolom
+            // 
+            this.lblDolom.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblDolom.AutoSize = true;
+            this.lblDolom.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblDolom.Location = new System.Drawing.Point(4, 173);
+            this.lblDolom.Name = "lblDolom";
+            this.lblDolom.Size = new System.Drawing.Size(129, 24);
+            this.lblDolom.TabIndex = 44;
+            this.lblDolom.Text = "Доломит, кг";
+            // 
+            // lblVapno
+            // 
+            this.lblVapno.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblVapno.AutoSize = true;
+            this.lblVapno.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblVapno.Location = new System.Drawing.Point(4, 132);
+            this.lblVapno.Name = "lblVapno";
+            this.lblVapno.Size = new System.Drawing.Size(125, 24);
+            this.lblVapno.TabIndex = 44;
+            this.lblVapno.Text = "Известь, кг";
+            // 
+            // btnIronChem
+            // 
+            this.btnIronChem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnIronChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnIronChem.Location = new System.Drawing.Point(528, 4);
+            this.btnIronChem.Name = "btnIronChem";
+            this.btnIronChem.Size = new System.Drawing.Size(222, 34);
+            this.btnIronChem.TabIndex = 30;
+            this.btnIronChem.TabStop = false;
+            this.btnIronChem.Text = "Состав...";
+            this.btnIronChem.UseVisualStyleBackColor = true;
+            this.btnIronChem.Click += new System.EventHandler(this.btnIronChem_Click);
+            // 
+            // btnScrapChem
+            // 
+            this.btnScrapChem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnScrapChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScrapChem.Location = new System.Drawing.Point(528, 45);
+            this.btnScrapChem.Name = "btnScrapChem";
+            this.btnScrapChem.Size = new System.Drawing.Size(222, 34);
+            this.btnScrapChem.TabIndex = 28;
+            this.btnScrapChem.TabStop = false;
+            this.btnScrapChem.Text = "Состав...";
+            this.btnScrapChem.UseVisualStyleBackColor = true;
+            this.btnScrapChem.Click += new System.EventHandler(this.btnIronControl_Click);
+            // 
+            // txbCokeIn
+            // 
+            this.txbCokeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbCokeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbCokeIn.Location = new System.Drawing.Point(175, 293);
+            this.txbCokeIn.Name = "txbCokeIn";
+            this.txbCokeIn.Size = new System.Drawing.Size(112, 21);
+            this.txbCokeIn.TabIndex = 28;
+            // 
+            // txbLimeStoneIn
+            // 
+            this.txbLimeStoneIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbLimeStoneIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbLimeStoneIn.Location = new System.Drawing.Point(175, 256);
+            this.txbLimeStoneIn.Name = "txbLimeStoneIn";
+            this.txbLimeStoneIn.Size = new System.Drawing.Size(112, 21);
+            this.txbLimeStoneIn.TabIndex = 27;
+            // 
+            // lblScrap
+            // 
+            this.lblScrap.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblScrap.AutoSize = true;
+            this.lblScrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblScrap.Location = new System.Drawing.Point(4, 50);
+            this.lblScrap.Name = "lblScrap";
+            this.lblScrap.Size = new System.Drawing.Size(49, 24);
+            this.lblScrap.TabIndex = 0;
+            this.lblScrap.Text = "Лом";
+            // 
+            // lblIron
+            // 
+            this.lblIron.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblIron.AutoSize = true;
+            this.lblIron.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblIron.Location = new System.Drawing.Point(4, 9);
+            this.lblIron.Name = "lblIron";
+            this.lblIron.Size = new System.Drawing.Size(64, 24);
+            this.lblIron.TabIndex = 0;
+            this.lblIron.Text = "Чугун";
+            // 
+            // lblBasiticy
+            // 
+            this.lblBasiticy.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblBasiticy.AutoSize = true;
+            this.lblBasiticy.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblBasiticy.Location = new System.Drawing.Point(4, 91);
+            this.lblBasiticy.Name = "lblBasiticy";
+            this.lblBasiticy.Size = new System.Drawing.Size(131, 24);
+            this.lblBasiticy.TabIndex = 2;
+            this.lblBasiticy.Text = "Основность";
+            // 
+            // lblCokeIn
+            // 
+            this.lblCokeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblCokeIn.AutoSize = true;
+            this.lblCokeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCokeIn.Location = new System.Drawing.Point(4, 291);
+            this.lblCokeIn.Name = "lblCokeIn";
+            this.lblCokeIn.Size = new System.Drawing.Size(88, 24);
+            this.lblCokeIn.TabIndex = 3;
+            this.lblCokeIn.Text = "Кокс, кг";
+            // 
+            // lblLimeStoneIn
+            // 
+            this.lblLimeStoneIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblLimeStoneIn.AutoSize = true;
+            this.lblLimeStoneIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblLimeStoneIn.Location = new System.Drawing.Point(4, 255);
+            this.lblLimeStoneIn.Name = "lblLimeStoneIn";
+            this.lblLimeStoneIn.Size = new System.Drawing.Size(146, 24);
+            this.lblLimeStoneIn.TabIndex = 31;
+            this.lblLimeStoneIn.Text = "Известняк, кг";
+            // 
+            // lblFomIn
+            // 
+            this.lblFomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblFomIn.AutoSize = true;
+            this.lblFomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFomIn.Location = new System.Drawing.Point(4, 214);
+            this.lblFomIn.Name = "lblFomIn";
+            this.lblFomIn.Size = new System.Drawing.Size(92, 24);
+            this.lblFomIn.TabIndex = 5;
+            this.lblFomIn.Text = "ФОМ, кг";
+            // 
+            // txbBasiticy
+            // 
+            this.txbBasiticy.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbBasiticy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbBasiticy.Location = new System.Drawing.Point(175, 92);
+            this.txbBasiticy.Name = "txbBasiticy";
+            this.txbBasiticy.Size = new System.Drawing.Size(112, 21);
+            this.txbBasiticy.TabIndex = 23;
+            // 
+            // txbFomIn
+            // 
+            this.txbFomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbFomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbFomIn.Location = new System.Drawing.Point(175, 215);
+            this.txbFomIn.Name = "txbFomIn";
+            this.txbFomIn.Size = new System.Drawing.Size(112, 21);
+            this.txbFomIn.TabIndex = 26;
+            // 
+            // btnFomChem
+            // 
+            this.btnFomChem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFomChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnFomChem.Location = new System.Drawing.Point(528, 209);
+            this.btnFomChem.Name = "btnFomChem";
+            this.btnFomChem.Size = new System.Drawing.Size(222, 34);
+            this.btnFomChem.TabIndex = 45;
+            this.btnFomChem.TabStop = false;
+            this.btnFomChem.Text = "Состав...";
+            this.btnFomChem.UseVisualStyleBackColor = true;
+            this.btnFomChem.Click += new System.EventHandler(this.btnFomChem_Click);
+            // 
+            // btnLimeStoneChem
+            // 
+            this.btnLimeStoneChem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLimeStoneChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnLimeStoneChem.Location = new System.Drawing.Point(528, 250);
+            this.btnLimeStoneChem.Name = "btnLimeStoneChem";
+            this.btnLimeStoneChem.Size = new System.Drawing.Size(222, 34);
+            this.btnLimeStoneChem.TabIndex = 46;
+            this.btnLimeStoneChem.TabStop = false;
+            this.btnLimeStoneChem.Text = "Состав...";
+            this.btnLimeStoneChem.UseVisualStyleBackColor = true;
+            this.btnLimeStoneChem.Click += new System.EventHandler(this.btnLimeStoneChem_Click);
+            // 
+            // lblMgO
+            // 
+            this.lblMgO.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblMgO.AutoSize = true;
+            this.lblMgO.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblMgO.Location = new System.Drawing.Point(4, 323);
+            this.lblMgO.Name = "lblMgO";
+            this.lblMgO.Size = new System.Drawing.Size(83, 24);
+            this.lblMgO.TabIndex = 7;
+            this.lblMgO.Text = "MgO, %";
+            // 
+            // txbMgO
+            // 
+            this.txbMgO.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbMgO.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbMgO.Location = new System.Drawing.Point(175, 324);
+            this.txbMgO.Name = "txbMgO";
+            this.txbMgO.Size = new System.Drawing.Size(112, 21);
+            this.txbMgO.TabIndex = 24;
+            // 
+            // lblFeO
+            // 
+            this.lblFeO.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblFeO.AutoSize = true;
+            this.lblFeO.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblFeO.Location = new System.Drawing.Point(4, 355);
+            this.lblFeO.Name = "lblFeO";
+            this.lblFeO.Size = new System.Drawing.Size(79, 24);
+            this.lblFeO.TabIndex = 6;
+            this.lblFeO.Text = "FeO, %";
+            // 
+            // txbFeO
+            // 
+            this.txbFeO.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbFeO.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbFeO.Location = new System.Drawing.Point(175, 356);
+            this.txbFeO.Name = "txbFeO";
+            this.txbFeO.Size = new System.Drawing.Size(112, 21);
+            this.txbFeO.TabIndex = 25;
+            // 
+            // txbLimeIn
+            // 
+            this.txbLimeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbLimeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbLimeIn.Location = new System.Drawing.Point(175, 133);
+            this.txbLimeIn.Name = "txbLimeIn";
+            this.txbLimeIn.Size = new System.Drawing.Size(112, 21);
+            this.txbLimeIn.TabIndex = 47;
+            // 
+            // txbDolomIn
+            // 
+            this.txbDolomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbDolomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbDolomIn.Location = new System.Drawing.Point(175, 174);
+            this.txbDolomIn.Name = "txbDolomIn";
+            this.txbDolomIn.Size = new System.Drawing.Size(112, 21);
+            this.txbDolomIn.TabIndex = 48;
+            // 
+            // panIronTemp
+            // 
+            this.panIronTemp.Controls.Add(this.lblIronTemp);
+            this.panIronTemp.Controls.Add(this.txbIronTemp);
+            this.panIronTemp.Location = new System.Drawing.Point(335, 4);
+            this.panIronTemp.Name = "panIronTemp";
+            this.panIronTemp.Size = new System.Drawing.Size(112, 34);
+            this.panIronTemp.TabIndex = 27;
+            // 
+            // lblIronTemp
+            // 
+            this.lblIronTemp.AutoSize = true;
+            this.lblIronTemp.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblIronTemp.Location = new System.Drawing.Point(0, 0);
+            this.lblIronTemp.Name = "lblIronTemp";
+            this.lblIronTemp.Size = new System.Drawing.Size(91, 13);
+            this.lblIronTemp.TabIndex = 22;
+            this.lblIronTemp.Text = "Температура, °C";
+            // 
+            // txbIronTemp
+            // 
+            this.txbIronTemp.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.txbIronTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbIronTemp.Location = new System.Drawing.Point(0, 13);
+            this.txbIronTemp.Name = "txbIronTemp";
+            this.txbIronTemp.Size = new System.Drawing.Size(112, 21);
+            this.txbIronTemp.TabIndex = 22;
+            // 
+            // calcDolmax
+            // 
+            this.calcDolmax.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.calcDolmax.AutoSize = true;
+            this.calcDolmax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.calcDolmax.Location = new System.Drawing.Point(346, 175);
+            this.calcDolmax.Name = "calcDolmax";
+            this.calcDolmax.Size = new System.Drawing.Size(163, 20);
+            this.calcDolmax.TabIndex = 51;
+            this.calcDolmax.Text = "Требует рассчёта";
+            this.calcDolmax.UseVisualStyleBackColor = true;
+            this.calcDolmax.CheckedChanged += new System.EventHandler(this.aCalcCheckedChanged);
+            // 
+            // calcFom
+            // 
+            this.calcFom.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.calcFom.AutoSize = true;
+            this.calcFom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.calcFom.Location = new System.Drawing.Point(346, 216);
+            this.calcFom.Name = "calcFom";
+            this.calcFom.Size = new System.Drawing.Size(163, 20);
+            this.calcFom.TabIndex = 52;
+            this.calcFom.Tag = "txbFomIn";
+            this.calcFom.Text = "Требует рассчёта";
+            this.calcFom.UseVisualStyleBackColor = true;
+            this.calcFom.CheckStateChanged += new System.EventHandler(this.aCalcCheckedChanged);
+            // 
+            // calcVapenec
+            // 
+            this.calcVapenec.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.calcVapenec.AutoSize = true;
+            this.calcVapenec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.calcVapenec.Location = new System.Drawing.Point(346, 257);
+            this.calcVapenec.Name = "calcVapenec";
+            this.calcVapenec.Size = new System.Drawing.Size(163, 20);
+            this.calcVapenec.TabIndex = 53;
+            this.calcVapenec.Tag = "txbLimeStoneIn";
+            this.calcVapenec.Text = "Требует рассчёта";
+            this.calcVapenec.UseVisualStyleBackColor = true;
+            this.calcVapenec.CheckStateChanged += new System.EventHandler(this.aCalcCheckedChanged);
+            // 
+            // calcVapno
+            // 
+            this.calcVapno.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.calcVapno.AutoSize = true;
+            this.calcVapno.CausesValidation = false;
+            this.calcVapno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.calcVapno.Location = new System.Drawing.Point(346, 134);
+            this.calcVapno.Name = "calcVapno";
+            this.calcVapno.Size = new System.Drawing.Size(163, 20);
+            this.calcVapno.TabIndex = 50;
+            this.calcVapno.Text = "Требует рассчёта";
+            this.calcVapno.UseVisualStyleBackColor = true;
+            this.calcVapno.CheckedChanged += new System.EventHandler(this.aCalcCheckedChanged);
+            // 
+            // panControl
+            // 
+            this.panControl.BackColor = System.Drawing.Color.Thistle;
+            this.panControl.Controls.Add(this.btnCalculate);
+            this.panControl.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panControl.Location = new System.Drawing.Point(0, 530);
+            this.panControl.Name = "panControl";
+            this.panControl.Size = new System.Drawing.Size(359, 107);
+            this.panControl.TabIndex = 100;
+            // 
+            // btnCalculate
+            // 
+            this.btnCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCalculate.ForeColor = System.Drawing.Color.Black;
+            this.btnCalculate.Location = new System.Drawing.Point(40, 13);
+            this.btnCalculate.Name = "btnCalculate";
+            this.btnCalculate.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
+            this.btnCalculate.Size = new System.Drawing.Size(278, 72);
+            this.btnCalculate.TabIndex = 99;
+            this.btnCalculate.Text = "Выполнить рассчёт";
+            this.btnCalculate.UseVisualStyleBackColor = true;
+            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
+            this.btnCalculate.Resize += new System.EventHandler(this.btnCalculate_Resize);
             // 
             // panAuxOut
             // 
@@ -227,9 +654,8 @@
             this.panAuxOut.Controls.Add(this.lblCo, 2, 0);
             this.panAuxOut.Controls.Add(this.lblAs, 2, 1);
             this.panAuxOut.Controls.Add(this.lblSn, 2, 3);
-            this.panAuxOut.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panAuxOut.Enabled = false;
-            this.panAuxOut.Location = new System.Drawing.Point(0, 393);
+            this.panAuxOut.Location = new System.Drawing.Point(0, 350);
             this.panAuxOut.Name = "panAuxOut";
             this.panAuxOut.RowCount = 4;
             this.panAuxOut.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -694,137 +1120,9 @@
             this.lblSteelOut.TabIndex = 43;
             this.lblSteelOut.Text = "Сталь";
             // 
-            // control
-            // 
-            this.control.BackColor = System.Drawing.Color.LightSalmon;
-            this.control.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.control.ColumnCount = 3;
-            this.control.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 200F));
-            this.control.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 60.43716F));
-            this.control.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.56284F));
-            this.control.Controls.Add(this.btnCalculate, 2, 0);
-            this.control.Controls.Add(this.controlLabel, 1, 0);
-            this.control.Controls.Add(this.taskSelector, 0, 0);
-            this.control.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.control.Location = new System.Drawing.Point(0, 600);
-            this.control.Name = "control";
-            this.control.RowCount = 1;
-            this.control.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.control.Size = new System.Drawing.Size(1117, 89);
-            this.control.TabIndex = 1;
-            // 
-            // btnCalculate
-            // 
-            this.btnCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnCalculate.ForeColor = System.Drawing.Color.Black;
-            this.btnCalculate.Location = new System.Drawing.Point(757, 4);
-            this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnCalculate.Size = new System.Drawing.Size(356, 81);
-            this.btnCalculate.TabIndex = 99;
-            this.btnCalculate.Text = "Выполнить рассчет";
-            this.btnCalculate.UseVisualStyleBackColor = true;
-            this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
-            this.btnCalculate.Resize += new System.EventHandler(this.btnCalculate_Resize);
-            // 
-            // controlLabel
-            // 
-            this.controlLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.controlLabel.Location = new System.Drawing.Point(205, 4);
-            this.controlLabel.Name = "controlLabel";
-            this.controlLabel.Size = new System.Drawing.Size(545, 81);
-            this.controlLabel.TabIndex = 30;
-            // 
-            // taskSelector
-            // 
-            this.taskSelector.ColumnCount = 3;
-            this.taskSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 10F));
-            this.taskSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.taskSelector.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.taskSelector.Controls.Add(this.txbScrapTask, 2, 1);
-            this.taskSelector.Controls.Add(this.txbSteelTask, 2, 2);
-            this.taskSelector.Controls.Add(this.rbnIron, 1, 0);
-            this.taskSelector.Controls.Add(this.rbnScrap, 1, 1);
-            this.taskSelector.Controls.Add(this.rbnSteel, 1, 2);
-            this.taskSelector.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.taskSelector.Location = new System.Drawing.Point(4, 4);
-            this.taskSelector.Name = "taskSelector";
-            this.taskSelector.RowCount = 3;
-            this.taskSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.taskSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.taskSelector.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.taskSelector.Size = new System.Drawing.Size(194, 81);
-            this.taskSelector.TabIndex = 31;
-            // 
-            // txbScrapTask
-            // 
-            this.txbScrapTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbScrapTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbScrapTask.Location = new System.Drawing.Point(103, 30);
-            this.txbScrapTask.Name = "txbScrapTask";
-            this.txbScrapTask.Size = new System.Drawing.Size(88, 21);
-            this.txbScrapTask.TabIndex = 7;
-            // 
-            // txbSteelTask
-            // 
-            this.txbSteelTask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbSteelTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbSteelTask.Location = new System.Drawing.Point(103, 57);
-            this.txbSteelTask.Name = "txbSteelTask";
-            this.txbSteelTask.Size = new System.Drawing.Size(88, 21);
-            this.txbSteelTask.TabIndex = 8;
-            // 
-            // rbnIron
-            // 
-            this.rbnIron.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rbnIron.AutoSize = true;
-            this.rbnIron.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rbnIron.Location = new System.Drawing.Point(13, 3);
-            this.rbnIron.Name = "rbnIron";
-            this.rbnIron.Size = new System.Drawing.Size(60, 21);
-            this.rbnIron.TabIndex = 2;
-            this.rbnIron.TabStop = true;
-            this.rbnIron.Text = "Чугун";
-            this.rbnIron.UseVisualStyleBackColor = true;
-            this.rbnIron.CheckedChanged += new System.EventHandler(this.rbnIron_CheckedChanged);
-            // 
-            // rbnScrap
-            // 
-            this.rbnScrap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rbnScrap.AutoSize = true;
-            this.rbnScrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rbnScrap.Location = new System.Drawing.Point(13, 30);
-            this.rbnScrap.Name = "rbnScrap";
-            this.rbnScrap.Size = new System.Drawing.Size(52, 21);
-            this.rbnScrap.TabIndex = 4;
-            this.rbnScrap.TabStop = true;
-            this.rbnScrap.Text = "Лом";
-            this.rbnScrap.UseVisualStyleBackColor = true;
-            this.rbnScrap.CheckedChanged += new System.EventHandler(this.rbnScrap_CheckedChanged);
-            // 
-            // rbnSteel
-            // 
-            this.rbnSteel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.rbnSteel.AutoSize = true;
-            this.rbnSteel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rbnSteel.Location = new System.Drawing.Point(13, 57);
-            this.rbnSteel.Name = "rbnSteel";
-            this.rbnSteel.Size = new System.Drawing.Size(66, 21);
-            this.rbnSteel.TabIndex = 5;
-            this.rbnSteel.TabStop = true;
-            this.rbnSteel.Text = "Сталь";
-            this.rbnSteel.UseVisualStyleBackColor = true;
-            this.rbnSteel.CheckedChanged += new System.EventHandler(this.rbnSteel_CheckedChanged);
-            // 
             // heading
             // 
-            this.heading.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.heading.BackColor = System.Drawing.Color.LightSalmon;
             this.heading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.heading.Controls.Add(this.panTitleHeading);
             this.heading.Controls.Add(this.panSteelBrand);
@@ -960,7 +1258,6 @@
             this.txbSteelTemp.Name = "txbSteelTemp";
             this.txbSteelTemp.Size = new System.Drawing.Size(100, 21);
             this.txbSteelTemp.TabIndex = 21;
-            this.txbSteelTemp.TextChanged += new System.EventHandler(this.txbSteelTemp_TextChanged);
             // 
             // lblSteelTemp
             // 
@@ -999,409 +1296,6 @@
             this.txbCarbonPercent.TabIndex = 19;
             this.txbCarbonPercent.TabStop = false;
             // 
-            // btnLimeStoneChem
-            // 
-            this.btnLimeStoneChem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLimeStoneChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnLimeStoneChem.Location = new System.Drawing.Point(528, 250);
-            this.btnLimeStoneChem.Name = "btnLimeStoneChem";
-            this.btnLimeStoneChem.Size = new System.Drawing.Size(222, 34);
-            this.btnLimeStoneChem.TabIndex = 46;
-            this.btnLimeStoneChem.TabStop = false;
-            this.btnLimeStoneChem.Text = "Состав...";
-            this.btnLimeStoneChem.UseVisualStyleBackColor = true;
-            this.btnLimeStoneChem.Click += new System.EventHandler(this.btnLimeStoneChem_Click);
-            // 
-            // btnFomChem
-            // 
-            this.btnFomChem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnFomChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnFomChem.Location = new System.Drawing.Point(528, 209);
-            this.btnFomChem.Name = "btnFomChem";
-            this.btnFomChem.Size = new System.Drawing.Size(222, 34);
-            this.btnFomChem.TabIndex = 45;
-            this.btnFomChem.TabStop = false;
-            this.btnFomChem.Text = "Состав...";
-            this.btnFomChem.UseVisualStyleBackColor = true;
-            this.btnFomChem.Click += new System.EventHandler(this.btnFomChem_Click);
-            // 
-            // txbFomIn
-            // 
-            this.txbFomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbFomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbFomIn.Location = new System.Drawing.Point(175, 215);
-            this.txbFomIn.Name = "txbFomIn";
-            this.txbFomIn.Size = new System.Drawing.Size(112, 21);
-            this.txbFomIn.TabIndex = 26;
-            // 
-            // txbBasiticy
-            // 
-            this.txbBasiticy.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbBasiticy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbBasiticy.Location = new System.Drawing.Point(175, 92);
-            this.txbBasiticy.Name = "txbBasiticy";
-            this.txbBasiticy.Size = new System.Drawing.Size(112, 21);
-            this.txbBasiticy.TabIndex = 23;
-            // 
-            // lblFomIn
-            // 
-            this.lblFomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblFomIn.AutoSize = true;
-            this.lblFomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblFomIn.Location = new System.Drawing.Point(4, 214);
-            this.lblFomIn.Name = "lblFomIn";
-            this.lblFomIn.Size = new System.Drawing.Size(92, 24);
-            this.lblFomIn.TabIndex = 5;
-            this.lblFomIn.Text = "ФОМ, кг";
-            // 
-            // lblLimeStoneIn
-            // 
-            this.lblLimeStoneIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblLimeStoneIn.AutoSize = true;
-            this.lblLimeStoneIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblLimeStoneIn.Location = new System.Drawing.Point(4, 255);
-            this.lblLimeStoneIn.Name = "lblLimeStoneIn";
-            this.lblLimeStoneIn.Size = new System.Drawing.Size(146, 24);
-            this.lblLimeStoneIn.TabIndex = 31;
-            this.lblLimeStoneIn.Text = "Известняк, кг";
-            // 
-            // lblCokeIn
-            // 
-            this.lblCokeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblCokeIn.AutoSize = true;
-            this.lblCokeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCokeIn.Location = new System.Drawing.Point(4, 291);
-            this.lblCokeIn.Name = "lblCokeIn";
-            this.lblCokeIn.Size = new System.Drawing.Size(88, 24);
-            this.lblCokeIn.TabIndex = 3;
-            this.lblCokeIn.Text = "Кокс, кг";
-            // 
-            // lblBasiticy
-            // 
-            this.lblBasiticy.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblBasiticy.AutoSize = true;
-            this.lblBasiticy.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblBasiticy.Location = new System.Drawing.Point(4, 91);
-            this.lblBasiticy.Name = "lblBasiticy";
-            this.lblBasiticy.Size = new System.Drawing.Size(131, 24);
-            this.lblBasiticy.TabIndex = 2;
-            this.lblBasiticy.Text = "Основность";
-            // 
-            // lblIron
-            // 
-            this.lblIron.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblIron.AutoSize = true;
-            this.lblIron.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblIron.Location = new System.Drawing.Point(4, 9);
-            this.lblIron.Name = "lblIron";
-            this.lblIron.Size = new System.Drawing.Size(64, 24);
-            this.lblIron.TabIndex = 0;
-            this.lblIron.Text = "Чугун";
-            // 
-            // lblScrap
-            // 
-            this.lblScrap.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblScrap.AutoSize = true;
-            this.lblScrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblScrap.Location = new System.Drawing.Point(4, 50);
-            this.lblScrap.Name = "lblScrap";
-            this.lblScrap.Size = new System.Drawing.Size(49, 24);
-            this.lblScrap.TabIndex = 0;
-            this.lblScrap.Text = "Лом";
-            // 
-            // txbLimeStoneIn
-            // 
-            this.txbLimeStoneIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbLimeStoneIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbLimeStoneIn.Location = new System.Drawing.Point(175, 256);
-            this.txbLimeStoneIn.Name = "txbLimeStoneIn";
-            this.txbLimeStoneIn.Size = new System.Drawing.Size(112, 21);
-            this.txbLimeStoneIn.TabIndex = 27;
-            // 
-            // panIronTemp
-            // 
-            this.panIronTemp.Controls.Add(this.lblIronTemp);
-            this.panIronTemp.Controls.Add(this.txbIronTemp);
-            this.panIronTemp.Location = new System.Drawing.Point(335, 4);
-            this.panIronTemp.Name = "panIronTemp";
-            this.panIronTemp.Size = new System.Drawing.Size(112, 34);
-            this.panIronTemp.TabIndex = 27;
-            // 
-            // txbCokeIn
-            // 
-            this.txbCokeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbCokeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbCokeIn.Location = new System.Drawing.Point(175, 293);
-            this.txbCokeIn.Name = "txbCokeIn";
-            this.txbCokeIn.Size = new System.Drawing.Size(112, 21);
-            this.txbCokeIn.TabIndex = 28;
-            // 
-            // btnScrapChem
-            // 
-            this.btnScrapChem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnScrapChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScrapChem.Location = new System.Drawing.Point(528, 45);
-            this.btnScrapChem.Name = "btnScrapChem";
-            this.btnScrapChem.Size = new System.Drawing.Size(222, 34);
-            this.btnScrapChem.TabIndex = 28;
-            this.btnScrapChem.TabStop = false;
-            this.btnScrapChem.Text = "Состав...";
-            this.btnScrapChem.UseVisualStyleBackColor = true;
-            this.btnScrapChem.Click += new System.EventHandler(this.btnIronControl_Click);
-            // 
-            // txbMgO
-            // 
-            this.txbMgO.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbMgO.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbMgO.Location = new System.Drawing.Point(175, 324);
-            this.txbMgO.Name = "txbMgO";
-            this.txbMgO.Size = new System.Drawing.Size(112, 21);
-            this.txbMgO.TabIndex = 24;
-            // 
-            // txbFeO
-            // 
-            this.txbFeO.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbFeO.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbFeO.Location = new System.Drawing.Point(175, 356);
-            this.txbFeO.Name = "txbFeO";
-            this.txbFeO.Size = new System.Drawing.Size(112, 21);
-            this.txbFeO.TabIndex = 25;
-            // 
-            // btnIronChem
-            // 
-            this.btnIronChem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnIronChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnIronChem.Location = new System.Drawing.Point(528, 4);
-            this.btnIronChem.Name = "btnIronChem";
-            this.btnIronChem.Size = new System.Drawing.Size(222, 34);
-            this.btnIronChem.TabIndex = 30;
-            this.btnIronChem.TabStop = false;
-            this.btnIronChem.Text = "Состав...";
-            this.btnIronChem.UseVisualStyleBackColor = true;
-            this.btnIronChem.Click += new System.EventHandler(this.btnIronChem_Click);
-            // 
-            // panSlagInput
-            // 
-            this.panSlagInput.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
-            this.panSlagInput.ColumnCount = 4;
-            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
-            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 27.60596F));
-            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.panSlagInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 39.06071F));
-            this.panSlagInput.Controls.Add(this.txbIronTask, 1, 0);
-            this.panSlagInput.Controls.Add(this.panScrapTemp, 2, 1);
-            this.panSlagInput.Controls.Add(this.lblDolom, 0, 4);
-            this.panSlagInput.Controls.Add(this.lblVapno, 0, 3);
-            this.panSlagInput.Controls.Add(this.btnIronChem, 3, 0);
-            this.panSlagInput.Controls.Add(this.btnScrapChem, 3, 1);
-            this.panSlagInput.Controls.Add(this.txbCokeIn, 1, 7);
-            this.panSlagInput.Controls.Add(this.txbLimeStoneIn, 1, 6);
-            this.panSlagInput.Controls.Add(this.lblScrap, 0, 1);
-            this.panSlagInput.Controls.Add(this.lblIron, 0, 0);
-            this.panSlagInput.Controls.Add(this.lblBasiticy, 0, 2);
-            this.panSlagInput.Controls.Add(this.lblCokeIn, 0, 7);
-            this.panSlagInput.Controls.Add(this.lblLimeStoneIn, 0, 6);
-            this.panSlagInput.Controls.Add(this.lblFomIn, 0, 5);
-            this.panSlagInput.Controls.Add(this.txbBasiticy, 1, 2);
-            this.panSlagInput.Controls.Add(this.txbFomIn, 1, 5);
-            this.panSlagInput.Controls.Add(this.btnFomChem, 3, 5);
-            this.panSlagInput.Controls.Add(this.btnLimeStoneChem, 3, 6);
-            this.panSlagInput.Controls.Add(this.lblMgO, 0, 8);
-            this.panSlagInput.Controls.Add(this.txbMgO, 1, 8);
-            this.panSlagInput.Controls.Add(this.lblFeO, 0, 9);
-            this.panSlagInput.Controls.Add(this.txbFeO, 1, 9);
-            this.panSlagInput.Controls.Add(this.txbLimeIn, 1, 3);
-            this.panSlagInput.Controls.Add(this.txbDolomIn, 1, 4);
-            this.panSlagInput.Controls.Add(this.panIronTemp, 2, 0);
-            this.panSlagInput.Controls.Add(this.calcDolmax, 2, 4);
-            this.panSlagInput.Controls.Add(this.calcFom, 2, 5);
-            this.panSlagInput.Controls.Add(this.calcVapenec, 2, 6);
-            this.panSlagInput.Controls.Add(this.calcVapno, 2, 3);
-            this.panSlagInput.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panSlagInput.Location = new System.Drawing.Point(0, 0);
-            this.panSlagInput.Name = "panSlagInput";
-            this.panSlagInput.RowCount = 10;
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.54904F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.22548F));
-            this.panSlagInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.22548F));
-            this.panSlagInput.Size = new System.Drawing.Size(754, 384);
-            this.panSlagInput.TabIndex = 1;
-            this.panSlagInput.Paint += new System.Windows.Forms.PaintEventHandler(this.panSlagInput_Paint);
-            // 
-            // lblMgO
-            // 
-            this.lblMgO.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblMgO.AutoSize = true;
-            this.lblMgO.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblMgO.Location = new System.Drawing.Point(4, 323);
-            this.lblMgO.Name = "lblMgO";
-            this.lblMgO.Size = new System.Drawing.Size(83, 24);
-            this.lblMgO.TabIndex = 7;
-            this.lblMgO.Text = "MgO, %";
-            // 
-            // lblFeO
-            // 
-            this.lblFeO.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblFeO.AutoSize = true;
-            this.lblFeO.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblFeO.Location = new System.Drawing.Point(4, 355);
-            this.lblFeO.Name = "lblFeO";
-            this.lblFeO.Size = new System.Drawing.Size(79, 24);
-            this.lblFeO.TabIndex = 6;
-            this.lblFeO.Text = "FeO, %";
-            // 
-            // lblVapno
-            // 
-            this.lblVapno.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblVapno.AutoSize = true;
-            this.lblVapno.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblVapno.Location = new System.Drawing.Point(4, 132);
-            this.lblVapno.Name = "lblVapno";
-            this.lblVapno.Size = new System.Drawing.Size(125, 24);
-            this.lblVapno.TabIndex = 44;
-            this.lblVapno.Text = "Известь, кг";
-            // 
-            // lblDolom
-            // 
-            this.lblDolom.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblDolom.AutoSize = true;
-            this.lblDolom.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblDolom.Location = new System.Drawing.Point(4, 173);
-            this.lblDolom.Name = "lblDolom";
-            this.lblDolom.Size = new System.Drawing.Size(129, 24);
-            this.lblDolom.TabIndex = 44;
-            this.lblDolom.Text = "Доломит, кг";
-            // 
-            // txbLimeIn
-            // 
-            this.txbLimeIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbLimeIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbLimeIn.Location = new System.Drawing.Point(175, 133);
-            this.txbLimeIn.Name = "txbLimeIn";
-            this.txbLimeIn.Size = new System.Drawing.Size(112, 21);
-            this.txbLimeIn.TabIndex = 47;
-            // 
-            // txbDolomIn
-            // 
-            this.txbDolomIn.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbDolomIn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbDolomIn.Location = new System.Drawing.Point(175, 174);
-            this.txbDolomIn.Name = "txbDolomIn";
-            this.txbDolomIn.Size = new System.Drawing.Size(112, 21);
-            this.txbDolomIn.TabIndex = 48;
-            // 
-            // txbIronTemp
-            // 
-            this.txbIronTemp.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txbIronTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbIronTemp.Location = new System.Drawing.Point(0, 13);
-            this.txbIronTemp.Name = "txbIronTemp";
-            this.txbIronTemp.Size = new System.Drawing.Size(112, 21);
-            this.txbIronTemp.TabIndex = 22;
-            // 
-            // lblIronTemp
-            // 
-            this.lblIronTemp.AutoSize = true;
-            this.lblIronTemp.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblIronTemp.Location = new System.Drawing.Point(0, 0);
-            this.lblIronTemp.Name = "lblIronTemp";
-            this.lblIronTemp.Size = new System.Drawing.Size(91, 13);
-            this.lblIronTemp.TabIndex = 22;
-            this.lblIronTemp.Text = "Температура, °C";
-            // 
-            // panScrapTemp
-            // 
-            this.panScrapTemp.Controls.Add(this.lblScrapTemp);
-            this.panScrapTemp.Controls.Add(this.txbScrapTemp);
-            this.panScrapTemp.Location = new System.Drawing.Point(335, 45);
-            this.panScrapTemp.Name = "panScrapTemp";
-            this.panScrapTemp.Size = new System.Drawing.Size(112, 34);
-            this.panScrapTemp.TabIndex = 28;
-            // 
-            // lblScrapTemp
-            // 
-            this.lblScrapTemp.AutoSize = true;
-            this.lblScrapTemp.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblScrapTemp.Location = new System.Drawing.Point(0, 0);
-            this.lblScrapTemp.Name = "lblScrapTemp";
-            this.lblScrapTemp.Size = new System.Drawing.Size(91, 13);
-            this.lblScrapTemp.TabIndex = 22;
-            this.lblScrapTemp.Text = "Температура, °C";
-            // 
-            // txbScrapTemp
-            // 
-            this.txbScrapTemp.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.txbScrapTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbScrapTemp.Location = new System.Drawing.Point(0, 13);
-            this.txbScrapTemp.Name = "txbScrapTemp";
-            this.txbScrapTemp.Size = new System.Drawing.Size(112, 21);
-            this.txbScrapTemp.TabIndex = 22;
-            // 
-            // txbIronTask
-            // 
-            this.txbIronTask.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbIronTask.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbIronTask.Location = new System.Drawing.Point(175, 10);
-            this.txbIronTask.Name = "txbIronTask";
-            this.txbIronTask.Size = new System.Drawing.Size(112, 21);
-            this.txbIronTask.TabIndex = 49;
-            // 
-            // calcVapno
-            // 
-            this.calcVapno.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.calcVapno.AutoSize = true;
-            this.calcVapno.CausesValidation = false;
-            this.calcVapno.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.calcVapno.Location = new System.Drawing.Point(346, 134);
-            this.calcVapno.Name = "calcVapno";
-            this.calcVapno.Size = new System.Drawing.Size(163, 20);
-            this.calcVapno.TabIndex = 50;
-            this.calcVapno.Text = "Требует рассчёта";
-            this.calcVapno.UseVisualStyleBackColor = true;
-            // 
-            // calcDolmax
-            // 
-            this.calcDolmax.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.calcDolmax.AutoSize = true;
-            this.calcDolmax.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.calcDolmax.Location = new System.Drawing.Point(346, 175);
-            this.calcDolmax.Name = "calcDolmax";
-            this.calcDolmax.Size = new System.Drawing.Size(163, 20);
-            this.calcDolmax.TabIndex = 51;
-            this.calcDolmax.Text = "Требует рассчёта";
-            this.calcDolmax.UseVisualStyleBackColor = true;
-            // 
-            // calcFom
-            // 
-            this.calcFom.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.calcFom.AutoSize = true;
-            this.calcFom.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.calcFom.Location = new System.Drawing.Point(346, 216);
-            this.calcFom.Name = "calcFom";
-            this.calcFom.Size = new System.Drawing.Size(163, 20);
-            this.calcFom.TabIndex = 52;
-            this.calcFom.Text = "Требует рассчёта";
-            this.calcFom.UseVisualStyleBackColor = true;
-            // 
-            // calcVapenec
-            // 
-            this.calcVapenec.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.calcVapenec.AutoSize = true;
-            this.calcVapenec.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.calcVapenec.Location = new System.Drawing.Point(346, 257);
-            this.calcVapenec.Name = "calcVapenec";
-            this.calcVapenec.Size = new System.Drawing.Size(163, 20);
-            this.calcVapenec.TabIndex = 53;
-            this.calcVapenec.Text = "Требует рассчёта";
-            this.calcVapenec.UseVisualStyleBackColor = true;
-            // 
             // MixtureInitial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1420,6 +1314,13 @@
             this.splitIronScrap.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).EndInit();
             this.splitIronScrap.ResumeLayout(false);
+            this.panSlagInput.ResumeLayout(false);
+            this.panSlagInput.PerformLayout();
+            this.panScrapTemp.ResumeLayout(false);
+            this.panScrapTemp.PerformLayout();
+            this.panIronTemp.ResumeLayout(false);
+            this.panIronTemp.PerformLayout();
+            this.panControl.ResumeLayout(false);
             this.panAuxOut.ResumeLayout(false);
             this.panAuxOut.PerformLayout();
             this.panCommonOut.ResumeLayout(false);
@@ -1430,9 +1331,6 @@
             this.panIronMass.PerformLayout();
             this.panScrapMass.ResumeLayout(false);
             this.panScrapMass.PerformLayout();
-            this.control.ResumeLayout(false);
-            this.taskSelector.ResumeLayout(false);
-            this.taskSelector.PerformLayout();
             this.heading.ResumeLayout(false);
             this.panTitleHeading.ResumeLayout(false);
             this.panTitleHeading.PerformLayout();
@@ -1446,12 +1344,6 @@
             this.panSteelTemp.PerformLayout();
             this.panCarbonPercent.ResumeLayout(false);
             this.panCarbonPercent.PerformLayout();
-            this.panIronTemp.ResumeLayout(false);
-            this.panIronTemp.PerformLayout();
-            this.panSlagInput.ResumeLayout(false);
-            this.panSlagInput.PerformLayout();
-            this.panScrapTemp.ResumeLayout(false);
-            this.panScrapTemp.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1477,14 +1369,6 @@
         private System.Windows.Forms.Panel panCarbonPercent;
         private System.Windows.Forms.Panel panTitleHeading;
         private System.Windows.Forms.Label lblTitleHeading;
-        private System.Windows.Forms.TableLayoutPanel control;
-        private System.Windows.Forms.Panel controlLabel;
-        private System.Windows.Forms.TableLayoutPanel taskSelector;
-        private System.Windows.Forms.RadioButton rbnIron;
-        private System.Windows.Forms.RadioButton rbnScrap;
-        private System.Windows.Forms.RadioButton rbnSteel;
-        private System.Windows.Forms.TextBox txbScrapTask;
-        private System.Windows.Forms.TextBox txbSteelTask;
         private System.Windows.Forms.Button btnCalculate;
         private System.Windows.Forms.SplitContainer splitIronScrap;
         private System.Windows.Forms.TableLayoutPanel panCommonOut;
@@ -1564,6 +1448,7 @@
         private System.Windows.Forms.CheckBox calcFom;
         private System.Windows.Forms.CheckBox calcVapenec;
         private System.Windows.Forms.CheckBox calcVapno;
+        private System.Windows.Forms.Panel panControl;
 
 
 

@@ -28,9 +28,9 @@ namespace HeatCharge
         public static double m_IronTask, m_ScrapTask, m_SteelTask, scaleFactor = 1.0;
         public static double t_Iron, t_Scrap, t_Steel;
         public static double basiticy, p_MgO, p_FeO;
-        public static double m_Fom, m_CaCO3, m_Coke;
+        public static double m_Vapno, m_Dolmax, m_Fom, m_CaCO3;
         public static double step_m_Scrap, e_Iron, e_Scrap, m_SiO2, m_MnO, m_Al2O3, m_CaO, m_slag, m_MgO, m_FeO;
-        public static double m_Dust, m_Fe_k_oxidaci, m_dolomite, m_lime;
+        public static double m_Dust, m_Fe_k_oxidaci, m_Coke, m_dolomite, m_lime;
         public static double e_Si_ox, e_Mn_ox, e_Al_ox, e_Fe_ox, e_C_ox, e_Coke, e_SlagForming, e_Common, e_Dust, e_Steel, e_Curr;
         public static double[] p_SteelAdd = new double[8];
 
