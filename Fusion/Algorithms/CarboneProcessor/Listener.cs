@@ -20,12 +20,14 @@ namespace CarboneProcessor
         private static double m_carbonOxideVolumePercentPrevious;
         private static double m_lastScrapMass;
         private static double m_lastHotIronMass;
+        private static int m_lanceHeigth;
         public Listener()
         {
             m_carbonMonoxideVolumePercentPrevious = 0.0;
             m_carbonOxideVolumePercentPrevious = 0.0;
             m_lastHotIronMass = 300000.1135;
             m_lastScrapMass = 150000.1135;
+            m_lanceHeigth = Int32.MaxValue;
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
         
@@ -141,6 +143,12 @@ namespace CarboneProcessor
                     CIterator.DataSmoothCurrent.HeightLanceCentimeters.Add((double)lanceEvent.LanceHeight);
                     CIterator.CalculateLanceSpeed(lanceEvent.LanceHeight); // фиксация данных по скорости и положению фурмы для старта многофакторной модели
                     l.msg("Height lance: {0}", lanceEvent.LanceHeight);
+
+                    if (m_lanceHeigth != lanceEvent.LanceHeight)
+                    {
+                        CIterator.Iterate(CIterator.DataCurrentHeat);
+                        m_lanceHeigth = lanceEvent.LanceHeight;
+                    }
                 }
                 if (newEvent is OffGasAnalysisEvent)
                 {
