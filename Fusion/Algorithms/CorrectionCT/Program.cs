@@ -5,6 +5,7 @@ using System.Text;
 using Converter;
 using Implements;
 using System.Configuration;
+using System.Timers;
 
 namespace CorrectionCT
 {
@@ -24,6 +25,10 @@ namespace CorrectionCT
         public static int CorrectionOxyC;
         public static int EndBlowingOxygen;
         public static bool BlowStopSignalPushed;
+        public static Timer WaitSublanceData;
+        public static int MeteringWaitTimeUVM = 5;
+        public static int MeteringWaitTimeManual = 14;
+        public static int LanceMode;
         static void Main(string[] args)
         {
             Init();
@@ -58,6 +63,10 @@ namespace CorrectionCT
             var o = new FlexEvent();
             MainGate = new ConnectionProvider.Client(new Listener());
             MainGate.Subscribe();
+
+            WaitSublanceData = new Timer();
+            WaitSublanceData.Elapsed += new ElapsedEventHandler(SublanceDataLost);
+
             Reset();
         }
         public static void Reset()
@@ -193,6 +202,12 @@ namespace CorrectionCT
         public static void EndMeteringAccept()
         {
             var fex = new ConnectionProvider.FlexHelper("CorrectionCT.EndMeteringAccept");
+            fex.Fire(Program.MainGate);
+        }
+        public static void SublanceDataLost(object source, ElapsedEventArgs e)
+        {
+            WaitSublanceData.Enabled = false;
+            var fex = new ConnectionProvider.FlexHelper("CorrectionCT.SublanceDataLost");
             fex.Fire(Program.MainGate);
         }
     }

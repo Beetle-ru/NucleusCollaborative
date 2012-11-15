@@ -28,6 +28,8 @@ namespace SublanceGenerator
         public static int MeteringCounter; // счетчик замеров
         public static bool EndMeteringAccept; // конец замера подтвержден
         public static bool EndMeteringAlow; // конец замера разрешен
+        public static int SublanceHeigth; // высота зонда
+        public const int SublanceTreshold = 2000; // порог при котором зонд считается поднятым
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -45,6 +47,7 @@ namespace SublanceGenerator
             IsBeganMetering = false;
             EndMeteringAccept = false;
             EndMeteringAlow = false;
+            SublanceHeigth = Int32.MaxValue;
         }
         public static void Renit()
         {
@@ -150,6 +153,10 @@ namespace SublanceGenerator
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 0);
             fex.Fire(Program.MainGate);
+        }
+        public static bool SublanceRaised(double derivative, int heigth, int treshold)
+        {
+            return (derivative > 0) && (heigth >= treshold);
         }
     }
 }
