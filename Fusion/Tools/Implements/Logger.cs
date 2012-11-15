@@ -7,6 +7,25 @@ using System.Threading;
 
 namespace Implements
 {
+    public class Clock
+    {
+        private static DateTime cTime = DateTime.Now;
+        private static object tmLock = new object();
+        public bool nextDay()
+        {
+            var result = false;
+            lock (tmLock)
+            {
+                if (cTime.Day != DateTime.Now.Day)
+                {
+                    cTime = DateTime.Now;
+                    result = true;
+                }
+            }
+            return result;
+        }
+        
+    }
     public class Logger : IDisposable
     {
         private static InstantLogger.TypeMessage[] c_msgType = { InstantLogger.TypeMessage.unimportant, InstantLogger.TypeMessage.normal, InstantLogger.TypeMessage.important };
@@ -100,7 +119,7 @@ namespace Implements
     public static class InstantLogger
     { 
         private static object consoleLocker = new object();
-        private static object fileLocker = new object();
+        public static object fileLocker = new object();
         private static object processLocker = new object();
         private static string path = "logs";
         private static string logFileName()

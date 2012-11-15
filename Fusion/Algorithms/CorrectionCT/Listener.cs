@@ -39,12 +39,14 @@ namespace CorrectionCT
                 if (evt is SublanceTemperatureEvent)
                 {
                     var ste = evt as SublanceTemperatureEvent;
+                    Program.WaitSublanceData.Enabled = false;
                     Program.Data.CurrentT = ste.SublanceTemperature;
                     Program.Iterator();
                 }
                 if (evt is SublanceCEvent)
                 {
                     var sce = evt as SublanceCEvent;
+                    Program.WaitSublanceData.Enabled = false;
                     Program.Data.CurrentC = sce.C;
                     Program.Iterator();
                 }
@@ -53,6 +55,34 @@ namespace CorrectionCT
                     var be = evt as BlowingEvent;
                     Program.CurrentOxygen = be.O2TotalVol;
                     Program.Iterator();
+                }
+                if (evt is SublanceStartEvent)
+                {
+                    var sse = evt as SublanceStartEvent;
+                    if (sse.SublanceStartFlag == 1)
+                    {
+                        l.msg("Sublance begin metering");
+                        const int uvm = 3;
+                        if (Program.LanceMode == uvm)
+                        {
+                            Program.WaitSublanceData.Interval = Program.MeteringWaitTimeUVM * 1000;
+                            Program.WaitSublanceData.Enabled = true;
+                        }
+                        else
+                        {
+                            Program.WaitSublanceData.Interval = Program.MeteringWaitTimeManual * 1000;
+                            Program.WaitSublanceData.Enabled = true;
+                        }
+                    }
+                    if (sse.SublanceStartFlag == 0)
+                    {
+                       
+                    }
+                }
+                if (evt is ModeLanceEvent)
+                {
+                    var mle = evt as ModeLanceEvent;
+                    Program.LanceMode = mle.LanceMode;
                 }
                 if (evt is FlexEvent)
                 {

@@ -16,6 +16,7 @@ namespace ConverterHeatProcessorEngine
         {
            // Logger.log(SmPattern.steps[0].O2Volume.ToString());
             int frameStart = 0;
+            const int lanceMinPos = 200;
 
             frameStart = LanceGetFrameNumber();                                        //определяем номер кадра
             m_lanceCurrentFrame = frameStart;
@@ -32,7 +33,14 @@ namespace ConverterHeatProcessorEngine
                 {
                     LanceStepsFrame[step].O2Volume = SmPattern.steps[shiftStep].O2Volume;
                     LanceStepsFrame[step].O2Flow = SmPattern.steps[shiftStep].lance.O2Flow;
-                    LanceStepsFrame[step].LancePositin = SmPattern.steps[shiftStep].lance.LancePositin;
+                    if ((SmPattern.steps[shiftStep].lance.LancePositin > 0) && (SmPattern.steps[shiftStep].lance.LancePositin < lanceMinPos)) // если ниже 2 метров и не -1
+                    {
+                        LanceStepsFrame[step].LancePositin = lanceMinPos;
+                    }
+                    else
+                    {
+                        LanceStepsFrame[step].LancePositin = SmPattern.steps[shiftStep].lance.LancePositin;
+                    }
                 }
                 else
                 {
