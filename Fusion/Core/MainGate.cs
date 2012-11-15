@@ -17,19 +17,18 @@ namespace Core
         InstanceContextMode = InstanceContextMode.PerSession)]
     public class MainGateService : IMainGate
     {
-        private DateTime cTime = DateTime.Now;
         public bool Autentificate(string login, string password)
         {
             return true;
         }
 
+        private Implements.Clock clk = new Clock();
         public void PushEvent(BaseEvent baseEvent)
         {
             try
             {
-                if (cTime.Day != DateTime.Now.Day)
+                if (clk.nextDay())
                 {
-                    cTime = DateTime.Now;
                     InstantLogger.log("", "To be continued...", InstantLogger.TypeMessage.important);
                     InstantLogger.LogFileInit();
                     InstantLogger.log("", "...Continuing", InstantLogger.TypeMessage.important);
