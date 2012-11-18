@@ -52,7 +52,7 @@
             this.txbBasiticy = new System.Windows.Forms.TextBox();
             this.txbFomIn = new System.Windows.Forms.TextBox();
             this.btnFomChem = new System.Windows.Forms.Button();
-            this.btnLimeStoneChem = new System.Windows.Forms.Button();
+            this.btnCaCO3Chem = new System.Windows.Forms.Button();
             this.lblMgO = new System.Windows.Forms.Label();
             this.txbMgO = new System.Windows.Forms.TextBox();
             this.lblFeO = new System.Windows.Forms.Label();
@@ -91,7 +91,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txbLimeStoneOut = new System.Windows.Forms.TextBox();
             this.btnScrapOut = new System.Windows.Forms.Button();
-            this.txbCokeOut = new System.Windows.Forms.TextBox();
             this.txbFomOut = new System.Windows.Forms.TextBox();
             this.btnIronOut = new System.Windows.Forms.Button();
             this.panIronMass = new System.Windows.Forms.Panel();
@@ -110,6 +109,7 @@
             this.txbScrapOut = new System.Windows.Forms.TextBox();
             this.lblScrapMass = new System.Windows.Forms.Label();
             this.lblSteelOut = new System.Windows.Forms.Label();
+            this.txbCokeOut = new System.Windows.Forms.TextBox();
             this.heading = new System.Windows.Forms.FlowLayoutPanel();
             this.panTitleHeading = new System.Windows.Forms.Panel();
             this.lblTitleHeading = new System.Windows.Forms.Label();
@@ -128,6 +128,8 @@
             this.panCarbonPercent = new System.Windows.Forms.Panel();
             this.lblCarbonPercent = new System.Windows.Forms.Label();
             this.txbCarbonPercent = new System.Windows.Forms.TextBox();
+            this.btnDolomiteChem = new System.Windows.Forms.Button();
+            this.btnVapno = new System.Windows.Forms.Button();
             this.basement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).BeginInit();
             this.splitIronScrap.Panel1.SuspendLayout();
@@ -221,7 +223,7 @@
             this.panSlagInput.Controls.Add(this.txbBasiticy, 1, 2);
             this.panSlagInput.Controls.Add(this.txbFomIn, 1, 5);
             this.panSlagInput.Controls.Add(this.btnFomChem, 3, 5);
-            this.panSlagInput.Controls.Add(this.btnLimeStoneChem, 3, 6);
+            this.panSlagInput.Controls.Add(this.btnCaCO3Chem, 3, 6);
             this.panSlagInput.Controls.Add(this.lblMgO, 0, 8);
             this.panSlagInput.Controls.Add(this.txbMgO, 1, 8);
             this.panSlagInput.Controls.Add(this.lblFeO, 0, 9);
@@ -233,6 +235,8 @@
             this.panSlagInput.Controls.Add(this.calcFom, 2, 5);
             this.panSlagInput.Controls.Add(this.calcVapenec, 2, 6);
             this.panSlagInput.Controls.Add(this.calcVapno, 2, 3);
+            this.panSlagInput.Controls.Add(this.btnDolomiteChem, 3, 4);
+            this.panSlagInput.Controls.Add(this.btnVapno, 3, 3);
             this.panSlagInput.Dock = System.Windows.Forms.DockStyle.Top;
             this.panSlagInput.Location = new System.Drawing.Point(0, 0);
             this.panSlagInput.Name = "panSlagInput";
@@ -426,7 +430,7 @@
             this.txbBasiticy.Location = new System.Drawing.Point(175, 92);
             this.txbBasiticy.Name = "txbBasiticy";
             this.txbBasiticy.Size = new System.Drawing.Size(112, 21);
-            this.txbBasiticy.TabIndex = 23;
+            this.txbBasiticy.TabIndex = 2;
             // 
             // txbFomIn
             // 
@@ -450,18 +454,18 @@
             this.btnFomChem.UseVisualStyleBackColor = true;
             this.btnFomChem.Click += new System.EventHandler(this.btnFomChem_Click);
             // 
-            // btnLimeStoneChem
+            // btnCaCO3Chem
             // 
-            this.btnLimeStoneChem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLimeStoneChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnLimeStoneChem.Location = new System.Drawing.Point(528, 250);
-            this.btnLimeStoneChem.Name = "btnLimeStoneChem";
-            this.btnLimeStoneChem.Size = new System.Drawing.Size(222, 34);
-            this.btnLimeStoneChem.TabIndex = 46;
-            this.btnLimeStoneChem.TabStop = false;
-            this.btnLimeStoneChem.Text = "Состав...";
-            this.btnLimeStoneChem.UseVisualStyleBackColor = true;
-            this.btnLimeStoneChem.Click += new System.EventHandler(this.btnLimeStoneChem_Click);
+            this.btnCaCO3Chem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCaCO3Chem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCaCO3Chem.Location = new System.Drawing.Point(528, 250);
+            this.btnCaCO3Chem.Name = "btnCaCO3Chem";
+            this.btnCaCO3Chem.Size = new System.Drawing.Size(222, 34);
+            this.btnCaCO3Chem.TabIndex = 46;
+            this.btnCaCO3Chem.TabStop = false;
+            this.btnCaCO3Chem.Text = "Состав...";
+            this.btnCaCO3Chem.UseVisualStyleBackColor = true;
+            this.btnCaCO3Chem.Click += new System.EventHandler(this.btnLimeStoneChem_Click);
             // 
             // lblMgO
             // 
@@ -629,7 +633,6 @@
             this.btnCalculate.Text = "Выполнить рассчёт";
             this.btnCalculate.UseVisualStyleBackColor = true;
             this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
-            this.btnCalculate.Resize += new System.EventHandler(this.btnCalculate_Resize);
             // 
             // panAuxOut
             // 
@@ -843,7 +846,6 @@
             this.panCommonOut.Controls.Add(this.panSteelOut, 1, 2);
             this.panCommonOut.Controls.Add(this.txbLimeStoneOut, 1, 6);
             this.panCommonOut.Controls.Add(this.btnScrapOut, 2, 1);
-            this.panCommonOut.Controls.Add(this.txbCokeOut, 1, 7);
             this.panCommonOut.Controls.Add(this.txbFomOut, 1, 5);
             this.panCommonOut.Controls.Add(this.btnIronOut, 2, 0);
             this.panCommonOut.Controls.Add(this.panIronMass, 1, 0);
@@ -858,6 +860,7 @@
             this.panCommonOut.Controls.Add(this.lblScrapOut, 0, 1);
             this.panCommonOut.Controls.Add(this.panScrapMass, 1, 1);
             this.panCommonOut.Controls.Add(this.lblSteelOut, 0, 2);
+            this.panCommonOut.Controls.Add(this.txbCokeOut, 1, 7);
             this.panCommonOut.Dock = System.Windows.Forms.DockStyle.Top;
             this.panCommonOut.Enabled = false;
             this.panCommonOut.Location = new System.Drawing.Point(0, 0);
@@ -923,17 +926,6 @@
             this.btnScrapOut.Text = "Состав...";
             this.btnScrapOut.UseVisualStyleBackColor = true;
             this.btnScrapOut.Visible = false;
-            // 
-            // txbCokeOut
-            // 
-            this.txbCokeOut.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txbCokeOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbCokeOut.Location = new System.Drawing.Point(175, 294);
-            this.txbCokeOut.Name = "txbCokeOut";
-            this.txbCokeOut.Size = new System.Drawing.Size(112, 21);
-            this.txbCokeOut.TabIndex = 38;
-            this.txbCokeOut.TabStop = false;
-            this.txbCokeOut.Visible = false;
             // 
             // txbFomOut
             // 
@@ -1006,7 +998,6 @@
             this.lblCokeOut.Size = new System.Drawing.Size(88, 24);
             this.lblCokeOut.TabIndex = 9;
             this.lblCokeOut.Text = "Кокс, кг";
-            this.lblCokeOut.Visible = false;
             // 
             // txbDolomitOut
             // 
@@ -1119,6 +1110,16 @@
             this.lblSteelOut.Size = new System.Drawing.Size(69, 24);
             this.lblSteelOut.TabIndex = 43;
             this.lblSteelOut.Text = "Сталь";
+            // 
+            // txbCokeOut
+            // 
+            this.txbCokeOut.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txbCokeOut.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.txbCokeOut.Location = new System.Drawing.Point(175, 294);
+            this.txbCokeOut.Name = "txbCokeOut";
+            this.txbCokeOut.Size = new System.Drawing.Size(112, 21);
+            this.txbCokeOut.TabIndex = 38;
+            this.txbCokeOut.TabStop = false;
             // 
             // heading
             // 
@@ -1296,6 +1297,30 @@
             this.txbCarbonPercent.TabIndex = 19;
             this.txbCarbonPercent.TabStop = false;
             // 
+            // btnDolomiteChem
+            // 
+            this.btnDolomiteChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnDolomiteChem.Location = new System.Drawing.Point(528, 168);
+            this.btnDolomiteChem.Name = "btnDolomiteChem";
+            this.btnDolomiteChem.Size = new System.Drawing.Size(222, 34);
+            this.btnDolomiteChem.TabIndex = 54;
+            this.btnDolomiteChem.TabStop = false;
+            this.btnDolomiteChem.Text = "Состав...";
+            this.btnDolomiteChem.UseVisualStyleBackColor = true;
+            this.btnDolomiteChem.Click += new System.EventHandler(this.btnDolomiteChem_Click);
+            // 
+            // btnVapno
+            // 
+            this.btnVapno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnVapno.Location = new System.Drawing.Point(528, 127);
+            this.btnVapno.Name = "btnVapno";
+            this.btnVapno.Size = new System.Drawing.Size(222, 34);
+            this.btnVapno.TabIndex = 55;
+            this.btnVapno.TabStop = false;
+            this.btnVapno.Text = "Состав...";
+            this.btnVapno.UseVisualStyleBackColor = true;
+            this.btnVapno.Click += new System.EventHandler(this.btnVapno_Click);
+            // 
             // MixtureInitial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1431,7 +1456,7 @@
         private System.Windows.Forms.TextBox txbBasiticy;
         private System.Windows.Forms.TextBox txbFomIn;
         private System.Windows.Forms.Button btnFomChem;
-        private System.Windows.Forms.Button btnLimeStoneChem;
+        private System.Windows.Forms.Button btnCaCO3Chem;
         private System.Windows.Forms.Label lblMgO;
         private System.Windows.Forms.TextBox txbMgO;
         private System.Windows.Forms.Label lblFeO;
@@ -1449,6 +1474,8 @@
         private System.Windows.Forms.CheckBox calcVapenec;
         private System.Windows.Forms.CheckBox calcVapno;
         private System.Windows.Forms.Panel panControl;
+        private System.Windows.Forms.Button btnDolomiteChem;
+        private System.Windows.Forms.Button btnVapno;
 
 
 

@@ -14,6 +14,7 @@ namespace HeatCharge
             CalcTaskSteel
         }
 
+        public static long calcPattern;
         public static CalcTask s_CalcTask;
         public static FPCarrier s_Iron = new FPCarrier();
         public static FPCarrier s_Scrap = new FPCarrier();
@@ -36,8 +37,8 @@ namespace HeatCharge
 
         public static void Initialize()
         {
-            m_Iron = 300;
-            m_Scrap = 60;
+            m_Iron = m_IronTask;
+            m_Scrap = m_Iron * 0.2;
             step_m_Scrap = 0.1;
             s_Iron.fpSet("T", t_Iron);
             s_Steel.fpSet("T", t_Steel);
@@ -87,28 +88,62 @@ namespace HeatCharge
             e_C_ox = (m_Iron*s_Iron.fpNorm(0) + m_Scrap*s_Scrap.fpNorm(0))*
                         (s_Scrap.fp[0].E_ox1*s_Scrap.fp[0].Eta_ox1 + s_Scrap.fp[0].E_ox2*s_Scrap.fp[0].Eta_ox2);
             e_Coke = m_Coke*0.97*(s_Scrap.fp[0].E_ox1*s_Scrap.fp[0].Eta_ox1 + PC*s_Scrap.fp[0].E_ox2*s_Scrap.fp[0].Eta_ox2);
-            Double d_CaCO3 = m_CaCO3*s_CaCO3.fpNorm(50)*s_CaCO3.fpNorm(67);
-            Double d_Fom = m_Fom*s_Fom.fpNorm(50)*s_Fom.fpNorm(67);
-            Double d_Iron = m_Iron*s_Iron.fpNorm(50);
-            Double d_Scrap = m_Scrap*s_Scrap.fpNorm(50);
-            m_CaO = m_CaO - d_CaCO3 - d_Fom - d_Iron - d_Scrap;
-            d_CaCO3 = m_CaCO3*s_CaCO3.fpNorm(63)*s_CaCO3.fpNorm(67);
-            d_Fom = m_Fom*s_Fom.fpNorm(63)*s_Fom.fpNorm(67);
-            d_Iron = m_Iron*s_Iron.fpNorm(63);
-            d_Scrap = m_Scrap*s_Scrap.fpNorm(63);
-            m_MgO = m_MgO - d_CaCO3 - d_Fom - d_Iron - d_Scrap;
-            m_dolomite = (m_CaO/s_Lime.fpNorm(50) - m_MgO/s_Lime.fpNorm(63))
-                / (s_LimeStone.fpNorm(50)/s_Lime.fpNorm(50) - s_LimeStone.fpNorm(63)/s_Lime.fpNorm(63));
-            m_lime = (m_CaO/s_LimeStone.fpNorm(50) - m_MgO/s_LimeStone.fpNorm(63))
-                / (s_Lime.fpNorm(50)/s_LimeStone.fpNorm(50) - s_Lime.fpNorm(63)/s_LimeStone.fpNorm(63));
-            m_dolomite = m_dolomite/s_LimeStone.fpNorm(67);
-            m_lime = m_lime/s_Lime.fpNorm(67);
-            e_SlagForming = 0;/* m_Fom * (s_Fom.fpNorm(70) / s_Fom.fpNorm(72)) * s_Fom.fpNorm(69)
+
+            switch (calcPattern)
+            {
+                case 0x1100:
+                    solve(out m_lime, s_Lime, out m_dolomite, s_LimeStone, m_Fom, s_Fom, m_CaCO3, s_CaCO3);
+                    break;
+                case 0x1010:
+                    solve(out m_lime, s_Lime, out m_Fom, s_Fom, m_dolomite, s_LimeStone, m_CaCO3, s_CaCO3);
+                    break;
+                case 0x1001:
+                    solve(out m_lime, s_Lime, out m_CaCO3, s_CaCO3, m_Fom, s_Fom, m_dolomite, s_LimeStone);
+                    break;
+                case 0x0110:
+                    solve(out m_dolomite, s_LimeStone, out m_Fom, s_Fom, m_CaCO3, s_CaCO3, m_lime, s_Lime);
+                    break;
+                case 0x0101:
+                    solve(out m_dolomite, s_LimeStone, out m_CaCO3, s_CaCO3, m_Fom, s_Fom, m_lime, s_Lime);
+                    break;
+                case 0x0011:
+                    solve(out m_Fom, s_Fom, out m_CaCO3, s_CaCO3, m_lime, s_Lime, m_dolomite, s_LimeStone);
+                    break;
+                default:
+                    throw new Exception(string.Format("unknown pattern {0:x}", calcPattern));
+            }
+
+            e_SlagForming = 0;
+                /* m_Fom * (s_Fom.fpNorm(70) / s_Fom.fpNorm(72)) * s_Fom.fpNorm(69)
                  + m_dolomite * (s_LimeStone.fpNorm(70) / s_LimeStone.fpNorm(72)) * s_LimeStone.fpNorm(69)
                  + m_lime * (s_Lime.fpNorm(70) / s_Lime.fpNorm(72)) * s_Lime.fpNorm(69)
                  + m_CaCO3 * (s_CaCO3.fpNorm(70) / s_CaCO3.fpNorm(72)) * s_CaCO3.fpNorm(69); // CaO ?*/
             
             e_Common = e_Iron + e_Scrap + e_SlagForming + e_Si_ox + e_Mn_ox + e_Al_ox + e_Fe_ox + e_C_ox + e_Coke;
+        }
+        private static void solve(out double m_X, FPCarrier s_X, out double m_Y, FPCarrier s_Y,
+                                  double m_A, FPCarrier s_A, double m_B, FPCarrier s_B)
+        {
+            m_CaO = m_CaO - d_A(m_B, s_B, "CaO") - d_A(m_A, s_A, "CaO") - d_Met("CaO");
+            m_MgO = m_MgO - d_A(m_B, s_B, "MgO") - d_A(m_A, s_A, "MgO") - d_Met("MgO");
+            resXY(out m_X, s_X, out m_Y, s_Y);
+        }
+        private static void resXY(out double m_X, FPCarrier s_X, out double m_Y, FPCarrier s_Y)
+        {
+            m_X = (m_CaO / s_Y.fpNorm("CaO") - m_MgO / s_Y.fpNorm("MgO"))
+                / (s_X.fpNorm("CaO") / s_Y.fpNorm("CaO") - s_X.fpNorm("MgO") / s_Y.fpNorm("MgO"));
+            m_Y = (m_CaO / s_X.fpNorm("CaO") - m_MgO / s_X.fpNorm("MgO"))
+                / (s_Y.fpNorm("CaO") / s_X.fpNorm("CaO") - s_Y.fpNorm("MgO") / s_X.fpNorm("MgO"));
+            m_X /= s_X.fpNorm("Yield");
+            m_Y /= s_Y.fpNorm("Yield");
+        }
+        private static double d_A(double m_A, FPCarrier s_A, string fpId)
+        {
+            return m_A * s_A.fpNorm(fpId) * s_A.fpNorm("Yield");
+        }
+        private static double d_Met(string fpId)
+        {
+            return m_Iron * s_Iron.fpNorm(fpId) + m_Scrap * s_Scrap.fpNorm(fpId);
         }
 
         public static bool Ready()

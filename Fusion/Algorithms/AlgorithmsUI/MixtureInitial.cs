@@ -66,11 +66,11 @@ namespace AlgorithmsUI
             ch_Scrap.LoadCSVData();
             ch_Lime = new ChemTable("Химия извести", "LimeChemistry");
             ch_Lime.LoadCSVData();
-            ch_LimeStone = new ChemTable("Химия доломита", "LimeStoneChemistry");
+            ch_LimeStone = new ChemTable("Химия доломита (ДОЛМИТ, МАХГ)", "LimeStoneChemistry");
             ch_LimeStone.LoadCSVData();
             ch_Fom = new ChemTable("Химия ФОМа", "FomChemistry");
             ch_Fom.LoadCSVData();
-            ch_CaCO3 = new ChemTable("Химия известняка", "CaCO3Chemistry");
+            ch_CaCO3 = new ChemTable("Химия известняка (СaCO3)", "CaCO3Chemistry");
             ch_CaCO3.LoadCSVData();
             ch_Coke = new ChemTable("Химия кокса", "CokeChemistry");
             ch_Coke.LoadCSVData();
@@ -82,7 +82,6 @@ namespace AlgorithmsUI
         private List<CheckBox> calcList = new List<CheckBox>(); 
         private void MixtureInitial_Load(object sender, EventArgs e)
         {
-            calcList.Add(calcVapno);
             calcVapno.Tag = txbLimeIn;
             calcDolmax.Tag = txbDolomIn;
             calcFom.Tag = txbFomIn;
@@ -111,8 +110,6 @@ namespace AlgorithmsUI
             Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskIron;
             result &= Checker.isDoubleCorrect(txbBasiticy.Text, out color, new dMargin(1, 4));
             txbBasiticy.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbFeO.Text, out color, new dMargin(10, 40));
-            txbFeO.BackColor = color;
             if (txbLimeIn.Visible)
             {
                 result &= Checker.isDoubleCorrect(txbLimeIn.Text, out color, new dMargin(0, 20000));
@@ -133,6 +130,7 @@ namespace AlgorithmsUI
                 result &= Checker.isDoubleCorrect(txbLimeStoneIn.Text, out color, new dMargin(0, 20000));
                 txbLimeStoneIn.BackColor = color;
             }
+            Mixture1.calcPattern = 0;
             if (calcSelectedCount < 2)
             {
                 foreach (var cle in calcList)
@@ -143,7 +141,14 @@ namespace AlgorithmsUI
             }
             else
             {
-                foreach (var cle in calcList) cle.BackColor = SystemColors.Control;
+                var cflag = 0x1000;
+                for (int i = 0; i < calcList.Count; i++)
+                {
+                    var cle = calcList[i];
+                    cle.BackColor = SystemColors.Control;
+                    if (cle.CheckState == CheckState.Checked) Mixture1.calcPattern |= cflag;
+                    cflag >>= 4;
+                }
             }
             result &= Checker.isDoubleCorrect(txbCokeIn.Text, out color, new dMargin(0, 1000));
             txbCokeIn.BackColor = color;
@@ -226,8 +231,8 @@ namespace AlgorithmsUI
                 Mixture1.t_Scrap = SetDoubleByKey("ScrapTemp", txbScrapTemp);
                 Mixture1.t_Steel = SetDoubleByKey("SteelTemp", txbSteelTemp);
                 Mixture1.basiticy = SetDoubleByKey("Basiticy", txbBasiticy);
-                Mixture1.m_Vapno = SetDoubleByKey("LimeTask", txbLimeIn) * 0.001;
-                Mixture1.m_Dolmax = SetDoubleByKey("DolmaxTask", txbDolomIn) * 0.001;
+                Mixture1.m_lime = SetDoubleByKey("LimeTask", txbLimeIn) * 0.001;
+                Mixture1.m_dolomite = SetDoubleByKey("DolmaxTask", txbDolomIn) * 0.001;
                 Mixture1.m_Fom = SetDoubleByKey("FomTask", txbFomIn) * 0.001;
                 Mixture1.m_CaCO3 = SetDoubleByKey("LimeStoneTask", txbLimeStoneIn) * 0.001;
                 Mixture1.m_Coke = SetDoubleByKey("CokeTask", txbCokeIn) * 0.001;
@@ -293,10 +298,20 @@ namespace AlgorithmsUI
                 txtAs.Text = Math.Round(Mixture1.p_SteelAdd[5], 5).ToString();
                 txtSn.Text = Math.Round(Mixture1.p_SteelAdd[6], 5).ToString();
                 txtSb.Text = Math.Round(Mixture1.p_SteelAdd[7], 5).ToString();
+                txbCokeOut.Text = txbCokeIn.Text;
                 btnCalculate.Enabled = true;
             }
         }
 
+        private void btnDolomiteChem_Click(object sender, EventArgs e)
+        {
+            ch_LimeStone.ShowDialog();
+        }
+
+        private void btnVapno_Click(object sender, EventArgs e)
+        {
+            ch_Lime.ShowDialog();
+        }
         private void btnIronControl_Click(object sender, EventArgs e)
         {
             ch_Scrap.ShowDialog();
@@ -314,7 +329,7 @@ namespace AlgorithmsUI
 
         private void btnLimeStoneChem_Click(object sender, EventArgs e)
         {
-            ch_LimeStone.ShowDialog();
+            ch_CaCO3.ShowDialog();
         }
 
         private void btnCalculate_Resize(object sender, EventArgs e)
@@ -345,6 +360,5 @@ namespace AlgorithmsUI
                 calcLastSelected = null;
             }
         }
-
     }
 }
