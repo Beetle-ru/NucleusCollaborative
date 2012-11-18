@@ -39,9 +39,19 @@ namespace CorrectionCT
                 if (evt is SublanceTemperatureEvent)
                 {
                     var ste = evt as SublanceTemperatureEvent;
-                    Program.WaitSublanceData.Enabled = false;
-                    Program.Data.CurrentT = ste.SublanceTemperature;
-                    Program.Iterator();
+                    const int maxT = 1770;
+                    const int minT = 1550;
+                    if ((ste.SublanceTemperature < maxT) && (ste.SublanceTemperature > minT))
+                    {
+                        Program.WaitSublanceData.Enabled = false;
+                        Program.Data.CurrentT = ste.SublanceTemperature;
+                        l.msg("SublanceTemperature = " + ste.SublanceTemperature);
+                        Program.Iterator();
+                    }
+                    else
+                    {
+                        l.err("Uncorrect temperature data = " + ste.SublanceTemperature);
+                    }
                 }
                 if (evt is SublanceCEvent)
                 {

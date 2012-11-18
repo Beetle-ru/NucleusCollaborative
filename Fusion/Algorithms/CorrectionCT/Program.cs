@@ -26,8 +26,8 @@ namespace CorrectionCT
         public static int EndBlowingOxygen;
         public static bool BlowStopSignalPushed;
         public static Timer WaitSublanceData;
-        public static int MeteringWaitTimeUVM = 5;
-        public static int MeteringWaitTimeManual = 14;
+        public static int MeteringWaitTimeUVM = 30;
+        public static int MeteringWaitTimeManual = 30;
         public static int LanceMode;
         static void Main(string[] args)
         {
@@ -157,8 +157,17 @@ namespace CorrectionCT
         public static void Iterator()
         {
             CorrectionOxyT = CalcT(MatrixT, Data);
-            CorrectionOxyC = CalcC(MatrixC, Data);
+            //CorrectionOxyC = CalcC(MatrixC, Data);
+            CorrectionOxyC = -1; // != 0
             EndBlowingOxygen = CorrectionOxyT; // додувать по температуре
+            if (CorrectionOxyT != 0)
+            {
+                Console.WriteLine("CorrectionOxyT = " + CorrectionOxyT);
+            }
+            //if (CorrectionOxyC != 0)
+            //{
+            //    Console.WriteLine("CorrectionOxyC = " + CorrectionOxyC);
+            //}
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
@@ -171,7 +180,7 @@ namespace CorrectionCT
                 fex.AddArg("Sid", SidB); // Guid
 
                 fex.Fire(Program.MainGate);
-
+               
                 IsFiered = true;
 
                 InstantLogger.msg(fex.evt.ToString());
@@ -186,6 +195,7 @@ namespace CorrectionCT
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal",1);
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
             BlowStopSignalPushed = true;
         }
         public static void StopBlowFlagRelease()
@@ -193,6 +203,7 @@ namespace CorrectionCT
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 0);
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
         }
         public static void EndNowHandler()
         {
@@ -203,12 +214,14 @@ namespace CorrectionCT
         {
             var fex = new ConnectionProvider.FlexHelper("CorrectionCT.EndMeteringAccept");
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
         }
         public static void SublanceDataLost(object source, ElapsedEventArgs e)
         {
             WaitSublanceData.Enabled = false;
             var fex = new ConnectionProvider.FlexHelper("CorrectionCT.SublanceDataLost");
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
         }
     }
 }
