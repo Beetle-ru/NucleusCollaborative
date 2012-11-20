@@ -15,7 +15,7 @@ namespace Charge5
         public static char Separator;
         static void Main(string[] args)
         {
-            
+            Init();
             Console.WriteLine("Charge5 is running, press enter to exit");
             Console.ReadLine();
         }
