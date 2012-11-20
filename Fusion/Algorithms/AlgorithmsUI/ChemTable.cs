@@ -15,15 +15,21 @@ namespace AlgorithmsUI
         private string m_configKey;
         private string m_path = "data";
         private char m_separator = ':';
+        private Dictionary<string, double> m_inFP = new Dictionary<string, double>();
+        private static string secretFP = ":Sn:Sb:Zn:Fe:Cu:Cr:Mo:Ni:N:O:H:TOTAL:Basiticy:Yield:Steel:T:eH:cp:TeH:ro:";
+        private int m_secFPcnt = 0;
+        private bool m_dataChanged = false;
         public ChemTable(string Name, string ConfigKey)
         {
             InitializeComponent();
-            this.Text = Name;
+            Text = Name;
             m_configKey = ConfigKey;
         }
+
         public void LoadCSVData()
         {
-            //MessageBox.Show("load");
+            m_inFP.Clear();
+            m_secFPcnt = 0;
             string filePath = String.Format("{0}\\{1}.csv", m_path, m_configKey);
             string[] strings;
             try
@@ -32,21 +38,24 @@ namespace AlgorithmsUI
             }
             catch (Exception e)
             {
-                strings = new string[0];
-                MessageBox.Show(String.Format("Cannot read the file: {0}, call: {1}", filePath, e.ToString()));
+                MessageBox.Show(String.Format("Cannot read the file: {0}, call: {1}", filePath, e));
                 return;
             }
             try
             {
-                gridChem.RowCount = strings.Count() + 1; //на 1 больше для того чтоб можно нормально было добавлять данные
                 for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
                 {
                     string[] values = strings[strCnt].Split(m_separator);
                     if (values.Count() == 2)
                     {
-                        gridChem.Rows[strCnt].Cells[0].Value = values[0];
-                        gridChem.Rows[strCnt].Cells[1].Value = values[1];
+                        if (secretFP.Contains(':' + values[0] + ':'))
+                        {
+                            m_secFPcnt++;
+                            values[0] = '-' + values[0];
+                        }
+                        m_inFP.Add(values[0], Convert.ToDouble(values[1]));
                     }
+                    else throw new Exception("Invalid CSV format");
                 }
             }
             catch (Exception e)
@@ -55,54 +64,48 @@ namespace AlgorithmsUI
                 //return;
                 throw e;
             }
+            gridChem.RowCount = m_inFP.Count() - m_secFPcnt;
+            var rowCnt = 0;
+            foreach (var fp in m_inFP)
+            {
+                if (!fp.Key.StartsWith("-"))
+                {
+                    gridChem.Rows[rowCnt].Cells[0].Value = fp.Key;
+                    gridChem.Rows[rowCnt].Cells[1].Value = fp.Value.ToString();
+                    rowCnt++;
+                }
+            }
         }
 
         public delegate void RowProcessor(String Key, Double Value);
 
         public void Enumerate(RowProcessor rp)
         {
-            foreach (DataGridViewRow r in gridChem.Rows)
-            {
-                if (
-                        ((string)r.Cells[0].Value != "") && ((string)r.Cells[0].Value != "") &&
-                        (r.Cells[0].Value != null) && (r.Cells[0].Value != null)
-                    )
-                {
-                    rp.Invoke(r.Cells[0].Value.ToString(), Convert.ToDouble((r.Cells[1].Value)));
-                }
-            }
+            foreach (var fp in m_inFP) rp.Invoke(fp.Key.StartsWith("-") ? fp.Key.Substring(1) : fp.Key, fp.Value);
         }
 
         public void SaveCSVData()
         {
-            //MessageBox.Show("save");
             string filePath = String.Format("{0}\\{1}.csv", m_path, m_configKey);
-            //string[] strings = new string[gridChem.Rows.Count];
             var strings = new List<string>();
             Directory.CreateDirectory(m_path);
-            for (int row = 0; row < gridChem.Rows.Count; row++)
+            for (var rowCnt = 0; rowCnt < gridChem.RowCount; rowCnt++)
             {
-                if (
-                        ((string) gridChem.Rows[row].Cells[0].Value != "") && ((string) gridChem.Rows[row].Cells[0].Value != "") &&
-                        (gridChem.Rows[row].Cells[0].Value != null) && (gridChem.Rows[row].Cells[0].Value != null)
-                    )
+                var k = gridChem.Rows[rowCnt].Cells[0].Value;
+                if ((k != null) && (k.ToString() != ""))
                 {
-                    
-                    var str = String.Format("{1}{0}{2}",
-                                                 m_separator,
-                                                 gridChem.Rows[row].Cells[0].Value,
-                                                 gridChem.Rows[row].Cells[1].Value
-                    );
-                    strings.Add(str);
+                    m_inFP[k.ToString()] = Convert.ToDouble(gridChem.Rows[rowCnt].Cells[1].Value);
                 }
             }
+            foreach (var fp in m_inFP) strings.Add(String.Format("{1}{0}{2}", m_separator,
+                fp.Key.StartsWith("-") ? fp.Key.Substring(1) : fp.Key, fp.Value));
             try
             {
                 File.WriteAllLines(filePath, strings);
             }
             catch (Exception e)
             {
-                MessageBox.Show(String.Format("Cannot write the file: {0}, call: {1}", filePath, e.ToString()));
+                MessageBox.Show(String.Format("Cannot write the file: {0}, call: {1}", filePath, e));
                 return;
             }
         }
@@ -114,7 +117,36 @@ namespace AlgorithmsUI
 
         private void ChemTable_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (m_dataChanged)
+            {
+                if (MessageBox.Show("Сохранить изменения?",
+                    "Химия изменилась", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveCSVData();
+                }
+                m_dataChanged = false;
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
             SaveCSVData();
+            m_dataChanged = false;
+        }
+
+        private void gridChem_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            m_dataChanged = true;
+        }
+
+        private void gridChem_Enter(object sender, EventArgs e)
+        {
+            m_dataChanged = false;
+        }
+
+        private void gridChem_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
