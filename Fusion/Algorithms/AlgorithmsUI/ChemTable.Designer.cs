@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.gridChem = new System.Windows.Forms.DataGridView();
-            this.panCtrl = new System.Windows.Forms.Panel();
-            this.btnSave = new System.Windows.Forms.Button();
             this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panCtrl = new System.Windows.Forms.Panel();
+            this.btnSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridChem)).BeginInit();
             this.panCtrl.SuspendLayout();
             this.SuspendLayout();
@@ -50,10 +50,22 @@
             this.gridChem.Name = "gridChem";
             this.gridChem.Size = new System.Drawing.Size(293, 364);
             this.gridChem.TabIndex = 0;
-            this.gridChem.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridChem_CellContentClick);
             this.gridChem.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridChem_CellValueChanged);
-            this.gridChem.CurrentCellChanged += new System.EventHandler(this.ChemTable_Load);
             this.gridChem.Enter += new System.EventHandler(this.gridChem_Enter);
+            // 
+            // key
+            // 
+            this.key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.key.HeaderText = "Элемент";
+            this.key.Name = "key";
+            this.key.ReadOnly = true;
+            this.key.Width = 76;
+            // 
+            // value
+            // 
+            this.value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.value.HeaderText = "Значение";
+            this.value.Name = "value";
             // 
             // panCtrl
             // 
@@ -77,20 +89,6 @@
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // key
-            // 
-            this.key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.key.HeaderText = "Элемент";
-            this.key.Name = "key";
-            this.key.ReadOnly = true;
-            this.key.Width = 76;
-            // 
-            // value
-            // 
-            this.value.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.value.HeaderText = "Значение";
-            this.value.Name = "value";
             // 
             // ChemTable
             // 
