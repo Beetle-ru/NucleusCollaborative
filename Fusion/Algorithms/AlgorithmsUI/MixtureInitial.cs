@@ -332,12 +332,6 @@ namespace AlgorithmsUI
             ch_CaCO3.ShowDialog();
         }
 
-        private void btnCalculate_Resize(object sender, EventArgs e)
-        {
-            if (btnCalculate.Size.Width < 200) btnCalculate.Text = "Счет";
-            else btnCalculate.Text = "Выполнить рассчет";
-        }
-
         private CheckBox calcLastSelected = null;
         private int calcSelectedCount = 0;
         private void aCalcCheckedChanged(object sender, EventArgs e)
