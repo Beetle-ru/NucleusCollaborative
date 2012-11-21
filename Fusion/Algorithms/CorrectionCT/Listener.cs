@@ -58,6 +58,7 @@ namespace CorrectionCT
                     var sce = evt as SublanceCEvent;
                     Program.WaitSublanceData.Enabled = false;
                     Program.Data.CurrentC = sce.C;
+                    l.msg("sce.C = " + sce.C);
                     Program.Iterator();
                 }
                 if (evt is BlowingEvent)
@@ -104,6 +105,7 @@ namespace CorrectionCT
                         try
                         {
                             Program.Data.TargetC = (double)fxe.Arguments[key];
+                            //Program.Data.CurrentC = (double)fxe.Arguments[key];
                         }
                         catch (Exception e)
                         {
