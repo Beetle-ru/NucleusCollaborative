@@ -33,11 +33,13 @@ namespace AlgorithmsUI
         }
         private double SetDoubleByKey(string Key, TextBox Box)
         {
+            if (Box.Text == "") return 0.0;
             if (mainConf.AppSettings.Settings.AllKeys.Contains(Key))
             {
                 mainConf.AppSettings.Settings.Remove(Key);
             }
             mainConf.AppSettings.Settings.Add(Key, Box.Text);
+            mainConf.Save();
             return Convert.ToDouble(Box.Text);
         }
         private System.Configuration.Configuration mainConf;
@@ -94,41 +96,46 @@ namespace AlgorithmsUI
             calcDolmax.CheckState = CheckState.Checked;
         }
 
+        private bool CheckItem(TextBox txb, dMargin mrg, out double rv, String cfgKey)
+        {
+            var color = new Color();
+            bool result = Checker.isDoubleCorrect(txb.Text, out color, mrg);
+            rv = SetDoubleByKey(cfgKey, txb);
+            txb.BackColor = color;
+            return result;
+        }
+
         private bool isInputCorrect()
         {
             LogClear();
-            Color color = new Color();
-            bool result = Checker.isDoubleCorrect(txbIronTemp.Text, out color, new dMargin(1100, 1500));
-            txbIronTemp.BackColor = color;
+
+            bool result = CheckItem(txbIronTemp, new dMargin(1100, 1500), out Mixture1.t_Iron, "IronTemp");
             dMargin streetTemp = new dMargin(-50, 50);
-            result &= Checker.isDoubleCorrect(txbScrapTemp.Text, out color, streetTemp);
-            txbScrapTemp.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbSteelTemp.Text, out color, new dMargin(1600, 1800));
-            txbSteelTemp.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbIronTask.Text, out color, new dMargin(200, 400));
-            txbIronTask.BackColor = color;
+            
+            result &= CheckItem(txbScrapTemp, streetTemp, out Mixture1.t_Scrap, "ScrapTemp");
+            result &= CheckItem(txbSteelTemp, new dMargin(1600, 1800), out Mixture1.t_Steel, "SteelTemp");
+            result &= CheckItem(txbIronTask, new dMargin(200, 400), out Mixture1.m_IronTask, "IronTask");
             Mixture1.s_CalcTask = Mixture1.CalcTask.CalcTaskIron;
-            result &= Checker.isDoubleCorrect(txbBasiticy.Text, out color, new dMargin(1, 4));
-            txbBasiticy.BackColor = color;
+            result &= CheckItem(txbBasiticy, new dMargin(1, 4), out Mixture1.basiticy, "Basiticy");
             if (txbLimeIn.Visible)
             {
-                result &= Checker.isDoubleCorrect(txbLimeIn.Text, out color, new dMargin(0, 20000));
-                txbLimeIn.BackColor = color;
+                result &= CheckItem(txbLimeIn, new dMargin(0, 20000), out Mixture1.m_lime, "LimeTask");
+                Mixture1.m_lime *= 0.001;
             }
             if (txbDolomIn.Visible)
             {
-                result &= Checker.isDoubleCorrect(txbDolomIn.Text, out color, new dMargin(0, 20000));
-                txbDolomIn.BackColor = color;
+                result &= CheckItem(txbDolomIn, new dMargin(0, 20000), out Mixture1.m_dolomite, "DolmaxTask");
+                Mixture1.m_dolomite *= 0.001;
             }
             if (txbFomIn.Visible)
             {
-                result &= Checker.isDoubleCorrect(txbFomIn.Text, out color, new dMargin(0, 20000));
-                txbFomIn.BackColor = color;
+                result &= CheckItem(txbFomIn, new dMargin(0, 20000), out Mixture1.m_Fom, "FomTask");
+                Mixture1.m_Fom *= 0.001;
             }
             if (txbLimeStoneIn.Visible)
             {
-                result &= Checker.isDoubleCorrect(txbLimeStoneIn.Text, out color, new dMargin(0, 20000));
-                txbLimeStoneIn.BackColor = color;
+                result &= CheckItem(txbLimeStoneIn, new dMargin(0, 20000), out Mixture1.m_CaCO3, "LimeStoneTask");
+                Mixture1.m_CaCO3 *= 0.001;
             }
             Mixture1.calcPattern = 0;
             if (calcSelectedCount < 2)
@@ -150,12 +157,11 @@ namespace AlgorithmsUI
                     cflag >>= 4;
                 }
             }
-            result &= Checker.isDoubleCorrect(txbCokeIn.Text, out color, new dMargin(0, 1000));
-            txbCokeIn.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbMgO.Text, out color, new dMargin(10, 40));
-            txbMgO.BackColor = color;
-            result &= Checker.isDoubleCorrect(txbFeO.Text, out color, new dMargin(10, 40));
-            txbFeO.BackColor = color;
+
+            result &= CheckItem(txbCokeIn, new dMargin(0, 1000), out Mixture1.m_Coke, "CokeTask");
+            Mixture1.m_Coke *= 0.001;
+            result &= CheckItem(txbMgO, new dMargin(10, 40), out Mixture1.p_MgO, "PercentMgO");
+            result &= CheckItem(txbFeO, new dMargin(10, 40), out Mixture1.p_FeO, "PercentFeO");
             if (!result)
             {
                 LogStr("Заполните значения в желтых секторах, исправьте в красных и фиолетовых");
@@ -226,19 +232,6 @@ namespace AlgorithmsUI
             if (isInputCorrect())
             {
                 btnCalculate.Enabled = false;
-                Mixture1.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
-                Mixture1.t_Iron = SetDoubleByKey("IronTemp", txbIronTemp);
-                Mixture1.t_Scrap = SetDoubleByKey("ScrapTemp", txbScrapTemp);
-                Mixture1.t_Steel = SetDoubleByKey("SteelTemp", txbSteelTemp);
-                Mixture1.basiticy = SetDoubleByKey("Basiticy", txbBasiticy);
-                Mixture1.m_lime = SetDoubleByKey("LimeTask", txbLimeIn) * 0.001;
-                Mixture1.m_dolomite = SetDoubleByKey("DolmaxTask", txbDolomIn) * 0.001;
-                Mixture1.m_Fom = SetDoubleByKey("FomTask", txbFomIn) * 0.001;
-                Mixture1.m_CaCO3 = SetDoubleByKey("LimeStoneTask", txbLimeStoneIn) * 0.001;
-                Mixture1.m_Coke = SetDoubleByKey("CokeTask", txbCokeIn) * 0.001;
-                Mixture1.p_MgO = SetDoubleByKey("PercentMgO", txbMgO);
-                Mixture1.p_FeO = SetDoubleByKey("PercentFeO", txbFeO);
-                mainConf.Save();
                 LogStr("Рассчет запущен " + DateTime.Now);
                 initChemistry(Mixture1.s_Iron, ch_Iron);
                 initChemistry(Mixture1.s_Scrap, ch_Scrap);

@@ -107,6 +107,8 @@
             this.lblSteelOut = new System.Windows.Forms.Label();
             this.txbCokeOut = new System.Windows.Forms.TextBox();
             this.heading = new System.Windows.Forms.FlowLayoutPanel();
+            this.panTitleHeading = new System.Windows.Forms.Panel();
+            this.lblTitleHeading = new System.Windows.Forms.Label();
             this.panHeatNum = new System.Windows.Forms.Panel();
             this.txbHeatNum = new System.Windows.Forms.TextBox();
             this.lblHeatNum = new System.Windows.Forms.Label();
@@ -125,12 +127,10 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblTgtFeO = new System.Windows.Forms.Label();
             this.txbFeO = new System.Windows.Forms.TextBox();
+            this.panAligner = new System.Windows.Forms.Panel();
             this.panBasiticy = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.txbBasiticy = new System.Windows.Forms.TextBox();
-            this.lblTitleHeading = new System.Windows.Forms.Label();
-            this.panTitleHeading = new System.Windows.Forms.Panel();
-            this.panAligner = new System.Windows.Forms.Panel();
             this.basement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).BeginInit();
             this.splitIronScrap.Panel1.SuspendLayout();
@@ -146,6 +146,7 @@
             this.panIronMass.SuspendLayout();
             this.panScrapMass.SuspendLayout();
             this.heading.SuspendLayout();
+            this.panTitleHeading.SuspendLayout();
             this.panHeatNum.SuspendLayout();
             this.panSteelBrand.SuspendLayout();
             this.panSteelTemp.SuspendLayout();
@@ -153,7 +154,6 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panBasiticy.SuspendLayout();
-            this.panTitleHeading.SuspendLayout();
             this.SuspendLayout();
             // 
             // basement
@@ -1107,6 +1107,27 @@
             this.heading.Size = new System.Drawing.Size(1123, 110);
             this.heading.TabIndex = 0;
             // 
+            // panTitleHeading
+            // 
+            this.panTitleHeading.Controls.Add(this.lblTitleHeading);
+            this.panTitleHeading.Location = new System.Drawing.Point(3, 3);
+            this.panTitleHeading.Name = "panTitleHeading";
+            this.panTitleHeading.Size = new System.Drawing.Size(205, 43);
+            this.panTitleHeading.TabIndex = 29;
+            // 
+            // lblTitleHeading
+            // 
+            this.lblTitleHeading.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTitleHeading.AutoSize = true;
+            this.lblTitleHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTitleHeading.Location = new System.Drawing.Point(14, 11);
+            this.lblTitleHeading.Name = "lblTitleHeading";
+            this.lblTitleHeading.Size = new System.Drawing.Size(189, 26);
+            this.lblTitleHeading.TabIndex = 28;
+            this.lblTitleHeading.Text = "Паспорт плавки";
+            // 
             // panHeatNum
             // 
             this.panHeatNum.Controls.Add(this.txbHeatNum);
@@ -1122,7 +1143,7 @@
             this.txbHeatNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txbHeatNum.Location = new System.Drawing.Point(4, 18);
             this.txbHeatNum.Name = "txbHeatNum";
-            this.txbHeatNum.Size = new System.Drawing.Size(152, 21);
+            this.txbHeatNum.Size = new System.Drawing.Size(143, 21);
             this.txbHeatNum.TabIndex = 17;
             this.txbHeatNum.TabStop = false;
             // 
@@ -1143,7 +1164,7 @@
             this.panSteelBrand.Enabled = false;
             this.panSteelBrand.Location = new System.Drawing.Point(381, 3);
             this.panSteelBrand.Name = "panSteelBrand";
-            this.panSteelBrand.Size = new System.Drawing.Size(99, 43);
+            this.panSteelBrand.Size = new System.Drawing.Size(114, 43);
             this.panSteelBrand.TabIndex = 23;
             // 
             // cmbSteelBrand
@@ -1170,9 +1191,9 @@
             // 
             this.panSteelTemp.Controls.Add(this.txbSteelTemp);
             this.panSteelTemp.Controls.Add(this.lblSteelTemp);
-            this.panSteelTemp.Location = new System.Drawing.Point(486, 3);
+            this.panSteelTemp.Location = new System.Drawing.Point(501, 3);
             this.panSteelTemp.Name = "panSteelTemp";
-            this.panSteelTemp.Size = new System.Drawing.Size(112, 43);
+            this.panSteelTemp.Size = new System.Drawing.Size(119, 43);
             this.panSteelTemp.TabIndex = 26;
             // 
             // txbSteelTemp
@@ -1197,7 +1218,8 @@
             // 
             this.panCarbonPercent.Controls.Add(this.lblCarbonPercent);
             this.panCarbonPercent.Controls.Add(this.txbCarbonPercent);
-            this.panCarbonPercent.Location = new System.Drawing.Point(604, 3);
+            this.panCarbonPercent.Enabled = false;
+            this.panCarbonPercent.Location = new System.Drawing.Point(626, 3);
             this.panCarbonPercent.Name = "panCarbonPercent";
             this.panCarbonPercent.Size = new System.Drawing.Size(120, 43);
             this.panCarbonPercent.TabIndex = 27;
@@ -1225,7 +1247,7 @@
             // 
             this.panel1.Controls.Add(this.lblTgtMgO);
             this.panel1.Controls.Add(this.txbMgO);
-            this.panel1.Location = new System.Drawing.Point(730, 3);
+            this.panel1.Location = new System.Drawing.Point(752, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(120, 43);
             this.panel1.TabIndex = 28;
@@ -1252,7 +1274,7 @@
             // 
             this.panel2.Controls.Add(this.lblTgtFeO);
             this.panel2.Controls.Add(this.txbFeO);
-            this.panel2.Location = new System.Drawing.Point(856, 3);
+            this.panel2.Location = new System.Drawing.Point(878, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(120, 43);
             this.panel2.TabIndex = 30;
@@ -1275,13 +1297,20 @@
             this.txbFeO.Size = new System.Drawing.Size(100, 21);
             this.txbFeO.TabIndex = 19;
             // 
+            // panAligner
+            // 
+            this.panAligner.Location = new System.Drawing.Point(3, 52);
+            this.panAligner.Name = "panAligner";
+            this.panAligner.Size = new System.Drawing.Size(205, 44);
+            this.panAligner.TabIndex = 31;
+            // 
             // panBasiticy
             // 
             this.panBasiticy.Controls.Add(this.label2);
             this.panBasiticy.Controls.Add(this.txbBasiticy);
             this.panBasiticy.Location = new System.Drawing.Point(214, 52);
             this.panBasiticy.Name = "panBasiticy";
-            this.panBasiticy.Size = new System.Drawing.Size(137, 43);
+            this.panBasiticy.Size = new System.Drawing.Size(161, 43);
             this.panBasiticy.TabIndex = 28;
             // 
             // label2
@@ -1299,36 +1328,8 @@
             this.txbBasiticy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txbBasiticy.Location = new System.Drawing.Point(3, 20);
             this.txbBasiticy.Name = "txbBasiticy";
-            this.txbBasiticy.Size = new System.Drawing.Size(100, 21);
+            this.txbBasiticy.Size = new System.Drawing.Size(144, 21);
             this.txbBasiticy.TabIndex = 19;
-            // 
-            // lblTitleHeading
-            // 
-            this.lblTitleHeading.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTitleHeading.AutoSize = true;
-            this.lblTitleHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblTitleHeading.Location = new System.Drawing.Point(14, 11);
-            this.lblTitleHeading.Name = "lblTitleHeading";
-            this.lblTitleHeading.Size = new System.Drawing.Size(189, 26);
-            this.lblTitleHeading.TabIndex = 28;
-            this.lblTitleHeading.Text = "Паспорт плавки";
-            // 
-            // panTitleHeading
-            // 
-            this.panTitleHeading.Controls.Add(this.lblTitleHeading);
-            this.panTitleHeading.Location = new System.Drawing.Point(3, 3);
-            this.panTitleHeading.Name = "panTitleHeading";
-            this.panTitleHeading.Size = new System.Drawing.Size(205, 43);
-            this.panTitleHeading.TabIndex = 29;
-            // 
-            // panAligner
-            // 
-            this.panAligner.Location = new System.Drawing.Point(3, 52);
-            this.panAligner.Name = "panAligner";
-            this.panAligner.Size = new System.Drawing.Size(205, 44);
-            this.panAligner.TabIndex = 31;
             // 
             // MixtureInitial
             // 
@@ -1367,6 +1368,8 @@
             this.panScrapMass.ResumeLayout(false);
             this.panScrapMass.PerformLayout();
             this.heading.ResumeLayout(false);
+            this.panTitleHeading.ResumeLayout(false);
+            this.panTitleHeading.PerformLayout();
             this.panHeatNum.ResumeLayout(false);
             this.panHeatNum.PerformLayout();
             this.panSteelBrand.ResumeLayout(false);
@@ -1381,8 +1384,6 @@
             this.panel2.PerformLayout();
             this.panBasiticy.ResumeLayout(false);
             this.panBasiticy.PerformLayout();
-            this.panTitleHeading.ResumeLayout(false);
-            this.panTitleHeading.PerformLayout();
             this.ResumeLayout(false);
 
         }
