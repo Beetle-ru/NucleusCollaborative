@@ -22,9 +22,19 @@ namespace Charge5
         }
         
 
-        public void OnEvent(BaseEvent newEvent)
+        public void OnEvent(BaseEvent evt)
         {
-  
+            using (var l = new Logger("Listener"))
+            {
+                if (evt is FlexEvent)
+                {
+                    var fxe = evt as FlexEvent;
+                    if (fxe.Operation.StartsWith("test"))
+                    {
+                        l.msg(fxe.ToString());
+                    }
+                }
+            }
         }
     }
 }

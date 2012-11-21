@@ -99,6 +99,54 @@ namespace Implements
             }
         }
 
+        public void Save()
+        {
+            if(Description.Any() && Rows.Any())
+            {
+                var fileContent = new List<string>();
+                var str = "";
+                foreach (var columnPath in Description)
+                {
+                    str += columnPath.ColumnName + Separator;
+                }
+                fileContent.Add(str); //headers
+                foreach (var row in Rows)
+                {
+                    str = "";
+                    foreach (var columnPath in Description)
+                    {
+                        str += row.Cell[columnPath.ColumnName].ToString() + Separator;
+                    }
+                    fileContent.Add(str);
+                }
+                try
+                {
+                    Directory.CreateDirectory(GetDirByName(FileName));
+                    File.WriteAllLines(FileName, fileContent);
+                    InstantLogger.msg("Save file : {0}", FileName);
+                }
+                catch (Exception e)
+                {
+                    InstantLogger.err("File () not save \n{1}", FileName, e.ToString());
+                }
+                
+            }
+            else
+            {
+                InstantLogger.err("Description empty is {0} ; Rows empty is {1}", Description.Any(), Rows.Any());
+            }
+        }
+
+        private string GetDirByName(string fn)
+        {
+            var spltPath = fn.Split('\\');
+            fn = "";
+            for (int i = 0; i < spltPath.Count() - 1; i++)
+            {
+                fn += spltPath[i] + "\\";
+            }
+            return fn;
+        }
         private object UniverConv(string str, Type type)
         {
             

@@ -198,9 +198,9 @@ namespace SublanceGenerator
                         l.msg(fxe.ToString());
                         try
                         {
-                            var sublanceHeigthNow = (int) fxe.Arguments[key];
+                            var sublanceHeigthNow = (Int16)fxe.Arguments[key];
                             var derivative = sublanceHeigthNow - Iterator.SublanceHeigth;
-                            Iterator.SublanceHeigth = (int)fxe.Arguments[key];
+                            Iterator.SublanceHeigth = (Int16)fxe.Arguments[key];
                             if (Iterator.SublanceRaised(derivative,sublanceHeigthNow,Iterator.SublanceTreshold))
                             {
                                 Iterator.EndMeteringAlow = true;

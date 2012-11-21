@@ -147,12 +147,14 @@ namespace SublanceGenerator
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 1);
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
         }
         public static void StopBlowFlagRelease()
         {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 0);
             fex.Fire(Program.MainGate);
+            InstantLogger.log(fex.evt.ToString());
         }
         public static bool SublanceRaised(double derivative, int heigth, int treshold)
         {

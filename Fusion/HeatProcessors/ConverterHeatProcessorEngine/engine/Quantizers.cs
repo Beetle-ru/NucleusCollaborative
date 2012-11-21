@@ -16,7 +16,7 @@ namespace ConverterHeatProcessorEngine
         {
            // Logger.log(SmPattern.steps[0].O2Volume.ToString());
             int frameStart = 0;
-            const int lanceMinPos = 200;
+            const int lanceMinPos = 180;
 
             frameStart = LanceGetFrameNumber();                                        //определяем номер кадра
             m_lanceCurrentFrame = frameStart;
