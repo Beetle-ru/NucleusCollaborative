@@ -17,8 +17,10 @@ namespace Charge5
         public static char Separator;
         public static string StorePath;
         public static List<CSVTableParser> Tables;
+        public static CSVTableParser InitTbl;
         public static List<string> TablePaths;
         public const int MaxTables = 7;
+        public const string PIName = "Path.init";
 
         static void Main(string[] args)
         {
@@ -36,9 +38,20 @@ namespace Charge5
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             StorePath = MainConf.AppSettings.Settings["StorePath"].Value;
 
-            TablePaths = ScanStore(StorePath);
-            Tables = LoadTables("default");
+            InitTbl = new CSVTableParser();
             
+            TablePaths = ScanStore(StorePath);
+            Tables = LoadTables("default", ref InitTbl);
+            //SaveTables("new", InitTbl, Tables);
+
+            //////////////////////////////////
+            CSVTP_FlexEventConverter.AppName = "Charge5";
+            var tableFlex = CSVTP_FlexEventConverter.PackToFlex("newToFlex", InitTbl, Tables);
+            var name = "";
+            CSVTP_FlexEventConverter.UnpackFromFlex(tableFlex, ref InitTbl, ref Tables, ref name);
+            Console.WriteLine("Pare: {0}", name);
+            SaveTables("newFromFlex", InitTbl, Tables);
+
         }
 
         public static List<string> ScanStore(string path)
@@ -46,12 +59,12 @@ namespace Charge5
             return Directory.GetDirectories(StorePath).ToList();
         }
 
-        public static List<CSVTableParser> LoadTables(string name)
+        public static List<CSVTableParser> LoadTables(string name, ref CSVTableParser initbl)
         {
             var tables = new List<CSVTableParser>();
-            var initbl = new CSVTableParser();
+            //var initbl = new CSVTableParser();
             
-            const string piName = "Path.init";
+            
             for (int i = 0; i < MaxTables; i++)
             {
                 tables.Add(new CSVTableParser());
@@ -64,7 +77,7 @@ namespace Charge5
                 {
                     if (s == name)
                     {
-                        var pathInit = String.Format("{0}\\{1}", tablePath, piName);
+                        var pathInit = String.Format("{0}\\{1}", tablePath, PIName);
                         if (File.Exists(pathInit))
                         {
                             isFound = true;
@@ -92,6 +105,23 @@ namespace Charge5
                 }
             }
             return tables;
+        }
+
+
+        public static void SaveTables(string name, CSVTableParser inittbl, List<CSVTableParser> tables)
+        {
+            var currentPathName = StorePath + "\\" + name;
+            Directory.CreateDirectory(currentPathName);
+
+            foreach (var row in inittbl.Rows)
+            {
+                tables[(int) row.Cell["Index"]].FileName = String.Format("{0}\\{1}.csv", currentPathName, (row.Cell["TableName"]));
+                tables[(int) row.Cell["Index"]].Separator = Separator;
+                tables[(int) row.Cell["Index"]].Save();
+            }
+            inittbl.FileName = currentPathName + "\\" + PIName;
+            inittbl.Separator = Separator;
+            inittbl.Save();
         }
         public static void SetDescriptionPI(ref CSVTableParser table)
         {
