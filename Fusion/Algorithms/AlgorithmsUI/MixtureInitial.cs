@@ -164,7 +164,7 @@ namespace AlgorithmsUI
             result &= CheckItem(txbFeO, new dMargin(10, 40), out Mixture1.p_FeO, "PercentFeO");
             if (!result)
             {
-                LogStr("Заполните значения в желтых секторах, исправьте в красных и фиолетовых");
+                LogStr(Checker.Message);
             }
             return result;
         }
