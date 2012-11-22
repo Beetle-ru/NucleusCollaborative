@@ -50,7 +50,9 @@
             this.gridChem.Name = "gridChem";
             this.gridChem.Size = new System.Drawing.Size(293, 364);
             this.gridChem.TabIndex = 0;
-            this.gridChem.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridChem_CellValueChanged);
+            this.gridChem.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.gridChem_CellBeginEdit);
+            this.gridChem.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridChem_CellEndEdit);
+            this.gridChem.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridChem_CellValidated);
             this.gridChem.Enter += new System.EventHandler(this.gridChem_Enter);
             // 
             // key
@@ -101,6 +103,7 @@
             this.Name = "ChemTable";
             this.Text = "chem";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ChemTable_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChemTable_FormClosed);
             this.Load += new System.EventHandler(this.ChemTable_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridChem)).EndInit();
             this.panCtrl.ResumeLayout(false);

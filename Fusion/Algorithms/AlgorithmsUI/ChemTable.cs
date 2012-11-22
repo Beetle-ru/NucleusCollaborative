@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Implements;
 
 namespace AlgorithmsUI
 {
@@ -18,12 +19,13 @@ namespace AlgorithmsUI
         private Dictionary<string, double> m_inFP = new Dictionary<string, double>();
         private static string secretFP = ":Sn:Sb:Zn:Fe:Cu:Cr:Mo:Ni:N:O:H:TOTAL:Basiticy:Yield:Steel:T:eH:cp:TeH:ro:";
         private int m_secFPcnt = 0;
-        private bool m_dataChanged = false;
+        private bool m_dataChanged;
         public ChemTable(string Name, string ConfigKey)
         {
             InitializeComponent();
             Text = Name;
             m_configKey = ConfigKey;
+            Checker.cErr = Color.LightSalmon;
         }
 
         public void LoadCSVData()
@@ -132,11 +134,19 @@ namespace AlgorithmsUI
             if (m_dataChanged)
             {
                 if (MessageBox.Show("Сохранить изменения?",
-                    "Химия изменилась", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    "Химия изменилась", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    SaveCSVData();
+                    if (btnSave.Enabled)
+                    {
+                        SaveCSVData();
+                        m_dataChanged = false;
+                    }
+                    else
+                    {
+                        MessageBox.Show(Checker.Message, "Неверные данные", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                        e.Cancel = true;
+                    }
                 }
-                m_dataChanged = false;
             }
         }
 
@@ -146,14 +156,54 @@ namespace AlgorithmsUI
             m_dataChanged = false;
         }
 
-        private void gridChem_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            m_dataChanged = true;
-        }
-
         private void gridChem_Enter(object sender, EventArgs e)
         {
             m_dataChanged = false;
+            btnSave.Enabled = ValidateAll();
+        }
+
+        private Color ccolor = new Color();
+        private readonly dMargin cmargin = new dMargin(0.0001, 99.9999);
+        private bool ValidateCell(int row, int col)
+        {
+            if (col == 0) return true;
+            var cell = gridChem.Rows[row].Cells[col].Value;
+            var res = Checker.isDoubleCorrect(cell == null ? "" : cell.ToString(), out ccolor, cmargin);
+            gridChem.Rows[row].Cells[col].Style.BackColor = ccolor;
+            return res;
+        }
+        private bool ValidateAll()
+        {
+            bool res = true;
+            for (int i = 0; i < gridChem.RowCount; i++)
+            {
+                res &= ValidateCell(i, 1);
+            }
+            return res;
+        }
+        private void gridChem_CellValidated(object sender, DataGridViewCellEventArgs e)
+        {
+            btnSave.Enabled &= ValidateCell(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void gridChem_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            m_dataChanged = true;
+            btnSave.Enabled = ValidateAll();
+        }
+
+        private void ChemTable_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            for (int i = 0; i < gridChem.RowCount; i++)
+            {
+                gridChem.Rows[i].Cells[1].Value = "";
+            }
+            m_dataChanged = false;
+        }
+
+        private void gridChem_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            m_dataChanged = true;
         }
     }
 }

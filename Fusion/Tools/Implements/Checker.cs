@@ -31,6 +31,7 @@ namespace Implements
         public static Color cEmpty = Color.FromArgb(255, 0, 255, 100);
         public static Color cNormal = Color.White;
         public static Color cOutOfRange = Color.Violet;
+        public static string Message = "Заполните значения в желтых секторах, исправьте в красных и фиолетовых";
         public static bool isDoubleCorrect(string str, out Color color, dMargin m = null)
         {
             Double dValue;
