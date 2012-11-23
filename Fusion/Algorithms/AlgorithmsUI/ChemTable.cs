@@ -219,5 +219,56 @@ namespace AlgorithmsUI
             }
         }
 
+//=======
+//        private void gridChem_Enter(object sender, EventArgs e)
+//        {
+//            m_dataChanged = false;
+//            btnSave.Enabled = ValidateAll();
+//        }
+
+//        private Color ccolor = new Color();
+//        private readonly dMargin cmargin = new dMargin(0.0001, 99.9999);
+//        private bool ValidateCell(int row, int col)
+//        {
+//            if (col == 0) return true;
+//            var cell = gridChem.Rows[row].Cells[col].Value;
+//            var res = Checker.isDoubleCorrect(cell == null ? "" : cell.ToString(), out ccolor, cmargin);
+//            gridChem.Rows[row].Cells[col].Style.BackColor = ccolor;
+//            return res;
+//        }
+//        private bool ValidateAll()
+//        {
+//            bool res = true;
+//            for (int i = 0; i < gridChem.RowCount; i++)
+//            {
+//                res &= ValidateCell(i, 1);
+//            }
+//            return res;
+//        }
+//        private void gridChem_CellValidated(object sender, DataGridViewCellEventArgs e)
+//        {
+//            btnSave.Enabled &= ValidateCell(e.RowIndex, e.ColumnIndex);
+//        }
+
+//        private void gridChem_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+//        {
+//            m_dataChanged = true;
+//            btnSave.Enabled = ValidateAll();
+//        }
+
+//        private void ChemTable_FormClosed(object sender, FormClosedEventArgs e)
+//        {
+//            for (int i = 0; i < gridChem.RowCount; i++)
+//            {
+//                gridChem.Rows[i].Cells[1].Value = "";
+//            }
+//            m_dataChanged = false;
+//        }
+
+//        private void gridChem_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+//        {
+//            m_dataChanged = true;
+//        }
+//>>>>>>> 1c3514648f695c2672f63021e811c12342eecd15
     }
 }
