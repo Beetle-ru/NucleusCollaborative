@@ -44,17 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alg.cs" />
+    <Compile Include="src\Alg.cs" />
     <Compile Include="CSVTP_FlexEventConverter.cs" />
-    <Compile Include="Descriptions.cs" />
-    <Compile Include="InData.cs" />
-    <Compile Include="Init.cs" />
-    <Compile Include="Listener.cs" />
-    <Compile Include="Members.cs" />
-    <Compile Include="OutData.cs" />
+    <Compile Include="src\Descriptions.cs" />
+    <Compile Include="Data\InData.cs" />
+    <Compile Include="src\Init.cs" />
+    <Compile Include="src\Listener.cs" />
+    <Compile Include="src\Members.cs" />
+    <Compile Include="Data\OutData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="src\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
