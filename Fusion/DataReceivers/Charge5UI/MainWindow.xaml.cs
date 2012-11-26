@@ -22,6 +22,8 @@ namespace Charge5UI
         public MainWindow()
         {
             InitializeComponent();
+            Pointer.PMainWindow = this;
         }
+        
     }
 }

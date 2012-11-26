@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pulse3.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -63,12 +66,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Listener.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -86,11 +91,38 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
+      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
+      <Name>CommonTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ConnectionProvider\ConnectionProvider.csproj">
+      <Project>{6908AF06-DBFF-458F-9354-E8FD38F8C932}</Project>
+      <Name>ConnectionProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Converter\Converter.csproj">
+      <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
+      <Name>Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
+      <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
+      <Name>Implements</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\gandex33.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pulse3.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
