@@ -5,6 +5,7 @@ using ConnectionProvider;
 using Converter;
 using Implements;
 using System.IO;
+using Charge5Classes;
 
 namespace Charge5
 {

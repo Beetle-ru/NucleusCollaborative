@@ -6,7 +6,7 @@ using System.Text;
 using Converter;
 using Implements;
 
-namespace Charge5
+namespace Charge5Classes
 {
     class CSVTP_FlexEventConverter
     {
