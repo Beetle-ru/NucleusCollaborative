@@ -8,6 +8,6 @@ namespace Charge5UI
     static class Pointer
     {
         public static MainWindow PMainWindow;
-        public static PresetEditor.PresetEditor PPresetEditor;
+        public static PatternEditor.PatternEditor PPatternEditor;
     }
 }

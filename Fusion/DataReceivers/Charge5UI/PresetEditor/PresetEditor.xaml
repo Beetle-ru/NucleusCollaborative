@@ -1,7 +1,7 @@
-﻿<Window x:Class="Charge5UI.PresetEditor.PresetEditor"
+﻿<Window x:Class="Charge5UI.PatternEditor.PatternEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Редактор пресетов" Height="528" Width="999" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize" FontSize="20">
+        Title="Редактор паттернов" Height="528" Width="999" WindowStyle="ThreeDBorderWindow" ResizeMode="CanMinimize" FontSize="20">
     <Window.Background>
         <ImageBrush ImageSource="/Charge5UI;component/Images/g30719.jpg" />
     </Window.Background>
@@ -73,14 +73,14 @@
                 <Grid>
                     <Rectangle Height="414" HorizontalAlignment="Left" Margin="14,16,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="426" Fill="#7FFFECCE" />
                     <ListBox Height="300" HorizontalAlignment="Left" Margin="32,61,0,0" Name="lstPatterns" VerticalAlignment="Top" Width="390" Background="#AAFFFFFF" />
-                    <Label Content="Выбор пресета для редактирования" Height="34" HorizontalAlignment="Left" Margin="32,21,0,0" Name="label1" VerticalAlignment="Top" Width="388" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button HorizontalAlignment="Left" Margin="32,370,0,0" Name="btnCreatePreset" VerticalAlignment="Top"  Content="Создать" Style="{StaticResource GlassButton}" />
-                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="138,370,0,0" Name="btnRemuvePreset" Style="{StaticResource GlassButton}" VerticalAlignment="Top" IsEnabled="False" />
+                    <Label Content="Выбор паттерна для редактирования" Height="34" HorizontalAlignment="Left" Margin="32,21,0,0" Name="label1" VerticalAlignment="Top" Width="388" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                    <Button HorizontalAlignment="Left" Margin="32,370,0,0" Name="btnCreatePattern" VerticalAlignment="Top"  Content="Создать" Style="{StaticResource GlassButton}" />
+                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="138,370,0,0" Name="btnRemuvePattern" Style="{StaticResource GlassButton}" VerticalAlignment="Top" IsEnabled="False" />
                     <Button Content="Загр." HorizontalAlignment="Left" Margin="266,370,0,0" Name="btnLoad" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" Click="btnLoad_Click" />
                     <Button Content="Сохр." HorizontalAlignment="Left" IsEnabled="False" Margin="347,370,0,0" Name="btnSave" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" />
                     <Rectangle Fill="#7FCED6FF" Margin="446,89,6,16" Name="rectangle9" Stroke="Black" Height="341" />
                     <Rectangle Fill="#7F5ABE90" Height="67" Margin="446,16,6,364" Name="rectangle10" Stroke="Black" />
-                    <Label Content="Редактор пресетов загружен" Height="34" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="446,32,0,0" Name="lblStatus" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="515" />
+                    <Label Content="Редактор паттернов загружен" Height="34" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="446,32,0,0" Name="lblStatus" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="515" />
                     
                     <TextBox Height="321" HorizontalAlignment="Left" Margin="456,99,0,0" Name="tbConsole" VerticalAlignment="Top" Width="497" VerticalScrollBarVisibility="Visible" Focusable="False" ForceCursor="True" Background="#C8000000" Foreground="#FFCECECE" FontSize="11" />
                 </Grid>

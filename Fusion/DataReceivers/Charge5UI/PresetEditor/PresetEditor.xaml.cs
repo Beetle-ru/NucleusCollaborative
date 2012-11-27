@@ -11,22 +11,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Charge5UI.PresetEditor
+namespace Charge5UI.PatternEditor
 {
     /// <summary>
-    /// Логика взаимодействия для PresetEditor.xaml
+    /// Логика взаимодействия для PatternEditor.xaml
     /// </summary>
-    public partial class PresetEditor : Window
+    public partial class PatternEditor : Window
     {
         public List<TableData> DGTables;
         public const int CountTables = 7;
-        public PresetEditor()
+        public PatternEditor()
         {
             InitializeComponent();
-            Pointer.PPresetEditor = this;
+            Pointer.PPatternEditor = this;
 
             Init();
-            StatusChange("Редактор пресетов загружен");
+            StatusChange("Редактор паттернов загружен");
         }
 
         public void Init()
@@ -59,7 +59,7 @@ namespace Charge5UI.PresetEditor
         {
             if (lstPatterns.SelectedIndex >= 0)
             {
-                Requester.ReqGetPreset(Requester.MainGate, (string)lstPatterns.SelectedValue);
+                Requester.ReqGetPattern(Requester.MainGate, (string)lstPatterns.SelectedValue);
                 StatusChange("Запрошен паттерн " + (string)lstPatterns.SelectedValue);
             }
             else

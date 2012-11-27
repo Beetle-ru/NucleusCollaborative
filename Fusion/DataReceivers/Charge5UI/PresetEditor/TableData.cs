@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Charge5UI.PresetEditor
+namespace Charge5UI.PatternEditor
 {
     public class TableRow
     {

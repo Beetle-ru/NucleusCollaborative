@@ -43,14 +43,14 @@ namespace Charge5UI
                             }
                             Pointer.PMainWindow.Dispatcher.Invoke(new Action(delegate()
                             {
-                                Pointer.PMainWindow.cbPreset.ItemsSource = patternList;
+                                Pointer.PMainWindow.cbPattern.ItemsSource = patternList;
                             }));
-                            if (Pointer.PPresetEditor != null)
+                            if (Pointer.PPatternEditor != null)
                             {
-                                Pointer.PPresetEditor.Dispatcher.Invoke(new Action(delegate()
+                                Pointer.PPatternEditor.Dispatcher.Invoke(new Action(delegate()
                                 {
-                                    Pointer.PPresetEditor.lstPatterns.ItemsSource = patternList;
-                                    Pointer.PPresetEditor.ConsolePush(fxe.ToString());
+                                    Pointer.PPatternEditor.lstPatterns.ItemsSource = patternList;
+                                    Pointer.PPatternEditor.ConsolePush(fxe.ToString());
                                 }));
                             }
                         }
@@ -60,7 +60,7 @@ namespace Charge5UI
                         }
                     }   
 
-                    if (fxe.Operation.StartsWith("Charge5.RespLoadPreset"))
+                    if (fxe.Operation.StartsWith("Charge5.RespLoadPattern"))
                     {
                         l.msg(fxe.ToString());
                         try
@@ -69,22 +69,22 @@ namespace Charge5UI
                             {
                                 Pointer.PMainWindow.Dispatcher.Invoke(new Action(delegate()
                                 {
-                                    Pointer.PMainWindow.lblPreset.Content = "Пресет успешно загружен";
-                                    Pointer.PMainWindow.lblPreset.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+                                    Pointer.PMainWindow.lblPattern.Content = "паттерн успешно загружен";
+                                    Pointer.PMainWindow.lblPattern.Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                                 }));
                             }
                             else
                             {
                                 Pointer.PMainWindow.Dispatcher.Invoke(new Action(delegate()
                                 {
-                                    Pointer.PMainWindow.lblPreset.Content = "Ошибка загрузки пресета";
-                                    Pointer.PMainWindow.lblPreset.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
+                                    Pointer.PMainWindow.lblPattern.Content = "Ошибка загрузки паттерна";
+                                    Pointer.PMainWindow.lblPattern.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
                                 }));
                             }
                         }
                         catch (Exception e)
                         {
-                            l.err("Charge5.RespLoadPreset: \n{0}", e.ToString());
+                            l.err("Charge5.RespLoadPattern: \n{0}", e.ToString());
                         }
                     }
 
@@ -129,12 +129,12 @@ namespace Charge5UI
                         var patternList = new List<string>();
                         try
                         {
-                           if (Pointer.PPresetEditor != null)
+                           if (Pointer.PPatternEditor != null)
                             {
-                                Pointer.PPresetEditor.Dispatcher.Invoke(new Action(delegate()
+                                Pointer.PPatternEditor.Dispatcher.Invoke(new Action(delegate()
                                 {
-                                    Pointer.PPresetEditor.ConsolePush(fxe.ToString());
-                                    Pointer.PPresetEditor.StatusChange("Получен патерн " + fxe.Operation.Split('.').Last());
+                                    Pointer.PPatternEditor.ConsolePush(fxe.ToString());
+                                    Pointer.PPatternEditor.StatusChange("Получен паттерн " + fxe.Operation.Split('.').Last());
                                 }));
                             }
                         }

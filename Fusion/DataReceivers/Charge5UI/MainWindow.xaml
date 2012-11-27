@@ -27,8 +27,8 @@
         <Label Content="Масса" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="438,262,0,0" Name="label9" Padding="1" VerticalAlignment="Top" Width="59" />
         <Label Content="Т" FontSize="20" Height="29" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="495,288,0,0" Name="label10" Padding="1" VerticalAlignment="Top" Width="23" />
         <Label Content="Лом:" FontSize="20" FontStyle="Normal" FontWeight="Bold" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="422,228,0,0" Name="label11" Padding="1" VerticalAlignment="Top" Width="73" />
-        <Label Content="Выберете пресет" FontSize="20" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="12,160,0,0" Name="lblPreset" Padding="1" VerticalAlignment="Top" Width="389" />
-        <ComboBox Height="33" HorizontalAlignment="Left" Margin="12,190,0,0" Name="cbPreset" VerticalAlignment="Top" Width="389" SelectionChanged="cbPreset_SelectionChanged" />
+        <Label Content="Выберете паттерн" FontSize="20" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="12,160,0,0" Name="lblPattern" Padding="1" VerticalAlignment="Top" Width="389" />
+        <ComboBox Height="33" HorizontalAlignment="Left" Margin="12,190,0,0" Name="cbPattern" VerticalAlignment="Top" Width="389" SelectionChanged="cbPattern_SelectionChanged" />
         <Button Content="Рассчитать" Height="44" HorizontalAlignment="Left" Margin="523,292,0,0" Name="btnCalc" VerticalAlignment="Top" Width="113" Click="btnCalc_Click" />
         <Rectangle Fill="#C8C1E4FF" Margin="0,354,0,0" Name="rectangle6" Stroke="Black" />
         <Label Content="Расчитанные массы в тоннах:" FontSize="20" FontStyle="Normal" FontWeight="Bold" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="12,354,0,0" Name="label13" Padding="1" VerticalAlignment="Top" Width="296" />
@@ -44,7 +44,7 @@
         <Label Background="#C8FFF8F8" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="445,422,0,0" Name="lblMFom" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="Доломс" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="542,393,0,0" Name="label23" Padding="1" VerticalAlignment="Top" Width="77" />
         <Label Background="#C8FFF8F8" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="550,422,0,0" Name="lblMDlms" Padding="5" VerticalAlignment="Top" Width="59" />
-        <Button Content="Редактор пресетов" Height="63" Margin="413,160,6,0" Name="btnPresetEditor" VerticalAlignment="Top" IsEnabled="True" Click="btnPresetEditor_Click" />
+        <Button Content="Редактор паттернов" Height="63" Margin="413,160,6,0" Name="btnPatternEditor" VerticalAlignment="Top" IsEnabled="True" Click="btnPatternEditor_Click" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="115,404,0,0" Name="rectangle7" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="217,404,0,0" Name="rectangle8" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="320,404,0,0" Name="rectangle9" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />

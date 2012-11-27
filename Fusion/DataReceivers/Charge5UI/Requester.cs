@@ -23,23 +23,23 @@ namespace Charge5UI
             fex.Fire(CoreGate);
         }
 
-        static public void ReqPresetLoad(Client CoreGate, string presetName)
+        static public void ReqPatternLoad(Client CoreGate, string PatternName)
         {
-            var fex = new FlexHelper("UI.LoadPreset");
-            fex.AddArg("Name", presetName);
+            var fex = new FlexHelper("UI.LoadPattern");
+            fex.AddArg("Name", PatternName);
             fex.Fire(CoreGate);
         }
 
-        static public void ReqGetPreset(Client CoreGate, string presetName)
+        static public void ReqGetPattern(Client CoreGate, string PatternName)
         {
-            var fex = new FlexHelper("UI.GetPreset");
-            fex.AddArg("Name", presetName);
+            var fex = new FlexHelper("UI.GetPattern");
+            fex.AddArg("Name", PatternName);
             fex.Fire(CoreGate);
         }
 
         static public void ReqPatternNames(Client CoreGate)
         {
-            var fex = new FlexHelper("UI.GetPatternNames");
+            var fex = new FlexHelper("UI.GetNamePatterns");
             fex.Fire(CoreGate);
         }
     }

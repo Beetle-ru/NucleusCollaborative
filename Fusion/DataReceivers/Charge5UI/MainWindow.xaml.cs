@@ -65,17 +65,17 @@ namespace Charge5UI
             }
         }
 
-        private void cbPreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void cbPattern_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbPreset.SelectedIndex >= 0)
+            if (cbPattern.SelectedIndex >= 0)
             {
-                lblPreset.Content = "Загрузка пресета ...";
-                lblPreset.Background = new SolidColorBrush(Color.FromArgb(127, 0, 100, 50));
-                Requester.ReqPresetLoad(Requester.MainGate, (string)cbPreset.SelectedValue);
+                lblPattern.Content = "Загрузка паттерна ...";
+                lblPattern.Background = new SolidColorBrush(Color.FromArgb(127, 0, 100, 50));
+                Requester.ReqPatternLoad(Requester.MainGate, (string)cbPattern.SelectedValue);
             }
             else
             {
-                DoChangePreset();
+                DoChangePattern();
             }
         }
 
@@ -117,13 +117,13 @@ namespace Charge5UI
                 {
                     throw new Exception("Не выбрана группа стали");
                 }
-                if (cbPreset.SelectedIndex >= 0)
+                if (cbPattern.SelectedIndex >= 0)
                 {
                     ModelInData.SteelType = lbSteelType.SelectedIndex;
                 }
                 else
                 {
-                    throw new Exception("Не выбран пресет");
+                    throw new Exception("Не выбран паттерн");
                 }
 
                 ModelInData.IsProcessingUVS = (bool)chbUVS.IsChecked;
@@ -152,9 +152,9 @@ namespace Charge5UI
             lblSteelType.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
         }
 
-        private void DoChangePreset()
+        private void DoChangePattern()
         {
-            lblSteelType.Content = "Пресет не выбран";
+            lblSteelType.Content = "паттерн не выбран";
             lblSteelType.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
         }
 
@@ -169,9 +169,9 @@ namespace Charge5UI
             Requester.ReqPatternNames(Requester.MainGate);
         }
 
-        private void btnPresetEditor_Click(object sender, RoutedEventArgs e)
+        private void btnPatternEditor_Click(object sender, RoutedEventArgs e)
         {
-            var peDialog = new PresetEditor.PresetEditor();
+            var peDialog = new PatternEditor.PatternEditor();
             peDialog.ShowDialog();
         }
     }

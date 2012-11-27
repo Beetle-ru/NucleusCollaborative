@@ -30,7 +30,7 @@ namespace Charge5
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
-                    if (fxe.Operation.StartsWith("UI.GetPatternNames"))
+                    if (fxe.Operation.StartsWith("UI.GetNamePatterns"))
                     {
                         l.msg(fxe.ToString());
                         Program.TablePaths = Program.ScanStore(Program.StorePath);
@@ -43,7 +43,7 @@ namespace Charge5
                         fex.Fire(Program.MainGate);
                     }
                     
-                    if (fxe.Operation.StartsWith("UI.LoadPreset"))
+                    if (fxe.Operation.StartsWith("UI.LoadPattern"))
                     {
                         l.msg(fxe.ToString());
                         try
@@ -52,10 +52,10 @@ namespace Charge5
                         }
                         catch (Exception e)
                         {
-                            l.err("UI.LoadPreset: \n{0}", e.ToString());
+                            l.err("UI.LoadPattern: \n{0}", e.ToString());
                         }
 
-                        var fex = new FlexHelper("Charge5.RespLoadPreset");
+                        var fex = new FlexHelper("Charge5.RespLoadPattern");
                         if (Program.Tables == null)
                         {
                             l.err("pattern not loaded");
@@ -101,12 +101,12 @@ namespace Charge5
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("UI.GetPreset"))
+                    if (fxe.Operation.StartsWith("UI.GetPattern"))
                     {
                         l.msg(fxe.ToString());
                         try
                         {
-                            var name = (string) fxe.Arguments["Name"];
+                            var name = (string)fxe.Arguments["Name"];
                             Program.LoadTables(name, ref Program.InitTbl);
                             CSVTP_FlexEventConverter.AppName = "Charge5";
                             var flex = CSVTP_FlexEventConverter.PackToFlex(name, Program.InitTbl, Program.Tables);
@@ -116,7 +116,7 @@ namespace Charge5
                         }
                         catch (Exception e)
                         {
-                            l.err("UI.GetPreset: \n{0}", e.ToString());
+                            l.err("UI.GetPattern: \n{0}", e.ToString());
                         }
                     }
                 }
