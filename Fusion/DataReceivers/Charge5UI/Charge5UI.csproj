@@ -113,6 +113,10 @@
       <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
       <Name>Converter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Tools\Charge5Classes\Charge5Classes.csproj">
+      <Project>{9A803686-D843-4B7F-B6E5-624035283851}</Project>
+      <Name>Charge5Classes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
       <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
       <Name>Implements</Name>

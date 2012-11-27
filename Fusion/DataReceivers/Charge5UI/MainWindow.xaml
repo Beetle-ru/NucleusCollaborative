@@ -7,9 +7,9 @@
     </Window.Background>
     <Grid>
         <Rectangle Name="rectangle1" Stroke="Black" Fill="#C8FFF4DB" Height="348" VerticalAlignment="Top"></Rectangle>
-        <Rectangle Fill="#6FFFF4DB" Height="108" HorizontalAlignment="Left" Margin="12,228,0,0" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="390" />
-        <ListBox Name="lbSteeType" Margin="12,33,12,0" Background="#AAFFFFFF" Height="121" VerticalAlignment="Top" FontSize="18" />
-        <Label Content="Группа стали" Name="label1" FontSize="20" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" Padding="1" Margin="12,0" />
+        <Rectangle Fill="#6FFCAA77" Height="108" HorizontalAlignment="Left" Margin="12,228,0,0" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="390" />
+        <ListBox Name="lbSteeType" Margin="12,33,12,0" Background="#AAFFFFFF" Height="121" VerticalAlignment="Top" FontSize="18" SelectionChanged="LBSteeTypeSelectionChanged" />
+        <Label Content="Выбор группы стали" Name="label1" FontSize="20" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" Padding="1" Margin="12,0" />
         <TextBox Height="29" Margin="37,290,0,0" Name="tbMHi" VerticalAlignment="Top" Background="#AAFFFFFF" Text="300" FontSize="20" Padding="0.5" HorizontalAlignment="Left" Width="51" />
         <Label Content="Масса" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="37,261,0,0" Name="label2" VerticalAlignment="Top" Width="59" Padding="1" />
         <Label Content="Т" FontSize="20" Height="29" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="94,288,0,0" Name="label3" VerticalAlignment="Top" Width="23" Padding="1" />
@@ -22,28 +22,28 @@
         <Label Content="Чугун:" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="21,228,0,0" Name="label8" VerticalAlignment="Top" Width="73" Padding="1" FontStyle="Normal" FontWeight="Bold" />
         <Rectangle Height="67" HorizontalAlignment="Left" Margin="121,262,0,0" Name="rectangle3" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" Fill="#FF9A9A9A" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="281,261,0,0" Name="rectangle4" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
-        <Rectangle Fill="#6FFFF4DB" Height="108" HorizontalAlignment="Left" Margin="413,228,0,0" Name="rectangle5" Stroke="Black" VerticalAlignment="Top" Width="105" />
+        <Rectangle Fill="#6F38BE7D" Height="108" HorizontalAlignment="Left" Margin="413,228,0,0" Name="rectangle5" Stroke="Black" VerticalAlignment="Top" Width="105" />
         <TextBox Background="#AAFFFFFF" FontSize="20" Height="29" HorizontalAlignment="Left" Margin="438,290,0,0" Name="tbMSc" Padding="0.5" Text="150" VerticalAlignment="Top" Width="51" />
         <Label Content="Масса" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="438,262,0,0" Name="label9" Padding="1" VerticalAlignment="Top" Width="59" />
         <Label Content="Т" FontSize="20" Height="29" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="495,288,0,0" Name="label10" Padding="1" VerticalAlignment="Top" Width="23" />
         <Label Content="Лом:" FontSize="20" FontStyle="Normal" FontWeight="Bold" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="422,228,0,0" Name="label11" Padding="1" VerticalAlignment="Top" Width="73" />
         <Label Content="Выбор пресета" FontSize="20" Height="32" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="47,160,0,0" Name="label12" Padding="1" VerticalAlignment="Top" Width="224" />
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="47,190,0,0" Name="cbPreset" VerticalAlignment="Top" Width="224" />
-        <Button Content="Рассчитать" Height="46" HorizontalAlignment="Left" Margin="524,261,0,0" Name="btnCalc" VerticalAlignment="Top" Width="113" />
+        <Button Content="Рассчитать" Height="79" HorizontalAlignment="Left" Margin="523,240,0,0" Name="btnCalc" VerticalAlignment="Top" Width="113" />
         <Rectangle Fill="#C8C1E4FF" Margin="0,354,0,0" Name="rectangle6" Stroke="Black" />
         <Label Content="Расчитанные массы в тоннах:" FontSize="20" FontStyle="Normal" FontWeight="Bold" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="12,354,0,0" Name="label13" Padding="1" VerticalAlignment="Top" Width="296" />
         <Label Content="Чугун" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="36,393,0,0" Name="label14" Padding="1" VerticalAlignment="Top" Width="59" />
-        <Label Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="36,422,0,0" Name="lblHi" Padding="5" VerticalAlignment="Top" Width="59" Background="#C8FFF8F8" />
+        <Label Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="36,422,0,0" Name="lblMHi" Padding="5" VerticalAlignment="Top" Width="59" Background="#C8FFF8F8" />
         <Label Content="Лом" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="144,393,0,0" Name="label15" Padding="1" VerticalAlignment="Top" Width="59" />
-        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="136,422,0,0" Name="label16" Padding="5" VerticalAlignment="Top" Width="59" />
+        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="136,422,0,0" Name="lblMSc" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="Известь" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="230,393,0,0" Name="label17" Padding="1" VerticalAlignment="Top" Width="78" />
-        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="239,422,0,0" Name="label18" Padding="5" VerticalAlignment="Top" Width="59" />
+        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="239,422,0,0" Name="lblMLi" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="Доломит" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="331,393,0,0" Name="label19" Padding="1" VerticalAlignment="Top" Width="89" />
-        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="342,422,0,0" Name="label20" Padding="5" VerticalAlignment="Top" Width="59" />
+        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="342,422,0,0" Name="lblMDlm" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="ФОМ" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="445,393,0,0" Name="label21" Padding="1" VerticalAlignment="Top" Width="59" />
-        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="445,422,0,0" Name="label22" Padding="5" VerticalAlignment="Top" Width="59" />
+        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="445,422,0,0" Name="lblMFom" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="Доломс" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="542,393,0,0" Name="label23" Padding="1" VerticalAlignment="Top" Width="77" />
-        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="550,422,0,0" Name="label24" Padding="5" VerticalAlignment="Top" Width="59" />
+        <Label Background="#C8FFF8F8" Content="000" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="550,422,0,0" Name="lblMDlms" Padding="5" VerticalAlignment="Top" Width="59" />
         <Button Content="Конфигурация пресетов" Height="63" HorizontalAlignment="Left" Margin="291,160,0,0" Name="button1" VerticalAlignment="Top" Width="227" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="115,404,0,0" Name="rectangle7" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="217,404,0,0" Name="rectangle8" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />

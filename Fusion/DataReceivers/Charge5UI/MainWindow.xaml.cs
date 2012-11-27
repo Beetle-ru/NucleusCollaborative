@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Charge5Classes;
 
 
 namespace Charge5UI
@@ -21,6 +22,8 @@ namespace Charge5UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public InData ModelInData = new InData();
+        public OutData ModelOutData = new OutData();
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +44,11 @@ namespace Charge5UI
             descriptions.Add("5 группа «IF стали» с последующей обработкой на УВС. Температура металла 1700 – 1720 0С.");
             descriptions.Add("5 группа «IF стали» с обработкой на УПК и последующей обработкой на УВС. Температура металла 1650 – 1670 0С.");
             return descriptions;
+        }
+
+        private void LBSteeTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ModelInData.SteelType = lbSteeType.SelectedIndex;
         }
         
     }
