@@ -22,6 +22,13 @@ namespace Charge5UI.PresetEditor
         {
             InitializeComponent();
             Pointer.PPresetEditor = this;
+
+            Init();
+        }
+
+        public void Init()
+        {
+            Requester.ReqPatternNames(Requester.MainGate);
         }
     }
 }

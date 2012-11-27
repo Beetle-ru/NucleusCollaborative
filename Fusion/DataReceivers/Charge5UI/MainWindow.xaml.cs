@@ -27,7 +27,7 @@ namespace Charge5UI
     {
         public InData ModelInData = new InData();
         public OutData ModelOutData = new OutData();
-        public static Client MainGate;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,9 +41,9 @@ namespace Charge5UI
             var descriptions = new List<string>();
             descriptions.Add("1 группа «Рядовые марки стали». Температура металла 1640 – 1660 0С.");
             descriptions.Add("2 группа «Автолистовая сталь». Температура металла 1640 – 1660 0С.");
-            descriptions.Add("3 группа Р≤0,030%, «Штрипсовый и судостроительный металл с обработкой на УПК или УДМ. Температура металла 1660 – 1680 0С.");
-            descriptions.Add("3 группа Р≤0,015%, «Штрипсовый и судостроительный металл с обработкой на УПК или УДМ. Температура металла 1660 – 1680 0С.");
-            descriptions.Add("4 группа Р≤0,015%, «Штрипсовый и судостроительный металл с вакуумированием. Температура металла 1660 – 1680 0С.");
+            descriptions.Add("3 группа Р≤0,030%, «Штрипсовый и судостроительный металл» с обработкой на УПК или УДМ. Температура металла 1660 – 1680 0С.");
+            descriptions.Add("3 группа Р≤0,015%, «Штрипсовый и судостроительный металл» с обработкой на УПК или УДМ. Температура металла 1660 – 1680 0С.");
+            descriptions.Add("4 группа Р≤0,015%, «Штрипсовый и судостроительный металл» с вакуумированием. Температура металла 1660 – 1680 0С.");
             descriptions.Add("5 группа «IF стали» с последующей обработкой на УВС. Температура металла 1700 – 1720 0С.");
             descriptions.Add("5 группа «IF стали» с обработкой на УПК и последующей обработкой на УВС. Температура металла 1650 – 1670 0С.");
             return descriptions;
@@ -71,7 +71,7 @@ namespace Charge5UI
             {
                 lblPreset.Content = "Загрузка пресета ...";
                 lblPreset.Background = new SolidColorBrush(Color.FromArgb(127, 0, 100, 50));
-                ReqPresetLoad(MainGate, (string)cbPreset.SelectedValue);
+                Requester.ReqPresetLoad(Requester.MainGate, (string)cbPreset.SelectedValue);
             }
             else
             {
@@ -128,7 +128,7 @@ namespace Charge5UI
 
                 ModelInData.IsProcessingUVS = (bool)chbUVS.IsChecked;
 
-                ReqCalc(MainGate, ModelInData);
+                Requester.ReqCalc(Requester.MainGate, ModelInData);
                 lblStatus.Content = "Запрос расчета ...";
                 lblStatus.Background = new SolidColorBrush(Color.FromArgb(127, 0, 0, 255));
             }
@@ -163,35 +163,10 @@ namespace Charge5UI
             lbSteelType.ItemsSource = GetSteelTypesData();
 
             var o = new HeatChangeEvent();
-            MainGate = new Client(new Listener());
-            MainGate.Subscribe();
+            Requester.MainGate = new Client(new Listener());
+            Requester.MainGate.Subscribe();
 
-            ReqPatternNames(MainGate);
-        }
-
-        public void ReqPatternNames(Client CoreGate)
-        {
-            var fex = new FlexHelper("UI.GetPatternNames");
-            fex.Fire(CoreGate);
-        }
-
-        public void ReqPresetLoad(Client CoreGate, string presetName)
-        {
-            var fex = new FlexHelper("UI.LoadPreset");
-            fex.AddArg("Name",presetName);
-            fex.Fire(CoreGate);
-        }
-
-        public void ReqCalc(Client CoreGate, InData modelInData)
-        {
-            var fex = new FlexHelper("UI.Calc");
-            fex.AddArg("SteelType", modelInData.SteelType);
-            fex.AddArg("MHi", modelInData.MHi);
-            fex.AddArg("MSc", modelInData.MSc);
-            fex.AddArg("SiHi", modelInData.SiHi);
-            fex.AddArg("THi", modelInData.THi);
-            fex.AddArg("IsProcessingUVS", modelInData.IsProcessingUVS);
-            fex.Fire(CoreGate);
+            Requester.ReqPatternNames(Requester.MainGate);
         }
 
         private void btnPresetEditor_Click(object sender, RoutedEventArgs e)

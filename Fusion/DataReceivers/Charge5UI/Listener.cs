@@ -45,6 +45,13 @@ namespace Charge5UI
                             {
                                 Pointer.PMainWindow.cbPreset.ItemsSource = patternList;
                             }));
+                            if (Pointer.PPresetEditor != null)
+                            {
+                                Pointer.PPresetEditor.Dispatcher.Invoke(new Action(delegate()
+                                {
+                                    Pointer.PPresetEditor.lstPatterns.ItemsSource = patternList;
+                                }));
+                            }
                         }
                         catch (Exception e)
                         {
