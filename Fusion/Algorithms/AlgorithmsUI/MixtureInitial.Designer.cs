@@ -574,7 +574,7 @@
             // 
             // panControl
             // 
-            this.panControl.BackColor = System.Drawing.Color.Thistle;
+            this.panControl.BackColor = System.Drawing.Color.CadetBlue;
             this.panControl.Controls.Add(this.btnCalculate);
             this.panControl.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panControl.Location = new System.Drawing.Point(0, 478);
