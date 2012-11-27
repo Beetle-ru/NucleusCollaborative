@@ -550,7 +550,20 @@ namespace Models
             #region Model loop
             ProcessQueueRequests();
             Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
-            mOutputData.Add(Data.Clock.Current.ActualTime, lLoopOutputData);
+            bool tryAgainLater = true;
+            do
+            {
+                var lKey = Clock.Current.ActualTime;
+                if (mOutputData.ContainsKey(lKey))
+                {
+                    System.Threading.Thread.Sleep(1);
+                }
+                else
+                {
+                    mOutputData.Add(lKey, lLoopOutputData);
+                    tryAgainLater = false;
+                }
+            } while (tryAgainLater);
             mStepsCount++;
             if (mRunningType != RunningType.RealTime) Data.Clock.Current.IncSimulationStep();
             #endregion
