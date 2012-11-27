@@ -30,6 +30,13 @@ namespace Charge5UI
             fex.Fire(CoreGate);
         }
 
+        static public void ReqGetPreset(Client CoreGate, string presetName)
+        {
+            var fex = new FlexHelper("UI.GetPreset");
+            fex.AddArg("Name", presetName);
+            fex.Fire(CoreGate);
+        }
+
         static public void ReqPatternNames(Client CoreGate)
         {
             var fex = new FlexHelper("UI.GetPatternNames");

@@ -8,7 +8,7 @@ using Implements;
 
 namespace Charge5Classes
 {
-    class CSVTP_FlexEventConverter
+    public class CSVTP_FlexEventConverter
     {
         public const string InitTblFlexName = "InitTbl";
         public static string AppName = Process.GetCurrentProcess().ProcessName;

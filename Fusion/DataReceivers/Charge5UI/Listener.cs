@@ -50,6 +50,7 @@ namespace Charge5UI
                                 Pointer.PPresetEditor.Dispatcher.Invoke(new Action(delegate()
                                 {
                                     Pointer.PPresetEditor.lstPatterns.ItemsSource = patternList;
+                                    Pointer.PPresetEditor.ConsolePush(fxe.ToString());
                                 }));
                             }
                         }
@@ -57,7 +58,7 @@ namespace Charge5UI
                         {
                             l.err("Charge5.PatternNames: \n{0}", e.ToString());
                         }
-                    }
+                    }   
 
                     if (fxe.Operation.StartsWith("Charge5.RespLoadPreset"))
                     {
@@ -118,9 +119,31 @@ namespace Charge5UI
                         }
                         catch (Exception e)
                         {
-                            l.err("Charge5.RespLoadPreset: \n{0}", e.ToString());
+                            l.err("Charge5.ResultCalc: \n{0}", e.ToString());
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("Charge5.Tables"))
+                    {
+                        l.msg(fxe.ToString());
+                        var patternList = new List<string>();
+                        try
+                        {
+                           if (Pointer.PPresetEditor != null)
+                            {
+                                Pointer.PPresetEditor.Dispatcher.Invoke(new Action(delegate()
+                                {
+                                    Pointer.PPresetEditor.ConsolePush(fxe.ToString());
+                                    Pointer.PPresetEditor.StatusChange("Получен патерн " + fxe.Operation.Split('.').Last());
+                                }));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("Charge5.PatternNames: \n{0}", e.ToString());
+                        }
+                    }
+
                 }
             }
         }

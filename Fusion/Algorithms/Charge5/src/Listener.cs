@@ -100,6 +100,25 @@ namespace Charge5
                             l.err("UI.Calc: \n{0}", e.ToString());
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("UI.GetPreset"))
+                    {
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            var name = (string) fxe.Arguments["Name"];
+                            Program.LoadTables(name, ref Program.InitTbl);
+                            CSVTP_FlexEventConverter.AppName = "Charge5";
+                            var flex = CSVTP_FlexEventConverter.PackToFlex(name, Program.InitTbl, Program.Tables);
+                            var fex = new FlexHelper(flex.Operation);
+                            fex.evt.Arguments = flex.Arguments;
+                            fex.Fire(Program.MainGate);
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("UI.GetPreset: \n{0}", e.ToString());
+                        }
+                    }
                 }
             }
         }
