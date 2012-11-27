@@ -44,7 +44,7 @@
         <Label Background="#C8FFF8F8" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="445,422,0,0" Name="lblMFom" Padding="5" VerticalAlignment="Top" Width="59" />
         <Label Content="Доломс" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="542,393,0,0" Name="label23" Padding="1" VerticalAlignment="Top" Width="77" />
         <Label Background="#C8FFF8F8" FontSize="20" Height="40" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="550,422,0,0" Name="lblMDlms" Padding="5" VerticalAlignment="Top" Width="59" />
-        <Button Content="Редактор пресетов" Height="63" Margin="413,160,6,0" Name="button1" VerticalAlignment="Top" IsEnabled="False" />
+        <Button Content="Редактор пресетов" Height="63" Margin="413,160,6,0" Name="btnPresetEditor" VerticalAlignment="Top" IsEnabled="True" Click="btnPresetEditor_Click" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="115,404,0,0" Name="rectangle7" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="217,404,0,0" Name="rectangle8" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="320,404,0,0" Name="rectangle9" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />

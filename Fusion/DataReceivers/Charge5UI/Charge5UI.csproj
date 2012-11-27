@@ -71,9 +71,16 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PresetEditor\PresetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pointer.cs" />
+    <Compile Include="PresetEditor\PresetEditor.xaml.cs">
+      <DependentUpon>PresetEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -127,6 +134,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Pulse3.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\g30719.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GBFocus.png" />
+    <Resource Include="Images\GBNormal.png" />
+    <Resource Include="Images\GBOn.png" />
+    <Resource Include="Images\GBPush.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GBDisable.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

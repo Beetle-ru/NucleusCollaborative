@@ -21,6 +21,7 @@ namespace Charge5UI.PresetEditor
         public PresetEditor()
         {
             InitializeComponent();
+            Pointer.PPresetEditor = this;
         }
     }
 }

@@ -193,6 +193,11 @@ namespace Charge5UI
             fex.AddArg("IsProcessingUVS", modelInData.IsProcessingUVS);
             fex.Fire(CoreGate);
         }
-        
+
+        private void btnPresetEditor_Click(object sender, RoutedEventArgs e)
+        {
+            var peDialog = new PresetEditor.PresetEditor();
+            peDialog.ShowDialog();
+        }
     }
 }
