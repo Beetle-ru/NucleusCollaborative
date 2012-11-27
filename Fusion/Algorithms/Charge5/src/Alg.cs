@@ -18,18 +18,22 @@ namespace Charge5
 
             foreach (var row in table.Rows)
             {
-                var hitDownSiHiRange = (double) (row.Cell["MinSiHotIron"]) > inData.SiHi;
-                var hitUpSiHiRange = (double)(row.Cell["MaxSiHotIron"]) <= inData.SiHi;
-                var hitDownTHiRange = (double)(row.Cell["MinTHotIron"]) > inData.THi;
-                var hitUpTHiRange = (double)(row.Cell["MaxTHotIron"]) <= inData.THi;
+                var hitDownSiHiRange = (double) (row.Cell["MinSiHotIron"]) <= inData.SiHi;
+                var hitUpSiHiRange = (double)(row.Cell["MaxSiHotIron"]) >= inData.SiHi;
+                var hitDownTHiRange = (double)(row.Cell["MinTHotIron"]) <= inData.THi;
+                var hitUpTHiRange = (double)(row.Cell["MaxTHotIron"]) >= inData.THi;
+                outData.IsFound = false;
 
                 if (hitDownSiHiRange && hitUpSiHiRange && hitDownTHiRange && hitUpTHiRange)
                 {
+                    outData.IsFound = true;
                     double knownTableVal = 1;
                     double unknownTableVal = 1;
+                    double knownVal = 1;
                     if (inData.MHi > 0)
                     {
                         outData.MHi = inData.MHi;
+                        knownVal = inData.MHi;
                         knownTableVal = (double) row.Cell["MassHotIron"];
                         if (inData.MSc > 0)
                         {
@@ -38,15 +42,16 @@ namespace Charge5
                         else
                         {
                             unknownTableVal = (double)row.Cell["MassScrap"];
-                            outData.MSc = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                            outData.MSc = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
                         }
                     } 
                     else if (inData.MSc > 0)
                     {
                         outData.MSc = inData.MSc;
+                        knownVal = inData.MSc;
                         knownTableVal = (double)row.Cell["MassScrap"];
                         unknownTableVal = (double)row.Cell["MassHotIron"];
-                        outData.MHi = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                        outData.MHi = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
                     }
                     else
                     {
@@ -54,20 +59,20 @@ namespace Charge5
                     }
 
                     unknownTableVal = (double)row.Cell["MassLime"];
-                    outData.MLi = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                    outData.MLi = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
 
                     unknownTableVal = inData.IsProcessingUVS
                                             ? (double)row.Cell["UVSMassDolom"]
                                             : (double)row.Cell["MassDolom"];
-                    outData.MDlm = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                    outData.MDlm = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
 
                     unknownTableVal = inData.IsProcessingUVS
                                             ? (double)row.Cell["UVSMassFOM"]
                                             : (double)row.Cell["MassFOM"];
-                    outData.MFom = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                    outData.MFom = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
 
                     unknownTableVal = (double)row.Cell["MassDolomS"];
-                    outData.MDlms = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                    outData.MDlms = (int)Math.Round(CalcUnknownVal(knownVal, knownTableVal, unknownTableVal));
 
                     // досчитываем по замечаниям
 
@@ -84,6 +89,10 @@ namespace Charge5
                         {
                             var k = 0.5;
                             outData.MDlms -= (int)Math.Round(scrapDifference*k);
+                            if (outData.MDlms < 0)
+                            {
+                                outData.MDlms = 0;
+                            }
                         }
                     }
                     //######################################################################

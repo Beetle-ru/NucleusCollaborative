@@ -24,6 +24,7 @@ namespace Charge5
 
             TablePaths = ScanStore(StorePath);
             Tables = LoadTables("default", ref InitTbl);
+            if (Tables == null) InstantLogger.err("default pattern not loaded");
             //SaveTables("new", InitTbl, Tables);
 
             //////////////////////////////////
