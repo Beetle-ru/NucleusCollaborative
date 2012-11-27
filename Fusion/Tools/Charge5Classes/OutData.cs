@@ -36,5 +36,10 @@ namespace Charge5Classes
         /// Масса долмс
         /// </summary>
         public int MDlms;
+
+        /// <summary>
+        /// Входные параметры были найдены в таблицах
+        /// </summary>
+        public bool IsFound;
     }
 }

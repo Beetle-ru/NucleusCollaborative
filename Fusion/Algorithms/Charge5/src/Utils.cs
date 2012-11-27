@@ -16,6 +16,23 @@ namespace Charge5
             return Directory.GetDirectories(StorePath).ToList();
         }
 
+        public static List<string> GetNamesFromAddress(List<string> paths)
+        {
+            var names = new List<string>();
+            foreach (var path in paths)
+            {
+                if (File.Exists(String.Format("{0}\\{1}", path, PIName)))
+                {
+                    var pathSplt = path.Split('\\');
+                    if (pathSplt.Any())
+                    {
+                        names.Add(pathSplt[pathSplt.Count() - 1]);
+                    }
+                }
+            }
+            return names;
+        }
+
         public static List<CSVTableParser> LoadTables(string name, ref CSVTableParser initbl)
         {
             var tables = new List<CSVTableParser>();
@@ -58,10 +75,17 @@ namespace Charge5
                         tb.Load();
                         tables[(int)row.Cell["Index"]] = tb;
                     }
-
                 }
+                
             }
-            return tables;
+            if (isFound)
+            {
+                return tables;
+            }
+            else
+            {
+                return null;
+            }
         }
 
 
