@@ -10,6 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Charge5Classes;
+using ConnectionProvider;
 using Implements;
 
 namespace Charge5UI.PatternEditor
@@ -21,9 +23,9 @@ namespace Charge5UI.PatternEditor
     {
         public List<TableData> DGTables;
         public const int CountTables = 7;
-        public CSVTableParser Inittbl;
+        public CSVTableParser InitTbl;
         public List<CSVTableParser> Tables;
-        public string PatternLoadedName;
+        public string PatternLoadedName = "";
         public PatternEditor()
         {
             InitializeComponent();
@@ -37,8 +39,8 @@ namespace Charge5UI.PatternEditor
         {
             Requester.ReqPatternNames(Requester.MainGate);
             ResetTables();
-            Inittbl = new CSVTableParser();
-            Charge5Classes.Descriptions.SetDescriptionPI(ref Inittbl);
+            InitTbl = new CSVTableParser();
+            Charge5Classes.Descriptions.SetDescriptionPI(ref InitTbl);
             Tables = new List<CSVTableParser>();
             for (int i = 0; i < CountTables; i++)
             {
@@ -129,8 +131,86 @@ namespace Charge5UI.PatternEditor
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-
+            string msg = String.Format("Сохранить изменения в паттерне \"{0}\"?", PatternLoadedName);
+            var res = MessageBox.Show(msg, "Подтверждение сохранения", MessageBoxButton.YesNo);
+            if (res == MessageBoxResult.Yes)
+            {
+                PatternSave();
+            }
         }
-    
+
+        private void PatternSave()
+        {
+            for (int i = 0; i < CountTables; i++)
+            {
+                Tables[i] = UpdateCsvtpFromTd(DGTables[i], Tables[i]);
+            }
+
+            CSVTP_FlexEventConverter.AppName = "UI";
+            var flex = CSVTP_FlexEventConverter.PackToFlex(PatternLoadedName, InitTbl, Tables);
+            ConsolePush("Паттерн запакован");
+            var fex = new FlexHelper(flex.Operation);
+            fex.evt.Arguments = flex.Arguments;
+            fex.Fire(Requester.MainGate);
+            StatusChange("Паттерн отправлен на сохранение...");
+        }
+
+        private CSVTableParser UpdateCsvtpFromTd(TableData tableData, CSVTableParser tableParser)
+        {
+            tableParser.Rows.RemoveRange(0, tableParser.Rows.Count);
+            for (int index = 0; index < tableData.Rows.Count; index++)
+            {
+                var row = tableData.Rows[index];
+                tableParser.Rows.Add(new Row());
+                tableParser.Rows[index].Cell["MassDolom"] = row.MassDolom;
+                tableParser.Rows[index].Cell["MassDolomS"] = row.MassDolomS;
+                tableParser.Rows[index].Cell["MassFOM"] = row.MassFOM;
+                tableParser.Rows[index].Cell["MassHotIron"] = row.MassHotIron;
+                tableParser.Rows[index].Cell["MassLime"] = row.MassLime;
+                tableParser.Rows[index].Cell["MassScrap"] = row.MassScrap;
+                tableParser.Rows[index].Cell["MaxSiHotIron"] = row.MaxSiHotIron;
+                tableParser.Rows[index].Cell["MaxTHotIron"] = row.MaxTHotIron;
+                tableParser.Rows[index].Cell["MinSiHotIron"] = row.MinSiHotIron;
+                tableParser.Rows[index].Cell["MinTHotIron"] = row.MinTHotIron;
+                tableParser.Rows[index].Cell["UVSMassDolom"] = row.UVSMassDolom;
+                tableParser.Rows[index].Cell["UVSMassFOM"] = row.UVSMassFOM;
+            }
+            return tableParser;
+        }
+
+        private void btnCreatePattern_Click(object sender, RoutedEventArgs e)
+        {
+            if (PatternLoadedName == "")
+            {
+                MessageBox.Show("Необходимо загрузить паттерн на основе которого будет создан новый паттерн.",
+                                "Предупреждение");
+            }
+            else
+            {
+                var createPatterDialog = new CreatePattern();
+                createPatterDialog.ShowDialog();
+            }
+        }
+
+        private void btnRemuvePattern_Click(object sender, RoutedEventArgs e)
+        {
+            if (lstPatterns.SelectedIndex >= 0)
+            {
+                var name = (string) lstPatterns.SelectedValue;
+                var msg = String.Format("Удалить паттерн \"{0}\"?", name);
+                var res = MessageBox.Show(msg, "Подтверждение удаления", MessageBoxButton.YesNo);
+                if (res == MessageBoxResult.Yes)
+                {
+                    Requester.ReqRemoovePattern(Requester.MainGate, name);
+                    StatusChange("Удаление паттерна...");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Необходимо выбрать паттерн для удаления.",
+                                "Предупреждение");
+            }
+            
+        }
     }
 }

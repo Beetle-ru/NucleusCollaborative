@@ -37,6 +37,13 @@ namespace Charge5UI
             fex.Fire(CoreGate);
         }
 
+        static public void ReqRemoovePattern(Client CoreGate, string PatternName)
+        {
+            var fex = new FlexHelper("UI.RemoovePattern");
+            fex.AddArg("Name", PatternName);
+            fex.Fire(CoreGate);
+        }
+
         static public void ReqPatternNames(Client CoreGate)
         {
             var fex = new FlexHelper("UI.GetNamePatterns");

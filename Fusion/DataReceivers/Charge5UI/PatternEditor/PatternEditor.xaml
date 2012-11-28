@@ -74,8 +74,8 @@
                     <Rectangle Height="414" HorizontalAlignment="Left" Margin="14,16,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Width="426" Fill="#7FFFECCE" />
                     <ListBox Height="300" HorizontalAlignment="Left" Margin="32,61,0,0" Name="lstPatterns" VerticalAlignment="Top" Width="390" Background="#AAFFFFFF" />
                     <Label Content="Выбор паттерна для редактирования" Height="34" HorizontalAlignment="Left" Margin="32,21,0,0" Name="label1" VerticalAlignment="Top" Width="388" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button HorizontalAlignment="Left" Margin="32,370,0,0" Name="btnCreatePattern" VerticalAlignment="Top"  Content="Создать" Style="{StaticResource GlassButton}" />
-                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="138,370,0,0" Name="btnRemuvePattern" Style="{StaticResource GlassButton}" VerticalAlignment="Top" IsEnabled="False" />
+                    <Button HorizontalAlignment="Left" Margin="32,370,0,0" Name="btnCreatePattern" VerticalAlignment="Top"  Content="Создать" Style="{StaticResource GlassButton}" Click="btnCreatePattern_Click" />
+                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="138,370,0,0" Name="btnRemuvePattern" Style="{StaticResource GlassButton}" VerticalAlignment="Top" IsEnabled="True" Click="btnRemuvePattern_Click" />
                     <Button Content="Загр." HorizontalAlignment="Left" Margin="266,370,0,0" Name="btnLoad" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" Click="btnLoad_Click" />
                     <Button Content="Сохр." HorizontalAlignment="Left" IsEnabled="False" Margin="347,370,0,0" Name="btnSave" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
                     <Rectangle Fill="#7FCED6FF" Margin="446,89,6,16" Name="rectangle9" Stroke="Black" Height="341" />

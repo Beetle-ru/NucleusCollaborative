@@ -104,6 +104,13 @@ namespace Charge5
             inittbl.Separator = Separator;
             inittbl.Save();
         }
+
+        public static void RemooveTables(string name)
+        {
+            if (name == "default") throw new Exception("Remoove \"default\" aborted");
+            var currentPathName = StorePath + "\\" + name;
+            Directory.Delete(currentPathName, true);
+        }
         
     }
 }

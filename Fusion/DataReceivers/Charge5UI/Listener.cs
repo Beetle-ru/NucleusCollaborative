@@ -137,7 +137,7 @@ namespace Charge5UI
                                     Pointer.PPatternEditor.StatusChange("Получен паттерн " + fxe.Operation.Split('.').Last());
                                     Charge5Classes.CSVTP_FlexEventConverter.UnpackFromFlex(
                                         fxe, 
-                                        ref Pointer.PPatternEditor.Inittbl, 
+                                        ref Pointer.PPatternEditor.InitTbl, 
                                         ref Pointer.PPatternEditor.Tables, 
                                         ref Pointer.PPatternEditor.PatternLoadedName
                                         );
@@ -145,6 +145,70 @@ namespace Charge5UI
                                     Pointer.PPatternEditor.DisplayPattern();
                                     Pointer.PPatternEditor.ConsolePush("Паттерн визуализирован");
                                     Pointer.PPatternEditor.btnSave.IsEnabled = true;
+                                }));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("Charge5.PatternNames: \n{0}", e.ToString());
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("Charge5.SavePatternResp"))
+                    {
+                        l.msg(fxe.ToString());
+                        var patternList = new List<string>();
+                        try
+                        {
+                            if (Pointer.PPatternEditor != null)
+                            {
+                                Pointer.PPatternEditor.Dispatcher.Invoke(new Action(delegate()
+                                {
+                                    Pointer.PPatternEditor.ConsolePush(fxe.ToString());
+                                    if ((bool)fxe.Arguments["Saved"])
+                                    {
+                                        Pointer.PPatternEditor.StatusChange("Паттер успешно сохранен");
+                                        Requester.ReqPatternNames(Requester.MainGate);
+                                        Pointer.PPatternEditor.ConsolePush("Обновление списка паттернов...");
+                                    }
+                                    else
+                                    {
+                                        Pointer.PPatternEditor.StatusChange("Ошбка сохранения паттерна");
+                                        Requester.ReqPatternNames(Requester.MainGate);
+                                        Pointer.PPatternEditor.ConsolePush("Обновление списка паттернов...");
+                                    }
+                                }));
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("Charge5.PatternNames: \n{0}", e.ToString());
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("Charge5.RemoovePatternResp"))
+                    {
+                        l.msg(fxe.ToString());
+                        var patternList = new List<string>();
+                        try
+                        {
+                            if (Pointer.PPatternEditor != null)
+                            {
+                                Pointer.PPatternEditor.Dispatcher.Invoke(new Action(delegate()
+                                {
+                                    Pointer.PPatternEditor.ConsolePush(fxe.ToString());
+                                    if ((bool)fxe.Arguments["Remooved"])
+                                    {
+                                        Pointer.PPatternEditor.StatusChange("Паттер успешно удален");
+                                        Requester.ReqPatternNames(Requester.MainGate);
+                                        Pointer.PPatternEditor.ConsolePush("Обновление списка паттернов...");
+                                    }
+                                    else
+                                    {
+                                        Pointer.PPatternEditor.StatusChange("Ошбка удаления паттерна");
+                                        Requester.ReqPatternNames(Requester.MainGate);
+                                        Pointer.PPatternEditor.ConsolePush("Обновление списка паттернов...");
+                                    }
                                 }));
                             }
                         }

@@ -119,6 +119,47 @@ namespace Charge5
                             l.err("UI.GetPattern: \n{0}", e.ToString());
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("UI.Tables"))
+                    {
+                        var fex = new FlexHelper("Charge5.SavePatternResp");
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            var patternName = "";
+                            Charge5Classes.CSVTP_FlexEventConverter.UnpackFromFlex(
+                                        fxe,
+                                        ref Program.InitTbl,
+                                        ref Program.Tables,
+                                        ref patternName
+                                        );
+                            Program.SaveTables(patternName, Program.InitTbl, Program.Tables);
+                            fex.AddArg("Saved", true);
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("UI.GetPattern: \n{0}", e.ToString());
+                            fex.AddArg("Saved", false);
+                        }
+                        fex.Fire(Program.MainGate);
+                    }
+
+                    if (fxe.Operation.StartsWith("UI.RemoovePattern"))
+                    {
+                        var fex = new FlexHelper("Charge5.RemoovePatternResp");
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            Program.RemooveTables((string)fxe.Arguments["Name"]);
+                            fex.AddArg("Remooved", true);
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("UI.RemoovePattern: \n{0}", e.ToString());
+                            fex.AddArg("Remooved", false);
+                        }
+                        fex.Fire(Program.MainGate);
+                    }
                 }
             }
         }

@@ -58,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PatternEditor\CreatePattern.xaml.cs">
+      <DependentUpon>CreatePattern.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PatternEditor\TableData.cs" />
     <Compile Include="Requester.cs" />
     <Page Include="MainWindow.xaml">
@@ -73,6 +76,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PatternEditor\CreatePattern.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PatternEditor\PatternEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +155,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\GBDisable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\u7800_5978_4577_5.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
