@@ -1,13 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using ConnectionProvider;
-using Converter;
 using Implements;
-using System.IO;
 
-namespace Charge5
+namespace Charge5Classes
 {
-    internal partial class Program
+    public class Descriptions
     {
         public static void SetDescriptionPI(ref CSVTableParser table)
         {

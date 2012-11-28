@@ -57,7 +57,7 @@ namespace Charge5
                             isFound = true;
                             initbl.FileName = pathInit;
                             initbl.Separator = Separator;
-                            SetDescriptionPI(ref initbl);
+                            Charge5Classes.Descriptions.SetDescriptionPI(ref initbl);
                             initbl.Load();
                         }
                     }
@@ -71,7 +71,7 @@ namespace Charge5
                             FileName = String.Format("{0}\\{1}.csv", tablePath, row.Cell["TableName"]),
                             Separator = Separator
                         };
-                        SetDescriptionTBL(ref tb);
+                        Charge5Classes.Descriptions.SetDescriptionTBL(ref tb);
                         tb.Load();
                         tables[(int)row.Cell["Index"]] = tb;
                     }

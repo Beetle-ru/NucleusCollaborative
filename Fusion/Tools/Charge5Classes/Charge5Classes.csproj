@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CSVTP_FlexEventConverter.cs" />
+    <Compile Include="Descriptions.cs" />
     <Compile Include="InData.cs" />
     <Compile Include="OutData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

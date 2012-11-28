@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Alg.cs" />
-    <Compile Include="src\Descriptions.cs" />
     <Compile Include="src\Init.cs" />
     <Compile Include="src\Listener.cs" />
     <Compile Include="src\Members.cs" />

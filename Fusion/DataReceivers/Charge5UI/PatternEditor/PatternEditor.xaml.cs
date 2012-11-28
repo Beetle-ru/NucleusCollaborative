@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Implements;
 
 namespace Charge5UI.PatternEditor
 {
@@ -20,6 +21,8 @@ namespace Charge5UI.PatternEditor
     {
         public List<TableData> DGTables;
         public const int CountTables = 7;
+        public CSVTableParser Inittbl;
+        public List<CSVTableParser> Tables;
         public PatternEditor()
         {
             InitializeComponent();
@@ -33,6 +36,8 @@ namespace Charge5UI.PatternEditor
         {
             Requester.ReqPatternNames(Requester.MainGate);
             ResetTables();
+            Inittbl = new CSVTableParser();
+            Tables = new List<CSVTableParser>();
         }
         public void ResetTables()
         {
