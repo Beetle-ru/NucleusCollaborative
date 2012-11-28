@@ -77,9 +77,9 @@
                     <Button HorizontalAlignment="Left" Margin="32,370,0,0" Name="btnCreatePattern" VerticalAlignment="Top"  Content="Создать" Style="{StaticResource GlassButton}" />
                     <Button Content="Удалить" HorizontalAlignment="Left" Margin="138,370,0,0" Name="btnRemuvePattern" Style="{StaticResource GlassButton}" VerticalAlignment="Top" IsEnabled="False" />
                     <Button Content="Загр." HorizontalAlignment="Left" Margin="266,370,0,0" Name="btnLoad" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" Click="btnLoad_Click" />
-                    <Button Content="Сохр." HorizontalAlignment="Left" IsEnabled="False" Margin="347,370,0,0" Name="btnSave" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Сохр." HorizontalAlignment="Left" IsEnabled="False" Margin="347,370,0,0" Name="btnSave" Style="{StaticResource GlassButton}" VerticalAlignment="Top" Width="75" Click="btnSave_Click" />
                     <Rectangle Fill="#7FCED6FF" Margin="446,89,6,16" Name="rectangle9" Stroke="Black" Height="341" />
-                    <Rectangle Fill="#7F5ABE90" Height="67" Margin="446,16,6,364" Name="rectangle10" Stroke="Black" />
+                    <Rectangle Fill="#7F23F594" Height="67" Margin="446,16,6,364" Name="rectangle10" Stroke="Black" />
                     <Label Content="Редактор паттернов загружен" Height="34" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="446,32,0,0" Name="lblStatus" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="515" />
                     
                     <TextBox Height="321" HorizontalAlignment="Left" Margin="456,99,0,0" Name="tbConsole" VerticalAlignment="Top" Width="497" VerticalScrollBarVisibility="Visible" Focusable="False" ForceCursor="True" Background="#C8000000" Foreground="#FFCECECE" FontSize="11" />
@@ -115,14 +115,14 @@
             </TabItem>
             <TabItem Header="Таблица 5" Name="tabTable4">
                 <Grid>
-                    <DataGrid AutoGenerateColumns="True" Margin="10,43,6,6" Name="dgTable5" Width="957" Height="397" Background="#C8FFFFFF" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <DataGrid AutoGenerateColumns="True" Margin="6,43,6,6" Name="dgTable5" Width="957" Height="397" Background="#C8FFFFFF" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     <Rectangle Margin="10,7,5,0" Name="rectangle6" Stroke="Black" Height="32" VerticalAlignment="Top" Fill="#7FFFECCE" />
                     <Label Content="4 группа Р≤0,015%. «Штрипсовый и судостроительный металл» Температура металла 1660 – 1680 0С." Height="33" Margin="10,6,4,0" Name="label6" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 </Grid>
             </TabItem>
             <TabItem Header="Таблица 6" Name="tabTable5">
                 <Grid>
-                    <DataGrid AutoGenerateColumns="True" Margin="6,43,4,6" Name="dgTable6" Width="957" Height="397" Background="#C8FFFFFF" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <DataGrid AutoGenerateColumns="True" Margin="6,43,6,6" Name="dgTable6" Width="957" Height="397" Background="#C8FFFFFF" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     <Rectangle Margin="10,7,5,0" Name="rectangle7" Stroke="Black" Height="32" VerticalAlignment="Top" Fill="#7FFFECCE" />
                     <Label Content="5 группа «IF стали». Температура металла 1700 – 1720 0С." Height="33" Margin="10,6,4,0" Name="label7" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
                 </Grid>

@@ -23,6 +23,7 @@ namespace Charge5UI.PatternEditor
         public const int CountTables = 7;
         public CSVTableParser Inittbl;
         public List<CSVTableParser> Tables;
+        public string PatternLoadedName;
         public PatternEditor()
         {
             InitializeComponent();
@@ -37,8 +38,16 @@ namespace Charge5UI.PatternEditor
             Requester.ReqPatternNames(Requester.MainGate);
             ResetTables();
             Inittbl = new CSVTableParser();
+            Charge5Classes.Descriptions.SetDescriptionPI(ref Inittbl);
             Tables = new List<CSVTableParser>();
+            for (int i = 0; i < CountTables; i++)
+            {
+                var t = new CSVTableParser();
+                Charge5Classes.Descriptions.SetDescriptionTBL(ref t);
+                Tables.Add(t);
+            }
         }
+
         public void ResetTables()
         {
             DGTables = new List<TableData>();
@@ -83,6 +92,44 @@ namespace Charge5UI.PatternEditor
         {
             lblStatus.Content = message;
             ConsolePush(message);
+        }
+
+        public void DisplayPattern()
+        {
+            for (int index = 0; index < Tables.Count; index++)
+            {
+                DGTables[index] = CsvtpToTD(Tables[index]);
+            }
+            SetGridsData();
+        }
+
+        private TableData CsvtpToTD(CSVTableParser table)
+        {
+            var tableOut = new TableData();
+            foreach (var row in table.Rows)
+            {
+                tableOut.Rows.Add(new TableRow()
+                {
+                    MassDolom = (double)row.Cell["MassDolom"],
+                    MassDolomS = (double)row.Cell["MassDolomS"],
+                    MassFOM = (double)row.Cell["MassFOM"],
+                    MassHotIron = (double)row.Cell["MassHotIron"],
+                    MassLime = (double)row.Cell["MassLime"],
+                    MassScrap = (double)row.Cell["MassScrap"],
+                    MaxSiHotIron = (double)row.Cell["MaxSiHotIron"],
+                    MaxTHotIron = (double)row.Cell["MaxTHotIron"],
+                    MinSiHotIron = (double)row.Cell["MinSiHotIron"],
+                    MinTHotIron = (double)row.Cell["MinTHotIron"],
+                    UVSMassDolom = (double)row.Cell["UVSMassDolom"],
+                    UVSMassFOM = (double)row.Cell["UVSMassFOM"]
+                });
+            }
+            return tableOut;
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     
     }

@@ -135,6 +135,16 @@ namespace Charge5UI
                                 {
                                     Pointer.PPatternEditor.ConsolePush(fxe.ToString());
                                     Pointer.PPatternEditor.StatusChange("Получен паттерн " + fxe.Operation.Split('.').Last());
+                                    Charge5Classes.CSVTP_FlexEventConverter.UnpackFromFlex(
+                                        fxe, 
+                                        ref Pointer.PPatternEditor.Inittbl, 
+                                        ref Pointer.PPatternEditor.Tables, 
+                                        ref Pointer.PPatternEditor.PatternLoadedName
+                                        );
+                                    Pointer.PPatternEditor.ConsolePush("Паттерн распакован");
+                                    Pointer.PPatternEditor.DisplayPattern();
+                                    Pointer.PPatternEditor.ConsolePush("Паттерн визуализирован");
+                                    Pointer.PPatternEditor.btnSave.IsEnabled = true;
                                 }));
                             }
                         }
