@@ -46,12 +46,21 @@ namespace ConverterHeatProcessorEngine
 
                     int cs = LanceCurrentStep();
 
-                    InstantLogger.log(
-                                "step - " + m_oxigenCurrentStep.ToString() + " frame - " +
-                                m_lanceCurrentFrame.ToString() +
-                                " m_oxigenCurrent  - " + m_oxigenCurrent.ToString() + " o2 - " +
-                                SmPattern.steps[m_oxigenCurrentStep].O2Volume.ToString(), "Processing",
-                                InstantLogger.TypeMessage.unimportant);
+                    var messag = String.Format("steep-{0} frame-{1} O2Current-{2} O2-{3} heigth-{4} flow-{5}",
+                        m_oxigenCurrentStep,
+                        m_lanceCurrentFrame,
+                        m_oxigenCurrent,
+                        SmPattern.steps[m_oxigenCurrentStep].O2Volume,
+                        SmPattern.steps[m_oxigenCurrentStep].lance.LancePositin,
+                        SmPattern.steps[m_oxigenCurrentStep].lance.O2Flow
+                        );
+                    InstantLogger.log(messag, "Processing", InstantLogger.TypeMessage.unimportant);
+                    //InstantLogger.log(
+                    //            "step-" + m_oxigenCurrentStep.ToString() + " frame-" +
+                    //            m_lanceCurrentFrame.ToString() +
+                    //            " m_oxigenCurrent -" + m_oxigenCurrent.ToString() + " o2-" +
+                    //            SmPattern.steps[m_oxigenCurrentStep].O2Volume.ToString(), "Processing",
+                    //            InstantLogger.TypeMessage.unimportant);
 
                     if (m_oxigenCurrentStep != cs)
                     {
