@@ -33,7 +33,7 @@ namespace SublanceGenerator
         }
         public void OnEvent(BaseEvent evt)
         {
-            using (var l = new Logger("FlexEventSaver"))
+            using (var l = new Logger("SublanceGenerator Listener"))
             {
                 if (evt is LanceEvent)
                 {
@@ -70,6 +70,7 @@ namespace SublanceGenerator
                     {
                         //Console.WriteLine("Ck = " + Iterator.Ck);
                         Iterator.Ck = cce.CarbonePercent;
+                        Iterator.Iterate(); ///!!!
                     }
 
                 }

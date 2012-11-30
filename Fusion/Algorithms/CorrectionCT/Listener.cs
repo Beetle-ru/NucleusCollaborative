@@ -39,6 +39,11 @@ namespace CorrectionCT
                 if (evt is SublanceTemperatureEvent)
                 {
                     var ste = evt as SublanceTemperatureEvent;
+
+                    Program.WaitSublanceData.Enabled = false;
+                    Program.Data.CurrentC = Program.FixedCalcCarbone;
+                    l.msg("Calc carbone = {0}", Program.FixedCalcCarbone);
+
                     const int maxT = 1770;
                     const int minT = 1550;
                     if ((ste.SublanceTemperature < maxT) && (ste.SublanceTemperature > minT))
@@ -56,8 +61,8 @@ namespace CorrectionCT
                 if (evt is SublanceCEvent)
                 {
                     var sce = evt as SublanceCEvent;
-                    Program.WaitSublanceData.Enabled = false;
-                    Program.Data.CurrentC = sce.C;
+                    //Program.WaitSublanceData.Enabled = false;
+                    //Program.Data.CurrentC = sce.C;
                     l.msg("sce.C = " + sce.C);
                     Program.Iterator();
                 }
@@ -94,6 +99,16 @@ namespace CorrectionCT
                 {
                     var mle = evt as ModeLanceEvent;
                     Program.LanceMode = mle.LanceMode;
+                }
+                if (evt is CalculatedCarboneEvent)
+                {
+                    var cce = evt as CalculatedCarboneEvent;
+                    Program.CurrentCalcCarbone = cce.CarbonePercent;
+
+                }
+                if (evt is FixDataMfactorModelEvent)
+                {
+                    Program.FixedCalcCarbone = Program.CurrentCalcCarbone;
                 }
                 if (evt is FlexEvent)
                 {

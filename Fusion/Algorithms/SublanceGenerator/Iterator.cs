@@ -104,7 +104,7 @@ namespace SublanceGenerator
         }
         private static bool VerificateK(double targetCk, double targetCku, double ck)
         {
-            return ((targetCk < ck) && (ck < (targetCk + targetCku))); // recommend metering
+            return ((targetCk <= ck) && (ck <= (targetCk + targetCku))); // recommend metering
         }
         private static double OxygenStartValue(double hotMetallMass, int transformValue)
         {
@@ -112,7 +112,8 @@ namespace SublanceGenerator
         }
         private static Guid SIdGen()
         {
-            return Guid.NewGuid();
+            //return Guid.NewGuid();
+            return new Guid();
         }
         public static void BeginMetering()
         {

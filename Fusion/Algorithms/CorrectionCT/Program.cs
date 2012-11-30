@@ -17,6 +17,8 @@ namespace CorrectionCT
         public static char Separator;
         public static ConnectionProvider.Client MainGate;
         public static Estimates Data;
+        public static double CurrentCalcCarbone;
+        public static double FixedCalcCarbone;
         public static bool IsFiered;
         public static Guid SidB;
         public static bool AutomaticStop;
@@ -73,7 +75,8 @@ namespace CorrectionCT
         {
             Data = new Estimates();
             IsFiered = false;
-            SidB = Guid.NewGuid();
+            //SidB = Guid.NewGuid();
+            SidB = new Guid();
             AutomaticStop = false;
             CurrentOxygen = 0;
             CorrectionOxyT = 0;
@@ -159,7 +162,11 @@ namespace CorrectionCT
             CorrectionOxyT = CalcT(MatrixT, Data);
             //CorrectionOxyC = CalcC(MatrixC, Data);
             CorrectionOxyC = -1; // != 0
-            EndBlowingOxygen = CorrectionOxyT; // додувать по температуре
+            //EndBlowingOxygen = CorrectionOxyT; // додувать по температуре
+            if (IsFiered)
+            {
+                InstantLogger.msg("End blowing oxygen: {0} || Current Oxygen: {1} || End: {2}", EndBlowingOxygen, CurrentOxygen, ((int)(EndBlowingOxygen - CurrentOxygen)).ToString());
+            }
             if (CorrectionOxyT != 0)
             {
                 Console.WriteLine("CorrectionOxyT = " + CorrectionOxyT);
@@ -184,6 +191,10 @@ namespace CorrectionCT
                 IsFiered = true;
 
                 InstantLogger.msg(fex.evt.ToString());
+
+                EndBlowingOxygen = CorrectionOxyT + CurrentOxygen; // додувать по температуре
+
+                InstantLogger.msg("End blowing oxygen {0}", EndBlowingOxygen);
             }
             if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop)
             {
