@@ -40,9 +40,8 @@ namespace CorrectionCT
                 {
                     var ste = evt as SublanceTemperatureEvent;
 
-                    Program.WaitSublanceData.Enabled = false;
-                    Program.Data.CurrentC = Program.FixedCalcCarbone;
-                    l.msg("Calc carbone = {0}", Program.FixedCalcCarbone);
+                    //Program.WaitSublanceData.Enabled = false;
+                    
 
                     const int maxT = 1770;
                     const int minT = 1550;
@@ -50,6 +49,10 @@ namespace CorrectionCT
                     {
                         Program.WaitSublanceData.Enabled = false;
                         Program.Data.CurrentT = ste.SublanceTemperature;
+
+                        Program.Data.CurrentC = Program.FixedCalcCarbone;
+                        l.msg("Calc carbone = {0}", Program.FixedCalcCarbone);
+
                         l.msg("SublanceTemperature = " + ste.SublanceTemperature);
                         Program.Iterator();
                     }
