@@ -16,10 +16,12 @@ namespace CPlusProcessor
     {
 
         public Int64 CHeatNumber;
+        public int LanceHeithPrevious;
+        
 
         public Listener()
         {
-            InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
+            InstantLogger.log("Listener", "Started\n", InstantLogger.TypeMessage.important);
         }
         public Int64 HeatNumberToShort(Int64 heatNLong)
         {
@@ -36,33 +38,46 @@ namespace CPlusProcessor
         }
         public void OnEvent(BaseEvent evt)
         {
-            using (var l = new Logger("SublanceGenerator Listener"))
+            using (var l = new Logger("Listener"))
             {
                 if (evt is LanceEvent)
                 {
                     var le = evt as LanceEvent;
+                    Iterator.HDSmoother.Oxygen.Add(le.O2TotalVol);
+                    Iterator.HDSmoother.LanceHeigth.Add(le.LanceHeight);
+                    Iterator.HDSmoother.LanceHeigthPrevious.Add(LanceHeithPrevious);
+                    LanceHeithPrevious = le.LanceHeight;
                 }
                 if (evt is OffGasAnalysisEvent)
                 {
                     var ogae = evt as OffGasAnalysisEvent;
+                    Iterator.HDSmoother.CO.Add(ogae.CO);
+                    Iterator.HDSmoother.CO2.Add(ogae.CO2);
                 }
                 if (evt is HeatChangeEvent)
                 {
                     var hce = evt as HeatChangeEvent;
                     if (CHeatNumber != hce.HeatNumber)
                     {
-                        l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
+                        l.msg("Heat Changed. New Heat ID: {0}\n", hce.HeatNumber);
                         CHeatNumber = hce.HeatNumber;
+                        Iterator.Reset();
+                        Iterator.CurrentState.HeatNumber = hce.HeatNumber;
                     }
                     else
                     {
-                        l.msg("Heat No Changed. Heat ID: {0}", hce.HeatNumber);
+                        l.msg("Heat No Changed. Heat ID: {0}\n", hce.HeatNumber);
                     }
-
+                }
+                if (evt is visSpectrluksEvent) // углерод со спектролюкса
+                {
+                    var vse = evt as visSpectrluksEvent;
+                    Iterator.AddCarbonToQueue(HeatNumberToShort(vse.HeatNumber), vse.C);
                 }
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
+                    
                 }
             }
         }

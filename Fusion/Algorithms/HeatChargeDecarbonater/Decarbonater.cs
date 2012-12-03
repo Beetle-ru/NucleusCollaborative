@@ -84,7 +84,7 @@ namespace HeatCharge
             for (int item = 0; item < lenghtData; item++)
             {
                 inVector[item, 0] = matrixStateData[item].TimeFromX;                   // X1
-                inVector[item, 1] = matrixStateData[item].CarbonMonoxideIVP;           // X2
+                inVector[item, 1] = matrixStateData[item].CarbonOxideIVP;           // X2
                 inVector[item, 2] = matrixStateData[item].SteelCarbonPercent;          // Y
             }
 
@@ -100,7 +100,7 @@ namespace HeatCharge
             }
             double calculatedCarbon = coefficcients[2];
             calculatedCarbon += coefficcients[0] * currentStateData.TimeFromX;
-            calculatedCarbon += coefficcients[1] * currentStateData.CarbonMonoxideIVP;
+            calculatedCarbon += coefficcients[1] * currentStateData.CarbonOxideIVP;
 
             return calculatedCarbon;
         }
@@ -186,7 +186,7 @@ namespace HeatCharge
     public class MFCPData // multi factor carbon plus data
     {
         public Int32 TimeFromX { set; get; }             // X1
-        public double CarbonMonoxideIVP { set; get; }    // X2
+        public double CarbonOxideIVP { set; get; }    // X2
         public double SteelCarbonPercent { set; get; }   // Y
 
         public Int64 HeatNumber { set; get; }
