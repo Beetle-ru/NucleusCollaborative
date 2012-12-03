@@ -184,7 +184,7 @@ namespace CorrectionCT
                 fex.AddArg("TargetC", Data.TargetC); // double
                 fex.AddArg("CurrentT", Data.CurrentT); // int
                 fex.AddArg("TargetT", Data.TargetT); // int
-                fex.AddArg("Sid", SidB); // Guid
+                fex.AddArg("SId", SidB); // Guid
 
                 fex.Fire(Program.MainGate);
                

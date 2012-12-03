@@ -146,8 +146,8 @@ namespace CorrectionCT
                         l.msg(fxe.ToString());
                         try
                         {
-                            if (Program.SidB == (Guid)fxe.Arguments[key])
-                            {
+                            //if (Program.SidB == (Guid)fxe.Arguments[key])
+                            //{
                                 key = "AutomaticStop";
                                 Program.AutomaticStop = (bool) fxe.Arguments[key];
 
@@ -163,7 +163,7 @@ namespace CorrectionCT
 
                                 //key = "EndBlowingOxygen";
                                 //Program.EndBlowingOxygen = (int) fxe.Arguments[key];
-                            }
+                            //}
                         }
                         catch (Exception e)
                         {
