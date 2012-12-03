@@ -9,6 +9,9 @@ using ConnectionProvider;
 using Converter;
 using Implements;
 
+
+
+
 namespace CSVArchPlayer
 {
     class Program
@@ -21,6 +24,9 @@ namespace CSVArchPlayer
         private static double m_totalO2;
         private static bool m_vPathIsOutput;
         private static VPathData m_vPathDataLast;
+        private static Int64 m_heatNumber;
+        private static bool m_sublanceCIsPushed;
+       
 
         static void Main(string[] args)
         {
@@ -29,10 +35,22 @@ namespace CSVArchPlayer
             {
                 Console.WriteLine("ok");
                 HDataList = LoadHd(sttngs.File.ElementAt(0).Value);
+                var filePathSplt = sttngs.File.ElementAt(0).Value.Split('\\');
+                m_heatNumber = ReadHeatNumber(filePathSplt[filePathSplt.Count() - 1]);
+
+                Console.WriteLine("HeatNumber -- {0}", m_heatNumber);
+                
+                
+
                 if (HDataList != null)
                 {
                     m_position = 0;
                     MainGate = new Client();
+
+                    System.Threading.Thread.Sleep(6000); // Ждем открытия ворот
+
+                    MainGate.PushEvent(new HeatChangeEvent() { HeatNumber = m_heatNumber });
+
                     m_vPathDataLast = new VPathData();
                     m_timer = new Timer(1000);
                     m_timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
@@ -62,8 +80,9 @@ namespace CSVArchPlayer
             if (m_vPathIsOutput)
             {
                 Console.WriteLine(
-                    "{0:000} | {1:0000.0} | {2:00.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} " +
-                    "| {8:0000} | {9:0000} | {10:0000} | {11:0000} | {12:0000} | {13:0000} | {14:0000} | {15:0000}",
+                    "{0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0} " +
+                    "| {9:0000} | {10:0000} | {11:0000} | {12:0000} | {13:0000} | {14:0000} | {15:0000} | {16:0000}",
+                    m_totalO2,
                     HDataList[m_position].HeightLance,
                     HDataList[m_position].RateO2,
                     HDataList[m_position].H2,
@@ -86,7 +105,8 @@ namespace CSVArchPlayer
             else
             {
                 Console.WriteLine(
-                    "{0:000} | {1:0000.0} | {2:00.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0}",
+                    "{0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0}",
+                    m_totalO2,
                     HDataList[m_position].HeightLance,
                     HDataList[m_position].RateO2,
                     HDataList[m_position].H2,
@@ -100,7 +120,6 @@ namespace CSVArchPlayer
             var le = new LanceEvent();
             le.LanceHeight = HDataList[m_position].HeightLance;
             le.O2Flow = HDataList[m_position].RateO2;
-            m_totalO2 += HDataList[m_position].RateO2/60;
             le.O2TotalVol = (int)m_totalO2;
 
             var offGA = new OffGasAnalysisEvent();
@@ -127,21 +146,68 @@ namespace CSVArchPlayer
             vate.RB11TotalWeight = HDataList[m_position].Bunkers.RB11;
             vate.RB12TotalWeight = HDataList[m_position].Bunkers.RB12;
 
+            if ((HDataList[m_position].SublanceC > 0) && !m_sublanceCIsPushed)
+            {
+                Int64 reminder = 0;
+                Int64 res = Math.DivRem(m_heatNumber, 10000, out reminder);
+                Int64 longHN = res * 100000 + reminder;
+                MainGate.PushEvent(new visSpectrluksEvent() { C = HDataList[m_position].SublanceC, HeatNumber = longHN});
+                MainGate.PushEvent(new SublanceCEvent() { C = HDataList[m_position].SublanceC });
+                m_sublanceCIsPushed = true;
+                Console.WriteLine("Carbone pushed C = {0}", HDataList[m_position].SublanceC);
+            }
+
             MainGate.PushEvent(le);
             MainGate.PushEvent(offGA);
             MainGate.PushEvent(offG);
             MainGate.PushEvent(bE);
+
+            m_totalO2 += HDataList[m_position].RateO2 * 0.01666666666666666666666666666667;
+
             if (m_vPathIsOutput) MainGate.PushEvent(vate);
 
-            if (m_position < HDataList.Count)
+            //Console.WriteLine("m_position -- {0}; HDataList.Count -- {1}", m_position, HDataList.Count);
+            if (m_position < HDataList.Count - 1)
             {
                 m_position++;
             }
             else
             {
+                Console.WriteLine("Exit 0");
+                System.Environment.Exit(0);
                 m_timer.Enabled = false;
             }
         }
+        private static Int64 ReadHeatNumber(string fileName)
+        {
+            Int64 res = 0;
+            var splitedFN = fileName.Split('[');
+            if (splitedFN.Any())
+            {
+                var endFN = splitedFN[splitedFN.Count() - 1].Split(']');
+                if (endFN.Any())
+                {
+                    try
+                    {
+                        res = Int64.Parse(endFN[0]);
+                    }
+                    catch (Exception)
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+            return res;
+        }
+
         private static List<HeatData> LoadHd(string fileName)
         {
             var heatDataList = new List<HeatData>();
@@ -174,6 +240,7 @@ namespace CSVArchPlayer
                     heatDataList[itemCounter].N2 = Convertion.StrToDouble(values[7]);
                     heatDataList[itemCounter].Ar = Convertion.StrToDouble(values[8]);
                     heatDataList[itemCounter].VOffGas = Convertion.StrToDouble(values[9]);
+                    heatDataList[itemCounter].SublanceC = Convertion.StrToDouble(values[12]);
                     if (values.Count() >= 28)
                     {
                         heatDataList[itemCounter].Bunkers.RB5 = Convertion.StrToDouble(values[21]);

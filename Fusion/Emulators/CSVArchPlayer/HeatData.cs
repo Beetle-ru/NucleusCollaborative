@@ -17,6 +17,7 @@ namespace CSVArchPlayer
         public double N2;
         public double Ar;
         public double VOffGas;
+        public double SublanceC;
         public VPathData Bunkers = new VPathData();
     }
 }
