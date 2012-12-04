@@ -20,7 +20,7 @@ namespace CPlusProcessor
         public static Timer IterateTimer = new Timer(IntervalSec * 1000);
         public static Dictionary<Int64, MFCPData> WaitCarbonDic; // очередь ожидания углерода
 
-        private static bool m_modelIsStarted;
+        public static bool ModelIsStarted;
         private static bool m_dataIsFixed;
         private static bool m_dataIsEnqueue;
 
@@ -41,7 +41,7 @@ namespace CPlusProcessor
             CurrentState = new MFCPData();
             HDSmoother = new HeatDataSmoother();
 
-            m_modelIsStarted = false;
+            ModelIsStarted = false;
             m_dataIsFixed = false;
             m_dataIsEnqueue = false;
             Console.WriteLine("Reset");
@@ -49,7 +49,7 @@ namespace CPlusProcessor
 
         public static void Iterate()
         {
-            if (m_modelIsStarted)
+            if (ModelIsStarted)
             {
                 if (m_dataIsFixed)
                 {
@@ -68,11 +68,9 @@ namespace CPlusProcessor
                     CurrentState.CarbonOxideIVP += HDSmoother.CO2.Average(PeriodSec);
                     CurrentState.TimeFromX += IntervalSec;
                     CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
+
+                    PushCarbon(CurrentState.SteelCarbonPercentCalculated); // fire flex
                     
-                    var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
-                    fex.AddArg("C", CurrentState.SteelCarbonPercentCalculated);
-                    fex.Fire(Program.MainGate);
-                    //Console.WriteLine(fex.evt);
                     Console.CursorTop = Console.CursorTop - 1;
                     Console.WriteLine("                                                   ");
                     Console.CursorTop = Console.CursorTop - 1;
@@ -82,8 +80,8 @@ namespace CPlusProcessor
             }
             else
             {
-                m_modelIsStarted = ModelVerifiForStart();
-                if (m_modelIsStarted)
+                ModelIsStarted = ModelVerifiForStart();
+                if (ModelIsStarted)
                 {
                     var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
@@ -93,7 +91,12 @@ namespace CPlusProcessor
             
         }
 
-
+        static public void PushCarbon(double carbon)
+        {
+            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
+            fex.AddArg("C", carbon);
+            fex.Fire(Program.MainGate);
+        }
         static public void EnqueueWaitC()
         {
             var numberHeat = CurrentState.HeatNumber;
@@ -173,7 +176,7 @@ namespace CPlusProcessor
         private static bool ModelVerifiForStart()
         {
             const double oxygenTreshol = 16000;
-            return (!m_modelIsStarted) && 
+            return (!ModelIsStarted) && 
                    (HDSmoother.Oxygen.Average(PeriodSec) >= oxygenTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) >= HDSmoother.CO.Average(PeriodSec));
         }

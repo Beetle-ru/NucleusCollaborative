@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using ConnectionProvider;
 using Converter;
 using CommonTypes;
@@ -27,7 +28,7 @@ namespace CarbonVisualizer
                 {
 
                     var carbone = newEvent as CalculatedCarboneEvent;
-                    Carbon = carbone.CarbonePercent;
+                    //Carbon = carbone.CarbonePercent;
                 }
 
                 if (newEvent is LanceEvent)
@@ -91,6 +92,24 @@ namespace CarbonVisualizer
                         Program.MainWindow.CarbonMonoxideVolumePercent = CarbonMonoxideVolumePercent;
                         Program.MainWindow.Redraw();
                     }));
+                }
+
+                if (newEvent is FlexEvent)
+                {
+                    var fxe = newEvent as FlexEvent;
+                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    {
+                        var key = "C";
+                        InstantLogger.msg(fxe.ToString());
+                        try
+                        {
+                            Carbon = (double)fxe.Arguments[key];
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
                 }
             }
         }
