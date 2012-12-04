@@ -116,7 +116,7 @@ namespace CPlusProcessor
             }
             else
             {
-                InstantLogger.log("HeatNumber {0} in the WaitCarbonDic dictionary not found", heatNumber.ToString());
+                InstantLogger.log("HeatNumber {0} in the WaitCarbonDic dictionary not found\n", heatNumber.ToString());
             }
         }
 
@@ -140,7 +140,7 @@ namespace CPlusProcessor
             if (WaitCarbonDic.Count > maxLength) // если по каким-то причинам очередь слишком разрослась, то безжалостно ее прибиваем
             {
                 WaitCarbonDic.Clear();
-                InstantLogger.err("WaitCarbonDic too grown");
+                InstantLogger.err("WaitCarbonDic too grown\n");
             }
         }
 
