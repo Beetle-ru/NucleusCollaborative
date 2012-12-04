@@ -170,6 +170,21 @@ namespace CorrectionCT
                             l.err("ConverterUI.RBBAccept - {1} : \n{0}", e.ToString(), key);
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    {
+                        var key = "C";
+                        InstantLogger.msg(fxe.ToString());
+                        try
+                        {
+                            //Carbon = (double)fxe.Arguments[key];
+                            Program.CurrentCalcCarbone = (double)fxe.Arguments[key];
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
                 }
 
             }
