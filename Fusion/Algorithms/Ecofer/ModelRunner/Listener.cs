@@ -307,36 +307,8 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {
-                        Data.Model.ChargingInput inp = new ChargingInput();
-                        inp.Basicity = (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
-                        inp.FeO_p = Convert.ToInt32(fxe.Arguments["FeO"]);
-                        inp.MgO_p = Convert.ToInt32(fxe.Arguments["MgO"]);
-
-                        var matCoke = DynPrepare.AddCoke(300);
-                        inp.Coke = matCoke.MINP_GD_Material;
-                        inp.Coke_kg = matCoke.Amount_kg;
-
-                        var matDolomite = DynPrepare.AddDolom(4500);
-                        inp.Dolomite = matDolomite.MINP_GD_Material;
-                        inp.Dolomite_kg = matDolomite.Amount_kg;
-
-                        var matFOM = DynPrepare.AddFom(1500);
-                        inp.FOM = matFOM.MINP_GD_Material;
-                        inp.FOM_kg = matFOM.Amount_kg;
-
-                        inp.HotMetals = new MINP_GD_MaterialDTO[1];
-                        var matIron = DynPrepare.AddIron((int)IronWeight);
-                        inp.HotMetals[0] = matIron.MINP_GD_Material;
-                        inp.HotMetals_t[0] = (int)(matIron.Amount_kg * 0.001);
-
-                        inp.Scraps = new MINP_GD_MaterialDTO[1];
-                        var matScrap = DynPrepare.AddScrap((int)ScrapWeight);
-                        inp.Scraps[0] = matScrap.MINP_GD_Material;
-                        inp.Scraps_t[0] = (int)(matScrap.Amount_kg * 0.001);
-
-                        shixtaII = new Charging(inp);
-                        var aut = shixtaII.Run();
-                        l.msg("Model Oxygen calculated: {0}\n", aut.OxygenAmountTotalEnd_Nm3);
+                        DynPrepare.visTargetVal = fxe;
+                        l.msg("Model Oxygen calculated: {0}\n", -1f);
                     }
                     else if (fxe.Operation.StartsWith("Model.Dynamic"))
                     {
