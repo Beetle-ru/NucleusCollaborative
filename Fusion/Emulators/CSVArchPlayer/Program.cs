@@ -152,6 +152,7 @@ namespace CSVArchPlayer
                 Int64 res = Math.DivRem(m_heatNumber, 10000, out reminder);
                 Int64 longHN = res * 100000 + reminder;
                 MainGate.PushEvent(new visSpectrluksEvent() { C = HDataList[m_position].SublanceC, HeatNumber = longHN});
+                Console.WriteLine("specroluks push Heat = {0} ", longHN);
                 MainGate.PushEvent(new SublanceCEvent() { C = HDataList[m_position].SublanceC });
                 m_sublanceCIsPushed = true;
                 Console.WriteLine("Carbone pushed C = {0}", HDataList[m_position].SublanceC);

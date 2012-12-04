@@ -59,10 +59,10 @@ namespace CPlusProcessor
                     var hce = evt as HeatChangeEvent;
                     if (CHeatNumber != hce.HeatNumber)
                     {
-                        l.msg("Heat Changed. New Heat ID: {0}\n", hce.HeatNumber);
                         CHeatNumber = hce.HeatNumber;
                         Iterator.Reset();
                         Iterator.CurrentState.HeatNumber = hce.HeatNumber;
+                        l.msg("Heat Changed. New Heat ID: {0}\n", Iterator.CurrentState.HeatNumber);
                     }
                     else
                     {
@@ -72,6 +72,7 @@ namespace CPlusProcessor
                 if (evt is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = evt as visSpectrluksEvent;
+                    l.msg("Spectroluks C = {0}; HN = {1}", vse.C, HeatNumberToShort(vse.HeatNumber));
                     Iterator.AddCarbonToQueue(HeatNumberToShort(vse.HeatNumber), vse.C);
                 }
                 if (evt is CalculatedCarboneEvent)
