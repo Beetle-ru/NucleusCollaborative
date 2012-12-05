@@ -84,6 +84,7 @@ namespace CorrectionCT
             EndBlowingOxygen = int.MaxValue;
             BlowStopSignalPushed = false;
             StopBlowFlagRelease();
+            EndMeteringAccept();
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -219,7 +220,7 @@ namespace CorrectionCT
         public static void EndNowHandler()
         {
             DoStopBlow();
-            EndMeteringAccept();
+            //EndMeteringAccept();
         }
         public static void EndMeteringAccept()
         {

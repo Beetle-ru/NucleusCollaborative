@@ -174,7 +174,7 @@ namespace CorrectionCT
                     if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
                     {
                         var key = "C";
-                        InstantLogger.msg(fxe.ToString());
+                        //InstantLogger.msg(fxe.ToString());
                         try
                         {
                             //Carbon = (double)fxe.Arguments[key];

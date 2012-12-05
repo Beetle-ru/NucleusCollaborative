@@ -15,7 +15,8 @@ namespace CarboneProcessor
     {
         private static Stopwatch m_sw;
         public const int PeriodSec = 15; // время сглаживания
-        public static Timer IterateTimer = new Timer(PeriodSec * 1000);
+        public const int IntervalSec = 1; // время сглаживания
+        public static Timer IterateTimer = new Timer(IntervalSec * 1000);
         public static double TotalCarbonMass                    { set; get; }
         public static double RemainCarbonMass                   { set; get; }
         public static double RemainCarbonPercent                { set; get; }
@@ -425,6 +426,8 @@ namespace CarboneProcessor
             {
                 return false;
             }
+
+            return false;
 
             return (
                        ((oxygenVolumeCurrent/oxygenVolumeTotal*100) > 80) &&
