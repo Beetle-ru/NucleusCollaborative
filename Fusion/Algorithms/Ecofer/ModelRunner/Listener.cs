@@ -8,8 +8,10 @@ using Converter;
 using CommonTypes;
 using DTO;
 using Data;
+using Data.Model;
 using Implements;
 using System.Configuration;
+using Models;
 
 namespace ModelRunner
 {
@@ -49,6 +51,8 @@ namespace ModelRunner
 
         private static List<VBItem> lvb = new List<VBItem>();
         public static Dictionary<string, string> matRename = new Dictionary<string, string>();
+
+        public static Charging shixtaII;
 
         public Listener()
         {
@@ -300,6 +304,11 @@ namespace ModelRunner
                                 "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
                                 HeatNumber, fxe.Arguments["HEAT_NO"]
                                 );
+                    }
+                    else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
+                    {
+                        DynPrepare.visTargetVal = fxe;
+                        l.msg("Model Oxygen calculated: {0}\n", -1f);
                     }
                     else if (fxe.Operation.StartsWith("Model.Dynamic"))
                     {
