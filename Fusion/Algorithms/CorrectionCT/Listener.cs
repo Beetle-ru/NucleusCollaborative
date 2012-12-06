@@ -58,6 +58,11 @@ namespace CorrectionCT
                     }
                     else
                     {
+                        if (ste.SublanceTemperature == 1111)
+                        {
+                            Program.IsUncorrectMetering = true;
+                        }
+                        Program.IsUncorrectMetering = true;
                         l.err("Uncorrect temperature data = " + ste.SublanceTemperature);
                     }
                 }

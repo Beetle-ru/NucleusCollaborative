@@ -31,6 +31,7 @@ namespace CorrectionCT
         public static int MeteringWaitTimeUVM = 30;
         public static int MeteringWaitTimeManual = 30;
         public static int LanceMode;
+        public static bool IsUncorrectMetering;
         static void Main(string[] args)
         {
             Init();
@@ -85,6 +86,7 @@ namespace CorrectionCT
             BlowStopSignalPushed = false;
             StopBlowFlagRelease();
             EndMeteringAccept();
+            IsUncorrectMetering = false;
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -160,6 +162,8 @@ namespace CorrectionCT
         }
         public static void Iterator()
         {
+            var msg = "";
+
             CorrectionOxyT = CalcT(MatrixT, Data);
             //CorrectionOxyC = CalcC(MatrixC, Data);
             CorrectionOxyC = -1; // != 0
@@ -176,6 +180,11 @@ namespace CorrectionCT
             //{
             //    Console.WriteLine("CorrectionOxyC = " + CorrectionOxyC);
             //}
+            if (IsUncorrectMetering)
+            {
+                CorrectionOxyT = -5;
+                msg += String.Format("\nнекорректный замер");
+            }
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
@@ -195,7 +204,7 @@ namespace CorrectionCT
 
                 EndBlowingOxygen = CorrectionOxyT + CurrentOxygen; // додувать по температуре
 
-                var msg = "";
+                
 
                 if (CorrectionOxyT == -3)
                 {
