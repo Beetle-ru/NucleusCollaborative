@@ -99,7 +99,7 @@ namespace ConverterHeatProcessorEngine
                     //AdditionsQuantRefrash();                                          // посылаем новое задание для вертикального тракта
                     if (cs < 0) // если конец плавки обнуляем
                     {
-                        SafeInit();
+                        //SafeInit(); // может перетирать задание окончания продувки
                     }
                     
                 }

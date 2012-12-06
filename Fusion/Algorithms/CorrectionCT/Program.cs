@@ -115,7 +115,7 @@ namespace CorrectionCT
                         }
                         else
                         {
-                            return 0;
+                            return -3; // рекомендуется закончить продувку
                         }
                     }
                 }
@@ -195,7 +195,14 @@ namespace CorrectionCT
 
                 EndBlowingOxygen = CorrectionOxyT + CurrentOxygen; // додувать по температуре
 
-                InstantLogger.msg("End blowing oxygen {0}", EndBlowingOxygen);
+                var msg = "";
+
+                if (CorrectionOxyT == -3)
+                {
+                    msg += String.Format("\nрекомендуется выполнить охлаждение");
+                }
+
+                InstantLogger.msg("End blowing oxygen {0}{1}", EndBlowingOxygen, msg);
             }
             if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop)
             {
