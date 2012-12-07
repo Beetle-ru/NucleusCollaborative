@@ -49,10 +49,12 @@
   <ItemGroup>
     <Compile Include="src\Alg.cs" />
     <Compile Include="src\Init.cs" />
+    <Compile Include="src\Iterator.cs" />
     <Compile Include="src\Listener.cs" />
     <Compile Include="src\Members.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Sender.cs" />
     <Compile Include="src\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
