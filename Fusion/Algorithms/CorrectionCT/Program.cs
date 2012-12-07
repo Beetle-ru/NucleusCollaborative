@@ -32,6 +32,7 @@ namespace CorrectionCT
         public static int MeteringWaitTimeManual = 30;
         public static int LanceMode;
         public static bool IsUncorrectMetering;
+        public static bool IsActualOxygen;
         static void Main(string[] args)
         {
             Init();
@@ -87,6 +88,7 @@ namespace CorrectionCT
             StopBlowFlagRelease();
             EndMeteringAccept();
             IsUncorrectMetering = false;
+            IsActualOxygen = false;
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {

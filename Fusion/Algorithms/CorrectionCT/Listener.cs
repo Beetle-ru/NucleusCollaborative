@@ -155,7 +155,12 @@ namespace CorrectionCT
                             //{
                                 key = "AutomaticStop";
                                 Program.AutomaticStop = (bool) fxe.Arguments[key];
-
+                                if (!Program.IsActualOxygen)
+                                {
+                                    Program.EndBlowingOxygen = Program.CorrectionOxyT + Program.CurrentOxygen;
+                                    Program.IsActualOxygen = true;
+                                }
+                                
                                 key = "EndNow";
                                 if ((bool) fxe.Arguments[key])
                                 {
