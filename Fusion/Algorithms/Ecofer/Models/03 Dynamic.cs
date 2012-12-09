@@ -302,7 +302,7 @@ namespace Models
             mRecalculateFromTheBeginning = true;
             mInputData.HotMetal_Temperature = aInputData.HotMetal_Temperature;
             mInputData.Scrap_Temperature = aInputData.Scrap_Temperature;
-            mInputData.ChargedMaterials = Data.MINP.MINP_MatAdds.Where(aR => aR.Code.StartsWith("01") || aR.Code.StartsWith("02")).ToList();
+            mInputData.ChargedMaterials = Data.MINP.MINP_MatAdds.Where(aR => aR.ShortCode.StartsWith("01") || aR.ShortCode.StartsWith("02")).ToList();
         }
         /// <summary>
         /// Runs simulation from the beginning of the heat until now with modified model input data.
