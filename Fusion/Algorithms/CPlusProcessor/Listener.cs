@@ -78,7 +78,10 @@ namespace CPlusProcessor
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
-                    
+                    if (!Iterator.ModelIsStarted)
+                    {
+                        Iterator.PushCarbon(cce.CarbonePercent);
+                    }
                 }
             }
         }

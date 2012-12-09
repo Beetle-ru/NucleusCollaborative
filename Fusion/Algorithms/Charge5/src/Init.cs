@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Timers;
+using Charge5Classes;
 using ConnectionProvider;
 using Converter;
 using Implements;
@@ -19,12 +21,21 @@ namespace Charge5
 
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             StorePath = MainConf.AppSettings.Settings["StorePath"].Value;
+            ConverterNumber = Int32.Parse(MainConf.AppSettings.Settings["converterNumber"].Value);
 
             InitTbl = new CSVTableParser();
 
             TablePaths = ScanStore(StorePath);
             Tables = LoadTables("default", ref InitTbl);
             if (Tables == null) InstantLogger.err("default pattern not loaded");
+
+            CalcModeIsAutomatic = false;
+
+            IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
+            IterateTimer.Enabled = true;
+
+            Reset();
+
             //SaveTables("new", InitTbl, Tables);
 
             //////////////////////////////////
@@ -35,6 +46,13 @@ namespace Charge5
             //Console.WriteLine("Pare: {0}", name);
             //SaveTables("newFromFlex", InitTbl, Tables);
 
+        }
+
+        public static void Reset()
+        {
+            AutoInData = new InData();
+            AutoInData.SiHi = 0.33;
+            AutoInData.THi = 1400;
         }
     }
 }

@@ -66,12 +66,12 @@ namespace SublanceGenerator
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
-                    if (Iterator.Ck != cce.CarbonePercent)
-                    {
-                        //Console.WriteLine("Ck = " + Iterator.Ck);
-                        Iterator.Ck = cce.CarbonePercent;
-                        Iterator.Iterate(); ///!!!
-                    }
+                    //if (Iterator.Ck != cce.CarbonePercent)
+                    //{
+                    //    //Console.WriteLine("Ck = " + Iterator.Ck);
+                    //    Iterator.Ck = cce.CarbonePercent;
+                    //    Iterator.Iterate(); ///!!!
+                    //}
 
                 }
                 if (evt is ModeLanceEvent)
@@ -219,6 +219,28 @@ namespace SublanceGenerator
                             l.err("OPC.SublanceHeigth - {1} : \n{0}", e.ToString(), key);
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    {
+                        var key = "C";
+                        //InstantLogger.msg(fxe.ToString());
+                        try
+                        {
+                            //Carbon = (double)fxe.Arguments[key];
+                            if (Iterator.Ck != (double)fxe.Arguments[key])
+                            {
+                                //Console.WriteLine("Ck = " + Iterator.Ck);
+                                Iterator.Ck = (double)fxe.Arguments[key];
+                                Iterator.Iterate(); ///!!!
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
+                    
+
                     //if (fxe.Operation.StartsWith("ConverterUI.BlowingEndResponce"))
                     //{
                     //    var key = "SId";

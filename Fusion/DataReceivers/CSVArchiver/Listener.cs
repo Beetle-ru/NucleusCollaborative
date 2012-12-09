@@ -48,7 +48,7 @@ namespace CSVArchiver
                 if (newEvent is CalculatedCarboneEvent)
                 {
                     var cCarbon = newEvent as CalculatedCarboneEvent;
-                    Program.SDS.CCalc.Add(cCarbon.CarbonePercent);
+                    //Program.SDS.CCalc.Add(cCarbon.CarbonePercent);
                 }
                 if (newEvent is SublanceCEvent)
                 {
@@ -125,6 +125,22 @@ namespace CSVArchiver
                             {
                                 l.err("NeuralProcessorC.Calc - {1} : \n{0}", e.ToString(), key);
                             }
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    {
+                        var key = "C";
+                        //InstantLogger.msg(fxe.ToString());
+                        try
+                        {
+                            //Carbon = (double)fxe.Arguments[key];
+                            //Program.CurrentCalcCarbone = (double)fxe.Arguments[key];
+                            Program.SDS.CCalc.Add((double)fxe.Arguments[key]);
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }

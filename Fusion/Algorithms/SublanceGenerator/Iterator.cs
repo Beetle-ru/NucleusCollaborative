@@ -34,7 +34,7 @@ namespace SublanceGenerator
         {
             Oxigen = new RollingAverage();
             CarbonMonoxide = new RollingAverage();
-            HotMetallMass = 300;
+            HotMetallMass = 0;
             HeatNumber = 0;
             m_oxygenStartValue = 0;
             m_isNotfiredB = true;
@@ -99,8 +99,10 @@ namespace SublanceGenerator
         {
             const int transformValue = 64;
             const int coTreshold = 15;
+
             m_oxygenStartValue = OxygenStartValue(hotMetallMass, transformValue);
-            return (m_oxygenStartValue < oxigen) && (carbonMonoxide < coTreshold);
+            //return (m_oxygenStartValue < oxigen) && (carbonMonoxide < coTreshold) && (hotMetallMass != 0);
+            return (hotMetallMass != 0);
         }
         private static bool VerificateK(double targetCk, double targetCku, double ck)
         {

@@ -17,6 +17,8 @@ namespace Charge5
 {
     class Listener : IEventListener
     {
+
+        public Int64 CHeatNumber;
         public Listener()
         {
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
@@ -27,8 +29,40 @@ namespace Charge5
         {
             using (var l = new Logger("Listener"))
             {
+
+                #region сбор данных для автоматического режима не FlexEvent
+
+                if (evt is HeatChangeEvent)
+                {
+                    var hce = evt as HeatChangeEvent;
+                    if (CHeatNumber != hce.HeatNumber)
+                    {
+                        CHeatNumber = hce.HeatNumber;
+                        Program.Reset();
+                        l.msg("Heat Changed. New Heat ID: {0}\n", CHeatNumber);
+                    }
+                    else
+                    {
+                        l.msg("Heat No Changed. Heat ID: {0}\n", hce.HeatNumber);
+                    }
+                }
+
+                if (evt is ScrapEvent)
+                {
+                    var scrapEvent = evt as ScrapEvent;
+                    if (scrapEvent.ConverterNumber == Program.ConverterNumber)
+                    {
+                        Program.AutoInData.MSc = scrapEvent.TotalWeight;
+                        l.msg("Scrap mass: {0}", Program.AutoInData.MSc);
+                    }
+                }
+
+                #endregion
+
                 if (evt is FlexEvent)
                 {
+
+                    #region интерфейс для визухи
                     var fxe = evt as FlexEvent;
                     if (fxe.Operation.StartsWith("UI.GetNamePatterns"))
                     {
@@ -83,17 +117,7 @@ namespace Charge5
                             inData.IsProcessingUVS = (bool)fxe.Arguments["IsProcessingUVS"];
                             var table = Program.Tables[inData.SteelType];
                             Program.Alg(table, inData, out outData);
-                            var fex = new FlexHelper("Charge5.ResultCalc");
-                            
-                            fex.AddArg("MDlm", outData.MDlm);
-                            fex.AddArg("MDlms", outData.MDlms);
-                            fex.AddArg("MFom", outData.MFom);
-                            fex.AddArg("MHi", outData.MHi);
-                            fex.AddArg("MLi", outData.MLi);
-                            fex.AddArg("MSc", outData.MSc);
-                            fex.AddArg("IsFound", outData.IsFound);
-
-                            fex.Fire(Program.MainGate);
+                            Program.SendResultCalc(outData);
                         }
                         catch (Exception e)
                         {
@@ -160,8 +184,100 @@ namespace Charge5
                         }
                         fex.Fire(Program.MainGate);
                     }
+                    #endregion
+
+                    #region интерфейс для визухи в автоматическом режиме
+
+
+                    if (fxe.Operation.StartsWith("UI.CalcMode")) 
+                    {
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                           Program.CalcModeIsAutomatic = (bool)fxe.Arguments["IsAutomatic"];
+
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("UI.CalcMode: \n{0}", e.ToString());
+
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("UI.CalcData"))
+                    {
+                        l.msg(fxe.ToString());
+                        try
+                        {
+                            var steelType = (int)fxe.Arguments["SteelType"];
+                            if ((steelType >= 0) && (steelType <= 6)) // имеем только 7 типов стали
+                            {
+                                Program.AutoInData.SteelType = steelType;
+                            }
+                            else
+                            {
+                                throw new Exception("Не верное значение типа стали, >7 или <0");
+                            }
+                            Program.AutoInData.IsProcessingUVS = (bool)fxe.Arguments["IsProcessingUVS"];
+                        }
+                        catch (Exception e)
+                        {
+                            l.err("UI.CalcData: \n{0}", e.ToString());
+
+                        }
+                    }
+                    #endregion
+
+                    #region сбор данных для автоматического режима FlexEvent
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
+                    {
+                        if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumberToLong(CHeatNumber)))
+                        {
+                            l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            Program.AutoInData.MHi = (int)Math.Round(Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000);
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                CHeatNumber, fxe.Arguments["SHEATNO"]
+                                );
+                    }
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(CHeatNumber)))
+                        {
+                            l.msg("Xim Iron from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            Program.AutoInData.SiHi = Convert.ToDouble(fxe.Arguments["ANA_SI"]);
+                            Program.AutoInData.THi = Convert.ToInt32(fxe.Arguments["HM_TEMP"]);
+                        }
+                        else
+                            l.msg(
+                                "Xim Iron from Pipe: wrong heat number - expected {0} found {1}",
+                                CHeatNumber, fxe.Arguments["HEAT_NO"]
+                                );
+                    }
+
+                    #endregion
+
                 }
             }
         }
+
+        public Int64 HeatNumberToShort(Int64 heatNLong)
+        {
+            Int64 reminder = 0;
+            Int64 res = Math.DivRem(heatNLong, 10000, out reminder);
+            return res * 1000 + reminder;
+        }
+
+        public Int64 HeatNumberToLong(Int64 heatNShort)
+        {
+            Int64 reminder = 0;
+            Int64 res = Math.DivRem(heatNShort, 10000, out reminder);
+            return res * 100000 + reminder;
+        }
+
     }
 }

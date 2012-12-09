@@ -58,6 +58,11 @@ namespace CorrectionCT
                     }
                     else
                     {
+                        if (ste.SublanceTemperature == 1111)
+                        {
+                            Program.IsUncorrectMetering = true;
+                        }
+                        Program.IsUncorrectMetering = true;
                         l.err("Uncorrect temperature data = " + ste.SublanceTemperature);
                     }
                 }
@@ -168,6 +173,21 @@ namespace CorrectionCT
                         catch (Exception e)
                         {
                             l.err("ConverterUI.RBBAccept - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    {
+                        var key = "C";
+                        //InstantLogger.msg(fxe.ToString());
+                        try
+                        {
+                            //Carbon = (double)fxe.Arguments[key];
+                            Program.CurrentCalcCarbone = (double)fxe.Arguments[key];
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }
