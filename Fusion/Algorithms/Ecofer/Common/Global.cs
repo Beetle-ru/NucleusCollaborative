@@ -102,7 +102,7 @@ namespace Common
         public static float M3_O_C = 5000;  // m3/%C
         public static float M3_O_T = 33;    // m3/°C
 
-        public static bool M3_Stat_C_ON = false;
+        public static bool M3_Stat_C_ON = true;
         public static float M3_Stat_C_konec = 0.04f;
         public static float M3_Stat_C_konec_random = 0.01f;
         public static float M3_Stat_OpozdeniKonceFoukani = 50;
