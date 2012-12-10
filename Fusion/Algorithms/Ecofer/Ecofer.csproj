@@ -45,15 +45,19 @@
   <ItemGroup>
     <Reference Include="CommonTypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Core\bin\Debug\CommonTypes.dll</HintPath>
+      <HintPath>.\CommonTypes.dll</HintPath>
     </Reference>
     <Reference Include="ConnectionProvider, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ConnectionProvider\bin\Debug\ConnectionProvider.dll</HintPath>
+      <HintPath>.\ConnectionProvider.dll</HintPath>
     </Reference>
     <Reference Include="Converter, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Converter\bin\Debug\Converter.dll</HintPath>
+      <HintPath>.\Converter.dll</HintPath>
+    </Reference>
+    <Reference Include="Implements, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\Implements.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -294,12 +298,6 @@
     <Folder Include="DTO\obj\Debug\TempPE\" />
     <Folder Include="ModelRunner\obj\x86\Debug\TempPE\" />
     <Folder Include="Models\obj\Debug\TempPE\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
-      <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
-      <Name>Implements</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

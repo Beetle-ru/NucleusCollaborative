@@ -33,18 +33,21 @@ namespace TransferModelOutput
                 {
                     var pointStyle = new NumberFormatInfo();
                     pointStyle.NumberDecimalSeparator = ".";
-                    var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.PerSecond");
                     CoreGate = new ConnectionProvider.Client();
                     var conf = ConfigurationManager.OpenExeConfiguration("");
                     var settings = conf.AppSettings.Settings;
+                    var fex = new ConnectionProvider.FlexHelper(Convert.ToString(settings["?"].Value));
                     do
                     {
                         foreach (KeyValueConfigurationElement kvel in settings)
                         {
-                            string[] marg = kvel.Value.Split(':');
-                            fex.AddArg(kvel.Key,
-                                       randomFromTo(Convert.ToDouble(marg[0], pointStyle),
-                                                    Convert.ToDouble(marg[1], pointStyle)));
+                            if (!kvel.Key.StartsWith("?"))
+                            {
+                                string[] marg = kvel.Value.Split(':');
+                                fex.AddArg(kvel.Key,
+                                           randomFromTo(Convert.ToDouble(marg[0], pointStyle),
+                                                        Convert.ToDouble(marg[1], pointStyle)));
+                            }
                         }
                         fex.Fire(CoreGate);
                         l.msg("Event fired>\n{0}", fex.evt);

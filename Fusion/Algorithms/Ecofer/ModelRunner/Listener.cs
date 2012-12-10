@@ -53,6 +53,7 @@ namespace ModelRunner
         public static Dictionary<string, string> matRename = new Dictionary<string, string>();
 
         public static Charging shixtaII;
+        public static object Lock = new object();
 
         public Listener()
         {
@@ -229,8 +230,10 @@ namespace ModelRunner
             ModWeight["COKE"] = 0;
             for (var step = 0; step < smpe.steps.Count; step++)
             {
+                if (smpe.steps[step] == null) continue;
                 for (int weirline = 0; weirline < smpe.steps[step].weigherLines.Count; weirline++)
                 {
+                    if (smpe.steps[step].weigherLines[weirline] == null) continue;
                     for (int bunkerId = 0; bunkerId < m_bunkersNames.Count; bunkerId++)
                     {
                         if (smpe.steps[step].weigherLines[weirline].BunkerId == bunkerId)
@@ -239,11 +242,11 @@ namespace ModelRunner
                             {
                                 var weight = smpe.steps[step].weigherLines[weirline].PortionWeight;
                                 var name = m_bunkersNames[bunkerId];
-                                ModWeight[matRename[name]] += (int)weight;
+                                ModWeight[matRename[name]] += (int) weight;
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
-                                var sb = new StringBuilder("SteelMakking trap:");
+                                var sb = new StringBuilder("SteelMaking trap:");
                                 sb.AppendFormat(" step={0}", step);
                                 sb.AppendFormat(" bunkerId={0}", bunkerId);
                                 sb.AppendFormat(" weirline={0}", weirline);
@@ -273,6 +276,10 @@ namespace ModelRunner
                             DynPrepare.FireIronEvent();
                         }
                     }
+                    else if (fxe.Operation.StartsWith("Vis.Output.Preliminary.Additions"))
+                    {
+                        l.msg("Visual Additions Event Appeared: {0}\n", fxe);
+                    }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
                     {
                         if ((string) fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumber))
@@ -292,12 +299,23 @@ namespace ModelRunner
                     {
                         if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
                         {
-                            DynPrepare.fxeIron = fxe;
-                            IronWeight = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
-                            IronReason = "PIPE-X";
-                            l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
-                            DynPrepare.FireIronEvent();
-                            DynPrepare.HeatFlags |= ModelRunReady.IronDefined;
+                            if (0 == (DynPrepare.HeatFlags & ModelStatus.ModelDisabled))
+                            {
+                                DynPrepare.fxeIron = new FlexHelper(fxe);
+                                IronWeight = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                                IronReason = "PIPE-X";
+                                l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
+                                DynPrepare.FireIronEvent();
+                                DynPrepare.HeatFlags |= ModelStatus.IronDefined;
+                                if (0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted))
+                                {
+                                    DynPrepare.ironRecalcRequest = true;
+                                }
+                            }
+                            else
+                            {
+                                l.err("XIMIRON appeared but too late -- model disabled");
+                            }
                         }
                         else
                             l.msg(
@@ -307,8 +325,11 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {
-                        DynPrepare.visTargetVal = fxe;
-                        l.msg("Model Oxygen calculated: {0}\n", -1f);
+                        lock (Listener.Lock)
+                        {
+                            DynPrepare.visTargetVal = new FlexHelper(fxe);
+                            l.msg("Target Values From ConverterUI appeared: {0}", fxe);
+                        }
                     }
                     else if (fxe.Operation.StartsWith("Model.Dynamic"))
                     {
@@ -366,7 +387,7 @@ namespace ModelRunner
                         ScrapDanger += VBProb(se.ScrapType7, se.Weight7);
                         ScrapDanger += VBProb(se.ScrapType8, se.Weight8);
                         ScrapDanger /= ScrapWeight;
-                        DynPrepare.HeatFlags |= ModelRunReady.ScrapDefined;
+                        DynPrepare.HeatFlags |= ModelStatus.ScrapDefined;
                     }
                 }
                 else if (evt is SteelMakingPatternEvent)
@@ -381,13 +402,13 @@ namespace ModelRunner
                     fex.AddArg("Iron_Reason", IronReason);
                     fex.AddArg("Scrap_Weight", ScrapWeight);
                     fex.AddArg("Scrap_Reason", ScrapReason);
-                    fex.AddArg("LIME", (double)ModWeight["LIME"]);
-                    fex.AddArg("DOLOMS", (double)ModWeight["DOLOMS"]);
-                    fex.AddArg("DOLMAX", (double)ModWeight["DOLMAX"]);
-                    fex.AddArg("FOM", (double)ModWeight["FOM"]);
-                    fex.AddArg("COKE", (double)ModWeight["COKE"]);
-                    fex.Fire(DynPrepare.CoreGate);
-                    DynPrepare.HeatFlags |= ModelRunReady.AdditionsDefined;
+                    fex.AddArg("LIME", (double) ModWeight["LIME"]);
+                    fex.AddArg("DOLOMS", (double) ModWeight["DOLOMS"]);
+                    fex.AddArg("DOLMAX", (double) ModWeight["DOLMAX"]);
+                    fex.AddArg("FOM", (double) ModWeight["FOM"]);
+                    fex.AddArg("COKE", (double) ModWeight["COKE"]);
+                    //fex.Fire(DynPrepare.CoreGate);
+                    DynPrepare.HeatFlags |= ModelStatus.AdditionsDefined;
                 }
                 else if (evt is BoundNameMaterialsEvent)
                 {
@@ -401,7 +422,7 @@ namespace ModelRunner
                     m_bunkersNames[4] = bnme.Bunker9MaterialName;
                     m_bunkersNames[5] = bnme.Bunker10MaterialName;
                     m_bunkersNames[6] = bnme.Bunker11MaterialName;
-                    m_bunkersNames[7] = bnme.Bunker12MaterialName; 
+                    m_bunkersNames[7] = bnme.Bunker12MaterialName;
                 }
                 else if (evt is visAdditionTotalEvent)
                 {
@@ -436,13 +457,12 @@ namespace ModelRunner
                     l.msg("Received: {0}", zamer);
                     if (zamer.SublanceStartFlag == 0)
                     {
-                        if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
+                        if (0 != (DynPrepare.HeatFlags & ModelStatus.ModelStarted))
                         {
                             DynPrepare.FireTemperatureEvent(DynPrepare.DynModel);
                             DynPrepare.FireXimstalEvent(DynPrepare.DynModel);
                         }
                     }
-
                 }
                 else if (evt is TappingEvent)
                 {
@@ -450,7 +470,7 @@ namespace ModelRunner
                     l.msg("Received: {0}", sliv);
                     if (sliv.TappingFlag == 0)
                     {
-                        if (0 != (DynPrepare.HeatFlags & ModelRunReady.ModelStarted))
+                        if (0 != (DynPrepare.HeatFlags & ModelStatus.ModelStarted))
                         {
                             DynPrepare.FireXimslagEvent(DynPrepare.DynModel);
                         }
@@ -459,11 +479,11 @@ namespace ModelRunner
                 else if (evt is BlowingEvent)
                 {
                     var blow = evt as BlowingEvent;
-                    if (0 == (DynPrepare.HeatFlags & ModelRunReady.BlowingStarted))
+                    if (0 == (DynPrepare.HeatFlags & ModelStatus.BlowingStarted))
                     {
                         if (blow.BlowingFlag == 1)
                         {
-                            DynPrepare.HeatFlags |= ModelRunReady.BlowingStarted;
+                            DynPrepare.HeatFlags |= ModelStatus.BlowingStarted;
                             l.msg("Heat {0} : main blowing started *************************", HeatNumber);
                         }
                     }
