@@ -54,16 +54,22 @@ namespace CorrectionCT
                         l.msg("Calc carbone = {0}", Program.FixedCalcCarbone);
 
                         l.msg("SublanceTemperature = " + ste.SublanceTemperature);
+
+                        Program.IsUncorrectMetering = false;
+
                         Program.Iterator();
                     }
                     else
                     {
                         if (ste.SublanceTemperature == 1111)
                         {
-                            Program.IsUncorrectMetering = true;
+                            Program.IsUncorrectMetering = false;
                         }
-                        Program.IsUncorrectMetering = true;
-                        l.err("Uncorrect temperature data = " + ste.SublanceTemperature);
+                        else
+                        {
+                            Program.IsUncorrectMetering = true;
+                            l.err("Uncorrect temperature data = " + ste.SublanceTemperature);
+                        }
                     }
                 }
                 if (evt is SublanceCEvent)
@@ -71,7 +77,7 @@ namespace CorrectionCT
                     var sce = evt as SublanceCEvent;
                     //Program.WaitSublanceData.Enabled = false;
                     //Program.Data.CurrentC = sce.C;
-                    l.msg("sce.C = " + sce.C);
+                    //l.msg("sce.C = " + sce.C);
                     Program.Iterator();
                 }
                 if (evt is BlowingEvent)
@@ -111,13 +117,14 @@ namespace CorrectionCT
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
-                    Program.CurrentCalcCarbone = cce.CarbonePercent;
+                    //Program.CurrentCalcCarbone = cce.CarbonePercent;
 
                 }
                 if (evt is FixDataMfactorModelEvent)
                 {
-                    Program.FixedCalcCarbone = Program.CurrentCalcCarbone;
+                    //Program.FixedCalcCarbone = Program.CurrentCalcCarbone;
                 }
+
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
@@ -195,6 +202,13 @@ namespace CorrectionCT
                             InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("CPlusProcessor.DataFix"))
+                    {
+                        l.msg(fxe.ToString());
+                        Program.FixedCalcCarbone = Program.CurrentCalcCarbone;
+                    }
+
                 }
 
             }

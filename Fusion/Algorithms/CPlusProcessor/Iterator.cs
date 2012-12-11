@@ -60,9 +60,10 @@ namespace CPlusProcessor
                         EnqueueWaitC();
                         m_dataIsEnqueue = true;
 
-                        var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-                        fex.Fire(Program.MainGate);
-                        Console.WriteLine(fex.evt + "\n");
+                        //var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+                        //fex.Fire(Program.MainGate);
+                        FireFixEvent();
+                        //Console.WriteLine(fex.evt + "\n");
                     }
                 }
                 else
@@ -91,6 +92,13 @@ namespace CPlusProcessor
                 }
             }
             
+        }
+
+        static public void FireFixEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+            fex.Fire(Program.MainGate);
+            Console.WriteLine(fex.evt + "\n");
         }
 
         static public void PushCarbon(double carbon)

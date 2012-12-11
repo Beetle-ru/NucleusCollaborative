@@ -29,6 +29,7 @@ namespace Charge5
 
         public static InData AutoInData;
         private static InData m_autoInDataPrevious; // для отслеживания изменений
+        public static bool IsRefrashData; // обновлены данные для пересчета
 
         public static int ConverterNumber;
     }

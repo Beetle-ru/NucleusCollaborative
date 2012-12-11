@@ -51,8 +51,18 @@ namespace Charge5
         public static void Reset()
         {
             AutoInData = new InData();
-            AutoInData.SiHi = 0.33;
-            AutoInData.THi = 1400;
+            AutoInData.SiHi = 0.55;
+            AutoInData.THi = 1370;
+           
+            m_autoInDataPrevious = new InData();
+            m_autoInDataPrevious.SteelType = -1;
+            m_autoInDataPrevious.THi = -1;
+            m_autoInDataPrevious.SiHi = -1;
+            m_autoInDataPrevious.MSc = -1;
+            m_autoInDataPrevious.MHi = -1;
+
+            IsRefrashData = false;
+
         }
     }
 }

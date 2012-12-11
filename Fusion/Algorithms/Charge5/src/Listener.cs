@@ -54,6 +54,7 @@ namespace Charge5
                     {
                         Program.AutoInData.MSc = scrapEvent.TotalWeight;
                         l.msg("Scrap mass: {0}", Program.AutoInData.MSc);
+                        Program.IsRefrashData = true;
                     }
                 }
 
@@ -106,15 +107,18 @@ namespace Charge5
                     {
                         var inData = new InData();
                         var outData = new OutData();
+
                         l.msg(fxe.ToString());
                         try
                         {
-                            inData.SteelType = (int)fxe.Arguments["SteelType"];
+                            inData.SteelType = (int)fxe.Arguments["SteelType"]; //
+
                             inData.MHi = (int)fxe.Arguments["MHi"];
                             inData.MSc = (int)fxe.Arguments["MSc"];
                             inData.SiHi = (double)fxe.Arguments["SiHi"];
                             inData.THi = (int)fxe.Arguments["THi"];
-                            inData.IsProcessingUVS = (bool)fxe.Arguments["IsProcessingUVS"];
+                            
+                            inData.IsProcessingUVS = (bool)fxe.Arguments["IsProcessingUVS"]; //
                             var table = Program.Tables[inData.SteelType];
                             Program.Alg(table, inData, out outData);
                             Program.SendResultCalc(outData);
@@ -189,12 +193,13 @@ namespace Charge5
                     #region интерфейс для визухи в автоматическом режиме
 
 
-                    if (fxe.Operation.StartsWith("UI.CalcMode")) 
+                    if (fxe.Operation.StartsWith("UI.ModeCalc")) 
                     {
                         l.msg(fxe.ToString());
                         try
                         {
                            Program.CalcModeIsAutomatic = (bool)fxe.Arguments["IsAutomatic"];
+                           Program.IsRefrashData = true;
 
                         }
                         catch (Exception e)
@@ -204,7 +209,7 @@ namespace Charge5
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("UI.CalcData"))
+                    if (fxe.Operation.StartsWith("UI.DataCalc"))
                     {
                         l.msg(fxe.ToString());
                         try
@@ -213,6 +218,7 @@ namespace Charge5
                             if ((steelType >= 0) && (steelType <= 6)) // имеем только 7 типов стали
                             {
                                 Program.AutoInData.SteelType = steelType;
+                                Program.IsRefrashData = true;
                             }
                             else
                             {
@@ -236,6 +242,7 @@ namespace Charge5
                         {
                             l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
                             Program.AutoInData.MHi = (int)Math.Round(Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000);
+                            Program.IsRefrashData = true;
                         }
                         else
                             l.msg(
@@ -248,9 +255,10 @@ namespace Charge5
                     {
                         if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(CHeatNumber)))
                         {
-                            l.msg("Xim Iron from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            l.msg("Xim Iron from Pipe: T = {0}, Si = {1}\n", fxe.Arguments["HM_TEMP"], fxe.Arguments["HM_TEMP"]);
                             Program.AutoInData.SiHi = Convert.ToDouble(fxe.Arguments["ANA_SI"]);
                             Program.AutoInData.THi = Convert.ToInt32(fxe.Arguments["HM_TEMP"]);
+                            Program.IsRefrashData = true;
                         }
                         else
                             l.msg(
