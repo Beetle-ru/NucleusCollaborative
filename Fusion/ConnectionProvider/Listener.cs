@@ -20,6 +20,7 @@ namespace ConnectionProvider
         public Queue<BaseEvent> EventQueue = new Queue<BaseEvent>();
         public Thread EventThread = new Thread(EventProc);
 
+
         public PrimaryListener(IEventListener eventListener)
         {
             m_EventListener = eventListener;
@@ -67,14 +68,21 @@ namespace ConnectionProvider
         {
             using (var l = new Logger("ConnectionProvider.PrimaryListener.EventProc"))
             {
-                try
+                if (Client.protectedMode)
+                {
+                    try
+                    {
+                        m_EventListener.OnEvent(newEvent);
+                    }
+                    catch (Exception e)
+                    {
+                        l.err("Event {0} exception {1}::{2} returned:\n{3} ", newEvent.ToString(), e.Source,
+                              e.TargetSite, e.Message);
+                    }
+                }
+                else
                 {
                     m_EventListener.OnEvent(newEvent);
-                }
-                catch (Exception e)
-                {
-                    l.err("Event {0} exception {1}::{2} returned:\n{3} ", newEvent.ToString(), e.Source,
-                          e.TargetSite, e.Message);
                 }
             }
         }

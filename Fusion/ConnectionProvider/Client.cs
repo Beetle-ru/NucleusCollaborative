@@ -13,6 +13,7 @@ namespace ConnectionProvider
 {
     public class Client : IMainGate
     {
+        public static bool protectedMode = false;
         public const int THREAD_SLEEP = 50;
         private MainGateClient m_MainGateClient;
         private string m_ConnectionName = null;
@@ -74,7 +75,7 @@ namespace ConnectionProvider
         {
             m_SyncContext = SynchronizationContext.Current;
 
-            Thread thread = new Thread(new System.Threading.ThreadStart(ReceivingThread));
+            Thread thread = new Thread(new ThreadStart(ReceivingThread));
             thread.IsBackground = true;
             thread.Start();
 
