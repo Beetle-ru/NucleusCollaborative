@@ -36,6 +36,7 @@ namespace ModelRunner
         public static List<MINP_MatAddDTO> MatAdd = new List<MINP_MatAddDTO>();
         public static Dictionary<string, int> CurrWeight = new Dictionary<string, int>();
         public static Dictionary<string, int> ModWeight = new Dictionary<string, int>();
+        public static Dictionary<string, int> VisWeight = new Dictionary<string, int>();
 
         private class VBItem
         {
@@ -66,22 +67,31 @@ namespace ModelRunner
                 m_bunkersTotalMass.Add(0.0);
                 m_bunkersNames.Add("");
             }
+            matRename.Add("?", "---");
             matRename.Add("ИЗВЕСТ", "LIME");
             matRename.Add("ДОЛОМС", "DOLOMS");
             matRename.Add("ДОЛМИТ", "DOLMAX");
             matRename.Add("МАХГ  ", "DOLMAX");
             matRename.Add("ФОМ   ", "FOM");
             matRename.Add("KOKS  ", "COKE");
+            matRename.Add("ALKонц", "ALCONZ");
             CurrWeight.Add("LIME", 1);
             CurrWeight.Add("DOLOMS", 1);
             CurrWeight.Add("DOLMAX", 1);
             CurrWeight.Add("FOM", 1);
             CurrWeight.Add("COKE", 1);
+            VisWeight.Add("LIME", 0);
+            VisWeight.Add("DOLOMS", 0);
+            VisWeight.Add("DOLMAX", 0);
+            VisWeight.Add("FOM", 0);
+            VisWeight.Add("COKE", 0);
+            VisWeight.Add("ALCONZ", 0);
             lvb.Add(new VBItem(0.2, "=3="));
             lvb.Add(new VBItem(0.3, "=8=24=36="));
             lvb.Add(new VBItem(0.5, "=18=2=73="));
             lvb.Add(new VBItem(0.8, "=99=66="));
             lvb.Add(new VBItem(1.0, "=89=33=35=28=98=96="));
+            for (var i = 0; i < 8; i++) m_bunkersNames[i] = "?";
         }
 
         private static double VBProb(int ScrapType, int ScrapWeight)
@@ -279,6 +289,41 @@ namespace ModelRunner
                     else if (fxe.Operation.StartsWith("Vis.Output.Preliminary.Additions"))
                     {
                         l.msg("Visual Additions Event Appeared: {0}\n", fxe);
+                    }
+                    else if (fxe.Operation.StartsWith("Vis.Output.Bunker.Additions"))
+                    {
+                        var fxh = new FlexHelper(fxe);
+                        var sb = new StringBuilder("Visual Bunker Additions Event Appeared:\n");
+                        bool allZero = true;
+                        foreach (var mat in fxe.Arguments)
+                        {
+                            if (mat.Key.StartsWith("Heat")) continue;
+                            var ix = Convert.ToInt32(mat.Key);
+                            var val = Convert.ToInt32(mat.Value);
+                            allZero &= (val == 0);
+                            
+                            var s = Encoder(m_bunkersNames[-5 + ix]);
+                            if (matRename.ContainsKey(s))
+                            {
+                                sb.AppendFormat("   {2}[{0}] = {1}\n",
+                                    matRename[s], val, mat.Key);
+                                VisWeight[matRename[s]] += val;
+                            }
+                            else
+                            {
+                                l.msg("matRename does not contains key <{0}>", s);
+                            }
+                        }
+                        if (!allZero)
+                        {
+                            sb.Append("Signal to run Shixta II generated");
+                            DynPrepare.recallChargingReq = true;
+                        }
+                        else
+                        {
+                            sb.Append("Event ignored as having no useful data");
+                        }
+                        l.msg(sb.ToString());
                     }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
                     {
@@ -484,7 +529,7 @@ namespace ModelRunner
                         if (blow.BlowingFlag == 1)
                         {
                             DynPrepare.HeatFlags |= ModelStatus.BlowingStarted;
-                            l.msg("Heat {0} : main blowing started *************************", HeatNumber);
+                            l.msg("Heat {0} : main blowing started", HeatNumber);
                         }
                     }
                 }

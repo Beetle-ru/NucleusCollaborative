@@ -421,13 +421,19 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                                                              {
+                                                                  InstantLogger.err("Unhandled exception {0}", e);
+                                                              };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
                 {
+                    
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
+                    ConnectionProvider.Client.protectedMode = false; 
                     Thread.Sleep(1000);
                     // текущий номер плавки
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
@@ -498,9 +504,12 @@ NEXT_HEAT:
                             lock (Listener.Lock)
                             {
                                 recallChargingReq = false;
-                                Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt));
-                                var aut = Listener.shixtaII.Run();
-                                l.msg("%%% Model =Shixta-II= requires oxygen: {0}", aut.OxygenAmountTotalEnd_Nm3);
+                                Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt, Listener.VisWeight));
+                                FireShixtaDoneEvent(Listener.shixtaII.Run());
+                                for (var iw = 0; iw < Listener.VisWeight.Count; iw++)
+                                {
+                                    Listener.VisWeight[Listener.VisWeight.ElementAt(iw).Key] = 0;
+                                }
                             }
                         }
                         Thread.Sleep(1000);
@@ -627,8 +636,10 @@ NEXT_HEAT:
                                                         if (ironRecalcRequest && (visTargetVal != null))
                                                         {
                                                             ironRecalcRequest = false;
-                                                            DynModel.RecalculateFromBeginning(MakeCharging(visTargetVal.evt));
+                                                            DynModel.Pause();
+                                                            DynModel.RecalculateFromBeginning(MakeCharging(visTargetVal.evt, Listener.CurrWeight));
                                                             l.msg("ATTENTION!!! Model Recalculated");
+                                                            DynModel.Resume();
                                                         }
                                                     }
                                                     else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
@@ -769,6 +780,19 @@ WAIT_END_OF_HEAT:
             fex.Fire(CoreGate);
         }
 
+        public static void FireShixtaDoneEvent(ChargingOutput aut)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.ShixtaII");
+            fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddDbl("Oxygen", aut.OxygenAmountTotalEnd_Nm3);
+            fex.AddDbl("LIME", aut.m_lime);
+            fex.AddDbl("DOLOMS", aut.m_dolomite);
+            fex.AddDbl("DOLMAX", Listener.VisWeight["DOLMAX"]);
+            fex.AddDbl("FOM", Listener.VisWeight["FOM"]);
+            fex.AddDbl("COKE", Listener.VisWeight["COKE"]);
+            fex.Fire(CoreGate);
+        }
+
         public static void SimulationOxygenBlowing()
         {
             TimeSpan lTotalDuration = Data.Clock.Current.ActualTime - Data.Clock.Current.StartTime;
@@ -879,7 +903,7 @@ WAIT_END_OF_HEAT:
             }
         }
 
-        public static ChargingInput MakeCharging(FlexEvent fxe)
+        public static ChargingInput MakeCharging(FlexEvent fxe, Dictionary<string, int> weight)
         {
             Data.Model.ChargingInput inp = new ChargingInput();
             inp.Basicity = 2.7f; ///! (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
@@ -903,15 +927,15 @@ WAIT_END_OF_HEAT:
             inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
             inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
 
-            var matCoke = DynPrepare.AddCoke(300);
+            var matCoke = DynPrepare.AddCoke(weight["COKE"]);
             inp.Coke = matCoke.MINP_GD_Material;
             inp.Coke_kg = matCoke.Amount_kg;
 
-            var matDolomite = DynPrepare.AddDolom(4500);
+            var matDolomite = DynPrepare.AddDolom(weight["DOLMAX"]);
             inp.Dolomite = matDolomite.MINP_GD_Material;
             inp.Dolomite_kg = matDolomite.Amount_kg;
 
-            var matFOM = DynPrepare.AddFom(1500);
+            var matFOM = DynPrepare.AddFom(weight["FOM"]);
             inp.FOM = matFOM.MINP_GD_Material;
             inp.FOM_kg = matFOM.Amount_kg;
 

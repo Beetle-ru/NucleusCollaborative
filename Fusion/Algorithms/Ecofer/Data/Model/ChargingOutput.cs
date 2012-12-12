@@ -33,6 +33,9 @@ namespace Data.Model
         public float H_Koks;
         public float H_Odprasky;
 
+        public float m_lime;
+        public float m_dolomite;
+
         public string SForecastTemperature_C { get { return ForecastTemperature_C.ToString("0.00"); } set {} }
         public string SOxygenAmountTotalEnd_Nm3 { get { return OxygenAmountTotalEnd_Nm3.ToString("0.00"); } set {} }
         public string SOxygenAmountTotal1stStep_Nm3 { get { return OxygenAmountTotal1stStep_Nm3.ToString("0.00"); } set {} }

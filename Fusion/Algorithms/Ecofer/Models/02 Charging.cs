@@ -287,6 +287,9 @@ namespace Models
             lOutputData.H_Koks = lH_Koks;
             lOutputData.H_Odprasky = lH_Odprasky;
 
+            lOutputData.m_lime = lm_Lime;
+            lOutputData.m_dolomite = lm_Dolomite;
+
             return lOutputData;
         }
     }
