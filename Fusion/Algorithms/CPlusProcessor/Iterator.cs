@@ -13,6 +13,7 @@ namespace CPlusProcessor
         private static List<MFCPData> m_matrix;
         private static List<MFCPData> m_matrixTotal;
         public static MFCPData CurrentState;
+        public static double IntegralCO;
 
         public static HeatDataSmoother HDSmoother;
         public const int PeriodSec = 15; // время сглаживания
@@ -45,6 +46,7 @@ namespace CPlusProcessor
             m_dataIsFixed = false;
             m_dataIsEnqueue = false;
             Console.WriteLine("Reset");
+            IntegralCO = 0;
         }
 
         public static void Iterate()
@@ -58,9 +60,10 @@ namespace CPlusProcessor
                         EnqueueWaitC();
                         m_dataIsEnqueue = true;
 
-                        var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-                        fex.Fire(Program.MainGate);
-                        Console.WriteLine(fex.evt + "\n");
+                        //var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+                        //fex.Fire(Program.MainGate);
+                        FireFixEvent();
+                        //Console.WriteLine(fex.evt + "\n");
                     }
                 }
                 else
@@ -89,6 +92,13 @@ namespace CPlusProcessor
                 }
             }
             
+        }
+
+        static public void FireFixEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+            fex.Fire(Program.MainGate);
+            Console.WriteLine(fex.evt + "\n");
         }
 
         static public void PushCarbon(double carbon)
@@ -194,7 +204,9 @@ namespace CPlusProcessor
                    (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
-                   ((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
+                   ((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed) &&
+                   (IntegralCO > Program.COMin) && // проверка на интегральный CO
+                   (IntegralCO < Program.COMax);
         }
 
         public static void IterateTimeOut(object source, ElapsedEventArgs e)

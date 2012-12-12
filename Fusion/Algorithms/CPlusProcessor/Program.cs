@@ -19,6 +19,8 @@ namespace CPlusProcessor
         public static string MatrixPath;
         public static string MatrixTotalDir;
         public static string MatrixTotalPath;
+        public static double COMax;
+        public static double COMin;
 
         static void Main(string[] args)
         {
@@ -32,7 +34,11 @@ namespace CPlusProcessor
             MatrixTotalDir = MainConf.AppSettings.Settings["MatrixTotalDir"].Value;
             Directory.CreateDirectory(MatrixTotalDir);
             MatrixTotalPath = MatrixTotalDir + "\\" + ArchNameGenerate("TOTAL");
+            COMax = Double.Parse(MainConf.AppSettings.Settings["COMax"].Value);
+            COMin = Double.Parse(MainConf.AppSettings.Settings["COMin"].Value);
+
             Iterator.Init();
+
             Console.WriteLine("Press Enter for exit\n");
             Console.ReadLine();
         }

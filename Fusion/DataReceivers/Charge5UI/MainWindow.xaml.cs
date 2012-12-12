@@ -154,8 +154,8 @@ namespace Charge5UI
 
         private void DoChangePattern()
         {
-            lblSteelType.Content = "паттерн не выбран";
-            lblSteelType.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
+            lblPattern.Content = "паттерн не выбран";
+            lblPattern.Background = new SolidColorBrush(Color.FromArgb(127, 255, 0, 0));
         }
 
         public void Init()

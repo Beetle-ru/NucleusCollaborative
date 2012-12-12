@@ -53,6 +53,7 @@ namespace CPlusProcessor
                     var ogae = evt as OffGasAnalysisEvent;
                     Iterator.HDSmoother.CO.Add(ogae.CO);
                     Iterator.HDSmoother.CO2.Add(ogae.CO2);
+                    Iterator.IntegralCO += ogae.CO;
                 }
                 if (evt is HeatChangeEvent)
                 {
@@ -69,6 +70,21 @@ namespace CPlusProcessor
                         l.msg("Heat No Changed. Heat ID: {0}\n", hce.HeatNumber);
                     }
                 }
+
+                if (evt is SublanceStartEvent)
+                {
+                    var sse = evt as SublanceStartEvent;
+                    if (sse.SublanceStartFlag == 1)
+                    {
+                        Iterator.FireFixEvent();
+                        l.msg("Sublance begin metering");
+                    }
+                    if (sse.SublanceStartFlag == 0)
+                    {
+                        //
+                    }
+                }
+
                 if (evt is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = evt as visSpectrluksEvent;

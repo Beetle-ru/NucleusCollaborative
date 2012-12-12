@@ -10,7 +10,7 @@
         <Rectangle Fill="#6FFCAA77" Height="108" HorizontalAlignment="Left" Margin="12,228,0,0" Name="rectangle2" Stroke="Black" VerticalAlignment="Top" Width="390" />
         <ListBox Name="lbSteelType" Margin="12,33,12,0" Background="#AAFFFFFF" Height="121" VerticalAlignment="Top" FontSize="18" SelectionChanged="LBSteeTypeSelectionChanged" />
         <Label Content="Выберете группу стали" Name="lblSteelType" FontSize="20" HorizontalContentAlignment="Center" Height="32" VerticalAlignment="Top" Padding="1" Margin="12,0" />
-        <TextBox Height="29" Margin="37,290,0,0" Name="tbMHi" VerticalAlignment="Top" Background="#AAFFFFFF" Text="300" FontSize="20" Padding="0.5" HorizontalAlignment="Left" Width="51" />
+        <TextBox Height="29" Margin="37,290,0,0" Name="tbMHi" VerticalAlignment="Top" Background="#AAC8C8FF" Text="" FontSize="20" Padding="0.5" HorizontalAlignment="Left" Width="51" />
         <Label Content="Масса" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="37,261,0,0" Name="label2" VerticalAlignment="Top" Width="59" Padding="1" />
         <Label Content="Т" FontSize="20" Height="29" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="94,288,0,0" Name="label3" VerticalAlignment="Top" Width="23" Padding="1" />
         <TextBox Background="#AAFFFFFF" FontSize="20" Height="29" HorizontalAlignment="Left" Margin="142,290,0,0" Name="tbTHi" Text="1370" VerticalAlignment="Top" Width="64" Padding="0.5" />
@@ -23,7 +23,7 @@
         <Rectangle Height="67" HorizontalAlignment="Left" Margin="121,262,0,0" Name="rectangle3" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" Fill="#FF9A9A9A" />
         <Rectangle Fill="#FF9A9A9A" Height="67" HorizontalAlignment="Left" Margin="281,261,0,0" Name="rectangle4" Stroke="{x:Null}" VerticalAlignment="Top" Width="2" />
         <Rectangle Fill="#6F38BE7D" Height="108" HorizontalAlignment="Left" Margin="413,228,0,0" Name="rectangle5" Stroke="Black" VerticalAlignment="Top" Width="105" />
-        <TextBox Background="#AAFFFFFF" FontSize="20" Height="29" HorizontalAlignment="Left" Margin="438,290,0,0" Name="tbMSc" Padding="0.5" Text="" VerticalAlignment="Top" Width="51" />
+        <TextBox Background="#AAC8C8FF" FontSize="20" Height="29" HorizontalAlignment="Left" Margin="438,290,0,0" Name="tbMSc" Padding="0.5" Text="" VerticalAlignment="Top" Width="51" />
         <Label Content="Масса" FontSize="20" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="438,262,0,0" Name="label9" Padding="1" VerticalAlignment="Top" Width="59" />
         <Label Content="Т" FontSize="20" Height="29" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="495,288,0,0" Name="label10" Padding="1" VerticalAlignment="Top" Width="23" />
         <Label Content="Лом:" FontSize="20" FontStyle="Normal" FontWeight="Bold" Height="33" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="422,228,0,0" Name="label11" Padding="1" VerticalAlignment="Top" Width="73" />

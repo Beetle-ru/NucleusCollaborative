@@ -196,7 +196,7 @@ namespace SublanceGenerator
                     if (fxe.Operation.StartsWith("OPC.SublanceHeigth"))
                     {
                         var key = "Heigth";
-                        l.msg(fxe.ToString());
+                        //l.msg(fxe.ToString());
                         try
                         {
                             var sublanceHeigthNow = (Int16)fxe.Arguments[key];
