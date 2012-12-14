@@ -33,5 +33,7 @@ namespace Charge5
         public static bool IsRefrashData; // обновлены данные для пересчета
 
         public static int ConverterNumber;
+
+        public static DataSaver Saver;
     }
 }

@@ -43,6 +43,8 @@ namespace Charge5
 
             CalcModeIsAutomatic = false;
 
+            Saver = new DataSaver();
+
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
 
@@ -66,12 +68,14 @@ namespace Charge5
             AutoInData.SiHi = 0;
             AutoInData.THi = 0;
            
-            m_autoInDataPrevious = new InData();
-            m_autoInDataPrevious.SteelType = -1;
-            m_autoInDataPrevious.THi = -1;
-            m_autoInDataPrevious.SiHi = -1;
-            m_autoInDataPrevious.MSc = -1;
-            m_autoInDataPrevious.MHi = -1;
+            //m_autoInDataPrevious = new InData();
+            //m_autoInDataPrevious.SteelType = -1;
+            //m_autoInDataPrevious.THi = -1;
+            //m_autoInDataPrevious.SiHi = -1;
+            //m_autoInDataPrevious.MSc = -1;
+            //m_autoInDataPrevious.MHi = -1;
+
+            Saver.Reset();
 
             IsRefrashData = false;
 

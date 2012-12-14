@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataSaver.cs" />
     <Compile Include="src\Alg.cs" />
     <Compile Include="src\Init.cs" />
     <Compile Include="src\Iterator.cs" />

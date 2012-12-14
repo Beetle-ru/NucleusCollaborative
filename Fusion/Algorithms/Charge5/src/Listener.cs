@@ -40,6 +40,7 @@ namespace Charge5
                         CHeatNumber = hce.HeatNumber;
                         Program.Reset();
                         l.msg("Heat Changed. New Heat ID: {0}\n", CHeatNumber);
+                        Program.Saver.HeatNumber = CHeatNumber;
                     }
                     else
                     {
