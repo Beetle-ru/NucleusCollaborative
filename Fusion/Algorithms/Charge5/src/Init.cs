@@ -23,10 +23,22 @@ namespace Charge5
             StorePath = MainConf.AppSettings.Settings["StorePath"].Value;
             ConverterNumber = Int32.Parse(MainConf.AppSettings.Settings["converterNumber"].Value);
 
+            DefaultPattern = MainConf.AppSettings.Settings["DefPattrn"].Value;
+
             InitTbl = new CSVTableParser();
 
             TablePaths = ScanStore(StorePath);
-            Tables = LoadTables("default", ref InitTbl);
+            try
+            {
+                Tables = LoadTables(DefaultPattern, ref InitTbl);
+                InstantLogger.msg("default pattern \"{0}\" loaded", DefaultPattern);
+            }
+            catch (Exception)
+            {
+                InstantLogger.err("can't load pattern \"{0}\",\nTry load pattern \"default\"", DefaultPattern);
+                Tables = LoadTables("default", ref InitTbl);
+            }
+            
             if (Tables == null) InstantLogger.err("default pattern not loaded");
 
             CalcModeIsAutomatic = false;
@@ -51,8 +63,8 @@ namespace Charge5
         public static void Reset()
         {
             AutoInData = new InData();
-            AutoInData.SiHi = 0.55;
-            AutoInData.THi = 1370;
+            AutoInData.SiHi = 0;
+            AutoInData.THi = 0;
            
             m_autoInDataPrevious = new InData();
             m_autoInDataPrevious.SteelType = -1;

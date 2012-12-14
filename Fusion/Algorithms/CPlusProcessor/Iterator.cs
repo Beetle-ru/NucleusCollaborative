@@ -57,6 +57,7 @@ namespace CPlusProcessor
                 {
                     if (!m_dataIsEnqueue)
                     {
+                        CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
                         EnqueueWaitC();
                         m_dataIsEnqueue = true;
 
@@ -93,6 +94,7 @@ namespace CPlusProcessor
             }
             
         }
+
 
         static public void FireFixEvent()
         {
@@ -198,6 +200,8 @@ namespace CPlusProcessor
             const int lanceSpeed = 5; // + up , - down
             const double carbonMonoxideTreshol = 30.0; //%
             const double carbonOxideTreshol = 5.0; //%
+
+            //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
                    (HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) && 
