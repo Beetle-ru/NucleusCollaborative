@@ -354,7 +354,8 @@ namespace ModelRunner
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
                                 if (0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted))
                                 {
-                                    DynPrepare.ironRecalcRequest = true;
+                                    ///! UNTIL RECALC WORKS !!! DynPrepare.ironRecalcRequest = true;
+                                    l.err("recalculation not works yet");
                                 }
                             }
                             else
