@@ -31,5 +31,9 @@ namespace DTO
         public Nullable<Double> Carbon_p { get; set; }
 
         public MINP_HeatDTO MINP_Heat { get; set; }
+
+        public int CorrectionOxigen { get; set; }
+
+        public int TotalOxigen { get; set; }
     }
 }
