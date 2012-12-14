@@ -131,6 +131,8 @@
             this.panBasiticy = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.txbBasiticy = new System.Windows.Forms.TextBox();
+            this.btnIronSel = new System.Windows.Forms.Button();
+            this.btnScrapSel = new System.Windows.Forms.Button();
             this.basement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).BeginInit();
             this.splitIronScrap.Panel1.SuspendLayout();
@@ -236,6 +238,8 @@
             this.panSlagInput.Controls.Add(this.txbCokeIn, 1, 7);
             this.panSlagInput.Controls.Add(this.label3, 0, 7);
             this.panSlagInput.Controls.Add(this.btnVapno, 3, 3);
+            this.panSlagInput.Controls.Add(this.btnIronSel, 4, 0);
+            this.panSlagInput.Controls.Add(this.btnScrapSel, 4, 1);
             this.panSlagInput.Location = new System.Drawing.Point(0, 0);
             this.panSlagInput.Name = "panSlagInput";
             this.panSlagInput.RowCount = 8;
@@ -319,7 +323,7 @@
             this.btnIronChem.Size = new System.Drawing.Size(109, 34);
             this.btnIronChem.TabIndex = 30;
             this.btnIronChem.TabStop = false;
-            this.btnIronChem.Text = "Состав...";
+            this.btnIronChem.Text = "Хим.состав\r\n";
             this.btnIronChem.UseVisualStyleBackColor = true;
             this.btnIronChem.Click += new System.EventHandler(this.btnIronChem_Click);
             // 
@@ -332,7 +336,7 @@
             this.btnScrapChem.Size = new System.Drawing.Size(109, 34);
             this.btnScrapChem.TabIndex = 28;
             this.btnScrapChem.TabStop = false;
-            this.btnScrapChem.Text = "Состав...";
+            this.btnScrapChem.Text = "Хим.состав\r\n";
             this.btnScrapChem.UseVisualStyleBackColor = true;
             this.btnScrapChem.Click += new System.EventHandler(this.btnIronControl_Click);
             // 
@@ -407,7 +411,7 @@
             this.btnFomChem.Size = new System.Drawing.Size(109, 34);
             this.btnFomChem.TabIndex = 45;
             this.btnFomChem.TabStop = false;
-            this.btnFomChem.Text = "Состав...";
+            this.btnFomChem.Text = "Хим.состав\r\n";
             this.btnFomChem.UseVisualStyleBackColor = true;
             this.btnFomChem.Click += new System.EventHandler(this.btnFomChem_Click);
             // 
@@ -420,7 +424,7 @@
             this.btnCaCO3Chem.Size = new System.Drawing.Size(109, 34);
             this.btnCaCO3Chem.TabIndex = 46;
             this.btnCaCO3Chem.TabStop = false;
-            this.btnCaCO3Chem.Text = "Состав...";
+            this.btnCaCO3Chem.Text = "Хим.состав\r\n";
             this.btnCaCO3Chem.UseVisualStyleBackColor = true;
             this.btnCaCO3Chem.Click += new System.EventHandler(this.btnLimeStoneChem_Click);
             // 
@@ -535,7 +539,7 @@
             this.btnDolomiteChem.Size = new System.Drawing.Size(109, 34);
             this.btnDolomiteChem.TabIndex = 54;
             this.btnDolomiteChem.TabStop = false;
-            this.btnDolomiteChem.Text = "Состав...";
+            this.btnDolomiteChem.Text = "Хим.состав\r\n";
             this.btnDolomiteChem.UseVisualStyleBackColor = true;
             this.btnDolomiteChem.Click += new System.EventHandler(this.btnDolomiteChem_Click);
             // 
@@ -568,7 +572,7 @@
             this.btnVapno.Size = new System.Drawing.Size(109, 34);
             this.btnVapno.TabIndex = 55;
             this.btnVapno.TabStop = false;
-            this.btnVapno.Text = "Состав...";
+            this.btnVapno.Text = "Хим.состав\r\n";
             this.btnVapno.UseVisualStyleBackColor = true;
             this.btnVapno.Click += new System.EventHandler(this.btnVapno_Click);
             // 
@@ -1331,6 +1335,28 @@
             this.txbBasiticy.Size = new System.Drawing.Size(144, 21);
             this.txbBasiticy.TabIndex = 19;
             // 
+            // btnIronSel
+            // 
+            this.btnIronSel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnIronSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnIronSel.Location = new System.Drawing.Point(644, 4);
+            this.btnIronSel.Name = "btnIronSel";
+            this.btnIronSel.Size = new System.Drawing.Size(110, 34);
+            this.btnIronSel.TabIndex = 58;
+            this.btnIronSel.Text = "Выбрать...";
+            this.btnIronSel.UseVisualStyleBackColor = true;
+            // 
+            // btnScrapSel
+            // 
+            this.btnScrapSel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnScrapSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScrapSel.Location = new System.Drawing.Point(644, 45);
+            this.btnScrapSel.Name = "btnScrapSel";
+            this.btnScrapSel.Size = new System.Drawing.Size(110, 34);
+            this.btnScrapSel.TabIndex = 59;
+            this.btnScrapSel.Text = "Выбрать...";
+            this.btnScrapSel.UseVisualStyleBackColor = true;
+            // 
             // MixtureInitial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1492,6 +1518,8 @@
         private System.Windows.Forms.Panel panTitleHeading;
         private System.Windows.Forms.Label lblTitleHeading;
         private System.Windows.Forms.Panel panAligner;
+        private System.Windows.Forms.Button btnIronSel;
+        private System.Windows.Forms.Button btnScrapSel;
 
 
 
