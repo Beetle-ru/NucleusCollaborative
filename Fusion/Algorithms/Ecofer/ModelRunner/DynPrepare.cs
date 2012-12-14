@@ -433,7 +433,7 @@ namespace ModelRunner
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
-                    ConnectionProvider.Client.protectedMode = false; 
+                    ///! NI ConnectionProvider.Client.protectedMode = false; 
                     Thread.Sleep(1000);
                     // текущий номер плавки
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });

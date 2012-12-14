@@ -13,7 +13,7 @@ namespace ConnectionProvider
 {
     public class Client : IMainGate
     {
-        public static bool protectedMode = false;
+        public static bool protectedMode = true;
         public const int THREAD_SLEEP = 50;
         private MainGateClient m_MainGateClient;
         private string m_ConnectionName = null;
