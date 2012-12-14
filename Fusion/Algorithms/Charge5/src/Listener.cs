@@ -255,7 +255,7 @@ namespace Charge5
                     {
                         if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(CHeatNumber)))
                         {
-                            l.msg("Xim Iron from Pipe: T = {0}, Si = {1}\n", fxe.Arguments["HM_TEMP"], fxe.Arguments["HM_TEMP"]);
+                            l.msg("Xim Iron from Pipe: T = {0}, Si = {1}\n", fxe.Arguments["HM_TEMP"], fxe.Arguments["ANA_SI"]);
                             Program.AutoInData.SiHi = Convert.ToDouble(fxe.Arguments["ANA_SI"]);
                             Program.AutoInData.THi = Convert.ToInt32(fxe.Arguments["HM_TEMP"]);
                             Program.IsRefrashData = true;

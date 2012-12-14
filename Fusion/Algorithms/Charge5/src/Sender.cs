@@ -23,6 +23,8 @@ namespace Charge5
             fex.AddArg("IsFound", outData.IsFound); // bool
 
             fex.Fire(Program.MainGate);
+
+            Implements.InstantLogger.msg(fex.evt.ToString());
         }
     }
 }

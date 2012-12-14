@@ -53,7 +53,12 @@ namespace CPlusProcessor
                     var ogae = evt as OffGasAnalysisEvent;
                     Iterator.HDSmoother.CO.Add(ogae.CO);
                     Iterator.HDSmoother.CO2.Add(ogae.CO2);
-                    Iterator.IntegralCO += ogae.CO;
+                    if (Iterator.HDSmoother.Oxygen.Average() > 0)
+                    {
+                        Iterator.IntegralCO += ogae.CO;
+                    }
+                    //InstantLogger.msg("integral CO {1} > {0} > {2}", Iterator.IntegralCO, Program.COMax, Program.COMin);
+                    
                 }
                 if (evt is HeatChangeEvent)
                 {

@@ -17,6 +17,7 @@ namespace Charge5
         public static Configuration MainConf;
         public static char Separator;
         public static string StorePath;
+        public static string DefaultPattern;
         public static List<CSVTableParser> Tables;
         public static CSVTableParser InitTbl;
         public static List<string> TablePaths;
