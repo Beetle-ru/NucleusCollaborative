@@ -433,15 +433,14 @@ namespace ModelRunner
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
-                    ///! NI ConnectionProvider.Client.protectedMode = false; 
-                    Thread.Sleep(1000);
-                    // текущий номер плавки
-                    CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
                     Thread.Sleep(1000);
                     // запрашиваем привязку бункеров к материалам
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
                     // навески
                     CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(visAdditionTotalEvent).Name });
+                    Thread.Sleep(1000);
+                    // текущий номер плавки
+                    CoreGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
                     int nStep = 0;
 
                     for (var i = 0; i < _N_matElements; i++)
@@ -582,7 +581,7 @@ NEXT_HEAT:
                     #endregion
 
                     MINP.HeatAimData = new MINP_HeatAimDataDTO();
-                    MINP.HeatAimData.FinalTemperature = 1700;
+                    MINP.HeatAimData.FinalTemperature = visTargetVal == null ? 1700 : visTargetVal.GetInt("T");
 
                     Data.MINP.Phases = new Phases(aInputData.OxygenBlowingPhases);
                     Data.MINP.Phases.SwitchToNextPhase();
@@ -618,7 +617,8 @@ NEXT_HEAT:
                                                        var lTM = new MINP_TempMeasDTO();
                                                        lTM.Temperature = (int)DynModel.LastOutputData.T_Tavby;
                                                        DynModel.EnqueueTemperatureMeasured(lTM);
-                                                       l.msg("Waiting for temperature measurement: {0}", lTM.Temperature);
+                                                       l.msg("Waiting for temperature measurement -- forecast: {0}", (int)DynModel.LastOutputData.T_Tavby);
+                                                       DynModel.Pause();
                                                    }
                                                };
                     DynModel.ModelLoopDone += (s, e) =>
@@ -782,14 +782,17 @@ WAIT_END_OF_HEAT:
 
         public static void FireShixtaDoneEvent(ChargingOutput aut)
         {
-            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.ShixtaII");
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Bunker.Additions");
             fex.AddInt("Heat_No", Listener.HeatNumber);
-            fex.AddDbl("Oxygen", aut.OxygenAmountTotalEnd_Nm3);
-            fex.AddDbl("LIME", aut.m_lime);
-            fex.AddDbl("DOLOMS", aut.m_dolomite);
-            fex.AddDbl("DOLMAX", Listener.VisWeight["DOLMAX"]);
-            fex.AddDbl("FOM", Listener.VisWeight["FOM"]);
-            fex.AddDbl("COKE", Listener.VisWeight["COKE"]);
+            fex.AddInt(Listener.VisKey["LIME"], aut.m_lime);
+            fex.AddInt(Listener.VisKey["DOLOMS"], aut.m_dolomite);
+            fex.AddInt(Listener.VisKey["DOLMAX"], Listener.VisWeight["DOLMAX"]);
+            fex.AddInt(Listener.VisKey["FOM"], Listener.VisWeight["FOM"]);
+            fex.AddInt(Listener.VisKey["COKE"], Listener.VisWeight["COKE"]);
+            fex.Fire(CoreGate);
+            fex.evt.Operation = "Model.Dynamic.Output.TotalO2OnBlowing";
+            fex.ClearArgs();
+            fex.AddDbl("TotalBlowingO2", aut.OxygenAmountTotalEnd_Nm3);
             fex.Fire(CoreGate);
         }
 

@@ -37,6 +37,8 @@ namespace ModelRunner
         public static Dictionary<string, int> CurrWeight = new Dictionary<string, int>();
         public static Dictionary<string, int> ModWeight = new Dictionary<string, int>();
         public static Dictionary<string, int> VisWeight = new Dictionary<string, int>();
+        public static Dictionary<string, string> VisKey = new Dictionary<string, string>();
+        public static Dictionary<string, string> matRename = new Dictionary<string, string>();
 
         private class VBItem
         {
@@ -51,7 +53,6 @@ namespace ModelRunner
         }
 
         private static List<VBItem> lvb = new List<VBItem>();
-        public static Dictionary<string, string> matRename = new Dictionary<string, string>();
 
         public static Charging shixtaII;
         public static object Lock = new object();
@@ -86,6 +87,12 @@ namespace ModelRunner
             VisWeight.Add("FOM", 0);
             VisWeight.Add("COKE", 0);
             VisWeight.Add("ALCONZ", 0);
+            VisKey.Add("LIME", "?");
+            VisKey.Add("DOLOMS", "?");
+            VisKey.Add("DOLMAX", "?");
+            VisKey.Add("FOM", "?");
+            VisKey.Add("COKE", "?");
+            VisKey.Add("ALCONZ", "?");
             lvb.Add(new VBItem(0.2, "=3="));
             lvb.Add(new VBItem(0.3, "=8=24=36="));
             lvb.Add(new VBItem(0.5, "=18=2=73="));
@@ -308,6 +315,7 @@ namespace ModelRunner
                                 sb.AppendFormat("   {2}[{0}] = {1}\n",
                                     matRename[s], val, mat.Key);
                                 VisWeight[matRename[s]] += val;
+                                VisKey[matRename[s]] = mat.Key;
                             }
                             else
                             {
@@ -533,6 +541,44 @@ namespace ModelRunner
                             l.msg("Heat {0} : main blowing started", HeatNumber);
                         }
                     }
+                }
+                if (evt is SublanceTemperatureEvent)
+                {
+                    var fxe = new FlexHelper("Model.Dynamic.Output.RecommendBalanceBlow");
+                    var ste = evt as SublanceTemperatureEvent;
+                    const int maxT = 1770;
+                    const int minT = 1550;
+                    if ((ste.SublanceTemperature < maxT) && (ste.SublanceTemperature > minT))
+                    {
+                        fxe.AddInt("CurrentT", ste.SublanceTemperature);
+                        fxe.AddInt("TargetT", MINP.HeatAimData.FinalTemperature);
+                        if (fxe.GetInt("TargetT") > fxe.GetInt("CurrentT"))
+                        {
+                            var lTM = new MINP_TempMeasDTO();
+                            lTM.Temperature = fxe.GetInt("CurrentT");
+                            DynPrepare.DynModel.EnqueueTemperatureMeasured(lTM);
+                            DynPrepare.DynModel.Resume();
+                            System.Threading.Thread.Sleep(300);
+                            fxe.AddDbl("CorrectionO2", lTM.CorrectionOxigen);
+                        } 
+                        else
+                        {
+                            DynPrepare.DynModel.Stop();
+                            fxe.AddDbl("CorrectionO2", -3.0);
+                        }
+                        l.msg("SublanceTemperature = " + ste.SublanceTemperature);
+                    }
+                    else
+                    {
+                        DynPrepare.DynModel.Stop();
+                        fxe.AddDbl("CorrectionO2", -5.0);
+                    }
+                    fxe.Fire(DynPrepare.CoreGate);
+                    var tmpOx = fxe.GetDbl("CorrectionO2");
+                    fxe.evt.Operation = "Model.Dynamic.Output.CorrectionO2";
+                    fxe.ClearArgs();
+                    fxe.AddDbl("CorrectionO2", tmpOx);
+                    fxe.Fire(DynPrepare.CoreGate);
                 }
             }
         }

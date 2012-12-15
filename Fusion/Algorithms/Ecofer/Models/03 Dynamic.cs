@@ -774,8 +774,10 @@ namespace Models
             mCorrectionOxygenAmount = (int)Math.Round(lO_Dofuk_T);
             if (lO_Dofuk_C > lO_Dofuk_T) mCorrectionOxygenAmount = (int)Math.Round(lO_Dofuk_C);
 
+            aTempMeas.CorrectionOxigen = mCorrectionOxygenAmount;
             // calculated amount + main oxygen blowing amount
             mCorrectionOxygenAmount += mFinalOxygenAmount;
+            aTempMeas.TotalOxigen = mCorrectionOxygenAmount;
 
             if (mCorrectionOxygenBlowingPhase == null) Stop();
             else
