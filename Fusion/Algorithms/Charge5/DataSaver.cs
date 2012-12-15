@@ -36,6 +36,11 @@ namespace Charge5
         /// </summary>
         public double SiHi;
 
+        /// <summary>
+        /// Тип стали 0 -- 7
+        /// </summary>
+        public int SteelType;
+
         public DataSaver()
         {
             Directory.CreateDirectory(ArchDir);
@@ -44,7 +49,7 @@ namespace Charge5
 
         public void SaveArch()
         {
-            var line = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}",
+            var line = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}",
                                         Separator,
                                         DateTime.Now.ToString(),
                                         HeatNumber,
@@ -56,10 +61,11 @@ namespace Charge5
                                         MDlm,
                                         MFom,
                                         MDlms,
-                                        IsFound
+                                        IsFound,
+                                        SteelType
                                     );
 
-            var header = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}",
+            var header = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}",
                                         Separator,
                                         "DateTime",
                                         "HeatNumber",
@@ -71,7 +77,8 @@ namespace Charge5
                                         "MDlm",
                                         "MFom",
                                         "MDlms",
-                                        "IsFound"
+                                        "IsFound",
+                                        "SteelType"
                                     );
 
             var exists = File.Exists(ArchPath);

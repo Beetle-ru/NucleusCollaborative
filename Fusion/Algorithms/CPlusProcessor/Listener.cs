@@ -99,9 +99,11 @@ namespace CPlusProcessor
                 if (evt is CalculatedCarboneEvent)
                 {
                     var cce = evt as CalculatedCarboneEvent;
+                    const double treshold = 0.12; 
                     if (!Iterator.ModelIsStarted)
                     {
-                        Iterator.PushCarbon(cce.CarbonePercent);
+                        var c = cce.CarbonePercent;
+                        Iterator.PushCarbon(c >= treshold ? c : treshold);
                     }
                 }
             }
