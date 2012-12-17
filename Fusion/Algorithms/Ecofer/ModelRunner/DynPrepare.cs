@@ -503,8 +503,12 @@ NEXT_HEAT:
                             lock (Listener.Lock)
                             {
                                 recallChargingReq = false;
-                                Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt, Listener.VisWeight));
-                                FireShixtaDoneEvent(Listener.shixtaII.Run());
+                                if ((Listener.VisWeight["FOM"] != 0) && (Listener.VisWeight["DOLMAX"] != 0))
+                                {
+                                    Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt, Listener.VisWeight));
+                                    FireShixtaDoneEvent(Listener.shixtaII.Run());
+                                }
+                                else l.err("Shixta-II did not run due to null argument(s)");
                                 for (var iw = 0; iw < Listener.VisWeight.Count; iw++)
                                 {
                                     Listener.VisWeight[Listener.VisWeight.ElementAt(iw).Key] = 0;
@@ -614,9 +618,6 @@ NEXT_HEAT:
                                                        ((PhaseItemL1Command) e.CurrentPhase).L1Command ==
                                                        Enumerations.L2L1_Command.TemperatureMeasurement)
                                                    {
-                                                       var lTM = new MINP_TempMeasDTO();
-                                                       lTM.Temperature = (int)DynModel.LastOutputData.T_Tavby;
-                                                       DynModel.EnqueueTemperatureMeasured(lTM);
                                                        l.msg("Waiting for temperature measurement -- forecast: {0}", (int)DynModel.LastOutputData.T_Tavby);
                                                        DynModel.Pause();
                                                    }
