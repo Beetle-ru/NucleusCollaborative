@@ -36,10 +36,22 @@ namespace OPCFlex
         {
             using (Logger l = new Logger("OnEvent"))
             {
+                const string OPKEY = "OPC.Read-"; 
                 if (evt is FlexEvent)
                 {
                     var fex = evt as FlexEvent;
-                    if ((fex.Flags & FlexEventFlag.FlexEventOpcNotification) == 0)
+                    if (fex.Operation.StartsWith(OPKEY))
+                    {
+                        var targetOpCode = fex.Operation.Substring(OPKEY.Length);
+                        foreach (var d in Program.descriptions)
+                        {
+                            if (d.Operation.StartsWith(targetOpCode))
+                            {
+                                Program.fireFlex(d);
+                            }
+                        }
+                    }
+                    else if ((fex.Flags & FlexEventFlag.FlexEventOpcNotification) == 0)
                     {
                         int[] aE;
                         foreach (var d in Program.descriptions)
@@ -67,10 +79,6 @@ namespace OPCFlex
                             }
                         }
                     }
-                }
-                else if (evt is OPCDirectReadEvent)
-                {
-                    
                 }
             }
         }
