@@ -780,21 +780,33 @@ WAIT_END_OF_HEAT:
             fex.AddDbl("COKE", Listener.CurrWeight["COKE"]);
             fex.Fire(CoreGate);
         }
-
+        private enum NormError
+        {
+            NOTANUMBER  = -33,
+            TOOLARGE = -11,
+            TOOLITTLE = -13
+        } 
+        private static float fNorm(float arg)
+        {
+            if (float.IsNaN(arg)) return (float)NormError.NOTANUMBER;
+            if (arg > Int32.MaxValue) return (float)NormError.TOOLARGE;
+            if (arg < Int32.MinValue) return (float) NormError.TOOLITTLE;
+            return arg;
+        }
         public static void FireShixtaDoneEvent(ChargingOutput aut)
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Bunker.Additions");
             fex.AddInt("Heat_No", Listener.HeatNumber);
-            fex.AddInt(Listener.VisKey["LIME"], aut.m_lime);
-            fex.AddInt(Listener.VisKey["DOLOMS"], aut.m_dolomite);
+            fex.AddInt(Listener.VisKey["LIME"], fNorm(aut.m_lime));
+            fex.AddInt(Listener.VisKey["DOLOMS"], fNorm(aut.m_dolomite));
             fex.AddInt(Listener.VisKey["DOLMAX"], Listener.VisWeight["DOLMAX"]);
             fex.AddInt(Listener.VisKey["FOM"], Listener.VisWeight["FOM"]);
             fex.AddInt(Listener.VisKey["COKE"], Listener.VisWeight["COKE"]);
             fex.Fire(CoreGate);
-            fex.evt.Operation = "Model.Dynamic.Output.TotalO2OnBlowing";
-            fex.ClearArgs();
-            fex.AddDbl("TotalBlowingO2", aut.OxygenAmountTotalEnd_Nm3);
-            fex.Fire(CoreGate);
+            var fex1 = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.TotalO2OnBlowing");
+            fex1.ClearArgs();
+            fex1.AddDbl("TotalBlowingO2", aut.OxygenAmountTotalEnd_Nm3);
+            fex1.Fire(CoreGate);
         }
 
         public static void SimulationOxygenBlowing()

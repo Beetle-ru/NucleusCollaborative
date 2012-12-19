@@ -295,7 +295,7 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("Vis.Output.Preliminary.Additions"))
                     {
-                        l.msg("Visual Additions Event Appeared: {0}\n", fxe);
+                        l.msg("Visual Preliminary Additions Event Appeared: {0}\n", fxe);
                     }
                     else if (fxe.Operation.StartsWith("Vis.Output.Bunker.Additions"))
                     {
