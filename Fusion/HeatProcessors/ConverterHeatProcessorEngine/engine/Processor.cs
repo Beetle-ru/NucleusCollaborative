@@ -213,6 +213,30 @@ namespace ConverterHeatProcessorEngine
                    }
                }
             }
+
+            if (newEvent is FlexEvent)
+            {
+                var fxe = newEvent as FlexEvent;
+                if (fxe.Operation.StartsWith("OPC.ComEndBlowing"))
+                {
+                    var key = "SId";
+                    InstantLogger.msg(fxe.ToString());
+                    try
+                    {
+                        key = "EndBlowingSignal";
+                        if (((int)fxe.Arguments[key]) == 1)
+                        {
+                            HeatOn = false;
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        InstantLogger.err("OPC.ComEndBlowing - {1} : \n{0}", e.ToString(), key);
+                    }
+                }
+                
+            }
             return 0;
         }
     }
