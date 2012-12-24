@@ -440,7 +440,7 @@ namespace CarboneProcessor
                 return false;
             }
 
-            return false;
+            //return false; // типа выключатель многофакторной модели
 
             return (
                        ((oxygenVolumeCurrent/oxygenVolumeTotal*100) > 80) &&
