@@ -213,6 +213,13 @@ namespace CarboneProcessor
                             CurrentHeatResult.MFMEquationId = m_currentMatrix; // фиксируем матрицу по которой учим
                             EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
                             Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
+                            
+                            // временная мера для перехода на старый углерод
+                            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+                            fex.Fire(Program.PushGate); 
+                            Console.WriteLine(fex.evt + "\n");
+                            //////////////////////////////////////////////////////////////////////
+
                             m_noFixData = false;
                         }
                     }
@@ -242,6 +249,12 @@ namespace CarboneProcessor
                 calculatedCarboneEvent.model = DataArchSec.SD[DataArchSec.SD.Count - 1].Model;
                 Program.PushGate.PushEvent(calculatedCarboneEvent);
                 //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
+
+                // временная мера для перехода на старый углерод
+                var fex2 = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
+                fex2.AddArg("C", RemainCarbonPercent);
+                fex2.Fire(Program.PushGate);
+                //////////////////////////////////////////////////////////////////////
             }
             
         }
