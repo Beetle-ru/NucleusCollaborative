@@ -215,7 +215,7 @@ namespace CorrectionCT
 
                 InstantLogger.msg("End blowing oxygen {0}{1}", EndBlowingOxygen, msg);
             }
-            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop)
+            if ((CurrentOxygen > EndBlowingOxygen) && !BlowStopSignalPushed && AutomaticStop && IsActualOxygen)
             {
                 DoStopBlow();
             }
