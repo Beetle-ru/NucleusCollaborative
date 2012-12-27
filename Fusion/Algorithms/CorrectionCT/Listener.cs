@@ -188,7 +188,7 @@ namespace CorrectionCT
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result"))
                     {
                         var key = "C";
                         //InstantLogger.msg(fxe.ToString());
@@ -199,11 +199,11 @@ namespace CorrectionCT
                         }
                         catch (Exception e)
                         {
-                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                            InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("CPlusProcessor.DataFix"))
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.DataFix"))
                     {
                         l.msg(fxe.ToString());
                         Program.FixedCalcCarbone = Program.CurrentCalcCarbone;

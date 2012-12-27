@@ -128,7 +128,7 @@ namespace CSVArchiver
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result"))
                     {
                         var key = "C";
                         //InstantLogger.msg(fxe.ToString());
@@ -140,7 +140,7 @@ namespace CSVArchiver
                         }
                         catch (Exception e)
                         {
-                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                            InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }

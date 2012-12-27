@@ -97,7 +97,7 @@ namespace CarbonVisualizer
                 if (newEvent is FlexEvent)
                 {
                     var fxe = newEvent as FlexEvent;
-                    if (fxe.Operation.StartsWith("SMFCarbon.Result"))
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result"))
                     {
                         var key = "C";
                         InstantLogger.msg(fxe.ToString());
@@ -107,7 +107,7 @@ namespace CarbonVisualizer
                         }
                         catch (Exception e)
                         {
-                            InstantLogger.err("OffGasDecarbonater.Result - {1} : \n{0}", e.ToString(), key);
+                            InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }

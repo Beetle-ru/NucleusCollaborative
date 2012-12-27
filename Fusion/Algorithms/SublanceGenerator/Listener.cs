@@ -220,7 +220,7 @@ namespace SublanceGenerator
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("CPlusProcessor.Result"))
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result"))
                     {
                         var key = "C";
                         //InstantLogger.msg(fxe.ToString());

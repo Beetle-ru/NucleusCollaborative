@@ -53,6 +53,15 @@ namespace CarbonSwitcher
                 {
                     FireCarbon(ModelList[Cfg.SecondModel].C);
                 }
+                else
+                {
+                    if (!ModelList[Cfg.SecondModel].IsFiredFixed)
+                    {
+                        var fex = new FlexHelper("CarbonSwitcher.DataFix");
+                        fex.Fire(Program.MainGate);
+                        ModelList[Cfg.SecondModel].IsFiredFixed = true;
+                    }
+                }
             }
             else
             {
@@ -62,7 +71,7 @@ namespace CarbonSwitcher
 
         public static void FireCarbon(double c)
         {
-            var fex = new ConnectionProvider.FlexHelper("CarbonSwitcher.Result");
+            var fex = new FlexHelper("CarbonSwitcher.Result");
             fex.AddArg("C", c);
             fex.Fire(Program.MainGate);
         }
@@ -73,6 +82,7 @@ namespace CarbonSwitcher
         public double C;
         public bool IsStarted;
         public bool IsFixed;
+        public bool IsFiredFixed;
     }
 
     class Conf
