@@ -62,6 +62,8 @@
             this.txbCokeIn = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnVapno = new System.Windows.Forms.Button();
+            this.btnIronSel = new System.Windows.Forms.Button();
+            this.btnScrapSel = new System.Windows.Forms.Button();
             this.panControl = new System.Windows.Forms.Panel();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.panAuxOut = new System.Windows.Forms.TableLayoutPanel();
@@ -131,8 +133,6 @@
             this.panBasiticy = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.txbBasiticy = new System.Windows.Forms.TextBox();
-            this.btnIronSel = new System.Windows.Forms.Button();
-            this.btnScrapSel = new System.Windows.Forms.Button();
             this.basement.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitIronScrap)).BeginInit();
             this.splitIronScrap.Panel1.SuspendLayout();
@@ -575,6 +575,29 @@
             this.btnVapno.Text = "Хим.состав\r\n";
             this.btnVapno.UseVisualStyleBackColor = true;
             this.btnVapno.Click += new System.EventHandler(this.btnVapno_Click);
+            // 
+            // btnIronSel
+            // 
+            this.btnIronSel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnIronSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnIronSel.Location = new System.Drawing.Point(644, 4);
+            this.btnIronSel.Name = "btnIronSel";
+            this.btnIronSel.Size = new System.Drawing.Size(110, 34);
+            this.btnIronSel.TabIndex = 58;
+            this.btnIronSel.Text = "Выбрать...";
+            this.btnIronSel.UseVisualStyleBackColor = true;
+            // 
+            // btnScrapSel
+            // 
+            this.btnScrapSel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnScrapSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnScrapSel.Location = new System.Drawing.Point(644, 45);
+            this.btnScrapSel.Name = "btnScrapSel";
+            this.btnScrapSel.Size = new System.Drawing.Size(110, 34);
+            this.btnScrapSel.TabIndex = 59;
+            this.btnScrapSel.Text = "Выбрать...";
+            this.btnScrapSel.UseVisualStyleBackColor = true;
+            this.btnScrapSel.Click += new System.EventHandler(this.btnScrapSel_Click);
             // 
             // panControl
             // 
@@ -1334,28 +1357,6 @@
             this.txbBasiticy.Name = "txbBasiticy";
             this.txbBasiticy.Size = new System.Drawing.Size(144, 21);
             this.txbBasiticy.TabIndex = 19;
-            // 
-            // btnIronSel
-            // 
-            this.btnIronSel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnIronSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnIronSel.Location = new System.Drawing.Point(644, 4);
-            this.btnIronSel.Name = "btnIronSel";
-            this.btnIronSel.Size = new System.Drawing.Size(110, 34);
-            this.btnIronSel.TabIndex = 58;
-            this.btnIronSel.Text = "Выбрать...";
-            this.btnIronSel.UseVisualStyleBackColor = true;
-            // 
-            // btnScrapSel
-            // 
-            this.btnScrapSel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnScrapSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScrapSel.Location = new System.Drawing.Point(644, 45);
-            this.btnScrapSel.Name = "btnScrapSel";
-            this.btnScrapSel.Size = new System.Drawing.Size(110, 34);
-            this.btnScrapSel.TabIndex = 59;
-            this.btnScrapSel.Text = "Выбрать...";
-            this.btnScrapSel.UseVisualStyleBackColor = true;
             // 
             // MixtureInitial
             // 

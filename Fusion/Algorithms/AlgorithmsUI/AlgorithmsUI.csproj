@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,6 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChemistryDataSet.cs">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChemistryDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CoreListener.cs" />
     <Compile Include="DecarbonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +90,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScrapDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ScrapDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ScrapTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrapTable.Designer.cs">
+      <DependentUpon>ScrapTable.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ChemTable.resx">
       <DependentUpon>ChemTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -103,8 +125,22 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ScrapTable.resx">
+      <DependentUpon>ScrapTable.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="ChemistryDataSet.xsc">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ChemistryDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ChemistryDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ChemistryDataSet.xss">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
     </None>
     <None Include="data\CaCO3Chemistry.csv" />
     <None Include="data\CokeChemistry.csv" />
@@ -122,8 +158,31 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ScrapDataSet.xsc">
+      <DependentUpon>ScrapDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ScrapDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ScrapDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ScrapDataSet.xss">
+      <DependentUpon>ScrapDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
+      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
+      <Name>CommonTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ConnectionProvider\ConnectionProvider.csproj">
+      <Project>{6908AF06-DBFF-458F-9354-E8FD38F8C932}</Project>
+      <Name>ConnectionProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Converter\Converter.csproj">
+      <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
+      <Name>Converter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
       <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
       <Name>Implements</Name>
@@ -134,6 +193,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Chemistry.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Pulse.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
