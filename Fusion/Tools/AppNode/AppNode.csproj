@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B4EB7C95-B348-42BE-8B74-382C95135140}</ProjectGuid>
+    <ProjectGuid>{B7DE0329-22C2-42F7-ABBE-93FEA8A6C148}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Charge5</RootNamespace>
-    <AssemblyName>Charge5</AssemblyName>
+    <RootNamespace>AppNode</RootNamespace>
+    <AssemblyName>AppNode</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -33,12 +33,8 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Pulse3.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,46 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSaver.cs" />
-    <Compile Include="src\Alg.cs" />
-    <Compile Include="src\Init.cs" />
-    <Compile Include="src\Iterator.cs" />
-    <Compile Include="src\Listener.cs" />
-    <Compile Include="src\Members.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Sender.cs" />
-    <Compile Include="src\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
-      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
-      <Name>CommonTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ConnectionProvider\ConnectionProvider.csproj">
-      <Project>{6908AF06-DBFF-458F-9354-E8FD38F8C932}</Project>
-      <Name>ConnectionProvider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Converter\Converter.csproj">
-      <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
-      <Name>Converter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tools\Charge5Classes\Charge5Classes.csproj">
-      <Project>{9A803686-D843-4B7F-B6E5-624035283851}</Project>
-      <Name>Charge5Classes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
-      <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
-      <Name>Implements</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Pulse3.ico" />
+    <None Include="AppNode.cfg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,7 +9,7 @@ using HeatCharge;
 using System.Diagnostics;
 using Implements;
 
-namespace CarboneProcessor
+namespace OffGasDecarbonater
 {
     static class CIterator
     {
@@ -22,10 +22,8 @@ namespace CarboneProcessor
         public static double RemainCarbonPercent                { set; get; }
         public static bool TotalCarbonMassCalculated            { set; get; }
         public static bool GasCarbonMassFinished                { set; get; }
-        public static MFCMDataFull CurrentHeatResult            { set; get; }
         public static HeatData DataCurrentHeat                  { set; get; }
         public static HeatDataSmoother DataSmoothCurrent        { set; get; }
-        public static SecondDataArch DataArchSec                { set; get; }
         private static int m_maxDownLancePosition;
         private static RollingAverage m_smoothSecondLancePosition; // средние за секунду для определения скорости
         private static double m_previosSecondLancePosition; // предыдущее положение фурмы для определения скорости
@@ -34,13 +32,12 @@ namespace CarboneProcessor
         private static int m_currentMatrix;
         private static bool m_noFixData;
 
+        public static long HeatNumber;
+
         static public void Init()
         {
             m_sw = new Stopwatch();
-            CurrentHeatResult = new MFCMDataFull();
             DataCurrentHeat = new HeatData();
-            //CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull); //!!
-            DataArchSec = new SecondDataArch();
             DataSmoothCurrent = new HeatDataSmoother(100);
             m_smoothSecondLancePosition = new RollingAverage();
             TotalCarbonMass = 0.0;
@@ -108,7 +105,7 @@ namespace CarboneProcessor
                     }
 
                 }
-                else if (!GasCarbonMassFinished)
+                else// if (!GasCarbonMassFinished)
                 {
                     heatData.DeltaT = m_sw.ElapsedMilliseconds*0.001;
                     m_sw.Restart();
@@ -163,16 +160,6 @@ namespace CarboneProcessor
                                 heatData.ScrapCarbonPercent
                             );
                         }
-
-                        GasCarbonMassFinished = VerifyGasCarbonFinished(
-                            heatData.OxygenVolumeTotal,
-                            heatData.OxygenVolumeCurrent,
-                            TotalCarbonMass, RemainCarbonMass,
-                            heatData.CarbonMonoxideVolumePercent,
-                            heatData.CarbonMonoxideVolumePercentPrevious,
-                            heatData.CarbonOxideVolumePercent,
-                            heatData.CarbonOxideVolumePercentPrevious
-                            );
                     }
                     else
                     {
@@ -184,74 +171,8 @@ namespace CarboneProcessor
                             );
                     }
                 }
-                else
-                {
-                    var currentStateData = new MFCMData
-                                               {
-                                                   CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent,
-                                                   CarbonOxideVolumePercent = heatData.CarbonOxideVolumePercent,
-                                                   HeightLanceCentimeters = heatData.HeightLanceCentimeters,
-                                                   OxygenVolumeRate = heatData.OxygenVolumeRate
-                                               };
-                    //MFMChooser
-                    //var CMCarbon = Decarbonater.MultiFactorCarbonMass(heatData.MatrixStateData, currentStateData);
-                    m_currentMatrix = MFMChooser(heatData);
-                    var matrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull[m_currentMatrix].MatrixList);
-                    var CMCarbon = Decarbonater.MultiFactorCarbonMass(matrixStateData, currentStateData);
-                    //if (CMCarbon < RemainCarbonPercent) RemainCarbonPercent = CMCarbon;
-                    RemainCarbonPercent = CMCarbon;
 
-                    if (MomentFixDataForMFactorModel(heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent)) // фиксируем для обучения
-                    {
-                        if (m_noFixData)
-                        {
-                            CurrentHeatResult.OxygenVolumeRate = heatData.OxygenVolumeRate;
-                            CurrentHeatResult.SteelCarbonCalculationPercent = RemainCarbonPercent;
-                            CurrentHeatResult.CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent;
-                            CurrentHeatResult.CarbonOxideVolumePercent = heatData.CarbonOxideVolumePercent;
-                            CurrentHeatResult.HeightLanceCentimeters = heatData.HeightLanceCentimeters;
-                            CurrentHeatResult.MFMEquationId = m_currentMatrix; // фиксируем матрицу по которой учим
-                            EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
-                            Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
-                            
-                            // временная мера для перехода на старый углерод
-                            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-                            fex.Fire(Program.PushGate); 
-                            Console.WriteLine(fex.evt + "\n");
-                            //////////////////////////////////////////////////////////////////////
-
-                            m_noFixData = false;
-                        }
-                    }
-
-
-                }
-                DataArchSec.SD.Add(new SecondData()); // заполняем для статистики во время плавки
-                DataArchSec.SD[DataArchSec.SD.Count - 1].CarboneCalc = RemainCarbonPercent;
-                DataArchSec.SD[DataArchSec.SD.Count - 1].Time = DateTime.Now.ToString();
-                DataArchSec.SD[DataArchSec.SD.Count - 1].CarboneMonoxide = heatData.CarbonMonoxideVolumePercent;
-                DataArchSec.SD[DataArchSec.SD.Count - 1].CarboneOxide = heatData.CarbonOxideVolumePercent;
-                DataArchSec.SD[DataArchSec.SD.Count - 1].HeightLance = heatData.HeightLanceCentimeters;
-                DataArchSec.SD[DataArchSec.SD.Count - 1].OxygenVolumeCurrent = heatData.OxygenVolumeCurrent;
-                //
-                if (!GasCarbonMassFinished)
-                {
-                    DataArchSec.SD[DataArchSec.SD.Count - 1].Model = "Gas Analise Mono factor Model";
-                    l.msg("Gas Analise Mono factor Model");
-                }
-                else
-                {
-                    DataArchSec.SD[DataArchSec.SD.Count - 1].Model = "Multi Factor Model";
-                    l.msg("Multi Factor Model № {0}", m_currentMatrix);
-                }
-                calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
-                calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
-                calculatedCarboneEvent.model = DataArchSec.SD[DataArchSec.SD.Count - 1].Model;
-                Program.PushGate.PushEvent(calculatedCarboneEvent);
-                //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
-
-                // временная мера для перехода на старый углерод
-                var fex2 = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
+                var fex2 = new ConnectionProvider.FlexHelper("OffGasDecarbonater.Result");
                 fex2.AddArg("C", RemainCarbonPercent);
                 fex2.Fire(Program.PushGate);
                 //////////////////////////////////////////////////////////////////////
@@ -259,107 +180,7 @@ namespace CarboneProcessor
             
         }
 
-        static public void HardFixData(MFCMDataFull currentHeatResult)
-        {
-            int matrixId = currentHeatResult.MFMEquationId;
-            if (VerificateDataHF(currentHeatResult))
-            {
-                Program.MatrixStateDataFull[matrixId].MatrixList.RemoveAt(0);
-                Program.MatrixStateDataFull[matrixId].MatrixList.Add(currentHeatResult);
-                //var indexF = Program.MatrixStateDataFull[matrixId].MatrixList.Count - 1;
-                //Program.MatrixStateDataFull[matrixId].MatrixList[indexF].MFMEquationId = matrixId;
-                //CIterator.DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull);
-            }
-            
-            Program.MatrixStateDataFullTotal.Add(currentHeatResult);
-            //var indexFT = Program.MatrixStateDataFullTotal.Count - 1;
-            //Program.MatrixStateDataFullTotal[indexFT].MFMEquationId = matrixId;
-
-            //DataArchSec.HeatingName = Program.PathArch + @"\" + Program.ArchNameGenerate("Sec");
-            //DataArchSec.NumberHeating = CurrentHeatResult.NumberHeat;
-            //DataArchSec.Separator = Program.Separator;
-            //DataArchSec.TimeHeating = DateTime.Now.ToString();
-            //File.WriteAllText(DataArchSec.HeatingName, DataArchSec.ToString());
-
-            for (int iD = 0; iD < Program.MatrixStateDataFull[matrixId].MatrixList.Count; iD++)
-            {
-                Program.MatrixStateDataFull[matrixId].MatrixList[iD].IdHeat = iD;
-            }
-            Program.SaveMatrix(Program.ModelsPathDic[matrixId], Program.Separator, Program.MatrixStateDataFull[matrixId].MatrixList);
-            Program.SaveMatrix(Program.ArchFileName, Program.Separator, Program.MatrixStateDataFullTotal);
-            //StartHeating();
-        }
-
-        static public bool VerificateDataHF(MFCMDataFull currentHeatResult)
-        {
-            var result = false;
-            const double minCarbonPercent = 0.03;
-            const double maxCarbonPercent = 0.1;
-            const double minOxygenVolumeRate = 600;
-            const double maxOxygenVolumeRate = 1400;
-            const double maxHeightLance = 230;
-            const double maxCarbonMonoxideVolumePercent = 30;
-            const double maxCarbonOxideVolumePercent = 30;
-            result = (currentHeatResult.SteelCarbonCalculationPercent != 0) &&
-                     (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
-                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
-                     (currentHeatResult.OxygenVolumeRate > minOxygenVolumeRate) &&
-                     (currentHeatResult.OxygenVolumeRate < maxOxygenVolumeRate) &&
-                     (currentHeatResult.HeightLanceCentimeters <= maxHeightLance) &&
-                     (currentHeatResult.CarbonMonoxideVolumePercent <= maxCarbonMonoxideVolumePercent) &&
-                     (currentHeatResult.CarbonOxideVolumePercent <= maxCarbonOxideVolumePercent);
-            return result;
-        }
-
-        static public void EnqueueWaitC(MFCMDataFull currentHeatResult)
-        {
-            var numberHeat = currentHeatResult.NumberHeat;
-            if (numberHeat <= 0) return;
-
-            if (!Program.WaitCarbonDic.ContainsKey(numberHeat))
-            {
-                currentHeatResult.SteelCarbonPercent = 0; // на всякий обнуляем
-                Program.WaitCarbonDic.Add(numberHeat, currentHeatResult);
-            }
-            else return;
-        }
-
-        static public void AddCarbonToQueue(Int64 heatNumber, Double carbonValue)
-        {
-            if (Program.WaitCarbonDic.ContainsKey(heatNumber))
-            {
-                Program.WaitCarbonDic[heatNumber].SteelCarbonPercent = carbonValue;
-                CompleteQueueWC();
-            }
-            else
-            {
-                InstantLogger.log("HeatNumber {0} in the WaitCarbonDic dictionary not found", heatNumber.ToString());
-            }
-        }
-
-        public static void CompleteQueueWC()
-        {
-            int i = 0;
-            while (i < Program.WaitCarbonDic.Count)
-            {
-                if(Program.WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0)
-                {
-                    var key = Program.WaitCarbonDic.ElementAt(i).Key;
-                    HardFixData(Program.WaitCarbonDic[key]);
-                    Program.WaitCarbonDic.Remove(key);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-            const int maxLength = 1000;
-            if(Program.WaitCarbonDic.Count > maxLength) // если по каким-то причинам очередь слишком разрослась, то безжалостно ее прибиваем
-            {
-                Program.WaitCarbonDic.Clear();
-                InstantLogger.err("WaitCarbonDic too grown");
-            }
-        }
+ 
 
         static private void SetMaxDownLancePosition(int currenLancePosition)
         {
@@ -480,7 +301,6 @@ namespace CarboneProcessor
         public double OxygenVolumeRate                          { set; get; }
         public double OxygenVolumeCurrent                       { set; get; }
         public double OxygenVolumeTotal                         { set; get; }
-        //public List<MFCMData> MatrixStateData                   { set; get; }
 
         public HeatData()
         {
@@ -499,7 +319,6 @@ namespace CarboneProcessor
             OxygenVolumeRate = 0.0;
             OxygenVolumeCurrent = 0.0;
             OxygenVolumeTotal = 20000;
-            //MatrixStateData = new List<MFCMData>();                  
         }
     }
     class HeatDataSmoother

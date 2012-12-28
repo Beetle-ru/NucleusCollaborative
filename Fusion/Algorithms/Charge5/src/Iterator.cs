@@ -18,6 +18,12 @@ namespace Charge5
                 Alg(table, AutoInData, out outData);
                 outData = ConverToKg(outData);
                 SendResultCalc(outData);
+
+                Saver.GetData(outData);
+                Saver.SiHi = AutoInData.SiHi;
+                Saver.THi = AutoInData.THi;
+                Saver.SaveArch();
+
                 IsRefrashData = false;
             }
         }

@@ -99,7 +99,7 @@ namespace CPlusProcessor
         static public void FireFixEvent()
         {
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-            fex.Fire(Program.MainGate);
+            fex.Fire(Program.MainGate);// !!! временно выключен для временного перехода на старый углерод
             Console.WriteLine(fex.evt + "\n");
         }
 
@@ -107,7 +107,7 @@ namespace CPlusProcessor
         {
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
             fex.AddArg("C", carbon);
-            fex.Fire(Program.MainGate);
+            fex.Fire(Program.MainGate); //!!! временно выключен для временного перехода на старый углерод
         }
         static public void EnqueueWaitC()
         {
