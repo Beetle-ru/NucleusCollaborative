@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.IO;
@@ -345,7 +346,7 @@ namespace Implements
             timeLine = timeLine.Replace(':', '_');
             timeLine = timeLine.Replace('.', '_');
             timeLine = timeLine + ".log";
-            return timeLine;
+            return String.Format("{0}_{1}",Process.GetCurrentProcess().ProcessName,timeLine);
         }
 
         public static void LogFileInit()
