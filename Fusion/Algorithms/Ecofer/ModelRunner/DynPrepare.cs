@@ -378,17 +378,18 @@ namespace ModelRunner
             return vx;
         }
 
-        private static void MakeDynamicCharging()
+        private static void MakeDynamicCharging(Logger l)
         {
             aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
 
             // Iron
             matIron = AddIron((int)Listener.IronWeight);
             aInputData.ChargedMaterials.Add(matIron);
-            //goto LABEL_START;
+            l.msg("added material IRON");
 
             // Scrap
             aInputData.ChargedMaterials.Add(AddScrap((int)Listener.ScrapWeight));
+            l.msg("added material SCRAP");
 
             MINP.MINP_GD_ModelMaterials =
                 new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
@@ -397,34 +398,43 @@ namespace ModelRunner
             aInputData.ChargedMaterials.Add(matCaO);
             MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO,
                                             matCaO.MINP_GD_Material);
+            l.msg("added material LIME");
 
-            // Dolom ДОЛМИТ
+            // DolomS ДОЛОМС
+            var matDoloms = AddDolomS(1);
+            aInputData.ChargedMaterials.Add(matDoloms);
+            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
+                                            matDoloms.MINP_GD_Material);
+            l.msg("added material DOLOMS");
+
+            // Dolom ДОЛМИТ, МАХГ
             var matDolom = AddDolom(1);
             aInputData.ChargedMaterials.Add(matDolom);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
+            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1,
                                             matDolom.MINP_GD_Material);
+            l.msg("added material DOLMAX");
 
             // FOM
             var matFom = AddFom(1);
             aInputData.ChargedMaterials.Add(matFom);
             MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM,
                                             matFom.MINP_GD_Material);
+            l.msg("added material FOM");
 
             // Coke
             var matCoke = AddCoke(1);
             aInputData.ChargedMaterials.Add(matCoke);
             MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke,
                                             matCoke.MINP_GD_Material);
-
-            
+            l.msg("added material COKE");
         }
 
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                                                              {
-                                                                  InstantLogger.err("Unhandled exception {0}", e);
-                                                              };
+            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            //                                                  {
+            //                                                      InstantLogger.err("Unhandled exception {0}", e);
+            //                                                  };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
@@ -503,12 +513,8 @@ NEXT_HEAT:
                             lock (Listener.Lock)
                             {
                                 recallChargingReq = false;
-                                if ((Listener.VisWeight["FOM"] != 0) && (Listener.VisWeight["DOLMAX"] != 0))
-                                {
-                                    Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt, Listener.VisWeight));
-                                    FireShixtaDoneEvent(Listener.shixtaII.Run());
-                                }
-                                else l.err("Shixta-II did not run due to null argument(s)");
+                                Listener.shixtaII = new Charging(MakeCharging(visTargetVal.evt, Listener.VisWeight));
+                                FireShixtaDoneEvent(Listener.shixtaII.Run());
                                 for (var iw = 0; iw < Listener.VisWeight.Count; iw++)
                                 {
                                     Listener.VisWeight[Listener.VisWeight.ElementAt(iw).Key] = 0;
@@ -519,22 +525,17 @@ NEXT_HEAT:
                         Console.Write(".");
                     }
                     HeatNumber = Listener.HeatNumber;
-                    if (0 == (HeatFlags & ModelStatus.IronDefined))
-                    {
-                        FireModelNoDataEvent("Нет данных по чугуну", "IRON");
-                        // HeatFlags |= ModelStatus.ModelDisabled;
-                    }
-                    if (0 == (HeatFlags & ModelStatus.ScrapDefined))
-                    {
-                        FireModelNoDataEvent("Нет данных по лому", "SCRAP");
-                        HeatFlags |= ModelStatus.ModelDisabled;
-                    }
-                    if (0 == (HeatFlags & ModelStatus.AdditionsDefined))
-                    {
-                        FireModelNoDataEvent("Нет данных по сыпучим", "ADDMAT");
-                        HeatFlags |= ModelStatus.ModelDisabled;
-                    }
-                    HeatFlags |= ModelStatus.ModelStarted;
+                    //if (0 == (HeatFlags & ModelStatus.ScrapDefined))
+                    //{
+                    //    FireModelNoDataEvent("Нет данных по лому", "SCRAP");
+                    //    HeatFlags |= ModelStatus.ModelDisabled;
+                    //}
+                    //if (0 == (HeatFlags & ModelStatus.AdditionsDefined))
+                    //{
+                    //    FireModelNoDataEvent("Нет данных по сыпучим", "ADDMAT");
+                    //    HeatFlags |= ModelStatus.ModelDisabled;
+                    //}
+                    //HeatFlags |= ModelStatus.ModelStarted;
                     if (Listener.ScrapDanger > 0.25)
                     {
                         var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
@@ -544,7 +545,7 @@ NEXT_HEAT:
                         fex.Fire(CoreGate);
                     }
 
-                    MakeDynamicCharging();
+                    MakeDynamicCharging(l);
 
                     #region Model materials
 
@@ -552,15 +553,17 @@ NEXT_HEAT:
                     var matOdpr = AddOdprasky(3000);
                     MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky,
                                                     matOdpr.MINP_GD_Material);
-
+                    l.msg("added material ODPRASKY");
                     // Slag
                     var matSlag = AddSlag(30000);
                     MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag,
                                                     matSlag.MINP_GD_Material);
+                    l.msg("added material SLAG");
                     // Steel
                     var matSteel = AddSteel(420000);
                     MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel,
                                                     matSteel.MINP_GD_Material);
+                    l.msg("added material STEEL");
 
                     #endregion
 
@@ -578,12 +581,7 @@ NEXT_HEAT:
                         goto WAIT_END_OF_HEAT;
                     }
 
-                    #region Define Oxygen Blowing Phases
-
-                    // see listener::onEvent SteelMakingPattern
-
-                    #endregion
-
+                    l.msg("preparing aim data...");
                     MINP.HeatAimData = new MINP_HeatAimDataDTO();
                     MINP.HeatAimData.FinalTemperature = visTargetVal == null ? 1700 : visTargetVal.GetInt("T");
 
@@ -638,6 +636,12 @@ NEXT_HEAT:
                                                         {
                                                             ironRecalcRequest = false;
                                                             DynModel.Pause();
+                                                            for (int index = 0;
+                                                                 index < MINP.MINP_MatAdds.Count;
+                                                                 index++)
+                                                            {
+                                                                if (MINP.MINP_MatAdds[index].ShortCode == "01Metal") MINP.MINP_MatAdds[index] = null;
+                                                            }
                                                             DynModel.RecalculateFromBeginning(MakeCharging(visTargetVal.evt, Listener.CurrWeight));
                                                             l.msg("ATTENTION!!! Model Recalculated");
                                                             DynModel.Resume();
@@ -653,6 +657,7 @@ NEXT_HEAT:
                                                     }
                                                 };
                     DynModel.Start();
+                    l.msg("model started");
                     do
                     {
                         Thread.Sleep(1000);
@@ -888,7 +893,7 @@ WAIT_END_OF_HEAT:
         private char m_separator = ':';
         public void LoadCSVData(DTO.MINP_MatAddDTO Material, string Name, string Dir = "data")
         {
-            using (var l = new Logger("ModelRunner::LoadCSVData"))
+            using (var l = new Logger("ModelRunner::LoadCSVData")) 
             {
                 string filePath = String.Format("{0}\\{1}.csv", Dir, Name);
                 string[] strings;
@@ -922,7 +927,7 @@ WAIT_END_OF_HEAT:
         public static ChargingInput MakeCharging(FlexEvent fxe, Dictionary<string, int> weight)
         {
             Data.Model.ChargingInput inp = new ChargingInput();
-            inp.Basicity = 2.7f; ///! (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
+            inp.Basicity = 2.7f;     ///! (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
             inp.FeO_p = Convert.ToInt32(fxe.Arguments["FeO"]);
             inp.MgO_p = Convert.ToInt32(fxe.Arguments["MgO"]);
             inp.Final_Temperature = Convert.ToInt32(fxe.Arguments["T"]);
@@ -939,7 +944,7 @@ WAIT_END_OF_HEAT:
             inp.Scraps[0] = matScrap.MINP_GD_Material;
             inp.Scraps_t[0] = (int) (matScrap.Amount_kg*0.001);
 
-            inp.Odprasky = DynPrepare.AddOdprasky(0).MINP_GD_Material;
+            inp.Odprasky = DynPrepare.AddOdprasky(3000).MINP_GD_Material;
             inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
             inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
 
