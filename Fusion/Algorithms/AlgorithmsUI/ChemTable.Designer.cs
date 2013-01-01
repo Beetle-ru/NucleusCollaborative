@@ -28,13 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gridChem = new System.Windows.Forms.DataGridView();
             this.key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panCtrl = new System.Windows.Forms.Panel();
             this.btnSave = new System.Windows.Forms.Button();
+            this.chemistryDataSet = new AlgorithmsUI.ChemistryDataSet();
+            this.additionBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.additionTableAdapter = new AlgorithmsUI.ChemistryDataSetTableAdapters.AdditionTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.gridChem)).BeginInit();
             this.panCtrl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chemistryDataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.additionBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // gridChem
@@ -45,6 +51,7 @@
             this.gridChem.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.key,
             this.value});
+            this.gridChem.DataBindings.Add(new System.Windows.Forms.Binding("Tag", this.additionBindingSource, "Id", true));
             this.gridChem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridChem.Location = new System.Drawing.Point(0, 0);
             this.gridChem.Name = "gridChem";
@@ -92,6 +99,20 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // chemistryDataSet
+            // 
+            this.chemistryDataSet.DataSetName = "ChemistryDataSet";
+            this.chemistryDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // additionBindingSource
+            // 
+            this.additionBindingSource.DataMember = "Addition";
+            this.additionBindingSource.DataSource = this.chemistryDataSet;
+            // 
+            // additionTableAdapter
+            // 
+            this.additionTableAdapter.ClearBeforeFill = true;
+            // 
             // ChemTable
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -106,6 +127,8 @@
             this.Load += new System.EventHandler(this.ChemTable_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridChem)).EndInit();
             this.panCtrl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chemistryDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.additionBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -117,6 +140,9 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridViewTextBoxColumn key;
         private System.Windows.Forms.DataGridViewTextBoxColumn value;
+        private ChemistryDataSet chemistryDataSet;
+        private System.Windows.Forms.BindingSource additionBindingSource;
+        private ChemistryDataSetTableAdapters.AdditionTableAdapter additionTableAdapter;
 
     }
 }

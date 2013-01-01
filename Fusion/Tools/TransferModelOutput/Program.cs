@@ -43,10 +43,19 @@ namespace TransferModelOutput
                         {
                             if (!kvel.Key.StartsWith("?"))
                             {
-                                string[] marg = kvel.Value.Split(':');
-                                fex.AddArg(kvel.Key,
-                                           randomFromTo(Convert.ToDouble(marg[0], pointStyle),
-                                                        Convert.ToDouble(marg[1], pointStyle)));
+                                if (kvel.Value.StartsWith("i", true, null))
+                                {
+                                    string[] imarg = kvel.Value.Substring(1).Split(':');
+                                    fex.AddInt(kvel.Key, rnd.Next(Convert.ToInt32(imarg[0]),
+                                        Convert.ToInt32(imarg[1])));
+                                }
+                                else
+                                {
+                                    string[] marg = kvel.Value.Split(':');
+                                    fex.AddDbl(kvel.Key,
+                                               randomFromTo(Convert.ToDouble(marg[0], pointStyle),
+                                                            Convert.ToDouble(marg[1], pointStyle)));
+                                }
                             }
                         }
                         fex.Fire(CoreGate);

@@ -20,6 +20,7 @@ namespace AlgorithmsUI
         private static string secretFP = ":Sn:Sb:Zn:Fe:Cu:Cr:Mo:Ni:N:O:H:TOTAL:Basiticy:Yield:Steel:T:eH:cp:TeH:ro:";
         private int m_secFPcnt = 0;
         private bool m_dataChanged, m_needComplete;
+        private Guid m_sid = Guid.Empty;
         public ChemTable(string Name, string ConfigKey)
         {
             InitializeComponent();
@@ -30,6 +31,16 @@ namespace AlgorithmsUI
 
         public void LoadCSVData()
         {
+            // TODO: This line of code loads data into the 'chemistryDataSet.Addition' table. You can move, or remove it, as needed.
+            if (m_sid == Guid.Empty)
+            {
+                this.additionTableAdapter.Fill(this.chemistryDataSet.Addition, m_configKey);
+                if (chemistryDataSet.Addition.Count > 0)
+                {
+                    m_sid = chemistryDataSet.Addition[0].Id;
+                    ///!MessageBox.Show(m_sid.ToString());
+                }
+            }
             m_inFP.Clear();
             m_secFPcnt = 0;
             string filePath = String.Format("{0}\\{1}.csv", m_path, m_configKey);

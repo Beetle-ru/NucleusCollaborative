@@ -295,7 +295,7 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("Vis.Output.Preliminary.Additions"))
                     {
-                        l.msg("Visual Additions Event Appeared: {0}\n", fxe);
+                        l.msg("Visual Preliminary Additions Event Appeared: {0}\n", fxe);
                     }
                     else if (fxe.Operation.StartsWith("Vis.Output.Bunker.Additions"))
                     {
@@ -314,7 +314,7 @@ namespace ModelRunner
                             {
                                 sb.AppendFormat("   {2}[{0}] = {1}\n",
                                     matRename[s], val, mat.Key);
-                                VisWeight[matRename[s]] += val;
+                                VisWeight[matRename[s]] = val;
                                 VisKey[matRename[s]] = mat.Key;
                             }
                             else
@@ -575,10 +575,10 @@ namespace ModelRunner
                     }
                     fxe.Fire(DynPrepare.CoreGate);
                     var tmpOx = fxe.GetDbl("CorrectionO2");
-                    fxe.evt.Operation = "Model.Dynamic.Output.CorrectionO2";
-                    fxe.ClearArgs();
-                    fxe.AddDbl("CorrectionO2", tmpOx);
-                    fxe.Fire(DynPrepare.CoreGate);
+                    var fxe1 = new FlexHelper("Model.Dynamic.Output.CorrectionO2");
+                    fxe1.ClearArgs();
+                    fxe1.AddDbl("CorrectionO2", tmpOx);
+                    fxe1.Fire(DynPrepare.CoreGate);
                 }
             }
         }

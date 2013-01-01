@@ -103,32 +103,36 @@ namespace OPCFlex
             {
                 if ((d.Flags & FlexEventFlag.FlexEventOpcNotification) != 0)
                 {
-                    var fex = new FlexHelper(d.Operation);
-                    fex.evt.Flags = d.Flags;
-                    foreach (var a in d.Arguments)
-                    {
-                        var v = ((Element)a.Value).val;
-                        if (v is byte[])
-                        {
-                            var vv = v as byte[];
-                            string s = "";
-                            for (var i = 0; i < vv.Length; i++)
-                            {
-                                int c = vv[i];
-                                if (c > 127) c += 0x0350;
-                                s += Convert.ToChar(c);
-                            }
-                            sb.AppendFormat("/{0}", s);
-                            v = s;
-
-                        }
-                        fex.AddArg(a.Key, v);
-                    }
-                    fex.Fire(MainGate);
+                    fireFlex(d);
                     d.Flags ^= FlexEventFlag.FlexEventOpcNotification;
                 }
             }
             Console.WriteLine(sb);
+        }
+        public static void fireFlex(FlexEvent d)
+        {
+            var fex = new FlexHelper(d.Operation);
+            fex.evt.Flags = d.Flags;
+            foreach (var a in d.Arguments)
+            {
+                var v = ((Element)a.Value).val;
+                if (v is byte[])
+                {
+                    var vv = v as byte[];
+                    string s = "";
+                    for (var i = 0; i < vv.Length; i++)
+                    {
+                        int c = vv[i];
+                        if (c > 127) c += 0x0350;
+                        s += Convert.ToChar(c);
+                    }
+                    ///!sb.AppendFormat("/{0}", s);
+                    v = s;
+
+                }
+                fex.AddArg(a.Key, v);
+            } 
+            fex.Fire(MainGate);
         }
         private static void SetServerHandle(int CH, int SH)
         {

@@ -24,6 +24,7 @@ namespace AlgorithmsUI
             rtbReport.Clear();
         }
         private ChemTable ch_Iron, ch_Scrap, ch_CaCO3, ch_Fom, ch_LimeStone, ch_Lime, ch_Coke, ch_Dust;
+        private ScrapTable scrapTable;
         private void GetValueByKey(string Key, TextBox Box)
         {
             if (mainConf.AppSettings.Settings.AllKeys.Contains(Key))
@@ -70,7 +71,7 @@ namespace AlgorithmsUI
             ch_Lime.LoadCSVData();
             ch_LimeStone = new ChemTable("Химия доломита (ДОЛМИТ, МАХГ)", "LimeStoneChemistry");
             ch_LimeStone.LoadCSVData();
-            ch_Fom = new ChemTable("Химия ФОМа", "FomChemistry");
+            ch_Fom = new ChemTable("Химия ФОМа", "FOM");
             ch_Fom.LoadCSVData();
             ch_CaCO3 = new ChemTable("Химия известняка (СaCO3)", "CaCO3Chemistry");
             ch_CaCO3.LoadCSVData();
@@ -78,6 +79,7 @@ namespace AlgorithmsUI
             ch_Coke.LoadCSVData();
             ch_Dust = new ChemTable("Химия отходящих пылей", "DustChemistry");
             ch_Dust.LoadCSVData();
+            scrapTable = new ScrapTable();
             btnCalculate.Select();
         }
 
@@ -346,6 +348,11 @@ namespace AlgorithmsUI
                 calcSelectedCount -= 1;
                 calcLastSelected = null;
             }
+        }
+
+        private void btnScrapSel_Click(object sender, EventArgs e)
+        {
+            scrapTable.ShowDialog();
         }
     }
 }

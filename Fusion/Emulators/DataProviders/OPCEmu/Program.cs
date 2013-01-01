@@ -105,23 +105,46 @@ namespace OPCEmu
                     {
                         var reaction = new BoundNameMaterialsEvent
                                            {
-                                               Bunker5MaterialName = "DOLOMS",
-                                               Bunker6MaterialName = "Alkonc",
-                                               Bunker7MaterialName = "KOKS",
-                                               Bunker8MaterialName = "IZVEST",
-                                               Bunker9MaterialName = "IZVEST",
-                                               Bunker10MaterialName = "FOM",
-                                               Bunker11MaterialName = "DOLMIT",
-                                               Bunker12MaterialName = "DOLOMS"
+                                               Bunker5MaterialName = "ДОЛОМС",
+                                               Bunker6MaterialName = "ALКонц",
+                                               Bunker7MaterialName = "KOKS  ",
+                                               Bunker8MaterialName = "ИЗВЕСТ",
+                                               Bunker9MaterialName = "ИЗВЕСТ",
+                                               Bunker10MaterialName = "ДОЛОМС",
+                                               Bunker11MaterialName = "ФОМ   ",
+                                               Bunker12MaterialName = "МАХГ  "
                                            };
                         _gate.PushEvent(reaction);
+                        //HeatChangeEvent HCE = new HeatChangeEvent();
+                        //HCE.HeatNumber = 23989;
+                        //_gate.PushEvent(HCE);
+                        //Thread.Sleep(3000);
                         Console.WriteLine("BoundNameMaterialsEvent send");
+                        var realO = new BlowingEvent() { O2TotalVol = 0 };
+                        _gate.PushEvent(realO);
+                        for (int i = 1; i < 11; i++)
+                        {
+                            var additions = new visAdditionTotalEvent
+                            {
+                                RB5TotalWeight = 100 * i,
+                                RB6TotalWeight = 100 * i,
+                                RB7TotalWeight = 100 * i,
+                                RB8TotalWeight = 100 * i,
+                                RB9TotalWeight = 100 * i,
+                                RB10TotalWeight = 100 * i,
+                                RB11TotalWeight = 100 * i,
+                                RB12TotalWeight = 100 * i
+                            };
+                            _gate.PushEvent(additions);
+                            Thread.Sleep(5000);
+                        }
                         for (int i = 0; i < 10; i++)
                         {
                             var realO2 = new BlowingEvent() { O2TotalVol = 1 };
                             _gate.PushEvent(realO2);                            
                             Thread.Sleep(1000);
                         }
+                        
                         var realzeroO2 = new BlowingEvent() { O2TotalVol = 0 };
                         _gate.PushEvent(realzeroO2);
                     }
@@ -166,7 +189,7 @@ namespace OPCEmu
                                                {
                                                    Step = i
                                                };
-                            var realO2 = new BlowingEvent() { O2TotalVol = 20000 * i / stepsCount };
+                            var realO2 = new BlowingEvent() { O2TotalVol = 25000 * i / stepsCount };
                             var realLance = new LanceEvent() { LanceHeight = 700 - (700 * i / stepsCount) };
                             _gate.PushEvent(reaction);
                             Console.WriteLine("HeatSchemaStepEvent send");
@@ -176,9 +199,18 @@ namespace OPCEmu
                             _gate.PushEvent(realLance);
                             Console.WriteLine("LanceEvent send");
 
-                            Thread.Sleep(250);
+                            Thread.Sleep(5000);
                         }
                     }
+                    //var fex = new FlexHelper("CorrectionCT.RecommendBalanceBlow");
+                    //fex.AddArg("CorrectionOxygenT", 18700);
+                    //fex.AddArg("CorrectionOxygenC", 18710);
+                    //fex.AddArg("CurrentC", 0.432);
+                    //fex.AddArg("TargetC", 0.432);
+                    //fex.AddArg("CurrentT", 1670);
+                    //fex.AddArg("TargetT", 1680);
+                    //fex.Fire(_gate);
+
                     var lastReaction = new HeatSchemaStepEvent
                                            {
                                                Step = -1
