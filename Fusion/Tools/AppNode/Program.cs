@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.Timers;
+using Timer = System.Timers.Timer;
 
 namespace AppNode
 {
@@ -12,93 +14,60 @@ namespace AppNode
     {
         public static List<Process> PrecessList;
         public const string WorkingDirectory = "AppsData";
-        public static Thread ControllThread = new Thread(HControllThread);
-        //public static Thread ProcessThread = new Thread(HProcessThread);
         public static List<Application> AppList;
+        public static int ActiveApp;
+        public static System.Timers.Timer ConsoleStreaTimer = new Timer(300);
         static void Main(string[] args)
         {
-            ControllThread.IsBackground = true;
-            ControllThread.Start();
-            //ProcessThread.IsBackground = true;
-            //ProcessThread.Start();
-            //LoadCfg("AppNode.cfg");
-            //RunAll();
-            LoadCfgPool("AppNode.cfg");
-            RunAllPool();
-            Console.WriteLine("For exit press \"Enter\"");
-            Console.ReadLine();
-            StopAllPool();
-            //StopAll();
+            LoadCfg("AppNode.cfg");
+            RunAll();
+            StartConsoleStream();
+            Controll();
+            StopAll();
         }
 
-        //private static void HProcessThread(object state)
-        //{
-        //    string path = "AppNode.cfg";
-        //    List<Process> precessList;
-        //    Directory.CreateDirectory(WorkingDirectory);
-        //    precessList = new List<Process>();
-        //    string[] strings;
-        //    try
-        //    {
-        //        strings = File.ReadAllLines(path);
-        //    }
-        //    catch
-        //    {
-        //        strings = new string[0];
-        //        Console.WriteLine("Cannot read the file: {0}", path);
-        //        return;
-        //    }
-
-        //    try
-        //    {
-        //        for (int i = 0; i < strings.Count(); i++)
-        //        {
-        //            if (File.Exists(strings[i]))
-        //            {
-        //                precessList.Add(new Process());
-        //                precessList[precessList.Count - 1].StartInfo.FileName = strings[i];
-        //                precessList[precessList.Count - 1].StartInfo.UseShellExecute = false;
-        //                precessList[precessList.Count - 1].StartInfo.RedirectStandardOutput = true;
-        //                precessList[precessList.Count - 1].StartInfo.WorkingDirectory = WorkingDirectory;
-        //                precessList[precessList.Count - 1].Start();
-        //                //precessList[precessList.Count - 1].WaitForExit();
-        //                Console.WriteLine("Application added, path = {0}", strings[i]);
-        //            }
-        //            else
-        //            {
-        //                Console.WriteLine("###Application not found: {0}", strings[i]);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine("###Cannot read the file: {0}, bad format call exeption: {1}", path, e.ToString());
-        //        throw e;
-        //    }
-        //    foreach (var process in precessList)
-        //    {
-        //        process.WaitForExit();
-        //    }
-        //    //while (true)
-        //    //{
-                
-        //    //}
-        //}
-        private static void HControllThread(object state)
+        private static void Controll()
         {
-            Console.WriteLine("For exit press \"q\"");
+            Console.WriteLine("For exit press key \"Q\" or \"Enter\" or \"Escape\"");
             while (true)
             {
-                var key = Console.ReadKey(true);
-                if (key.KeyChar == 'q')
+                var cki = Console.ReadKey(true);
+                if (
+                    (cki.Key == ConsoleKey.Q) ||
+                    (cki.Key == ConsoleKey.Enter) ||
+                    (cki.Key == ConsoleKey.Escape)
+                    )
                 {
-                    //StopAll();
-                    System.Environment.Exit(0);
+                    StopAll();
+                    AppExit();
+                }
+                else if (cki.Key == ConsoleKey.S)
+                {
+                    PrintStatusAll();
+                }
+                else
+                {
+                    var fKey = false;
+                    if (cki.Key == ConsoleKey.F1) { ActiveApp = 0; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F2) { ActiveApp = 1; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F3) { ActiveApp = 2; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F4) { ActiveApp = 3; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F5) { ActiveApp = 4; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F6) { ActiveApp = 5; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F7) { ActiveApp = 6; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F8) { ActiveApp = 7; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F9) { ActiveApp = 8; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F10) { ActiveApp = 9; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F11) { ActiveApp = 10; fKey = true; }
+                    else if (cki.Key == ConsoleKey.F12) { ActiveApp = 11; fKey = true; }
+                    if (((cki.Modifiers & ConsoleModifiers.Shift) != 0) && fKey) ActiveApp += 13;
+                    Console.Clear();
+                    Console.WriteLine("Swith console F{0}", ActiveApp + 1);
                 }
             }
         }
 
-        public static void LoadCfgPool(string path)
+        public static void LoadCfg(string path)
         {
             Directory.CreateDirectory(WorkingDirectory);
             AppList = new List<Application>();
@@ -138,49 +107,7 @@ namespace AppNode
             }
         }
 
-        public static void LoadCfg(string path)
-        {
-            Directory.CreateDirectory(WorkingDirectory);
-            PrecessList = new List<Process>();
-            string[] strings;
-            try
-            {
-                strings = File.ReadAllLines(path);
-            }
-            catch
-            {
-                strings = new string[0];
-                Console.WriteLine("Cannot read the file: {0}", path);
-                return;
-            }
-
-            try
-            {
-                for (int i = 0; i < strings.Count(); i++)
-                {
-                    if(File.Exists(strings[i]))
-                    {
-                        PrecessList.Add(new Process());
-                        PrecessList[PrecessList.Count - 1].StartInfo.FileName = strings[i];
-                        PrecessList[PrecessList.Count - 1].StartInfo.UseShellExecute = false;
-                        //PrecessList[PrecessList.Count - 1].StartInfo.RedirectStandardOutput = true;
-                        PrecessList[PrecessList.Count - 1].StartInfo.WorkingDirectory = WorkingDirectory;
-                        Console.WriteLine("Application added, path = {0}", strings[i]);
-                    }
-                    else
-                    {
-                        Console.WriteLine("###Application not found: {0}", strings[i]);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("###Cannot read the file: {0}, bad format call exeption: {1}", path, e.ToString());
-                throw e;
-            }
-        }
-
-        public static void RunAllPool()
+        public static void RunAll()
         {
             for (int index = 0; index < AppList.Count; index++)
             {
@@ -188,29 +115,45 @@ namespace AppNode
             }
         }
 
-        public static void RunAll()
-        {
-            foreach (var process in PrecessList)
-            {
-                process.Start();
-            }
-        }
-
-        public static void StopAllPool()
+        public static void StopAll()
         {
             for (int index = 0; index < AppList.Count; index++)
             {
                 var application = AppList[index];
-                //application.Proc.Kill();
+                application.KillProc();
             }
         }
 
-        public static void StopAll()
+        public static void PrintStatusAll()
         {
-            foreach (var process in PrecessList)
+            for (int index = 0; index < AppList.Count; index++)
             {
-                Console.WriteLine("Kill process -->> " + process.ProcessName);
-                process.Kill();
+                var application = AppList[index];
+                application.PrintStatusProc();
+            }
+        }
+
+        public static void AppExit()
+        {
+            System.Environment.Exit(0);
+        }
+
+        public static void StartConsoleStream()
+        {
+            ConsoleStreaTimer.Elapsed += new ElapsedEventHandler(ConsoleIterateTimeOut);
+            ConsoleStreaTimer.Enabled = true;
+        }
+
+        public static void ConsoleIterateTimeOut(object source, ElapsedEventArgs e)
+        {
+            if (AppList.Count > ActiveApp)
+            {
+                AppList[ActiveApp].StreaWriter();
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
             }
         }
     }
