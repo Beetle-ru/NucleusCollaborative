@@ -15,10 +15,12 @@ namespace AppNode
         public static List<Process> PrecessList;
         public const string WorkingDirectory = "AppsData";
         public static List<Application> AppList;
-        public static int ActiveApp;
+        public static int ActiveApp = -1;
         public static System.Timers.Timer ConsoleStreaTimer = new Timer(300);
         static void Main(string[] args)
         {
+            Console.Clear();
+            Console.CursorTop = (int)(Console.BufferHeight/2);
             LoadCfg("AppNode.cfg");
             RunAll();
             StartConsoleStream();
@@ -38,12 +40,14 @@ namespace AppNode
                     (cki.Key == ConsoleKey.Escape)
                     )
                 {
+                    Console.Clear();
                     StopAll();
                     AppExit();
                 }
                 else if (cki.Key == ConsoleKey.S)
                 {
-                    PrintStatusAll();
+                    ActiveApp = -1;
+                    Console.Clear();
                 }
                 else
                 {
@@ -126,9 +130,9 @@ namespace AppNode
 
         public static void PrintStatusAll()
         {
-            for (int index = 0; index < AppList.Count; index++)
+            Application.PrintStatusHeader();
+            foreach (var application in AppList)
             {
-                var application = AppList[index];
                 application.PrintStatusProc();
             }
         }
@@ -146,14 +150,27 @@ namespace AppNode
 
         public static void ConsoleIterateTimeOut(object source, ElapsedEventArgs e)
         {
-            if (AppList.Count > ActiveApp)
+            if (ActiveApp >= 0)
             {
-                AppList[ActiveApp].StreaWriter();
+                if (AppList.Count > ActiveApp)
+                {
+                    AppList[ActiveApp].StreaWriter();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
+                }
             }
-            else
+            else // Admin screens
             {
-                Console.Clear();
-                Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
+                if (ActiveApp == -1) // status
+                {
+                    //Console.Clear();
+                    Console.SetCursorPosition(0,0);
+                    Console.WriteLine("Status screen\n");
+                    PrintStatusAll();
+                }
             }
         }
     }

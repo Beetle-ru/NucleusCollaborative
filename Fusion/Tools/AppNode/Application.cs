@@ -14,8 +14,7 @@ namespace AppNode
         public string WorkingDirectory;
         public List<string> Stream = new List<string>();
         private int m_streamChanged;
-        //private bool AllowToPrint = true;
-        //private bool AllowToPrintChange = true;
+        private TimeSpan m_previousProcTime = new TimeSpan();
 
         public void ThreadPoolCallback(Object threadContext)
         {
@@ -23,6 +22,7 @@ namespace AppNode
             proc.StartInfo.FileName = FileName;
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
+            proc.StartInfo.RedirectStandardInput = true;
             proc.StartInfo.WorkingDirectory = WorkingDirectory;
             proc.Start();
             PubProc = Process.GetProcessById(proc.Id);
@@ -47,15 +47,33 @@ namespace AppNode
         {
             if (PubProc != null)
             {
-                var str = "";
-                PrintSLine('#');
-                str += String.Format("Process name => {0}\n", PubProc.ProcessName);
-                str += String.Format("Process Id => {0}\n", PubProc.Id);
-                str += String.Format("Process is run => {0}\n", (!PubProc.HasExited).ToString());
-                Console.Write(str);
-                PrintSLine('*');
+                var outstr = "";
+                outstr += String.Format("| {0}", PubProc.ProcessName).PadRight(20);
+                outstr += String.Format("| {0}", PubProc.Id).PadRight(7);
+                if (!PubProc.HasExited) outstr += String.Format("| Run ");
+                else outstr += String.Format("| --- ");
+                outstr += String.Format("| {0}", PubProc.PagedMemorySize64).PadRight(15);
+
+                var cpu = (int)(Math.Round((PubProc.TotalProcessorTime.TotalSeconds - m_previousProcTime.TotalSeconds) * 100));
+                m_previousProcTime = PubProc.TotalProcessorTime;
+                if (cpu > 100) cpu = 100;
+                if (cpu < 0) cpu = 0;
+                outstr += String.Format("| {0}", cpu).PadRight(6);
+                Console.WriteLine(outstr);
             }
         }
+        public static void PrintStatusHeader()
+        {
+            var outstr = "";
+            outstr += String.Format("| Process name").PadRight(20);
+            outstr += String.Format("| Id").PadRight(7); ;
+            outstr += String.Format("|State");
+            outstr += String.Format("| Memory").PadRight(15);
+            outstr += String.Format("| CPU").PadRight(6);
+            Console.WriteLine(outstr);
+        }
+
+        
         private void PrintSLine(char c)
         {
             for (int i = 0; i < Console.BufferWidth; i++)
@@ -63,7 +81,7 @@ namespace AppNode
                 Console.Write(c);
             }
         }
-
+        // nice song )) little jimmy osmond tweedle dee
         private void StreamRotator(string str)
         {
             Stream.Add(str);
