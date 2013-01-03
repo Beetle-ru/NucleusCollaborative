@@ -74,13 +74,7 @@ namespace AppNode
         }
 
         
-        private void PrintSLine(char c)
-        {
-            for (int i = 0; i < Console.BufferWidth; i++)
-            {
-                Console.Write(c);
-            }
-        }
+        
         // nice song )) little jimmy osmond tweedle dee
         private void StreamRotator(string str)
         {
@@ -93,9 +87,17 @@ namespace AppNode
             }
         }
 
-        public void StreaWriter()
+        public void StreaWriter(bool writeAll = false)
         {
-            var startPos = (Stream.Count) - m_streamChanged;
+            int startPos;
+            if (writeAll)
+            {
+                startPos = Stream.Count < Console.WindowHeight ? 0 : Stream.Count - Console.WindowHeight;
+            }
+            else
+            {
+                startPos = (Stream.Count) - m_streamChanged;
+            }
             m_streamChanged = 0;
             for (int i = startPos; i < Stream.Count; i++)
             {

@@ -17,17 +17,22 @@ namespace AppNode
         public static List<Application> AppList;
         public static int ActiveApp = -1;
         public static System.Timers.Timer ConsoleStreaTimer = new Timer(300);
+        public static bool SwitchScreen;
         static void Main(string[] args)
         {
             Console.Clear();
-            Console.CursorTop = (int)(Console.BufferHeight/2);
+            Console.CursorTop = (int)(Console.BufferHeight * 0.5);
+            PrintSLine('*');
+            PrintSLine('#', "Start info");
             LoadCfg("AppNode.cfg");
+            Console.WriteLine();
+
             RunAll();
             StartConsoleStream();
             Controll();
             StopAll();
         }
-
+        //jimmy cliff Treat the youths right
         private static void Controll()
         {
             Console.WriteLine("For exit press key \"Q\" or \"Enter\" or \"Escape\"");
@@ -65,8 +70,12 @@ namespace AppNode
                     else if (cki.Key == ConsoleKey.F11) { ActiveApp = 10; fKey = true; }
                     else if (cki.Key == ConsoleKey.F12) { ActiveApp = 11; fKey = true; }
                     if (((cki.Modifiers & ConsoleModifiers.Shift) != 0) && fKey) ActiveApp += 13;
-                    Console.Clear();
-                    Console.WriteLine("Swith console F{0}", ActiveApp + 1);
+                    if (fKey)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Swith console F{0}", ActiveApp + 1);
+                        SwitchScreen = true;
+                    }
                 }
             }
         }
@@ -154,7 +163,7 @@ namespace AppNode
             {
                 if (AppList.Count > ActiveApp)
                 {
-                    AppList[ActiveApp].StreaWriter();
+                    AppList[ActiveApp].StreaWriter(SwitchScreen);
                 }
                 else
                 {
@@ -166,12 +175,40 @@ namespace AppNode
             {
                 if (ActiveApp == -1) // status
                 {
-                    //Console.Clear();
                     Console.SetCursorPosition(0,0);
                     Console.WriteLine("Status screen\n");
                     PrintStatusAll();
                 }
             }
+            SwitchScreen = false;
+        }
+
+        private static void PrintSLine(char c)
+        {
+            for (var i = 0; i < Console.BufferWidth; i++)
+            {
+                Console.Write(c);
+            }
+            Console.WriteLine();
+        }
+
+        private static void PrintSLine(char c, string msg)
+        {
+            var frmMsg = String.Format("[ {0} ]", msg);
+            var lengthMsg = frmMsg.Count();
+            var lengthLine = Console.BufferWidth;
+            var msgIsWrite = false;
+            for (var i = 0; i < lengthLine; i++)
+            {
+                if (i > (lengthLine * 0.5) - (lengthMsg * 0.5) && !msgIsWrite)
+                {
+                    Console.Write(frmMsg);
+                    i += lengthMsg;
+                    msgIsWrite = true;
+                }
+                Console.Write(c);
+            }
+            Console.WriteLine();
         }
     }
 }
