@@ -14,13 +14,8 @@ namespace AppNode
     {
         static void Main(string[] args)
         {
-            Console.Clear();
-            Console.CursorTop = (int)(Console.BufferHeight * 0.5);
-            PrintSLine('*');
-            PrintSLine('#', "Start info");
+            ConsolePrepare();
             LoadCfg("AppNode.cfg");
-            Console.WriteLine();
-
             RunAll();
             StartConsoleStream();
             Controll();

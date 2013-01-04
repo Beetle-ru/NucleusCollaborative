@@ -37,6 +37,7 @@ namespace AppNode
                         AppList.Add(new Application());
                         AppList[AppList.Count - 1].FileName = strings[i];
                         AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
+                        AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
                         Console.WriteLine("Application added, path = {0}", strings[i]);
                     }
                     else
@@ -56,7 +57,7 @@ namespace AppNode
         {
             for (int index = 0; index < AppList.Count; index++)
             {
-                ThreadPool.QueueUserWorkItem(AppList[index].ThreadPoolCallback, index);
+                AppList[index].ExecProc();
             }
         }
 
@@ -89,31 +90,7 @@ namespace AppNode
             ConsoleStreaTimer.Enabled = true;
         }
 
-        public static void ConsoleIterateTimeOut(object source, ElapsedEventArgs e)
-        {
-            if (ActiveApp >= 0)
-            {
-                if (AppList.Count > ActiveApp)
-                {
-                    AppList[ActiveApp].StreaWriter(SwitchScreen);
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
-                }
-            }
-            else // Admin screens
-            {
-                if (ActiveApp == -1) // status
-                {
-                    Console.SetCursorPosition(0, 0);
-                    Console.WriteLine("Status screen\n");
-                    PrintStatusAll();
-                }
-            }
-            SwitchScreen = false;
-        }
+        
 
         private static void PrintSLine(char c)
         {
@@ -121,7 +98,6 @@ namespace AppNode
             {
                 Console.Write(c);
             }
-            Console.WriteLine();
         }
 
         private static void PrintSLine(char c, string msg)
@@ -141,6 +117,76 @@ namespace AppNode
                 Console.Write(c);
             }
             Console.WriteLine();
+        }
+
+        private static void ConsolePrepare()
+        {
+            Console.Clear();
+            Console.CursorTop = (int)(Console.BufferHeight * 0.5);
+            PrintSLine('*');
+            PrintSLine('#', "Start info");
+        }
+
+        public static void KillCurrentProcess()
+        {
+            Console.SetCursorPosition(0, 0);
+
+            if (ActiveApp < AppList.Count)
+            {
+                AppList[ActiveApp].KillProc();
+            }
+            else
+            {
+                Console.WriteLine("On this screen application is not binding");
+            }
+        }
+
+        public static int KillPtocessById(int procId)
+        {
+            Console.SetCursorPosition(0, 0);
+
+            foreach (var application in AppList)
+            {
+                if (application.PubProc.Id == procId)
+                {
+                    application.KillProc();
+                    return application.NumberApp;
+                }
+            }
+            return Int32.MaxValue;
+        }
+
+        public static void ExecCurrentProcess()
+        {
+            Console.SetCursorPosition(0, 0);
+            ExecuteByNumber(ActiveApp);
+        }
+
+        public static void ExecuteByNumber(int appNumber, bool restar = false)
+        {
+            Console.SetCursorPosition(0, 0);
+            if (appNumber < AppList.Count)
+            {
+                if (restar)
+                {
+                    AppList[appNumber].RestartProc();
+                }
+                else
+                {
+                    AppList[appNumber].ExecProc();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Application is not binding to {0:000} number", appNumber);
+            }
+        }
+
+        public static void ClearDownAndSetCursor()
+        {
+            Console.SetCursorPosition(0, Console.BufferHeight - 3);
+            PrintSLine(' '); PrintSLine(' ');
+            Console.SetCursorPosition(0, Console.BufferHeight - 3);
         }
     }
 }

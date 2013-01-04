@@ -14,13 +14,13 @@ namespace AppNode
     {
         private static void Controll()
         {
-            Console.WriteLine("For exit press key \"Q\" or \"Enter\" or \"Escape\"");
+            Console.WriteLine("For exit press key \"Q\" or \"Escape\"");
             while (true)
             {
+                RefrashScreen = true;
                 var cki = Console.ReadKey(true);
                 if (
                     (cki.Key == ConsoleKey.Q) ||
-                    (cki.Key == ConsoleKey.Enter) ||
                     (cki.Key == ConsoleKey.Escape)
                     )
                 {
@@ -32,6 +32,92 @@ namespace AppNode
                 {
                     ActiveApp = -1;
                     Console.Clear();
+                }
+                else if (cki.Key == ConsoleKey.K)
+                {
+                    if (ActiveApp >= 0)
+                    {
+                        KillCurrentProcess();
+                    }
+                    else
+                    {
+                        RefrashScreen = false;
+                        ClearDownAndSetCursor();
+
+                        Console.Write("For kill please write process Id: ");
+
+                        var strId = Console.ReadLine();
+                        int id;
+                        if (Int32.TryParse(strId, out id))
+                        {
+                            KillPtocessById(id);
+                        }
+                        else
+                        {
+                            Console.Write("\n Uncorrect Id");
+                        }
+                        RefrashScreen = true;
+                    }
+                }
+                else if (cki.Key == ConsoleKey.R)
+                {
+                    if (ActiveApp >= 0)
+                    {
+                        ExecuteByNumber(ActiveApp, true);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        RefrashScreen = false;
+                        ClearDownAndSetCursor();
+
+                        Console.Write("For restart please write process Id: ");
+
+                        var strId = Console.ReadLine();
+                        int id;
+                        if (Int32.TryParse(strId, out id))
+                        {
+                            foreach (var application in AppList)
+                            {
+                                if (id == application.PubProc.Id)
+                                {
+                                    application.RestartProc();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.Write("\n Uncorrect Id");
+                        }
+                        RefrashScreen = true;
+                    }
+                }
+                else if (cki.Key == ConsoleKey.E)
+                {
+                    if (ActiveApp >= 0)
+                    {
+                        ExecCurrentProcess();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        RefrashScreen = false;
+                        ClearDownAndSetCursor();
+
+                        Console.Write("For execute please write № application: ");
+
+                        var strId = Console.ReadLine();
+                        int aN;
+                        if (Int32.TryParse(strId, out aN))
+                        {
+                            ExecuteByNumber(aN);
+                        }
+                        else
+                        {
+                            Console.Write("\n Uncorrect Id");
+                        }
+                        RefrashScreen = true;
+                    }
                 }
                 else
                 {

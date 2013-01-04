@@ -17,5 +17,6 @@ namespace AppNode
         public static int ActiveApp = -1;
         public static System.Timers.Timer ConsoleStreaTimer = new Timer(300);
         public static bool SwitchScreen;
+        public static bool RefrashScreen = true;
     }
 }
