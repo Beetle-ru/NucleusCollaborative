@@ -35,9 +35,40 @@ namespace AppNode
                         Console.SetCursorPosition(0, 0);
                         Console.WriteLine("Status screen\n");
                         PrintStatusAll();
+                        PrintInfo(InfoBuffer);
                     }
                 }
                 SwitchScreen = false;
+            }
+        }
+
+        public static void PrintInfo(string buffer)
+        {
+            var startPos = Console.WindowHeight - (int)(Console.WindowHeight * 0.333);
+            Console.SetCursorPosition(0,startPos);
+            PrintSLine('*', "Info");
+            var lineWidth = Console.WindowWidth - 2;
+            var splt = buffer.Split('\n');
+            if(splt.Any())
+            {
+                buffer = splt.Aggregate("", (current, s) => current + s.PadRight(lineWidth));
+            }
+            for (int strNum = Console.CursorTop; strNum < Console.WindowHeight - 1; strNum++)
+            {
+                string line;
+                if (buffer.Count() > lineWidth)
+                {
+                    line = buffer.Substring(0, lineWidth);
+                    buffer = buffer.Remove(0, lineWidth);
+                }
+                else
+                {
+                    line = buffer;
+                    buffer = "";
+                }
+
+                line = String.Format("{0}", line).PadRight(lineWidth);
+                Console.Write("*{0}*", line);
             }
         }
     }

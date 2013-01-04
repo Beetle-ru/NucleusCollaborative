@@ -40,7 +40,8 @@ namespace AppNode
             {
                 if (!PubProc.HasExited)
                 {
-                    Console.WriteLine("kill {0}", PubProc.Id);
+                    Program.WriteInfo(String.Format("kill {0}", PubProc.Id));
+                    Program.PrintInfo(Program.InfoBuffer);
                     PubProc.Kill();
                 }
             }
@@ -51,6 +52,7 @@ namespace AppNode
             if (PubProc == null || PubProc.HasExited)
             {
                 ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+                Program.WriteInfo("Execute process");
             }
         }
 
@@ -58,6 +60,7 @@ namespace AppNode
         {
             KillProc();
             ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+            Program.WriteInfo("Restart process complete");
         }
 
         public void PrintStatusProc()

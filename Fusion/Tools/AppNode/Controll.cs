@@ -14,7 +14,7 @@ namespace AppNode
     {
         private static void Controll()
         {
-            Console.WriteLine("For exit press key \"Q\" or \"Escape\"");
+            WriteInfo("For exit press key \"Q\" or \"Escape\"");
             while (true)
             {
                 RefrashScreen = true;
@@ -42,11 +42,12 @@ namespace AppNode
                     else
                     {
                         RefrashScreen = false;
-                        ClearDownAndSetCursor();
 
-                        Console.Write("For kill please write process Id: ");
-
+                        WriteInfo("For kill please write process Id: ");
+                        PrintInfo(InfoBuffer);
+                        
                         var strId = Console.ReadLine();
+                        Console.Clear();
                         int id;
                         if (Int32.TryParse(strId, out id))
                         {
@@ -54,7 +55,8 @@ namespace AppNode
                         }
                         else
                         {
-                            Console.Write("\n Uncorrect Id");
+                            WriteInfo("Uncorrect Id");
+                            PrintInfo(InfoBuffer);
                         }
                         RefrashScreen = true;
                     }
@@ -69,11 +71,12 @@ namespace AppNode
                     else
                     {
                         RefrashScreen = false;
-                        ClearDownAndSetCursor();
 
-                        Console.Write("For restart please write process Id: ");
+                        WriteInfo("For restart please write process Id: ");
+                        PrintInfo(InfoBuffer);
 
                         var strId = Console.ReadLine();
+                        Console.Clear();
                         int id;
                         if (Int32.TryParse(strId, out id))
                         {
@@ -87,7 +90,8 @@ namespace AppNode
                         }
                         else
                         {
-                            Console.Write("\n Uncorrect Id");
+                            WriteInfo("Uncorrect Id");
+                            PrintInfo(InfoBuffer);
                         }
                         RefrashScreen = true;
                     }
@@ -102,11 +106,12 @@ namespace AppNode
                     else
                     {
                         RefrashScreen = false;
-                        ClearDownAndSetCursor();
 
-                        Console.Write("For execute please write № application: ");
+                        WriteInfo("For execute please write № application: ");
+                        PrintInfo(InfoBuffer);
 
                         var strId = Console.ReadLine();
+                        Console.Clear();
                         int aN;
                         if (Int32.TryParse(strId, out aN))
                         {
@@ -114,10 +119,16 @@ namespace AppNode
                         }
                         else
                         {
-                            Console.Write("\n Uncorrect Id");
+                            WriteInfo("Uncorrect Id");
+                            PrintInfo(InfoBuffer);
                         }
                         RefrashScreen = true;
                     }
+                }
+                else if (cki.Key == ConsoleKey.H)
+                {
+                    ClearInfo();
+                    WriteInfo("Help:");
                 }
                 else
                 {
@@ -134,11 +145,11 @@ namespace AppNode
                     else if (cki.Key == ConsoleKey.F10) { ActiveApp = 9; fKey = true; }
                     else if (cki.Key == ConsoleKey.F11) { ActiveApp = 10; fKey = true; }
                     else if (cki.Key == ConsoleKey.F12) { ActiveApp = 11; fKey = true; }
-                    if (((cki.Modifiers & ConsoleModifiers.Shift) != 0) && fKey) ActiveApp += 13;
+                    if (((cki.Modifiers & ConsoleModifiers.Shift) != 0) && fKey) ActiveApp += 12;
                     if (fKey)
                     {
                         Console.Clear();
-                        Console.WriteLine("Swith console F{0}", ActiveApp + 1);
+                        WriteInfo(String.Format("Swith console F{0}", ActiveApp + 1));
                         SwitchScreen = true;
                     }
                 }

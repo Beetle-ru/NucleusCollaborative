@@ -14,6 +14,7 @@ namespace AppNode
     {
         public static void LoadCfg(string path)
         {
+            ClearInfo();
             Directory.CreateDirectory(WorkingDirectory);
             AppList = new List<Application>();
             string[] strings;
@@ -24,7 +25,8 @@ namespace AppNode
             catch
             {
                 strings = new string[0];
-                Console.WriteLine("Cannot read the file: {0}", path);
+                WriteInfo(String.Format("Cannot read the file: {0}", path));
+                PrintInfo(InfoBuffer);
                 return;
             }
 
@@ -38,19 +40,22 @@ namespace AppNode
                         AppList[AppList.Count - 1].FileName = strings[i];
                         AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
                         AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
-                        Console.WriteLine("Application added, path = {0}", strings[i]);
+                        WriteInfo(String.Format("Application added, path = {0}", strings[i]));
                     }
                     else
                     {
-                        Console.WriteLine("###Application not found: {0}", strings[i]);
+                        WriteInfo(String.Format("###Application not found: {0}", strings[i]));
+                        PrintInfo(InfoBuffer);
                     }
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("###Cannot read the file: {0}, bad format call exeption: {1}", path, e.ToString());
+                WriteInfo(String.Format("###Cannot read the file: {0}, bad format call exeption: {1}", path, e.ToString()));
+                PrintInfo(InfoBuffer);
                 throw e;
             }
+            PrintInfo(InfoBuffer);
         }
 
         public static void RunAll()
@@ -90,8 +95,6 @@ namespace AppNode
             ConsoleStreaTimer.Enabled = true;
         }
 
-        
-
         private static void PrintSLine(char c)
         {
             for (var i = 0; i < Console.BufferWidth; i++)
@@ -116,15 +119,13 @@ namespace AppNode
                 }
                 Console.Write(c);
             }
-            Console.WriteLine();
         }
 
         private static void ConsolePrepare()
         {
             Console.Clear();
-            Console.CursorTop = (int)(Console.BufferHeight * 0.5);
-            PrintSLine('*');
-            PrintSLine('#', "Start info");
+            Console.BufferHeight = Console.WindowHeight;
+            Console.BufferWidth = Console.WindowWidth;
         }
 
         public static void KillCurrentProcess()
@@ -141,19 +142,20 @@ namespace AppNode
             }
         }
 
-        public static int KillPtocessById(int procId)
+        public static void KillPtocessById(int procId)
         {
             Console.SetCursorPosition(0, 0);
 
+            var isFound = false;
             foreach (var application in AppList)
             {
                 if (application.PubProc.Id == procId)
                 {
                     application.KillProc();
-                    return application.NumberApp;
+                    isFound = true;
                 }
             }
-            return Int32.MaxValue;
+            if (!isFound) WriteInfo("Id not found");
         }
 
         public static void ExecCurrentProcess()
@@ -178,15 +180,35 @@ namespace AppNode
             }
             else
             {
-                Console.WriteLine("Application is not binding to {0:000} number", appNumber);
+                WriteInfo(String.Format("Application is not binding to {0:000} number", appNumber));
             }
         }
 
-        public static void ClearDownAndSetCursor()
+        public static void WriteInfo(string msg)
         {
-            Console.SetCursorPosition(0, Console.BufferHeight - 3);
-            PrintSLine(' '); PrintSLine(' ');
-            Console.SetCursorPosition(0, Console.BufferHeight - 3);
+            var lineWidth = Console.WindowWidth - 2;
+            //InfoBuffer += msg;
+            var splt = msg.Split('\n');
+            if (splt.Any())
+            {
+                string result = "";
+                foreach (string s in splt)
+                    result = result + s.PadRight(lineWidth);
+                InfoBuffer += result;
+            }
+            else
+            {
+                InfoBuffer += msg.PadRight(lineWidth);
+            }
+            if ((InfoBuffer.Count() / lineWidth) > (Console.WindowHeight * 0.333)-2)
+            {
+                InfoBuffer = InfoBuffer.Remove(0, lineWidth);
+            }
+        }
+
+        public static void ClearInfo()
+        {
+            InfoBuffer = "";
         }
     }
 }
