@@ -14,33 +14,56 @@ namespace AppNode
     {
         public static void ConsoleIterateTimeOut(object source, ElapsedEventArgs e)
         {
-            if (RefrashScreen)
+            ConsoleStreamTimer.Enabled = false;
+            OutPutConsole();
+            ConsoleStreamTimer.Enabled = true;
+        }
+
+        public static bool OutPutConsole()
+        {
+            var status = true;
+            if (!IsWritingConsole)
             {
-                if (ActiveApp >= 0)
+                IsWritingConsole = true;
+                if (RefrashScreen)
                 {
-                    if (AppList.Count > ActiveApp)
+                    if (ActiveApp >= 0)
                     {
-                        AppList[ActiveApp].StreaWriter(SwitchScreen);
+                        if (AppList.Count > ActiveApp)
+                        {
+                            AppList[ActiveApp].StreaWriter(SwitchScreen);
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
+                        }
                     }
-                    else
+                    else // Admin screens
                     {
-                        Console.Clear();
-                        Console.WriteLine("Application not run on F{0} console", ActiveApp + 1);
+                        if (ActiveApp == -1) // status
+                        {
+                            Console.SetCursorPosition(0, 0);
+                            Console.WriteLine("Status screen\n");
+
+                            PrintStatusAll();
+                            PrintInfo(InfoBuffer);
+                        }
                     }
+                    SwitchScreen = false;
                 }
-                else // Admin screens
-                {
-                    if (ActiveApp == -1) // status
-                    {
-                        Console.SetCursorPosition(0, 0);
-                        Console.WriteLine("Status screen\n");
-                        
-                        PrintStatusAll();
-                        PrintInfo(InfoBuffer);
-                    }
-                }
-                SwitchScreen = false;
+                IsWritingConsole = false;
             }
+            else
+            {
+                status = false;
+            }
+            return status;
+        }
+
+        public static void RefrashConsoleNow()
+        {
+            while (!OutPutConsole()) { Thread.Sleep(100); }
         }
 
         public static void PrintInfo(string buffer)

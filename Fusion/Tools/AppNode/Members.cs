@@ -15,10 +15,11 @@ namespace AppNode
         public const string WorkingDirectory = "AppsData";
         public static List<Application> AppList;
         public static int ActiveApp = -1;
-        public static System.Timers.Timer ConsoleStreaTimer = new Timer(300);
+        public static System.Timers.Timer ConsoleStreamTimer = new Timer(300);
         public static System.Timers.Timer ReincornatorTimer = new Timer(1000);
         public static bool SwitchScreen;
         public static bool RefrashScreen = true;
         public static string InfoBuffer = "";
+        public static bool IsWritingConsole;
     }
 }

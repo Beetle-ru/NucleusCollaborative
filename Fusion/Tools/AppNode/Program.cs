@@ -16,11 +16,11 @@ namespace AppNode
         {
             ConsolePrepare();
             LoadCfg("AppNode.cfg");
-            RunAll();
+            ExecuteAll();
             StartConsoleStream();
             StartReincornator();
             Controll();
-            StopAll();
+            KillAll();
         }
     }
 }

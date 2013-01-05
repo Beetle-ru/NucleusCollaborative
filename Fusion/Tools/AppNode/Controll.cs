@@ -24,10 +24,11 @@ namespace AppNode
                     (cki.Key == ConsoleKey.Escape)
                     )
                 {
-                    RefrashScreen = false;
                     ReincornatorTimer.Enabled = false;
                     Console.Clear();
-                    StopAll();
+                    KillAll();
+                    RefrashConsoleNow();
+                    RefrashScreen = false;
                     AppExit();
                 }
                 else if (cki.Key == ConsoleKey.S)
@@ -43,25 +44,31 @@ namespace AppNode
                     }
                     else
                     {
-                        RefrashScreen = false;
-
-                        WriteInfo("For kill please write application number: ");
-                        PrintInfo(InfoBuffer);
-                        
-                        var strNumber = Console.ReadLine();
-                        Console.Clear();
-                        int appNumber;
-                        if (Int32.TryParse(strNumber, out appNumber))
+                        if ((cki.Modifiers & ConsoleModifiers.Shift) != 0)
                         {
-                            //KillPtocessById(id);
-                            KillProcessByNumber(appNumber);
+                            KillAll();
                         }
                         else
                         {
-                            WriteInfo("Uncorrect number of application");
-                            PrintInfo(InfoBuffer);
+                            WriteInfo("For kill please write application number: ");
+
+                            RefrashConsoleNow();
+                            RefrashScreen = false;
+
+                            var strNumber = Console.ReadLine();
+                            Console.Clear();
+                            int appNumber;
+                            if (Int32.TryParse(strNumber, out appNumber))
+                            {
+                                KillProcessByNumber(appNumber);
+                            }
+                            else
+                            {
+                                WriteInfo("Uncorrect number of application");
+                                PrintInfo(InfoBuffer);
+                            }
+                            RefrashScreen = true;
                         }
-                        RefrashScreen = true;
                     }
                 }
                 else if (cki.Key == ConsoleKey.R)
@@ -73,24 +80,32 @@ namespace AppNode
                     }
                     else
                     {
-                        RefrashScreen = false;
-
-                        WriteInfo("For restart please write process number: ");
-                        PrintInfo(InfoBuffer);
-
-                        var strNumber = Console.ReadLine();
-                        Console.Clear();
-                        int appNumber;
-                        if (Int32.TryParse(strNumber, out appNumber))
+                        if ((cki.Modifiers & ConsoleModifiers.Shift) != 0)
                         {
-                            ExecuteByNumber(appNumber, true);
+                            RestartAll();
                         }
                         else
                         {
-                            WriteInfo("Uncorrect number of application");
-                            PrintInfo(InfoBuffer);
+                            WriteInfo("For restart please write process number: ");
+
+                            RefrashConsoleNow();
+                            RefrashScreen = false;
+
+                            var strNumber = Console.ReadLine();
+                            Console.Clear();
+                            int appNumber;
+                            if (Int32.TryParse(strNumber, out appNumber))
+                            {
+                                ExecuteByNumber(appNumber, true);
+                            }
+                            else
+                            {
+                                WriteInfo("Uncorrect number of application");
+                                PrintInfo(InfoBuffer);
+                            }
+
+                            RefrashScreen = true;
                         }
-                        RefrashScreen = true;
                     }
                 }
                 else if (cki.Key == ConsoleKey.E)
@@ -102,25 +117,33 @@ namespace AppNode
                     }
                     else
                     {
-                        RefrashScreen = false;
-
-                        WriteInfo("For execute please write № application: ");
-                        PrintInfo(InfoBuffer);
-
-                        var strId = Console.ReadLine();
-                        Console.Clear();
-                        int aN;
-                        if (Int32.TryParse(strId, out aN))
+                        if ((cki.Modifiers & ConsoleModifiers.Shift) != 0)
                         {
-                            ExecuteByNumber(aN);
-                            //SetAutoRestart(aN);
+                            ExecuteAll();
                         }
                         else
                         {
-                            WriteInfo("Uncorrect Id");
-                            PrintInfo(InfoBuffer);
+                            WriteInfo("For execute please write № application: ");
+
+                            RefrashConsoleNow();
+                            RefrashScreen = false;
+
+                            var strId = Console.ReadLine();
+                            Console.Clear();
+                            int aN;
+                            if (Int32.TryParse(strId, out aN))
+                            {
+                                ExecuteByNumber(aN);
+
+                            }
+                            else
+                            {
+                                WriteInfo("Uncorrect Id");
+                                PrintInfo(InfoBuffer);
+                            }
+
+                            RefrashScreen = true;
                         }
-                        RefrashScreen = true;
                     }
                 }
                 else if (cki.Key == ConsoleKey.H)

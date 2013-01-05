@@ -21,6 +21,7 @@ namespace AppNode
         public bool NeedRestart;
         private int m_errRestarts;
         private const int ErrRestartsTreshold = 10;
+        private bool m_isRestarting;
 
         public void ThreadPoolCallback(Object threadContext)
         {
@@ -31,12 +32,13 @@ namespace AppNode
             proc.StartInfo.RedirectStandardInput = true;
             proc.StartInfo.RedirectStandardError = true;
             proc.StartInfo.ErrorDialog = false;
+            proc.EnableRaisingEvents = true;
+            proc.Exited += new EventHandler(ProcessExited);
             proc.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
             proc.OutputDataReceived += new DataReceivedEventHandler(OutputDataHandler);
             proc.StartInfo.WorkingDirectory = WorkingDirectory;
             proc.Start();
             PubProc = Process.GetProcessById(proc.Id);
-            //PubProc.BeginErrorReadLine();
             proc.BeginErrorReadLine();
             proc.BeginOutputReadLine();
             //while (!proc.HasExited)
@@ -51,8 +53,8 @@ namespace AppNode
             {
                 if (!PubProc.HasExited)
                 {
-                    Program.WriteInfo(String.Format("kill {0}", PubProc.Id));
-                    Program.PrintInfo(Program.InfoBuffer);
+                    //Program.WriteInfo(String.Format("kill {0}", PubProc.Id));
+                    //Program.PrintInfo(Program.InfoBuffer);
                     try
                     {
                         PubProc.Kill();
@@ -73,18 +75,17 @@ namespace AppNode
             {
                 ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
                 Program.WriteInfo("Execute process");
-                //Thread.Sleep(1000);
-                //PubProc.OutputDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
-                //PubProc.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
+                m_isRestarting = false;
             }
         }
 
         public void RestartProc()
         {
             KillProc();
-            ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+            //ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+            m_isRestarting = true;
             NeedRestart = false;
-            Program.WriteInfo("Restart process complete");
+            Program.WriteInfo("Restarting process...");
         }
 
         public bool ProcessIsRun()
@@ -207,14 +208,26 @@ namespace AppNode
             //Console.Clear();
         }
 
+        private void ProcessExited(object sender, System.EventArgs e)
+        {
+            if (m_isRestarting)
+            {
+                ExecProc();
+                Program.WriteInfo("Restarting complete");
+            }
+            else
+            {
+                Program.WriteInfo("Process killed");
+            }
+            //Console.Clear();
+            //Program.PrintInfo(Program.InfoBuffer);
+        }
+
+
         private void OutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
         {
-            // Collect the net view command output.
-
             if (!String.IsNullOrEmpty(outLine.Data))
             {
-                // Add the text to the collected output.
-
                 StreamRotator(outLine.Data);
             }
         }

@@ -12,22 +12,30 @@ namespace AppNode
 {
     internal partial class Program
     {
-        public static void RunAll()
+        public static void ExecuteAll()
         {
-            for (int index = 0; index < AppList.Count; index++)
+            foreach (Application application in AppList)
             {
-                AppList[index].ExecProc();
-                AppList[index].SetAutomaticRestart();
+                application.ExecProc();
+                application.SetAutomaticRestart();
             }
         }
 
-        public static void StopAll()
+        public static void KillAll()
         {
-            for (int index = 0; index < AppList.Count; index++)
+            foreach (Application application in AppList)
             {
-                var application = AppList[index];
                 application.KillProc();
-                AppList[index].SetManuaRestart();
+                application.SetManuaRestart();
+            }
+        }
+
+        public static void RestartAll()
+        {
+            foreach (Application application in AppList)
+            {
+                application.RestartProc();
+                application.SetAutomaticRestart();
             }
         }
 
@@ -47,8 +55,8 @@ namespace AppNode
 
         public static void StartConsoleStream()
         {
-            ConsoleStreaTimer.Elapsed += new ElapsedEventHandler(ConsoleIterateTimeOut);
-            ConsoleStreaTimer.Enabled = true;
+            ConsoleStreamTimer.Elapsed += new ElapsedEventHandler(ConsoleIterateTimeOut);
+            ConsoleStreamTimer.Enabled = true;
         }
 
         public static void StartReincornator()
@@ -93,14 +101,6 @@ namespace AppNode
         public static void KillCurrentProcess()
         {
             KillProcessByNumber(ActiveApp);
-            //if (ActiveApp < AppList.Count)
-            //{
-            //    AppList[ActiveApp].KillProc();
-            //}
-            //else
-            //{
-            //    Console.WriteLine("On this screen application is not binding");
-            //}
         }
 
 
@@ -146,7 +146,6 @@ namespace AppNode
         public static void WriteInfo(string msg)
         {
             var lineWidth = Console.WindowWidth - 2;
-            //InfoBuffer += msg;
             var splt = msg.Split('\n');
             if (splt.Any())
             {
@@ -168,14 +167,6 @@ namespace AppNode
         public static void ClearInfo()
         {
             InfoBuffer = "";
-        }
-
-        public static void SetAutoRestart(int appNumber)
-        {
-            if (appNumber < AppList.Count)
-            {
-                AppList[appNumber].SetAutomaticRestart();
-            }
         }
     }
 }
