@@ -44,19 +44,20 @@ namespace AppNode
                     {
                         RefrashScreen = false;
 
-                        WriteInfo("For kill please write process Id: ");
+                        WriteInfo("For kill please write application number: ");
                         PrintInfo(InfoBuffer);
                         
-                        var strId = Console.ReadLine();
+                        var strNumber = Console.ReadLine();
                         Console.Clear();
-                        int id;
-                        if (Int32.TryParse(strId, out id))
+                        int appNumber;
+                        if (Int32.TryParse(strNumber, out appNumber))
                         {
-                            KillPtocessById(id);
+                            //KillPtocessById(id);
+                            KillPtocessByNumber(appNumber);
                         }
                         else
                         {
-                            WriteInfo("Uncorrect Id");
+                            WriteInfo("Uncorrect number of application");
                             PrintInfo(InfoBuffer);
                         }
                         RefrashScreen = true;
@@ -73,25 +74,19 @@ namespace AppNode
                     {
                         RefrashScreen = false;
 
-                        WriteInfo("For restart please write process Id: ");
+                        WriteInfo("For restart please write process number: ");
                         PrintInfo(InfoBuffer);
 
-                        var strId = Console.ReadLine();
+                        var strNumber = Console.ReadLine();
                         Console.Clear();
-                        int id;
-                        if (Int32.TryParse(strId, out id))
+                        int appNumber;
+                        if (Int32.TryParse(strNumber, out appNumber))
                         {
-                            foreach (var application in AppList)
-                            {
-                                if (id == application.PubProc.Id)
-                                {
-                                    application.RestartProc();
-                                }
-                            }
+                            ExecuteByNumber(appNumber, true);
                         }
                         else
                         {
-                            WriteInfo("Uncorrect Id");
+                            WriteInfo("Uncorrect number of application");
                             PrintInfo(InfoBuffer);
                         }
                         RefrashScreen = true;

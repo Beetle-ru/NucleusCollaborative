@@ -144,7 +144,7 @@ namespace AppNode
 
         public static void KillPtocessById(int procId)
         {
-            Console.SetCursorPosition(0, 0);
+           // Console.SetCursorPosition(0, 0);
 
             var isFound = false;
             foreach (var application in AppList)
@@ -156,6 +156,19 @@ namespace AppNode
                 }
             }
             if (!isFound) WriteInfo("Id not found");
+        }
+
+        public static void KillPtocessByNumber(int appNumber)
+        {
+            if (appNumber < AppList.Count)
+            {
+                AppList[appNumber].KillProc();
+            }
+            else
+            {
+                WriteInfo(String.Format("Application is not binding to {0:000} number", appNumber));
+            }
+            
         }
 
         public static void ExecCurrentProcess()
