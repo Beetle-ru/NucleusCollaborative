@@ -25,6 +25,7 @@ namespace AppNode
                     )
                 {
                     RefrashScreen = false;
+                    ReincornatorTimer.Enabled = false;
                     Console.Clear();
                     StopAll();
                     AppExit();
@@ -53,7 +54,7 @@ namespace AppNode
                         if (Int32.TryParse(strNumber, out appNumber))
                         {
                             //KillPtocessById(id);
-                            KillPtocessByNumber(appNumber);
+                            KillProcessByNumber(appNumber);
                         }
                         else
                         {
@@ -112,6 +113,7 @@ namespace AppNode
                         if (Int32.TryParse(strId, out aN))
                         {
                             ExecuteByNumber(aN);
+                            //SetAutoRestart(aN);
                         }
                         else
                         {

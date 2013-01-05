@@ -34,6 +34,7 @@ namespace AppNode
                     {
                         Console.SetCursorPosition(0, 0);
                         Console.WriteLine("Status screen\n");
+                        
                         PrintStatusAll();
                         PrintInfo(InfoBuffer);
                     }

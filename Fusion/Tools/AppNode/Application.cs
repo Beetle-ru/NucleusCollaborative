@@ -14,9 +14,13 @@ namespace AppNode
         public string FileName;
         public string WorkingDirectory;
         public int NumberApp;
+        private bool m_isAutomaticRestart = true;
         public List<string> Stream = new List<string>();
         private int m_streamChanged;
         private TimeSpan m_previousProcTime = new TimeSpan();
+        public bool NeedRestart;
+        private int m_errRestarts;
+        private const int ErrRestartsTreshold = 10;
 
         public void ThreadPoolCallback(Object threadContext)
         {
@@ -25,13 +29,20 @@ namespace AppNode
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.RedirectStandardInput = true;
+            proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.ErrorDialog = false;
+            proc.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
+            proc.OutputDataReceived += new DataReceivedEventHandler(OutputDataHandler);
             proc.StartInfo.WorkingDirectory = WorkingDirectory;
             proc.Start();
             PubProc = Process.GetProcessById(proc.Id);
-            while (!proc.HasExited)
-            {
-                StreamRotator(proc.StandardOutput.ReadLine());
-            }
+            //PubProc.BeginErrorReadLine();
+            proc.BeginErrorReadLine();
+            proc.BeginOutputReadLine();
+            //while (!proc.HasExited)
+            //{
+            //    StreamRotator(proc.StandardOutput.ReadLine());
+            //}
             proc.WaitForExit();
         }
         public void KillProc()
@@ -42,7 +53,16 @@ namespace AppNode
                 {
                     Program.WriteInfo(String.Format("kill {0}", PubProc.Id));
                     Program.PrintInfo(Program.InfoBuffer);
-                    PubProc.Kill();
+                    try
+                    {
+                        PubProc.Kill();
+                    }
+                    catch (Exception e )
+                    {
+                        Program.WriteInfo(String.Format("kill {0} exeption {1}", PubProc.Id, e.Message));
+                        
+                    }
+                    
                 }
             }
         }
@@ -53,6 +73,9 @@ namespace AppNode
             {
                 ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
                 Program.WriteInfo("Execute process");
+                //Thread.Sleep(1000);
+                //PubProc.OutputDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
+                //PubProc.ErrorDataReceived += new DataReceivedEventHandler(ErrorDataHandler);
             }
         }
 
@@ -60,7 +83,17 @@ namespace AppNode
         {
             KillProc();
             ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+            NeedRestart = false;
             Program.WriteInfo("Restart process complete");
+        }
+
+        public bool ProcessIsRun()
+        {
+            if (PubProc != null)
+            {
+                return !PubProc.HasExited;
+            }
+            else return false;
         }
 
         public void PrintStatusProc()
@@ -145,5 +178,62 @@ namespace AppNode
                 Console.WriteLine(msg);
             }
         }
+        private void ErrorDataHandler(object sendingProcess, DataReceivedEventArgs errLine)
+        {
+            if (!String.IsNullOrEmpty(errLine.Data))
+            {
+
+
+                //NeedRestart = true;
+                //Console.SetCursorPosition(0, 0);
+
+                if (m_isAutomaticRestart && !PubProc.HasExited)
+                {
+                    Program.WriteInfo(String.Format("Process (\"{0}\", ProcId = {1}) error {2}", PubProc.ProcessName, PubProc.Id, m_errRestarts));
+                    KillProc();
+                    PubProc.WaitForExit();
+                    //NeedRestart = true;
+                    Thread.Sleep(300);
+                    m_errRestarts++;
+                    if (ErrRestartsTreshold < m_errRestarts)
+                    {
+                        m_isAutomaticRestart = false;
+                        m_errRestarts = 0;
+                    }
+                }
+
+                //Thread.Sleep(300);
+            }
+            //Console.Clear();
+        }
+
+        private void OutputDataHandler(object sendingProcess, DataReceivedEventArgs outLine)
+        {
+            // Collect the net view command output.
+
+            if (!String.IsNullOrEmpty(outLine.Data))
+            {
+                // Add the text to the collected output.
+
+                StreamRotator(outLine.Data);
+            }
+        }
+
+        public void SetAutomaticRestart()
+        {
+            m_isAutomaticRestart = true;
+        }
+
+        public void SetManuaRestart()
+        {
+            m_isAutomaticRestart = false;
+        }
+
+        public bool GetAutomaticRestartStatus()
+        {
+            return m_isAutomaticRestart;
+        }
+
+
     }
 }

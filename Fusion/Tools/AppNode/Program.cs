@@ -18,6 +18,7 @@ namespace AppNode
             LoadCfg("AppNode.cfg");
             RunAll();
             StartConsoleStream();
+            StartReincornator();
             Controll();
             StopAll();
         }

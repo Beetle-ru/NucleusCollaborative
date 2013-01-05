@@ -17,6 +17,7 @@ namespace AppNode
             for (int index = 0; index < AppList.Count; index++)
             {
                 AppList[index].ExecProc();
+                AppList[index].SetAutomaticRestart();
             }
         }
 
@@ -26,6 +27,7 @@ namespace AppNode
             {
                 var application = AppList[index];
                 application.KillProc();
+                AppList[index].SetManuaRestart();
             }
         }
 
@@ -47,6 +49,12 @@ namespace AppNode
         {
             ConsoleStreaTimer.Elapsed += new ElapsedEventHandler(ConsoleIterateTimeOut);
             ConsoleStreaTimer.Enabled = true;
+        }
+
+        public static void StartReincornator()
+        {
+            ReincornatorTimer.Elapsed += new ElapsedEventHandler(ReincornatorTimeOut);
+            ReincornatorTimer.Enabled = true;
         }
 
         private static void PrintSLine(char c)
@@ -84,39 +92,24 @@ namespace AppNode
 
         public static void KillCurrentProcess()
         {
-            Console.SetCursorPosition(0, 0);
-
-            if (ActiveApp < AppList.Count)
-            {
-                AppList[ActiveApp].KillProc();
-            }
-            else
-            {
-                Console.WriteLine("On this screen application is not binding");
-            }
+            KillProcessByNumber(ActiveApp);
+            //if (ActiveApp < AppList.Count)
+            //{
+            //    AppList[ActiveApp].KillProc();
+            //}
+            //else
+            //{
+            //    Console.WriteLine("On this screen application is not binding");
+            //}
         }
 
-        public static void KillPtocessById(int procId)
-        {
-           // Console.SetCursorPosition(0, 0);
 
-            var isFound = false;
-            foreach (var application in AppList)
-            {
-                if (application.PubProc.Id == procId)
-                {
-                    application.KillProc();
-                    isFound = true;
-                }
-            }
-            if (!isFound) WriteInfo("Id not found");
-        }
-
-        public static void KillPtocessByNumber(int appNumber)
+        public static void KillProcessByNumber(int appNumber)
         {
             if (appNumber < AppList.Count)
             {
                 AppList[appNumber].KillProc();
+                AppList[appNumber].SetManuaRestart();
             }
             else
             {
@@ -127,13 +120,11 @@ namespace AppNode
 
         public static void ExecCurrentProcess()
         {
-            Console.SetCursorPosition(0, 0);
             ExecuteByNumber(ActiveApp);
         }
 
         public static void ExecuteByNumber(int appNumber, bool restar = false)
         {
-            Console.SetCursorPosition(0, 0);
             if (appNumber < AppList.Count)
             {
                 if (restar)
@@ -144,6 +135,7 @@ namespace AppNode
                 {
                     AppList[appNumber].ExecProc();
                 }
+                AppList[appNumber].SetAutomaticRestart();
             }
             else
             {
@@ -176,6 +168,14 @@ namespace AppNode
         public static void ClearInfo()
         {
             InfoBuffer = "";
+        }
+
+        public static void SetAutoRestart(int appNumber)
+        {
+            if (appNumber < AppList.Count)
+            {
+                AppList[appNumber].SetAutomaticRestart();
+            }
         }
     }
 }
