@@ -24,6 +24,7 @@ namespace AppNode
                     (cki.Key == ConsoleKey.Escape)
                     )
                 {
+                    RefrashScreen = false;
                     Console.Clear();
                     StopAll();
                     AppExit();
