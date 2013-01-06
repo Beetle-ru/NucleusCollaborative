@@ -14,6 +14,8 @@ namespace AppNode
         public string FileName;
         public string WorkingDirectory;
         public int NumberApp;
+        public int DelayAfterExecute;
+        public int ExecCount;
         private bool m_isAutomaticRestart = true;
         public List<string> Stream = new List<string>();
         private int m_streamChanged;
@@ -69,20 +71,22 @@ namespace AppNode
             }
         }
 
-        public void ExecProc()
+        public bool ExecProc()
         {
             if (PubProc == null || PubProc.HasExited)
             {
                 ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
+                ExecCount++;
                 Program.WriteInfo("Execute process");
                 m_isRestarting = false;
+                return true;
             }
+            return false;
         }
 
         public void RestartProc()
         {
             KillProc();
-            //ThreadPool.QueueUserWorkItem(ThreadPoolCallback);
             m_isRestarting = true;
             NeedRestart = false;
             Program.WriteInfo("Restarting process...");
@@ -112,7 +116,7 @@ namespace AppNode
                 outstr += !PubProc.HasExited 
                     ? String.Format("| {0}", PubProc.PagedMemorySize64).PadRight(15)
                     : String.Format("| ------------ ").PadRight(15);
-
+               
                 int cpu = 0;
                 if (!PubProc.HasExited)
                 {
@@ -125,6 +129,9 @@ namespace AppNode
                 outstr += !PubProc.HasExited 
                     ? String.Format("| {0}", cpu).PadRight(6)
                     : String.Format("| --- ").PadRight(6);
+
+                outstr += String.Format("| {0} ", ExecCount).PadRight(7);
+
                 Console.WriteLine(outstr);
             }
         }
@@ -138,6 +145,7 @@ namespace AppNode
             outstr += String.Format("|State");
             outstr += String.Format("| Memory").PadRight(15);
             outstr += String.Format("| CPU").PadRight(6);
+            outstr += String.Format("|Execs").PadRight(7);
             Console.WriteLine(outstr);
         }
 

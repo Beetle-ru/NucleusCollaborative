@@ -27,7 +27,6 @@ namespace AppNode
                 strings = new string[0];
                 WriteInfo(String.Format("Cannot read the file: {0}", path));
                 RefrashConsoleNow();
-                //PrintInfo(InfoBuffer);
                 return;
             }
 
@@ -35,19 +34,25 @@ namespace AppNode
             {
                 for (int i = 0; i < strings.Count(); i++)
                 {
-                    if (File.Exists(strings[i]))
+                    const char separator = ';';
+                    var splt = strings[i].Split(separator);
+                    
+                    var execPatch = splt.Any() ? splt[0] : strings[i];
+                    var delay = splt.Count() > 1 ? Int32.Parse(splt[1]) : 0;
+
+                    if (File.Exists(execPatch))
                     {
                         AppList.Add(new Application());
-                        AppList[AppList.Count - 1].FileName = strings[i];
+                        AppList[AppList.Count - 1].FileName = execPatch;
                         AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
                         AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
+                        AppList[AppList.Count - 1].DelayAfterExecute = delay;
                         WriteInfo(String.Format("Application added, path = {0}", strings[i]));
                     }
                     else
                     {
                         WriteInfo(String.Format("###Application not found: {0}", strings[i]));
                         RefrashConsoleNow();
-                        //PrintInfo(InfoBuffer);
                     }
                 }
             }
@@ -56,7 +61,6 @@ namespace AppNode
                 WriteInfo(String.Format("###Cannot read the file: {0}, bad format call exeption: {1}", path,
                                         e.ToString()));
                 RefrashConsoleNow();
-                //PrintInfo(InfoBuffer);
                 throw e;
             }
             PrintInfo(InfoBuffer);

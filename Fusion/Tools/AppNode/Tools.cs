@@ -16,8 +16,10 @@ namespace AppNode
         {
             foreach (Application application in AppList)
             {
-                application.ExecProc();
+                var executed = application.ExecProc();
                 application.SetAutomaticRestart();
+                if (executed) {ExecDelay(application.DelayAfterExecute); WriteInfo("Complete");}
+                
             }
         }
 
@@ -36,9 +38,19 @@ namespace AppNode
             {
                 application.RestartProc();
                 application.SetAutomaticRestart();
+                ExecDelay(application.DelayAfterExecute);
             }
         }
 
+        private static void ExecDelay(int delay)
+        {
+            if (delay > 0)
+            {
+                WriteInfo(String.Format("Execute delay {0}ms, wait ...", delay));
+                RefrashConsoleNow();
+                Thread.Sleep(delay);
+            }
+        }
         public static void PrintStatusAll()
         {
             Application.PrintStatusHeader();
