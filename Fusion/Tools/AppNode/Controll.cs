@@ -35,6 +35,7 @@ namespace AppNode
                 {
                     ActiveApp = -1;
                     Console.Clear();
+                    RefrashConsoleNow();
                 }
                 else if (cki.Key == ConsoleKey.K)
                 {
@@ -68,6 +69,7 @@ namespace AppNode
                                 PrintInfo(InfoBuffer);
                             }
                             RefrashScreen = true;
+                            RefrashConsoleNow();
                         }
                     }
                 }
@@ -76,7 +78,7 @@ namespace AppNode
                     if (ActiveApp >= 0)
                     {
                         ExecuteByNumber(ActiveApp, true);
-                        Console.Clear();
+                        //Console.Clear();
                     }
                     else
                     {
@@ -105,6 +107,7 @@ namespace AppNode
                             }
 
                             RefrashScreen = true;
+                            RefrashConsoleNow();
                         }
                     }
                 }
@@ -113,7 +116,7 @@ namespace AppNode
                     if (ActiveApp >= 0)
                     {
                         ExecCurrentProcess();
-                        Console.Clear();
+                        //Console.Clear();
                     }
                     else
                     {
@@ -143,6 +146,7 @@ namespace AppNode
                             }
 
                             RefrashScreen = true;
+                            RefrashConsoleNow();
                         }
                     }
                 }
@@ -150,6 +154,7 @@ namespace AppNode
                 {
                     ClearInfo();
                     WriteInfo("Help:");
+                    RefrashConsoleNow();
                 }
                 else
                 {

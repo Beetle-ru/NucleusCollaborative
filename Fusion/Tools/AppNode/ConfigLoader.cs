@@ -26,7 +26,8 @@ namespace AppNode
             {
                 strings = new string[0];
                 WriteInfo(String.Format("Cannot read the file: {0}", path));
-                PrintInfo(InfoBuffer);
+                RefrashConsoleNow();
+                //PrintInfo(InfoBuffer);
                 return;
             }
 
@@ -45,7 +46,8 @@ namespace AppNode
                     else
                     {
                         WriteInfo(String.Format("###Application not found: {0}", strings[i]));
-                        PrintInfo(InfoBuffer);
+                        RefrashConsoleNow();
+                        //PrintInfo(InfoBuffer);
                     }
                 }
             }
@@ -53,7 +55,8 @@ namespace AppNode
             {
                 WriteInfo(String.Format("###Cannot read the file: {0}, bad format call exeption: {1}", path,
                                         e.ToString()));
-                PrintInfo(InfoBuffer);
+                RefrashConsoleNow();
+                //PrintInfo(InfoBuffer);
                 throw e;
             }
             PrintInfo(InfoBuffer);
