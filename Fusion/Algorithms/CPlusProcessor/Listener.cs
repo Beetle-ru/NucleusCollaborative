@@ -43,22 +43,34 @@ namespace CPlusProcessor
                 if (evt is LanceEvent)
                 {
                     var le = evt as LanceEvent;
-                    Iterator.HDSmoother.Oxygen.Add(le.O2TotalVol);
+                    //Iterator.HDSmoother.Oxygen.Add(le.O2TotalVol);
+                    Iterator.HDSmoother.Oxygen = le.O2TotalVol;
                     Iterator.HDSmoother.LanceHeigth.Add(le.LanceHeight);
                     Iterator.HDSmoother.LanceHeigthPrevious.Add(LanceHeithPrevious);
                     LanceHeithPrevious = le.LanceHeight;
+                }
+                if (evt is BlowingEvent)
+                {
+                    var be = evt as BlowingEvent;
+                    Iterator.HDSmoother.HeatIsStarted = be.BlowingFlag == 1;
                 }
                 if (evt is OffGasAnalysisEvent)
                 {
                     var ogae = evt as OffGasAnalysisEvent;
                     Iterator.HDSmoother.CO.Add(ogae.CO);
                     Iterator.HDSmoother.CO2.Add(ogae.CO2);
-                    if (Iterator.HDSmoother.Oxygen.Average() > 0)
+                    if (Iterator.HDSmoother.Oxygen > 0)
                     {
                         Iterator.IntegralCO += ogae.CO;
+                        Iterator.IntegralCO2 += ogae.CO2;
                     }
                     //InstantLogger.msg("integral CO {1} > {0} > {2}", Iterator.IntegralCO, Program.COMax, Program.COMin);
                     
+                }
+                if (evt is OffGasEvent)
+                {
+                    var oge = evt as OffGasEvent;
+                    Iterator.OffGasV = oge.OffGasFlow;
                 }
                 if (evt is HeatChangeEvent)
                 {

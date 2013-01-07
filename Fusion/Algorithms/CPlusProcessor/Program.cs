@@ -71,7 +71,8 @@ namespace CPlusProcessor
                             TimeFromX = Convertion.StrToInt32(values[1]),
                             CarbonOxideIVP = Convertion.StrToDouble(values[2]),
                             SteelCarbonPercent = Convertion.StrToDouble(values[3]),
-                            SteelCarbonPercentCalculated = Convertion.StrToDouble(values[4])
+                            SteelCarbonPercentCalculated = Convertion.StrToDouble(values[4]),
+                            HightQualityHeat = Convertion.StrToBool(values[5])
                         });
                     }
                 }
@@ -90,13 +91,14 @@ namespace CPlusProcessor
                 string[] strings = new string[matrixStateDataFull.Count];
                 for (int dataCnt = 0; dataCnt < matrixStateDataFull.Count; dataCnt++)
                 {
-                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}",
                                                      Separator,
                                                      matrixStateDataFull[dataCnt].HeatNumber,
                                                      matrixStateDataFull[dataCnt].TimeFromX,
                                                      matrixStateDataFull[dataCnt].CarbonOxideIVP,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercent,
-                                                     matrixStateDataFull[dataCnt].SteelCarbonPercentCalculated
+                                                     matrixStateDataFull[dataCnt].SteelCarbonPercentCalculated,
+                                                     matrixStateDataFull[dataCnt].HightQualityHeat
                         );
                 }
                 try

@@ -191,6 +191,7 @@ namespace HeatCharge
 
         public Int64 HeatNumber { set; get; }
         public double SteelCarbonPercentCalculated { set; get; }
+        public bool HightQualityHeat { set; get; }
 
         public MFCPData()
         {
@@ -198,6 +199,7 @@ namespace HeatCharge
             HeatNumber = 0;
             SteelCarbonPercentCalculated = 0.0;
             SteelCarbonPercent = 0.0;
+            HightQualityHeat = false;
         }
     }
 }

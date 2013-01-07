@@ -14,6 +14,8 @@ namespace CPlusProcessor
         private static List<MFCPData> m_matrixTotal;
         public static MFCPData CurrentState;
         public static double IntegralCO;
+        public static double IntegralCO2;
+        public static double OffGasV;
 
         public static HeatDataSmoother HDSmoother;
         public const int PeriodSec = 15; // время сглаживания
@@ -24,6 +26,8 @@ namespace CPlusProcessor
         public static bool ModelIsStarted;
         private static bool m_dataIsFixed;
         private static bool m_dataIsEnqueue;
+
+        private static bool m_isBadInitBlowinByCO;
 
         public static void Init()
         {
@@ -45,8 +49,11 @@ namespace CPlusProcessor
             ModelIsStarted = false;
             m_dataIsFixed = false;
             m_dataIsEnqueue = false;
+            m_isBadInitBlowinByCO = false;
             Console.WriteLine("Reset");
             IntegralCO = 0;
+            IntegralCO2 = 0;
+            OffGasV = 320001;
         }
 
         public static void Iterate()
@@ -60,11 +67,7 @@ namespace CPlusProcessor
                         CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
                         EnqueueWaitC();
                         m_dataIsEnqueue = true;
-
-                        //var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-                        //fex.Fire(Program.MainGate);
                         FireFixEvent();
-                        //Console.WriteLine(fex.evt + "\n");
                     }
                 }
                 else
@@ -91,6 +94,11 @@ namespace CPlusProcessor
                     fex.Fire(Program.MainGate);
                     Console.WriteLine(fex.evt + "\n");
                 }
+            }
+
+            if (HDSmoother.HeatIsStarted)
+            {
+                CurrentState.HightQualityHeat = HightQualityHeatVerify();
             }
             
         }
@@ -166,6 +174,10 @@ namespace CPlusProcessor
                 m_matrix.RemoveAt(0);
                 m_matrix.Add(hDataResult);
             }
+            else
+            {
+                hDataResult.HightQualityHeat = false;
+            }
 
             m_matrixTotal.Add(hDataResult);
 
@@ -176,20 +188,25 @@ namespace CPlusProcessor
         static public bool VerifiDataForSave(MFCPData currentHeatResult)
         {
             const double minCarbonPercent = 0.03;
-            const double maxCarbonPercent = 0.1;
+            const double maxCarbonPercent = 0.12;
             const double maxHeightLance = 230;
             const double maxCarbonMonoxideVolumePercent = 30;
             const double maxCarbonOxideVolumePercent = 30;
+            const double minICO_Ico2Ratio = 1.5;
             return   (currentHeatResult.SteelCarbonPercentCalculated != 0) &&
                      (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
-                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent);
+                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
+                     (IntegralCO > Program.COMin) && // проверка на интегральный CO
+                     (IntegralCO < Program.COMax) &&
+                     (!((IntegralCO / IntegralCO2) < minICO_Ico2Ratio)) && // 4. Плавки, выполненные с полным дожиганием «СО»
+                     (currentHeatResult.HightQualityHeat); 
         }
 
         private static bool ModelVerifiForStart()
         {
             const double oxygenTreshol = 16000;
             return (!ModelIsStarted) && 
-                   (HDSmoother.Oxygen.Average(PeriodSec) >= oxygenTreshol) &&
+                   (HDSmoother.Oxygen >= oxygenTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) >= HDSmoother.CO.Average(PeriodSec));
         }
 
@@ -197,6 +214,7 @@ namespace CPlusProcessor
         {
             const int maxDownPosition = 255;
             const int minDownPosition = 190;
+            const int LanceFixPositionTreshold = 340;
             const int lanceSpeed = 5; // + up , - down
             const double carbonMonoxideTreshol = 30.0; //%
             const double carbonOxideTreshol = 5.0; //%
@@ -204,13 +222,35 @@ namespace CPlusProcessor
             //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) && 
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
-                   ((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed) &&
-                   (IntegralCO > Program.COMin) && // проверка на интегральный CO
-                   (IntegralCO < Program.COMax);
+                   //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
+                   (HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+            //(IntegralCO > Program.COMin) && // проверка на интегральный CO
+            //(IntegralCO < Program.COMax);
+        }
+
+        static public bool HightQualityHeatVerify()
+        {
+            const double initCOTreshold = 4;
+            const double minOffGasV = 320000;
+            const double maxOffGasV = 420000;
+            if (HDSmoother.Oxygen > 1300 && HDSmoother.Oxygen < 7000) // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
+            {
+                if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold)
+                {
+                    m_isBadInitBlowinByCO = true;
+                    InstantLogger.err("Bad blowing item 2.: {0} < {1}\n", HDSmoother.CO.Average(PeriodSec), initCOTreshold);
+                }
+            }
+            if (OffGasV < minOffGasV && OffGasV > maxOffGasV) // 5. Плавки с искажениями по величине отходящих газов
+            {
+                m_isBadInitBlowinByCO = true;
+                InstantLogger.err("Bad blowing item 5.: {2} < {0} < {1}\n", minOffGasV, minOffGasV, maxOffGasV);
+            }
+            return !m_isBadInitBlowinByCO;
         }
 
         public static void IterateTimeOut(object source, ElapsedEventArgs e)
@@ -221,25 +261,25 @@ namespace CPlusProcessor
 
     }
 
-    class HeatData
-    {
-        public double CO;
-        public double COPrevious;
-        public double CO2;
-        public int LanceHeigth;
-        public int LanceHeigthPrevious;
-        public int Oxygen;
+    //class HeatData
+    //{
+    //    public double CO;
+    //    public double COPrevious;
+    //    public double CO2;
+    //    public int LanceHeigth;
+    //    public int LanceHeigthPrevious;
+    //    public int Oxygen;
 
-        public HeatData()
-        {
-            CO = 0.0;
-            COPrevious = 0.0;
-            CO2 = 0.0;
-            LanceHeigth = 0;
-            LanceHeigthPrevious = 0;
-            Oxygen = 0;
-        }
-    }
+    //    public HeatData()
+    //    {
+    //        CO = 0.0;
+    //        COPrevious = 0.0;
+    //        CO2 = 0.0;
+    //        LanceHeigth = 0;
+    //        LanceHeigthPrevious = 0;
+    //        Oxygen = 0;
+    //    }
+    //}
 
     class HeatDataSmoother
     {
@@ -248,8 +288,9 @@ namespace CPlusProcessor
         public RollingAverage CO2;
         public RollingAverage LanceHeigth;
         public RollingAverage LanceHeigthPrevious;
-        public RollingAverage Oxygen;
-
+        //public RollingAverage Oxygen;
+        public double Oxygen;
+        public bool HeatIsStarted;
 
         public HeatDataSmoother(int lengthBuff = 50)
         {
@@ -258,21 +299,23 @@ namespace CPlusProcessor
             CO2 = new RollingAverage(lengthBuff);
             LanceHeigth = new RollingAverage(lengthBuff);
             LanceHeigthPrevious = new RollingAverage(lengthBuff);
-            Oxygen = new RollingAverage(lengthBuff);
+            //Oxygen = new RollingAverage(lengthBuff);
+            Oxygen = 0.0;
+            HeatIsStarted = false;
         }
 
-        public HeatData GetHeatData(HeatData hd, int intervalSec)
-        {
-            if (hd == null) throw new ArgumentNullException("hd");
+        //public HeatData GetHeatData(HeatData hd, int intervalSec)
+        //{
+        //    if (hd == null) throw new ArgumentNullException("hd");
 
-            hd.CO = CO.Average(intervalSec);
-            //hd.COPrevious = COPrevious.Average(intervalSec);
-            hd.CO2 = CO2.Average(intervalSec);
-            hd.LanceHeigth = (int)Math.Round(LanceHeigth.Average(intervalSec));
-            hd.LanceHeigthPrevious = (int)Math.Round(LanceHeigthPrevious.Average(intervalSec));
-            hd.Oxygen = (int)Math.Round(Oxygen.Average(intervalSec));
+        //    hd.CO = CO.Average(intervalSec);
+        //    //hd.COPrevious = COPrevious.Average(intervalSec);
+        //    hd.CO2 = CO2.Average(intervalSec);
+        //    hd.LanceHeigth = (int)Math.Round(LanceHeigth.Average(intervalSec));
+        //    hd.LanceHeigthPrevious = (int)Math.Round(LanceHeigthPrevious.Average(intervalSec));
+        //    hd.Oxygen = (int)Math.Round(Oxygen.Average(intervalSec));
 
-            return hd;
-        }
+        //    return hd;
+        //}
     }
 }
