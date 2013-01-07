@@ -46,5 +46,15 @@ namespace Implements
             }
             return iValue;
         }
+
+        public static bool StrToBool(string txtValue)
+        {
+            bool iValue;
+            if (!System.Boolean.TryParse(txtValue, out iValue))
+            {
+                throw new Exception(String.Format("Fail to convert \"{0}\" to Boolean", txtValue));
+            }
+            return iValue;
+        }
     }
 }
