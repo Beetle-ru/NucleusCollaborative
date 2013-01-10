@@ -237,7 +237,7 @@ namespace CPlusProcessor
             const double initCOTreshold = 4;
             const double minOffGasV = 320000;
             const double maxOffGasV = 420000;
-            if (HDSmoother.Oxygen > 1300 && HDSmoother.Oxygen < 7000) // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
+            if (HDSmoother.Oxygen > 2000 && HDSmoother.Oxygen < 7000) // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
             {
                 if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold)
                 {
