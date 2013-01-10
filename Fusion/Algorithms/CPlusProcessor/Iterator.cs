@@ -242,7 +242,7 @@ namespace CPlusProcessor
                 if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold)
                 {
                     m_isBadInitBlowinByCO = true;
-                    InstantLogger.err("Bad blowing item 2.: {0} < {1}\n", HDSmoother.CO.Average(PeriodSec), initCOTreshold);
+                    InstantLogger.err("Bad blowing item 2.: {0} < {1}\n CurrentOxygen -- {2}\n", HDSmoother.CO.Average(PeriodSec), initCOTreshold, HDSmoother.Oxygen);
                 }
             }
             if (OffGasV < minOffGasV && OffGasV > maxOffGasV) // 5. Плавки с искажениями по величине отходящих газов
