@@ -165,6 +165,7 @@
     <Compile Include="DTO\SIM_RealHeat_SlagAnalysisDTO.cs" />
     <Compile Include="DTO\SIM_RealHeat_SteelAnalysisDTO.cs" />
     <Compile Include="DTO\SIM_RealHeat_TempMeasDTO.cs" />
+    <Compile Include="ModelRunner\AddMat.cs" />
     <Compile Include="ModelRunner\DynPrepare.cs" />
     <Compile Include="ModelRunner\FPCarrier.cs" />
     <Compile Include="ModelRunner\Listener.cs" />
