@@ -135,13 +135,27 @@ namespace SublanceGenerator
                     {
                         if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumberToLong(Iterator.HeatNumber)))
                         {
-                            l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            l.msg(fxe.ToString());
+                            //l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
                             Iterator.HotMetallMass = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]);
                         }
                         else
                             l.msg(
                                 "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
                                 HeatNumberToLong(Iterator.HeatNumber), fxe.Arguments["SHEATNO"]
+                                );
+                    }
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(Iterator.HeatNumber)))
+                        {
+                            l.msg(fxe.ToString());
+                            Iterator.HotMetallMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]) * 0.001;
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumberToLong(Iterator.HeatNumber), fxe.Arguments["HEAT_NO"]
                                 );
                     }
                     if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))

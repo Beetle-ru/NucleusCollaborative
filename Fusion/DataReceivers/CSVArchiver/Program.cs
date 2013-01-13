@@ -15,7 +15,7 @@ namespace CSVArchiver
     {
         public static List<SecData> SDList;
         public static SecDataSmooth SDS;
-        public static string Dir = "arch";
+        public static string Dir = "CSVArchives";
         public static string Path = Dir + @"\" + ArchNameGenerate("SecData");
         private static Timer m_timer;
         private static Thread receiver_thread;

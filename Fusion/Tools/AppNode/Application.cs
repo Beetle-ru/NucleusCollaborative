@@ -108,7 +108,7 @@ namespace AppNode
                 var outstr = "";
 
                 outstr += String.Format("| {0:000}", NumberApp).PadRight(6);
-                outstr += String.Format("| {0}", PubProc.ProcessName).PadRight(20);
+                outstr += String.Format("| {0}", PubProc.ProcessName).PadRight(30);
                 outstr += !PubProc.HasExited
                               ? String.Format("| {0}", PubProc.Id).PadRight(7)
                               : String.Format("| ---- ").PadRight(7);
@@ -140,7 +140,7 @@ namespace AppNode
         {
             var outstr = "";
             outstr += String.Format("|  №").PadRight(6);
-            outstr += String.Format("| Process name").PadRight(20);
+            outstr += String.Format("| Process name").PadRight(30);
             outstr += String.Format("| Id").PadRight(7); ;
             outstr += String.Format("|State");
             outstr += String.Format("| Memory").PadRight(15);

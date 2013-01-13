@@ -14,7 +14,7 @@ namespace Charge5
         /// </summary>
         public char Separator = ';';
 
-        public string ArchDir = "Arch";
+        public string ArchDir = "ArchCharge5";
 
         /// <summary>
         /// путь к файлу архиву
