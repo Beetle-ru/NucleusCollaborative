@@ -87,7 +87,7 @@ namespace HunterEvents
                 try
                 {
                     File.WriteAllLines(Patch, strings);
-                    l.msg("Data saved");
+                    //l.msg("Data saved");
                 }
                 catch (Exception e)
                 {
