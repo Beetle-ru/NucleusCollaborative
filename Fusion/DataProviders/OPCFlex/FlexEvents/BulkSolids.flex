@@ -3,23 +3,23 @@ Operation;OPC.BulkSolids;;Сыпучие в конвертер и в ковш;
 Flags;1;;;
 <Arguments>;;;;
 Converter1;CweigthRB5;S7:[PLC12]MD,REAL1352;Вес РБ 5 в конвертер;M_B5MB1
-Converter1;CweigthRB6;S7:[PLC12]MD,REAL1356;Вес РБ 6 в конвертер;M_B6MB1
-Converter1;CweigthRB7;S7:[PLC12]MD,REAL1360;Вес РБ 7 в конвертер;M_B7MB1
-Converter1;CweigthRB8;S7:[PLC12]MD,REAL1364;Вес РБ 8 в конвертер;M_B8MB1
-Converter1;CweigthRB9;S7:[PLC12]MD,REAL1368;Вес РБ 9 в конвертер;M_B9MB2
-Converter1;CweigthRB10;S7:[PLC12]MD,REAL1372;Вес РБ 10 в конвертер;M_B10MB2
-Converter1;CweigthRB11;S7:[PLC12]MD,REAL1376;Вес РБ 11 в конвертер;M_B11MB2
-Converter1;CweigthRB12;S7:[PLC12]MD,REAL1380;Вес РБ 12 в конвертер;M_B12MB2
+Converter1;CweigthRB6;S7:[PLC12]MREAL1356;Вес РБ 6 в конвертер;M_B6MB1
+Converter1;CweigthRB7;S7:[PLC12]MREAL1360;Вес РБ 7 в конвертер;M_B7MB1
+Converter1;CweigthRB8;S7:[PLC12]MREAL1364;Вес РБ 8 в конвертер;M_B8MB1
+Converter1;CweigthRB9;S7:[PLC12]MREAL1368;Вес РБ 9 в конвертер;M_B9MB2
+Converter1;CweigthRB10;S7:[PLC12]MREAL1372;Вес РБ 10 в конвертер;M_B10MB2
+Converter1;CweigthRB11;S7:[PLC12]MREAL1376;Вес РБ 11 в конвертер;M_B11MB2
+Converter1;CweigthRB12;S7:[PLC12]MREAL1380;Вес РБ 12 в конвертер;M_B12MB2
 ;;;;
-Converter1;LweigthRB1;S7:[PLC12]MD,REAL712;Вес РБ 1 в ковш;M_B1W10
-Converter1;LweigthRB2;S7:[PLC12]MD,REAL724;Вес РБ 2 в ковш;M_B2W10
-Converter1;LweigthRB3;S7:[PLC12]MD,REAL716;Вес РБ 3 в ковш;M_B3W10
-Converter1;LweigthRB4;S7:[PLC12]MD,REAL728;Вес РБ 4 в ковш;M_B4W10
-Converter1;LweigthRB7;S7:[PLC12]MD,REAL732;Вес РБ 7 в ковш;M_B7W10
-Converter1;LweigthRB13;S7:[PLC12]MD,REAL736;Вес РБ 13 в ковш;M_B13W11
-Converter1;LweigthRB14;S7:[PLC12]MD,REAL744;Вес РБ 14 в ковш;M_B14W11
-Converter1;LweigthRB15;S7:[PLC12]MD,REAL740;Вес РБ 15 в ковш;M_B15W11
-Converter1;LweigthRB16;S7:[PLC12]MD,REAL748;Вес РБ 16 в ковш;M_B16W11
+Converter1;LweigthRB1;S7:[PLC12]MREAL712;Вес РБ 1 в ковш;M_B1W10
+Converter1;LweigthRB2;S7:[PLC12]MREAL724;Вес РБ 2 в ковш;M_B2W10
+Converter1;LweigthRB3;S7:[PLC12]MREAL716;Вес РБ 3 в ковш;M_B3W10
+Converter1;LweigthRB4;S7:[PLC12]MREAL728;Вес РБ 4 в ковш;M_B4W10
+Converter1;LweigthRB7;S7:[PLC12]MREAL732;Вес РБ 7 в ковш;M_B7W10
+Converter1;LweigthRB13;S7:[PLC12]MREAL736;Вес РБ 13 в ковш;M_B13W11
+Converter1;LweigthRB14;S7:[PLC12]MREAL744;Вес РБ 14 в ковш;M_B14W11
+Converter1;LweigthRB15;S7:[PLC12]MREAL740;Вес РБ 15 в ковш;M_B15W11
+Converter1;LweigthRB16;S7:[PLC12]MREAL748;Вес РБ 16 в ковш;M_B16W11
 ;;;;
 Converter1;CnameRB5;S7:[PLC12]DB12,B102,8;Наименование РБ 5 в конвертер;AS32/AVARIYA.MATER_5
 Converter1;CnameRB6;S7:[PLC12]DB12,B112,8;Наименование РБ 6 в конвертер;AS32/AVARIYA.MATER_6
@@ -60,25 +60,25 @@ Converter1;LflagRB15;S7:[PLC12]DB3,X8.4;Флаг валидности РБ 15 в ковш;DB3_B15LD_p
 Converter1;LflagRB16;S7:[PLC12]DB3,X8.6;Флаг валидности РБ 16 в ковш;DB3_B16LD_prot
 ;;;;
 ;;;;
-Converter2;CweigthRB5;S7:[PLC22]MD,REAL1352;Вес РБ 5 в конвертер;M_B5MB1
-Converter2;CweigthRB6;S7:[PLC22]MD,REAL1356;Вес РБ 6 в конвертер;M_B6MB1
-Converter2;CweigthRB7;S7:[PLC22]MD,REAL1360;Вес РБ 7 в конвертер;M_B7MB1
-Converter2;CweigthRB8;S7:[PLC22]MD,REAL1364;Вес РБ 8 в конвертер;M_B8MB1
-Converter2;CweigthRB9;S7:[PLC12]MD,REAL1368;Вес РБ 9 в конвертер;M_B9MB2
-Converter2;CweigthRB10;S7:[PLC22]MD,REAL1372;Вес РБ 10 в конвертер;M_B10MB2
-Converter2;CweigthRB11;S7:[PLC22]MD,REAL1376;Вес РБ 11 в конвертер;M_B11MB2
-Converter2;CweigthRB12;S7:[PLC22]MD,REAL1380;Вес РБ 12 в конвертер;M_B12MB2
+Converter2;CweigthRB5;S7:[PLC22]MREAL1352;Вес РБ 5 в конвертер;M_B5MB1
+Converter2;CweigthRB6;S7:[PLC22]MREAL1356;Вес РБ 6 в конвертер;M_B6MB1
+Converter2;CweigthRB7;S7:[PLC22]MREAL1360;Вес РБ 7 в конвертер;M_B7MB1
+Converter2;CweigthRB8;S7:[PLC22]MREAL1364;Вес РБ 8 в конвертер;M_B8MB1
+Converter2;CweigthRB9;S7:[PLC12]MREAL1368;Вес РБ 9 в конвертер;M_B9MB2
+Converter2;CweigthRB10;S7:[PLC22]MREAL1372;Вес РБ 10 в конвертер;M_B10MB2
+Converter2;CweigthRB11;S7:[PLC22]MREAL1376;Вес РБ 11 в конвертер;M_B11MB2
+Converter2;CweigthRB12;S7:[PLC22]MREAL1380;Вес РБ 12 в конвертер;M_B12MB2
 ;;;;
-Converter2;LweigthRB1;S7:[PLC22]MD,REAL712;Вес РБ 1 в ковш;M_B1W10
-Converter2;LweigthRB2;S7:[PLC22]MD,REAL724;Вес РБ 2 в ковш;M_B2W10
-Converter2;LweigthRB3;S7:[PLC22]MD,REAL716;Вес РБ 3 в ковш;M_B3W10
-Converter2;LweigthRB4;S7:[PLC22]MD,REAL728;Вес РБ 4 в ковш;M_B4W10
-Converter2;LweigthRB7;S7:[PLC22]MD,REAL732;Вес РБ 7 в ковш;M_B7W10
-Converter2;LweigthRB13;S7:[PLC22]MD,REAL736;Вес РБ 13 в ковш;M_B13W11
-Converter2;LweigthRB14;S7:[PLC22]MD,REAL744;Вес РБ 14 в ковш;M_B14W11
-Converter2;LweigthRB15;S7:[PLC22]MD,REAL740;Вес РБ 15 в ковш;M_B15W11
-Converter2;LweigthRB16;S7:[PLC22]MD,REAL748;Вес РБ 16 в ковш;M_B16W11
-Converter2;LweigthRB3A;S7:[PLC22]MD,REAL720;Вес РБ 3A в ковш;M_B3AW10
+Converter2;LweigthRB1;S7:[PLC22]MREAL712;Вес РБ 1 в ковш;M_B1W10
+Converter2;LweigthRB2;S7:[PLC22]MREAL724;Вес РБ 2 в ковш;M_B2W10
+Converter2;LweigthRB3;S7:[PLC22]MREAL716;Вес РБ 3 в ковш;M_B3W10
+Converter2;LweigthRB4;S7:[PLC22]MREAL728;Вес РБ 4 в ковш;M_B4W10
+Converter2;LweigthRB7;S7:[PLC22]MREAL732;Вес РБ 7 в ковш;M_B7W10
+Converter2;LweigthRB13;S7:[PLC22]MREAL736;Вес РБ 13 в ковш;M_B13W11
+Converter2;LweigthRB14;S7:[PLC22]MREAL744;Вес РБ 14 в ковш;M_B14W11
+Converter2;LweigthRB15;S7:[PLC22]MREAL740;Вес РБ 15 в ковш;M_B15W11
+Converter2;LweigthRB16;S7:[PLC22]MREAL748;Вес РБ 16 в ковш;M_B16W11
+Converter2;LweigthRB3A;S7:[PLC22]MREAL720;Вес РБ 3A в ковш;M_B3AW10
 ;;;;
 Converter2;CnameRB5;S7:[PLC22]DB12,B102,8;Наименование РБ 5 в конвертер;AS32/AVARIYA.MATER_5
 Converter2;CnameRB6;S7:[PLC22]DB12,B112,8;Наименование РБ 6 в конвертер;AS32/AVARIYA.MATER_6
@@ -121,24 +121,24 @@ Converter2;LflagRB16;S7:[PLC22]DB3,X8.6;Флаг валидности РБ 16 в ковш;DB3_B16LD_p
 Converter2;LflagRB3A;S7:[PLC22]DB3,X7.7;Флаг валидности РБ 3A в ковш;DB3_B3ALD_prot
 ;;;;
 ;;;;
-Converter3;CweigthRB5;S7:[PLC32]MD,REAL1352;Вес РБ 5 в конвертер;M_B5MB1
-Converter3;CweigthRB6;S7:[PLC32]MD,REAL1356;Вес РБ 6 в конвертер;M_B6MB1
-Converter3;CweigthRB7;S7:[PLC32]MD,REAL1360;Вес РБ 7 в конвертер;M_B7MB1
-Converter3;CweigthRB8;S7:[PLC32]MD,REAL1364;Вес РБ 8 в конвертер;M_B8MB1
-Converter3;CweigthRB9;S7:[PLC32]MD,REAL1368;Вес РБ 9 в конвертер;M_B9MB2
-Converter3;CweigthRB10;S7:[PLC32]MD,REAL1372;Вес РБ 10 в конвертер;M_B10MB2
-Converter3;CweigthRB11;S7:[PLC32]MD,REAL1376;Вес РБ 11 в конвертер;M_B11MB2
-Converter3;CweigthRB12;S7:[PLC32]MD,REAL1380;Вес РБ 12 в конвертер;M_B12MB2
+Converter3;CweigthRB5;S7:[PLC32]MREAL1352;Вес РБ 5 в конвертер;M_B5MB1
+Converter3;CweigthRB6;S7:[PLC32]MREAL1356;Вес РБ 6 в конвертер;M_B6MB1
+Converter3;CweigthRB7;S7:[PLC32]MREAL1360;Вес РБ 7 в конвертер;M_B7MB1
+Converter3;CweigthRB8;S7:[PLC32]MREAL1364;Вес РБ 8 в конвертер;M_B8MB1
+Converter3;CweigthRB9;S7:[PLC32]MREAL1368;Вес РБ 9 в конвертер;M_B9MB2
+Converter3;CweigthRB10;S7:[PLC32]MREAL1372;Вес РБ 10 в конвертер;M_B10MB2
+Converter3;CweigthRB11;S7:[PLC32]MREAL1376;Вес РБ 11 в конвертер;M_B11MB2
+Converter3;CweigthRB12;S7:[PLC32]MREAL1380;Вес РБ 12 в конвертер;M_B12MB2
 ;;;;
-Converter3;LweigthRB1;S7:[PLC32]MD,REAL712;Вес РБ 1 в ковш;M_B1W10
-Converter3;LweigthRB2;S7:[PLC32]MD,REAL724;Вес РБ 2 в ковш;M_B2W10
-Converter3;LweigthRB3;S7:[PLC32]MD,REAL716;Вес РБ 3 в ковш;M_B3W10
-Converter3;LweigthRB4;S7:[PLC32]MD,REAL728;Вес РБ 4 в ковш;M_B4W10
-Converter3;LweigthRB7;S7:[PLC32]MD,REAL732;Вес РБ 7 в ковш;M_B7W10
-Converter3;LweigthRB13;S7:[PLC32]MD,REAL736;Вес РБ 13 в ковш;M_B13W11
-Converter3;LweigthRB14;S7:[PLC32]MD,REAL744;Вес РБ 14 в ковш;M_B14W11
-Converter3;LweigthRB15;S7:[PLC32]MD,REAL740;Вес РБ 15 в ковш;M_B15W11
-Converter3;LweigthRB16;S7:[PLC32]MD,REAL748;Вес РБ 16 в ковш;M_B16W11
+Converter3;LweigthRB1;S7:[PLC32]MREAL712;Вес РБ 1 в ковш;M_B1W10
+Converter3;LweigthRB2;S7:[PLC32]MREAL724;Вес РБ 2 в ковш;M_B2W10
+Converter3;LweigthRB3;S7:[PLC32]MREAL716;Вес РБ 3 в ковш;M_B3W10
+Converter3;LweigthRB4;S7:[PLC32]MREAL728;Вес РБ 4 в ковш;M_B4W10
+Converter3;LweigthRB7;S7:[PLC32]MREAL732;Вес РБ 7 в ковш;M_B7W10
+Converter3;LweigthRB13;S7:[PLC32]MREAL736;Вес РБ 13 в ковш;M_B13W11
+Converter3;LweigthRB14;S7:[PLC32]MREAL744;Вес РБ 14 в ковш;M_B14W11
+Converter3;LweigthRB15;S7:[PLC32]MREAL740;Вес РБ 15 в ковш;M_B15W11
+Converter3;LweigthRB16;S7:[PLC32]MREAL748;Вес РБ 16 в ковш;M_B16W11
 ;;;;
 Converter3;CnameRB5;S7:[PLC32]DB12,B102,8;Наименование РБ 5 в конвертер;AS32/AVARIYA.MATER_5
 Converter3;CnameRB6;S7:[PLC32]DB12,B112,8;Наименование РБ 6 в конвертер;AS32/AVARIYA.MATER_6
