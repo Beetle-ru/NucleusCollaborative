@@ -135,6 +135,7 @@ namespace CSVArchPlayer
 
             var bE = new BlowingEvent();
             bE.O2TotalVol = (int)m_totalO2;
+            bE.BlowingFlag = 1;
 
             var vate = new visAdditionTotalEvent();
             vate.RB5TotalWeight = HDataList[m_position].Bunkers.RB5;

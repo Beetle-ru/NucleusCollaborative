@@ -18,11 +18,13 @@ namespace ModelRunner
 {
     partial class DynPrepare
     {
+        public static FlexHelper matRegEvent = null;
         public static DTO.MINP_MatAddDTO AddIron(int weight)
         {
             var matIron = new DTO.MINP_MatAddDTO();
             matIron.ShortCode = "01Metal";
             matIron.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matIron.ShortCode, weight);
             matIron.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matIron.MINP_GD_Material.ShortCode = matIron.ShortCode;
             matIron.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -70,6 +72,7 @@ namespace ModelRunner
             var matScrap = new DTO.MINP_MatAddDTO();
             matScrap.ShortCode = "02Scrap";
             matScrap.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matScrap.ShortCode, weight);
             matScrap.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matScrap.MINP_GD_Material.ShortCode = matScrap.ShortCode;
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -110,6 +113,7 @@ namespace ModelRunner
             var matCaO = new DTO.MINP_MatAddDTO();
             matCaO.ShortCode = "04CaO";
             matCaO.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matCaO.ShortCode, weight);
             matCaO.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCaO.MINP_GD_Material.ShortCode = matCaO.ShortCode;
             matCaO.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -131,6 +135,7 @@ namespace ModelRunner
             var matDolom = new DTO.MINP_MatAddDTO();
             matDolom.ShortCode = "04Dolom";
             matDolom.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matDolom.ShortCode, weight);
             matDolom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolom.MINP_GD_Material.ShortCode = matDolom.ShortCode;
             matDolom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -154,6 +159,7 @@ namespace ModelRunner
             var matDolomS = new DTO.MINP_MatAddDTO();
             matDolomS.ShortCode = "04DolomS";
             matDolomS.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matDolomS.ShortCode, weight);
             matDolomS.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolomS.MINP_GD_Material.ShortCode = matDolomS.ShortCode;
             matDolomS.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -174,6 +180,7 @@ namespace ModelRunner
             var matFom = new DTO.MINP_MatAddDTO();
             matFom.ShortCode = "04Fom";
             matFom.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matFom.ShortCode, weight);
             matFom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matFom.MINP_GD_Material.ShortCode = matFom.ShortCode;
             matFom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -199,6 +206,7 @@ namespace ModelRunner
             var matCoke = new DTO.MINP_MatAddDTO();
             matCoke.ShortCode = "05koks";
             matCoke.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matCoke.ShortCode, weight);
             matCoke.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCoke.MINP_GD_Material.ShortCode = matCoke.ShortCode;
             matCoke.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -219,6 +227,7 @@ namespace ModelRunner
             var matOdpr = new DTO.MINP_MatAddDTO();
             matOdpr.ShortCode = "21ODPRA";
             matOdpr.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matOdpr.ShortCode, weight);
             matOdpr.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matOdpr.MINP_GD_Material.ShortCode = matOdpr.ShortCode;
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -259,6 +268,7 @@ namespace ModelRunner
             var matSlag = new DTO.MINP_MatAddDTO();
             matSlag.ShortCode = "22strst";
             matSlag.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matSlag.ShortCode, weight);
             matSlag.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matSlag.MINP_GD_Material.ShortCode = matSlag.ShortCode;
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
@@ -285,6 +295,7 @@ namespace ModelRunner
             var matSteel = new DTO.MINP_MatAddDTO();
             matSteel.ShortCode = "Final";
             matSteel.Amount_kg = weight;
+            //if (matRegEvent != null) matRegEvent.AddInt(matSteel.ShortCode, weight);
             matSteel.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matSteel.MINP_GD_Material.ShortCode = matSteel.ShortCode;
             matSteel.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
