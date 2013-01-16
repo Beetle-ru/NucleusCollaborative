@@ -86,7 +86,7 @@ namespace CorrectionCT
             EndBlowingOxygen = int.MaxValue;
             BlowStopSignalPushed = false;
             StopBlowFlagRelease();
-            EndMeteringAccept();
+            //EndMeteringAccept();
             IsUncorrectMetering = false;
             IsActualOxygen = false;
         }

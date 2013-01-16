@@ -193,12 +193,16 @@ namespace CPlusProcessor
             const double maxCarbonMonoxideVolumePercent = 30;
             const double maxCarbonOxideVolumePercent = 30;
             const double minICO_Ico2Ratio = 1.5;
+
+            var it4 = (!((IntegralCO / IntegralCO2) < minICO_Ico2Ratio)); // 4. Плавки, выполненные с полным дожиганием «СО»
+            if (!it4) Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2, minICO_Ico2Ratio);
+
             return   (currentHeatResult.SteelCarbonPercentCalculated != 0) &&
                      (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
                      (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
                      (IntegralCO > Program.COMin) && // проверка на интегральный CO
                      (IntegralCO < Program.COMax) &&
-                     (!((IntegralCO / IntegralCO2) < minICO_Ico2Ratio)) && // 4. Плавки, выполненные с полным дожиганием «СО»
+                     it4 &&
                      (currentHeatResult.HightQualityHeat); 
         }
 
@@ -234,7 +238,7 @@ namespace CPlusProcessor
 
         static public bool HightQualityHeatVerify()
         {
-            const double initCOTreshold = 4;
+            const double initCOTreshold = 2;
             const double minOffGasV = 320000;
             const double maxOffGasV = 420000;
             const double minOxiIgnition = 2000;
