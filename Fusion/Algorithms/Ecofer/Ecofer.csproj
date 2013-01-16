@@ -197,7 +197,9 @@
     <Content Include="Data\bin\Debug\Data.pdb" />
     <Content Include="Data\bin\Debug\DTO.dll" />
     <Content Include="Data\bin\Debug\DTO.pdb" />
-    <Content Include="Data\Data.csproj" />
+    <Content Include="Data\Data.csproj">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Data\obj\Debug\Data.csproj.FileListAbsolute.txt" />
     <Content Include="Data\obj\Debug\Data.dll" />
     <Content Include="Data\obj\Debug\Data.pdb" />

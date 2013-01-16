@@ -8,6 +8,14 @@ namespace Data.Model
     public class ChargingOutput
     {
         public float? ReplaceDolomitCoef;
+        /// <summary>
+        /// ErrCode =
+        /// 0 - OK
+        /// -1 - Charged more CaO and MgO then requested.
+        /// -2 - Charged more CaO then requested.
+        /// -3 - Charged more MgO then requested.
+        /// </summary>
+        public int ErrCode;
 
         public float ForecastTemperature_C;
         public int OxygenAmountTotalEnd_Nm3;
@@ -36,7 +44,7 @@ namespace Data.Model
         public float m_lime;
         public float m_dolomite;
 
-        public string SForecastTemperature_C { get { return ForecastTemperature_C.ToString("0.00"); } set {} }
+        public string SForecastTemperature_C { get { return ForecastTemperature_C.ToString("0.00"); } set { } }
         public string SOxygenAmountTotalEnd_Nm3 { get { return OxygenAmountTotalEnd_Nm3.ToString("0.00"); } set {} }
         public string SOxygenAmountTotal1stStep_Nm3 { get { return OxygenAmountTotal1stStep_Nm3.ToString("0.00"); } set {} }
         public string SOxygenAmountC_Nm3 { get { return OxygenAmountC_Nm3.ToString("0.00"); } set {} }

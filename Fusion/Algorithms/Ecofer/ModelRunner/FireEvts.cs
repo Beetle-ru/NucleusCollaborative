@@ -117,6 +117,7 @@ namespace ModelRunner
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.ShixtaII");
             fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddInt("ResultCode", aut.ErrCode);
             fex.AddDbl("Oxygen", aut.OxygenAmountTotalEnd_Nm3);
             fex.AddDbl("LIME", aut.m_lime);
             fex.AddDbl("DOLOMS", aut.m_dolomite);

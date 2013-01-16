@@ -174,19 +174,57 @@ namespace Models
                 - mInputData.S2_kg * MINP.FP(mInputData.S2, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                 - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
                 - lSuma_m_SZ_real * lStredni_SZ[50] / MINP.ConversionVector(50) - lSuma_m_SROT_real * lStredni_Srot[50] / MINP.ConversionVector(50);
+
             float lm_MgOX = lm_MgO
                 - mInputData.S1_kg * MINP.FP(mInputData.S1, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S1, 67) / MINP.ConversionVector(67)
                 - mInputData.S2_kg * MINP.FP(mInputData.S2, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                 - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
                 - lSuma_m_SZ_real * lStredni_SZ[63] / MINP.ConversionVector(63) - lSuma_m_SROT_real * lStredni_Srot[63] / MINP.ConversionVector(63);
+
             // R 18
             float lm_Dolomite = (lm_CaOX / MINP.FP(mInputData.Lime, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Lime, 63) * MINP.ConversionVector(63))
                 / (MINP.FP(mInputData.Dolomite, 50) / MINP.FP(mInputData.Lime, 50) - MINP.FP(mInputData.Dolomite, 63) / MINP.FP(mInputData.Lime, 63));
             float lm_Lime = (lm_CaOX / MINP.FP(mInputData.Dolomite, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Dolomite, 63) * MINP.ConversionVector(63))
                 / (MINP.FP(mInputData.Lime, 50) / MINP.FP(mInputData.Dolomite, 50) - MINP.FP(mInputData.Lime, 63) / MINP.FP(mInputData.Dolomite, 63));
+
             // R20
             lm_Dolomite = lm_Dolomite * 100 / MINP.FP(mInputData.Dolomite, 67);
             lm_Lime = lm_Lime * 100 / MINP.FP(mInputData.Lime, 67);
+
+            // More then reqested conditions
+            if (lm_CaOX < 0 && lm_MgOX < 0)
+            {
+                lOutputData.ErrCode = -1;
+                lm_Lime = 0;
+                lm_Dolomite = 0;
+            }
+            else if (lm_CaOX < 0 && lm_MgOX > 0)
+            {
+                lOutputData.ErrCode = -2;
+                lm_Dolomite = 0;
+                lm_Lime = 0;
+            }
+            else if (lm_CaOX > 0 && lm_MgOX < 0)
+            {
+                lOutputData.ErrCode = -3;
+                lm_Dolomite = 0;
+                lm_Lime = lm_CaOX / MINP.FP(mInputData.Lime, 50) / MINP.FP(mInputData.Lime, 67);
+            }
+            else
+            {
+                lOutputData.ErrCode = 0;
+            }
+
+            if (lm_Dolomite < 0)
+            {
+                lm_Dolomite = 0;
+                lOutputData.ErrCode = -2;
+            }
+            if (lm_Lime < 0)
+            {
+                lm_Lime = 0;
+                lOutputData.ErrCode = -3;
+            }
             #endregion
             #region Calculation of temperature (R 22..24)
             if (lT_StredniSZ_69 > lStredni_SZ[72])

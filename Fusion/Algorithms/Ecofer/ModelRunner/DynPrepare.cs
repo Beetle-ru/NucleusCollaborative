@@ -116,10 +116,10 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                                                              {
-                                                                  InstantLogger.err("Unhandled exception {0}", e);
-                                                              };
+            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            //                                                  {
+            //                                                      InstantLogger.err("Unhandled exception {0}", e);
+            //                                                  };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
