@@ -41,7 +41,7 @@ namespace Models
             get
             {
                 if (mOutputData.Count == 0) return null;
-                return mOutputData.Last().Value;
+                return mOutputData.ElementAt(mOutputData.Count - 1).Value;
             }
         }
         public Dictionary<DateTime, Data.Model.DynamicOutput> OutputData
@@ -320,7 +320,7 @@ namespace Models
             DateTime lStartTime = Data.Clock.Current.StartTime;
             DateTime lNow = Data.Clock.Current.ActualTime;
             List<DTO.MINP_CyclicDTO> lMINP_CyclicData = Data.MINP.MINP_Cyclic.OrderBy(aR => aR.TimeProcessed).ToList();
-            List<DTO.MINP_MatAddDTO> lMINP_MatAddData = Data.MINP.MINP_MatAdds.Where(aR => !aR.Code.StartsWith("01") && !aR.Code.StartsWith("02")).OrderBy(aR => aR.TimeProcessed).ToList();
+            List<DTO.MINP_MatAddDTO> lMINP_MatAddData = Data.MINP.MINP_MatAdds.Where(aR => !aR.ShortCode.StartsWith("01") && !aR.ShortCode.StartsWith("02")).OrderBy(aR => aR.TimeProcessed).ToList();
             Data.MINP.MINP_Cyclic = new List<DTO.MINP_CyclicDTO>();
             Data.MINP.MINP_MatAdds = new List<DTO.MINP_MatAddDTO>();
             int lStepsCount = mStepsCount;
