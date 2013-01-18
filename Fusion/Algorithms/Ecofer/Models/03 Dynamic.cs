@@ -334,7 +334,10 @@ namespace Models
             mOutputData.Clear();
 
             // loops
-            while (mStepsCount < lStepsCount)
+            int cSteepCount = 0;
+            //while (mStepsCount < lStepsCount)
+            var x = mStepsCount;
+            while (cSteepCount < lStepsCount)
             {
                 if (lMINP_CyclicData.Count > 0)
                 {
@@ -350,6 +353,7 @@ namespace Models
                 }
 
                 ControlLoop(null);
+                cSteepCount++;
             }
 
             Data.Clock.Current = lOldClock;
@@ -895,8 +899,9 @@ namespace Models
             Dictionary<Enumerations.M3ElementEnum, float> lm_Ele_Start = new Dictionary<Enumerations.M3ElementEnum, float>();
             foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 lm_Ele_Start.Add((Enumerations.M3ElementEnum)nIndex, mCurrentStateData.m_SlozkaKov[nIndex]);
-
+            
             DTO.MINP_CyclicDTO lCyclicData = Data.MINP.MINP_Cyclic.Last();
+
 
             // R 37 - 39
             float lm_O2_blown = lCyclicData.OxygenFlow_Nm3_min.Value * mDeltaT_min * MINP.Mm(28) / MINP.O2_Stechio(28);
@@ -1556,7 +1561,7 @@ namespace Models
         private Data.Model.DynamicState mCurrentStateData;
         private Data.Model.DynamicOutput mCurrentOutputData;
 
-        private RunningType mRunningType;
+        public RunningType mRunningType;
         private Data.Clock mClock;
         private int mStepsCount;
         private int mDeltaT_s;

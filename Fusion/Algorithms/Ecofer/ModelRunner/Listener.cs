@@ -350,8 +350,8 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
                     {
-                        if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
-                        {
+                        //if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
+                        //{
                             if (0 == (DynPrepare.HeatFlags & ModelStatus.ModelDisabled))
                             {
                                 DynPrepare.fxeIron = new FlexHelper(fxe);
@@ -379,12 +379,12 @@ namespace ModelRunner
                             {
                                 l.err("XIMIRON appeared but too late -- model disabled");
                             }
-                        }
-                        else
-                            l.msg(
-                                "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
-                                HeatNumber, fxe.Arguments["HEAT_NO"]
-                                );
+                        //}
+                        //else
+                        //    l.msg(
+                        //        "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
+                        //        HeatNumber, fxe.Arguments["HEAT_NO"]
+                        //        );
                     }
                     else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {

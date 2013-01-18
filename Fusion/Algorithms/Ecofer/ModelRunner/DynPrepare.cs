@@ -115,10 +115,10 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                                                              {
-                                                                  InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
-                                                              };
+            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            //                                                  {
+            //                                                      InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
+            //                                                  };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
@@ -318,7 +318,11 @@ NEXT_HEAT:
                                                };
                     DynModel.ModelLoopDone += (s, e) =>
                                                 {
-                                                    SimulationOxygenBlowing();
+                                                    if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
+                                                    {
+                                                        SimulationOxygenBlowing();
+                                                    }
+                                                    //SimulationOxygenBlowing();
                                                     FirePerSecEvent(++nStep, null, DynModel);
                                                     //Thread.Sleep(1000);
                                                     if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
@@ -441,6 +445,10 @@ WAIT_END_OF_HEAT:
                 lCyclicDTO.Wastegas_CO2_p = (int) Listener.avofg_pco2.Average(_3_);
                 lCyclicDTO.Wastegas_CO_p = (int) Listener.avofg_pco.Average(_3_);
                 Data.MINP.MINP_Cyclic.Add(lCyclicDTO);
+                //if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
+                //{
+                //    Data.MINP.MINP_Cyclic.Add(lCyclicDTO);
+                //}
                 Data.MINP.O2Request.Add(new Data.Graph.O2RequestItem()
                                             {
                                                 TimeProcessed = Data.Clock.Current.ActualTime,
