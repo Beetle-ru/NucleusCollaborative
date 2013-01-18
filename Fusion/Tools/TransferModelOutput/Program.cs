@@ -16,7 +16,7 @@ namespace TransferModelOutput
 
         private static Double randomFromTo(Double low, Double high)
         {
-            if (low >= high) throw new Exception("randomFromTo: invalid margins specified");
+            //if (low >= high) throw new Exception("randomFromTo: invalid margins specified");
             var d = (high - low)/1000;
             return low + d*rnd.Next(1001);
         }
