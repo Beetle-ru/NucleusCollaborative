@@ -49,6 +49,10 @@ namespace TransferModelOutput
                                     fex.AddInt(kvel.Key, rnd.Next(Convert.ToInt32(imarg[0]),
                                         Convert.ToInt32(imarg[1])));
                                 }
+                                else if (kvel.Value.StartsWith("#"))
+                                {
+                                    fex.AddStr(kvel.Key, kvel.Value.Substring(1));
+                                }
                                 else
                                 {
                                     string[] marg = kvel.Value.Split(':');
