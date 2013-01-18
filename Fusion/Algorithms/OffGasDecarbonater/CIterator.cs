@@ -309,7 +309,7 @@ namespace OffGasDecarbonater
             ScrapMass = 150000.0; //!!!!!!!!!!!!!!!!!!!!!                     
             //ScrapMass = 0.0;
             ScrapCarbonPercent = 0.21;
-            SteelCarbonPercent = 0.04;
+            //SteelCarbonPercent = 0.04;
             CarbonMonoxideVolumePercent = 0.0;
             CarbonOxideVolumePercent = 0.0;
             OffgasVolumeRate = 0.0;                    
