@@ -350,7 +350,7 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
                     {
-                        //if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
+                        if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
                         {
                             if (0 == (DynPrepare.HeatFlags & ModelStatus.ModelDisabled))
                             {
@@ -360,10 +360,19 @@ namespace ModelRunner
                                 l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
                                 DynPrepare.FireIronEvent();
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
-                                if (0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted))
+                                if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) && (null != DynPrepare.visTargetVal))
                                 {
-                                    DynPrepare.ironRecalcRequest = true;
-                                    /// l.err("recalculation not works yet");
+                                    DynPrepare.DynModel.Pause();
+                                    DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
+                                        DynPrepare.visTargetVal.evt, Listener.CurrWeight,
+                                        DynPrepare.ChargingReason.forRecalculation));
+                                    l.msg("ATTENTION!!! Model Recalculated");
+                                    DynPrepare.DynModel.Resume();
+                                }
+                                else
+                                {
+                                    l.msg("Model recalculation disabled: either no blowing ({0}) or no target values ({1})", 
+                                        DynPrepare.HeatFlags, DynPrepare.visTargetVal);
                                 }
                             }
                             else
@@ -371,11 +380,11 @@ namespace ModelRunner
                                 l.err("XIMIRON appeared but too late -- model disabled");
                             }
                         }
-                        //else
-                        //    l.msg(
-                        //        "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
-                        //        HeatNumber, fxe.Arguments["HEAT_NO"]
-                        //        );
+                        else
+                            l.msg(
+                                "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumber, fxe.Arguments["HEAT_NO"]
+                                );
                     }
                     else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {

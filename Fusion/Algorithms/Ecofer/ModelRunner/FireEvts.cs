@@ -20,25 +20,26 @@ namespace ModelRunner
     {
         public static void FirePerSecEvent(int nS, ConnectionProvider.FlexHelper f, Models.Dynamic mo)
         {
+            var dynout = mo.LastOutputData;
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.PerSecond");
             fex.AddInt("@RelativeSecond", nS);
-            fex.AddDbl("C", mo.LastOutputData.FP_Kov[0]);
-            fex.AddDbl("T", mo.LastOutputData.T_Tavby);
-            fex.AddDbl("Si", mo.LastOutputData.FP_Kov[1]);
-            fex.AddDbl("Mn", mo.LastOutputData.FP_Kov[2]);
-            fex.AddDbl("P", mo.LastOutputData.FP_Kov[3]);
-            fex.AddDbl("Al", mo.LastOutputData.FP_Kov[5]);
-            fex.AddDbl("Cr", mo.LastOutputData.FP_Kov[7]);
-            fex.AddDbl("V", mo.LastOutputData.FP_Kov[10]);
-            fex.AddDbl("Ti", mo.LastOutputData.FP_Kov[11]);
-            fex.AddDbl("Fe", mo.LastOutputData.FP_Kov[32]);
-            fex.AddDbl("FeO", mo.LastOutputData.FP_Struska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-            fex.AddDbl("CaO", mo.LastOutputData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-            fex.AddDbl("SiO2", mo.LastOutputData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-            fex.AddDbl("MnO", mo.LastOutputData.FP_Struska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-            fex.AddDbl("MgO", mo.LastOutputData.FP_Struska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-            double mCaO = mo.LastOutputData.m_SlozkaStruska[0];
-            double mSiO2 = mo.LastOutputData.m_SlozkaStruska[1];
+            fex.AddDbl("C", dynout.FP_Kov[0]);
+            fex.AddDbl("T", dynout.T_Tavby);
+            fex.AddDbl("Si", dynout.FP_Kov[1]);
+            fex.AddDbl("Mn", dynout.FP_Kov[2]);
+            fex.AddDbl("P", dynout.FP_Kov[3]);
+            fex.AddDbl("Al", dynout.FP_Kov[5]);
+            fex.AddDbl("Cr", dynout.FP_Kov[7]);
+            fex.AddDbl("V", dynout.FP_Kov[10]);
+            fex.AddDbl("Ti", dynout.FP_Kov[11]);
+            fex.AddDbl("Fe", dynout.FP_Kov[32]);
+            fex.AddDbl("FeO", dynout.FP_Struska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddDbl("CaO", dynout.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddDbl("SiO2", dynout.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddDbl("MnO", dynout.FP_Struska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            fex.AddDbl("MgO", dynout.FP_Struska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+            double mCaO = dynout.m_SlozkaStruska[0];
+            double mSiO2 = dynout.m_SlozkaStruska[1];
             if (mSiO2 > 0.0)
             {
                 fex.AddDbl("CaO/SiO2", mCaO / mSiO2);

@@ -40,8 +40,11 @@ namespace Models
         {
             get
             {
-                if (mOutputData.Count == 0) return null;
-                return mOutputData.ElementAt(mOutputData.Count - 1).Value;
+                lock (mOutputData)
+                {
+                    if (mOutputData.Count == 0) return null;
+                    return mOutputData.ElementAt(mOutputData.Count - 1).Value;
+                }
             }
         }
         public Dictionary<DateTime, Data.Model.DynamicOutput> OutputData
@@ -352,7 +355,7 @@ namespace Models
             Data.Clock.Current = lOldClock;
 
             mRunningType = lPreviousRunningType;
-            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(0));
+            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
         }
 
         private void StartSimulationTimer()
@@ -554,14 +557,17 @@ namespace Models
             do
             {
                 var lKey = Clock.Current.ActualTime;
-                if (mOutputData.ContainsKey(lKey))
+                lock (mOutputData)
                 {
-                    System.Threading.Thread.Sleep(1);
-                }
-                else
-                {
-                    mOutputData.Add(lKey, lLoopOutputData);
-                    tryAgainLater = false;
+                    if (mOutputData.ContainsKey(lKey))
+                    {
+                        System.Threading.Thread.Sleep(1);
+                    }
+                    else
+                    {
+                        mOutputData.Add(lKey, lLoopOutputData);
+                        tryAgainLater = false;
+                    }
                 }
             } while (tryAgainLater);
             mStepsCount++;
@@ -1448,14 +1454,17 @@ namespace Models
         {
             float lC_ConversionVector = MINP.ConversionVector(0);
             // C correction from the beginning R 6-10 .. 6-12
-            foreach (var nItem in mOutputData.OrderBy(aR => aR.Key))
+            lock (mOutputData)
             {
-                nItem.Value.FP_Kov[0] =
-                    nItem.Value.FP_C +
-                    (nItem.Value.FP_C - mC_kov_start)
-                    * ((mC_kov_start - mC_kov_end) / (mC_kov_start - LastOutputData.FP_C) - 1);
-                nItem.Value.c_Kov[0] = nItem.Value.FP_Kov[0] / lC_ConversionVector;
-                nItem.Value.m_SlozkaKov[0] = nItem.Value.FP_Kov[0] * nItem.Value.m_Kov;
+                foreach (var nItem in mOutputData.OrderBy(aR => aR.Key))
+                {
+                    nItem.Value.FP_Kov[0] =
+                        nItem.Value.FP_C +
+                        (nItem.Value.FP_C - mC_kov_start)
+                        * ((mC_kov_start - mC_kov_end) / (mC_kov_start - LastOutputData.FP_C) - 1);
+                    nItem.Value.c_Kov[0] = nItem.Value.FP_Kov[0] / lC_ConversionVector;
+                    nItem.Value.m_SlozkaKov[0] = nItem.Value.FP_Kov[0] * nItem.Value.m_Kov;
+                }
             }
         }
         public void RealTimeSimulation_TemperatureMeasured()
