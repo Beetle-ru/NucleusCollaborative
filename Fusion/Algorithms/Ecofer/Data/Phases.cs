@@ -422,7 +422,7 @@ namespace Data
                 {
                     PhaseItemMatAdd lPhaseItemMatAdd = (PhaseItemMatAdd)lPhaseItem;
 
-                    foreach (var nDolomit in lPhaseItemMatAdd.AlloyRecipe.MOUT_AlloyRecipeItems.Where(aR => aR.MINP_GD_Material.Code == lDolom_DTO.Code))
+                    foreach (var nDolomit in lPhaseItemMatAdd.AlloyRecipe.MOUT_AlloyRecipeItems.Where(aR => aR.MINP_GD_Material.ShortCode == lDolom_DTO.ShortCode))
                     {
                         nDolomit.MINP_GD_Material = lDolomS_DTO;
                         if (nDolomit.Amount_kg.HasValue) nDolomit.Amount_kg = (int)Math.Round(nDolomit.Amount_kg.Value * aCoef);

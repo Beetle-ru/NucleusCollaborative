@@ -47,7 +47,6 @@ namespace ModelRunner
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
         public static FlexHelper visTargetVal = null;
-        public static bool ironRecalcRequest = false;
         public static bool recallChargingReq = true;
         private static void OutLine(String str)
         {
@@ -116,10 +115,10 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
-            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-            //                                                  {
-            //                                                      InstantLogger.err("Unhandled exception {0}", e);
-            //                                                  };
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                                                              {
+                                                                  InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
+                                                              };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
@@ -329,15 +328,6 @@ NEXT_HEAT:
                                                             DynModel.EnqueueMaterialAdded(m);
                                                         }
                                                         Listener.MatAdd.Clear();
-                                                        if (ironRecalcRequest && (visTargetVal != null))
-                                                        {
-                                                            ironRecalcRequest = false;
-                                                            DynModel.Pause();
-                                                            DynModel.RecalculateFromBeginning(MakeCharging(visTargetVal.evt, Listener.CurrWeight, 
-                                                                ChargingReason.forRecalculation));
-                                                            l.msg("ATTENTION!!! Model Recalculated");
-                                                            DynModel.Resume();
-                                                        }
                                                     }
                                                     else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
                                                     {
@@ -346,6 +336,11 @@ NEXT_HEAT:
                                                             if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
                                                         }
                                                         else EmptyBlowCount = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        l.err("TROUBLE!!! Model is in an unexpected state {0}",
+                                                              DynModel.State());
                                                     }
                                                 };
                     DynModel.Start();
@@ -502,7 +497,6 @@ WAIT_END_OF_HEAT:
             inp.Scrap_Temperature = 0; ///!AR: Correction
 
             ///! IRON+SCRAP
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("01"));
             inp.HotMetals = new MINP_GD_MaterialDTO[1];
             var matIron = DynPrepare.AddIron((int) Listener.IronWeight);
             inp.HotMetals[0] = matIron.MINP_GD_Material;
