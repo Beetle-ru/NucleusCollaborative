@@ -412,10 +412,12 @@ namespace ModelRunner
                 {
                     var hce = evt as HeatChangeEvent;
                     if (HeatNumber == hce.HeatNumber) return;
-                    l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                     Int64 rem;
                     Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
-                    HeatNumber = res*100000 + rem;
+                    var newHeatNumber = res * 100000 + rem;
+                    if (HeatNumber == newHeatNumber) return;
+                    HeatNumber = newHeatNumber;
+                    l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                     IronWeight = 300011;
                     IronReason = "DEFAULT";
                     ScrapWeight = 113311;

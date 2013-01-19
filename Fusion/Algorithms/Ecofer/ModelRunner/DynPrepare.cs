@@ -321,30 +321,30 @@ NEXT_HEAT:
                                                     if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
                                                     {
                                                         SimulationOxygenBlowing();
-                                                    }
-                                                    //SimulationOxygenBlowing();
-                                                    FirePerSecEvent(++nStep, null, DynModel);
-                                                    //Thread.Sleep(1000);
-                                                    if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
-                                                    {
-                                                        foreach (var m in Listener.MatAdd)
+                                                        //SimulationOxygenBlowing();
+                                                        FirePerSecEvent(++nStep, null, DynModel);
+                                                        //Thread.Sleep(1000);
+                                                        if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
                                                         {
-                                                            DynModel.EnqueueMaterialAdded(m);
+                                                            foreach (var m in Listener.MatAdd)
+                                                            {
+                                                                DynModel.EnqueueMaterialAdded(m);
+                                                            }
+                                                            Listener.MatAdd.Clear();
                                                         }
-                                                        Listener.MatAdd.Clear();
-                                                    }
-                                                    else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
-                                                    {
-                                                        if (Listener.avox.Average(10) < 10.0)
+                                                        else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
                                                         {
-                                                            if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
+                                                            if (Listener.avox.Average(10) < 10.0)
+                                                            {
+                                                                if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
+                                                            }
+                                                            else EmptyBlowCount = 0;
                                                         }
-                                                        else EmptyBlowCount = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        l.err("TROUBLE!!! Model is in an unexpected state {0}",
-                                                              DynModel.State());
+                                                        else
+                                                        {
+                                                            l.err("TROUBLE!!! Model is in an unexpected state {0}",
+                                                                  DynModel.State());
+                                                        }
                                                     }
                                                 };
                     DynModel.Start();
