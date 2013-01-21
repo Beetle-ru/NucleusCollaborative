@@ -334,10 +334,8 @@ namespace Models
             mOutputData.Clear();
 
             // loops
-            int cSteepCount = 0;
-            //while (mStepsCount < lStepsCount)
-            var x = mStepsCount;
-            while (cSteepCount < lStepsCount)
+            int cs = 0;
+            while (cs < lStepsCount)
             {
                 if (lMINP_CyclicData.Count > 0)
                 {
@@ -353,7 +351,7 @@ namespace Models
                 }
 
                 ControlLoop(null);
-                cSteepCount++;
+                cs++;
             }
 
             Data.Clock.Current = lOldClock;
