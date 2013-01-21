@@ -364,16 +364,16 @@ namespace ModelRunner
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
                                 if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) && (null != DynPrepare.visTargetVal))
                                 {
-                                    if (!DynamicModelRecalculationCalled)
-                                    {
-                                        DynamicModelRecalculationCalled = true;
+                                    //if (!DynamicModelRecalculationCalled)
+                                    //{
+                                    //    DynamicModelRecalculationCalled = true;
                                         DynPrepare.DynModel.Pause();
                                         DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
                                             DynPrepare.visTargetVal.evt, Listener.CurrWeight,
                                             DynPrepare.ChargingReason.forRecalculation));
                                         l.msg("ATTENTION!!! Model Recalculated");
                                         DynPrepare.DynModel.Resume();
-                                    }
+                                    //}
                                 }
                                 else
                                 {

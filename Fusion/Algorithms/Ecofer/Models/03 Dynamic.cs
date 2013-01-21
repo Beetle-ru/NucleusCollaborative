@@ -310,8 +310,11 @@ namespace Models
         /// <summary>
         /// Runs simulation from the beginning of the heat until now with modified model input data.
         /// </summary>
+
+        public bool RecalcFlagForDebaging; // remoove this after debug complete
         private void RecalculateFromBeginningInThread()
         {
+            RecalcFlagForDebaging = true;
             mRecalculateFromTheBeginning = false;
             if (mRunningType == RunningType.RealTime) mTimer.Change(-1, -1);
             RunningType lPreviousRunningType = mRunningType;
@@ -349,15 +352,19 @@ namespace Models
                     EnqueueMaterialAdded(lMINP_MatAddData[0]);
                     lMINP_MatAddData.RemoveAt(0);
                 }
-
+                //Console.WriteLine("##" + mCurrentStateData.E_Tavby);
                 ControlLoop(null);
+                //Console.WriteLine(mCurrentStateData.E_Tavby);
                 cs++;
             }
 
             Data.Clock.Current = lOldClock;
+            
 
             mRunningType = lPreviousRunningType;
             if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
+
+            RecalcFlagForDebaging = false;
         }
 
         private void StartSimulationTimer()
@@ -541,7 +548,7 @@ namespace Models
         {
             if (mPaused) return;
 
-            StopSimulationTimer();
+      //      StopSimulationTimer();
 
             if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
 
@@ -554,7 +561,11 @@ namespace Models
             #endregion
             #region Model loop
             ProcessQueueRequests();
+
+            //Console.WriteLine("**" + mCurrentStateData.E_Tavby);
             Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
+            //Console.WriteLine("~~" + mCurrentStateData.E_Tavby);
+
             bool tryAgainLater = true;
             do
             {
@@ -731,8 +742,8 @@ namespace Models
 
                 break;
             }
-
-            StartSimulationTimer();
+            
+        //    StartSimulationTimer();
         }
         private void ProcessQueueRequests()
         {
