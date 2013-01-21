@@ -40,6 +40,8 @@ namespace ModelRunner
         public static Dictionary<string, string> VisKey = new Dictionary<string, string>();
         public static Dictionary<string, string> matRename = new Dictionary<string, string>();
 
+        private static bool DynamicModelRecalculationCalled = false;
+
         private class VBItem
         {
             public double coeff;
@@ -362,12 +364,16 @@ namespace ModelRunner
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
                                 if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) && (null != DynPrepare.visTargetVal))
                                 {
-                                    DynPrepare.DynModel.Pause();
-                                    DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
-                                        DynPrepare.visTargetVal.evt, Listener.CurrWeight,
-                                        DynPrepare.ChargingReason.forRecalculation));
-                                    l.msg("ATTENTION!!! Model Recalculated");
-                                    DynPrepare.DynModel.Resume();
+                                    if (!DynamicModelRecalculationCalled)
+                                    {
+                                        DynamicModelRecalculationCalled = true;
+                                        DynPrepare.DynModel.Pause();
+                                        DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
+                                            DynPrepare.visTargetVal.evt, Listener.CurrWeight,
+                                            DynPrepare.ChargingReason.forRecalculation));
+                                        l.msg("ATTENTION!!! Model Recalculated");
+                                        DynPrepare.DynModel.Resume();
+                                    }
                                 }
                                 else
                                 {
