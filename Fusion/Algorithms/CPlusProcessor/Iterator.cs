@@ -203,6 +203,7 @@ namespace CPlusProcessor
                      (IntegralCO > Program.COMin) && // проверка на интегральный CO
                      (IntegralCO < Program.COMax) &&
                      it4 &&
+                     false && // заблокировано сохранение пока, на время -- до отладки механизма верификации
                      (currentHeatResult.HightQualityHeat); 
         }
 
@@ -226,12 +227,12 @@ namespace CPlusProcessor
             //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
-                   //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
-                   //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
+                   (HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
+                   (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
-                   //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+                   ((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
             //(IntegralCO > Program.COMin) && // проверка на интегральный CO
             //(IntegralCO < Program.COMax);
         }
