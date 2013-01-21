@@ -438,8 +438,7 @@ WAIT_END_OF_HEAT:
                 DTO.MINP_CyclicDTO lCyclicDTO = new DTO.MINP_CyclicDTO();
                 lCyclicDTO.MINP_HeatID = Data.MINP.Heat.ID;
                 lCyclicDTO.TimeProcessed = Data.Clock.Current.ActualTime;
-                if (lO2Consumption < 0) lCyclicDTO.OxygenConsumption_m3 = 0;
-                else lCyclicDTO.OxygenConsumption_m3 = lO2Consumption;
+                lCyclicDTO.OxygenConsumption_m3 = lO2Consumption < 0 ? 0 : lO2Consumption;
                 lCyclicDTO.OxygenFlow_Nm3_min = (int) Listener.avox.Average(_3_);
                 var d = Math.Round(Listener.avofg.Average(_3_) * 0.0166666666666667);
                 lCyclicDTO.WastegasFlow_Nm3_min = (int) d;
