@@ -127,5 +127,14 @@ namespace ModelRunner
             fex.AddDbl("COKE", Listener.VisWeight["COKE"]);
             fex.Fire(CoreGate);
         }
+
+        public static void FireScrapDangerEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
+            fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddDbl("Prob", Listener.ScrapDanger);
+            fex.AddStr("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
+            fex.Fire(CoreGate);
+        }
     }
 }

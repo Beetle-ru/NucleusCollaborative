@@ -23,9 +23,11 @@ namespace ModelRunner
         public static RollingAverage avofg_pco2 = new RollingAverage(10.1133);
         public static long HeatNumber = -1;
         public static double IronWeight = 300000;
-        public static string IronReason = "DEFAULT";
+        public static double IronTemp = 1400;
+        public static string IronReason = "UNINITIALIZED";
         public static double ScrapWeight = 114000;
-        public static string ScrapReason = "DEFAULT";
+        public static double ScrapTemp = 0;
+        public static string ScrapReason = "UNINITIALIZED";
         public static double ScrapDanger = 0.0;
         public static int Converter = 0;
         public static int ForceBlow = 0;
@@ -357,7 +359,8 @@ namespace ModelRunner
                             if (0 == (DynPrepare.HeatFlags & ModelStatus.ModelDisabled))
                             {
                                 DynPrepare.fxeIron = new FlexHelper(fxe);
-                                IronWeight = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                                IronWeight = DynPrepare.fxeIron.GetDbl("HM_WEIGHT");
+                                IronTemp = DynPrepare.fxeIron.GetDbl("HM_TEMP");
                                 IronReason = "PIPE-X";
                                 l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
                                 DynPrepare.FireIronEvent();
@@ -425,9 +428,11 @@ namespace ModelRunner
                     HeatNumber = newHeatNumber;
                     l.msg("Heat Changed. New Heat ID: {0}", hce.HeatNumber);
                     IronWeight = 300011;
+                    IronTemp = 1380;
                     IronReason = "DEFAULT";
                     ScrapWeight = 113311;
                     ScrapReason = "DEFAULT";
+                    ScrapTemp = 1;
                     ScrapDanger = 0.0;
                     avofg.Add(6000.1133);
                     avofg_pco.Add(0.1133);

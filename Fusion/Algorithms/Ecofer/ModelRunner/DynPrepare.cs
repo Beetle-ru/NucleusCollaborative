@@ -42,8 +42,8 @@ namespace ModelRunner
         private const int _N_matElements = 74;
         private static List<string> StrList = new List<string>();
         public static DynamicInput aInputData = new DynamicInput();
+        public static ChargingInput aChargingData = new ChargingInput();
         public static FlexHelper fxeIron = null;
-        private static DTO.MINP_MatAddDTO matIron;
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
         public static FlexHelper visTargetVal = null;
@@ -77,7 +77,7 @@ namespace ModelRunner
             aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
 
             // Iron
-            matIron = AddIron((int)Listener.IronWeight);
+            var matIron = AddIron((int)Listener.IronWeight);
             aInputData.ChargedMaterials.Add(matIron);
             //goto LABEL_START;
 
@@ -229,47 +229,46 @@ NEXT_HEAT:
                     HeatFlags |= ModelStatus.ModelStarted;
                     if (Listener.ScrapDanger > 0.25)
                     {
-                        var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
-                        fex.AddInt("Heat_No", Listener.HeatNumber);
-                        fex.AddDbl("Prob", Listener.ScrapDanger);
-                        fex.AddStr("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
-                        fex.Fire(CoreGate);
+                        FireScrapDangerEvent();
                     }
 
-                    MakeDynamicCharging();
+                    //MakeDynamicCharging();
 
-                    #region Model materials
+                    //#region Model materials
 
-                    // Odprasky
-                    var matOdpr = AddOdprasky(3000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky,
-                                                    matOdpr.MINP_GD_Material);
+                    //// Odprasky
+                    //var matOdpr = AddOdprasky(3000);
+                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky,
+                    //                                matOdpr.MINP_GD_Material);
 
-                    // Slag
-                    var matSlag = AddSlag(30000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag,
-                                                    matSlag.MINP_GD_Material);
-                    // Steel
-                    var matSteel = AddSteel(420000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel,
-                                                    matSteel.MINP_GD_Material);
+                    //// Slag
+                    //var matSlag = AddSlag(30000);
+                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag,
+                    //                                matSlag.MINP_GD_Material);
+                    //// Steel
+                    //var matSteel = AddSteel(420000);
+                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel,
+                    //                                matSteel.MINP_GD_Material);
 
-                    #endregion
+                    //#endregion
 
-                    for (int i = 0; i < matIron.MINP_GD_Material.MINP_GD_MaterialItems.Count; i++)
-                    {
-                        if (matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].MINP_GD_MaterialElement.Index == 69)
-                        {
-                            aInputData.HotMetal_Temperature = (int)matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].Amount_p;
-                            break;
-                        }
-                    }
-                    aInputData.Scrap_Temperature = 0;
+                    //for (int i = 0; i < matIron.MINP_GD_Material.MINP_GD_MaterialItems.Count; i++)
+                    //{
+                    //    if (matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].MINP_GD_MaterialElement.Index == 69)
+                    //    {
+                    //        aInputData.HotMetal_Temperature = (int)matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].Amount_p;
+                    //        break;
+                    //    }
+                    //}
+                    aInputData.HotMetal_Temperature = (int)Listener.IronTemp;
+                    aInputData.Scrap_Temperature = (int)Listener.ScrapTemp;
                     if (0 != (HeatFlags & ModelStatus.ModelDisabled))
                     {
                         goto WAIT_END_OF_HEAT;
                     }
 
+                    aChargingData = MakeCharging(visTargetVal.evt, Listener.CurrWeight,
+                                                 ChargingReason.forRecalculation);
                     #region Define Oxygen Blowing Phases
 
                     // see listener::onEvent SteelMakingPattern
@@ -321,9 +320,7 @@ NEXT_HEAT:
                                                     if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
                                                     {
                                                         SimulationOxygenBlowing();
-                                                        //SimulationOxygenBlowing();
                                                         FirePerSecEvent(++nStep, null, DynModel);
-                                                        //Thread.Sleep(1000);
                                                         if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
                                                         {
                                                             foreach (var m in Listener.MatAdd)
@@ -515,10 +512,6 @@ WAIT_END_OF_HEAT:
             inp.Scraps[0] = matScrap.MINP_GD_Material;
             inp.Scraps_t[0] = (int) (matScrap.Amount_kg*0.001);
 
-            inp.Odprasky = DynPrepare.AddOdprasky(0).MINP_GD_Material;
-            inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
-            inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
-
             var matCoke = DynPrepare.AddCoke(weight["COKE"]);
             inp.Coke = matCoke.MINP_GD_Material;
             inp.Coke_kg = matCoke.Amount_kg;
@@ -535,10 +528,44 @@ WAIT_END_OF_HEAT:
             inp.Lime = matLime.MINP_GD_Material;
             inp.Lime_kg = matLime.Amount_kg;
 
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("01"));
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("02"));
-            Data.MINP.MINP_MatAdds.Insert(0, matIron);
-            Data.MINP.MINP_MatAdds.Insert(1, matScrap);
+            if (reason == ChargingReason.forRecalculation)
+            {
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("01"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("02"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("04"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("05"));
+                aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
+                Data.MINP.MINP_MatAdds.Insert(0, matIron); aInputData.ChargedMaterials.Add(matIron);
+                Data.MINP.MINP_MatAdds.Insert(1, matScrap); aInputData.ChargedMaterials.Add(matScrap);
+                MINP.MINP_GD_ModelMaterials = new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
+                Data.MINP.MINP_MatAdds.Insert(2, matCoke); aInputData.ChargedMaterials.Add(matCoke);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke,
+                                matCoke.MINP_GD_Material);
+                Data.MINP.MINP_MatAdds.Insert(3, matDolomite); aInputData.ChargedMaterials.Add(matDolomite);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
+                                matDolomite.MINP_GD_Material);
+                Data.MINP.MINP_MatAdds.Insert(4, matFOM); aInputData.ChargedMaterials.Add(matFOM);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM,
+                                matFOM.MINP_GD_Material);
+                Data.MINP.MINP_MatAdds.Insert(5, matLime); aInputData.ChargedMaterials.Add(matLime);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO,
+                                matLime.MINP_GD_Material);
+                var matOdpr = AddOdprasky(3000);
+                inp.Odprasky = matOdpr.MINP_GD_Material; 
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky, matOdpr.MINP_GD_Material);
+                var matSlag = AddSlag(30000);
+                inp.StrStr = matSlag.MINP_GD_Material;
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag, matSlag.MINP_GD_Material);
+                var matSteel = AddSteel(420000);
+                inp.Steel = matSteel.MINP_GD_Material;
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel, matSteel.MINP_GD_Material);
+            }
+            else
+            {
+                inp.Odprasky = DynPrepare.AddOdprasky(0).MINP_GD_Material;
+                inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
+                inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
+            }
             return inp;
         }
     }

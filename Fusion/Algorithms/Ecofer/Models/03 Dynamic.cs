@@ -352,9 +352,7 @@ namespace Models
                     EnqueueMaterialAdded(lMINP_MatAddData[0]);
                     lMINP_MatAddData.RemoveAt(0);
                 }
-                //Console.WriteLine("##" + mCurrentStateData.E_Tavby);
                 ControlLoop(null);
-                //Console.WriteLine(mCurrentStateData.E_Tavby);
                 cs++;
             }
 
@@ -548,7 +546,7 @@ namespace Models
         {
             if (mPaused) return;
 
-      //      StopSimulationTimer();
+            //CHEREP      StopSimulationTimer();
 
             if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
 
@@ -562,9 +560,7 @@ namespace Models
             #region Model loop
             ProcessQueueRequests();
 
-            //Console.WriteLine("**" + mCurrentStateData.E_Tavby);
             Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
-            //Console.WriteLine("~~" + mCurrentStateData.E_Tavby);
 
             bool tryAgainLater = true;
             do
@@ -743,7 +739,7 @@ namespace Models
                 break;
             }
             
-        //    StartSimulationTimer();
+            //CHEREP    StartSimulationTimer();
         }
         private void ProcessQueueRequests()
         {

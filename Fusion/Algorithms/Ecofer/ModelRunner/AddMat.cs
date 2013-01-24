@@ -30,7 +30,7 @@ namespace ModelRunner
             matIron.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
             if (fxeIron == null)
             {
-                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 1400.0));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.IronTemp));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 4.75));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.55));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.27));
@@ -76,7 +76,7 @@ namespace ModelRunner
             matScrap.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matScrap.MINP_GD_Material.ShortCode = matScrap.ShortCode;
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
+            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.ScrapTemp));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 380.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
