@@ -285,6 +285,7 @@ NEXT_HEAT:
 
                     foreach (var m in Listener.MatAdd)
                     {
+                        m.TimeProcessed = System.DateTime.Now; 
                         DynModel.EnqueueMaterialAdded(m);
                     }
                     Listener.MatAdd.Clear();
@@ -325,6 +326,7 @@ NEXT_HEAT:
                                                         {
                                                             foreach (var m in Listener.MatAdd)
                                                             {
+                                                                m.TimeProcessed = System.DateTime.Now;
                                                                 DynModel.EnqueueMaterialAdded(m);
                                                             }
                                                             Listener.MatAdd.Clear();

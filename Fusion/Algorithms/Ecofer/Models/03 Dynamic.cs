@@ -286,6 +286,7 @@ namespace Models
         public void EnqueueMaterialAdded(DTO.MINP_MatAddDTO aMaterial)
         {
             mRequestQueue.Enqueue(aMaterial);
+            Data.MINP.MINP_MatChain.Add(aMaterial);
         }
         /// <summary>
         /// Can be called only in MainOxygenBlowingPhase.
@@ -327,36 +328,41 @@ namespace Models
             DateTime lNow = Data.Clock.Current.ActualTime;
             List<DTO.MINP_CyclicDTO> lMINP_CyclicData = Data.MINP.MINP_Cyclic.OrderBy(aR => aR.TimeProcessed).ToList();
             List<DTO.MINP_MatAddDTO> lMINP_MatAddData = Data.MINP.MINP_MatAdds.Where(aR => !aR.ShortCode.StartsWith("01") && !aR.ShortCode.StartsWith("02")).OrderBy(aR => aR.TimeProcessed).ToList();
+            List<DTO.MINP_MatAddDTO> lMINP_MatAddChain = Data.MINP.MINP_MatChain;
             Data.MINP.MINP_Cyclic = new List<DTO.MINP_CyclicDTO>();
             Data.MINP.MINP_MatAdds = new List<DTO.MINP_MatAddDTO>();
+            Data.MINP.MINP_MatChain = new List<DTO.MINP_MatAddDTO>();
             int lStepsCount = mStepsCount;
             mStepsCount = 0;
 
-            Data.Clock lOldClock = Data.Clock.Current;
-            new Data.Clock(lStartTime, mDeltaT_s);
+            //Data.Clock lOldClock = Data.Clock.Current;
+            //new Data.Clock(lStartTime, mDeltaT_s);
             mOutputData.Clear();
 
             // loops
             int cs = 0;
+            var recalcDT = Data.Clock.Current.StartTime;
             while (cs < lStepsCount)
             {
                 if (lMINP_CyclicData.Count > 0)
                 {
                     Data.MINP.MINP_Cyclic.Add(lMINP_CyclicData[0]);
                     lMINP_CyclicData.RemoveAt(0);
+                    //recalcDT = Data.MINP.MINP_Cyclic[Data.MINP.MINP_Cyclic.Count - 1].TimeProcessed;
                 }
 
-                while (lMINP_MatAddData.Count > 0 && lMINP_MatAddData[0].TimeProcessed <= Data.Clock.Current.ActualTime)
+                while (lMINP_MatAddChain.Count > 0 && lMINP_MatAddChain[0].TimeProcessed <= recalcDT)
                 {
-                    Data.MINP.MINP_MatAdds.Add(lMINP_MatAddData[0]);
-                    EnqueueMaterialAdded(lMINP_MatAddData[0]);
-                    lMINP_MatAddData.RemoveAt(0);
+                    Data.MINP.MINP_MatAdds.Add(lMINP_MatAddChain[0]);
+                    EnqueueMaterialAdded(lMINP_MatAddChain[0]);
+                    lMINP_MatAddChain.RemoveAt(0);
                 }
                 ControlLoop(null);
                 cs++;
+                recalcDT = recalcDT.AddSeconds(1.0);
             }
 
-            Data.Clock.Current = lOldClock;
+            //Data.Clock.Current = lOldClock;
             
 
             mRunningType = lPreviousRunningType;

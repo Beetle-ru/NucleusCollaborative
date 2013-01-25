@@ -20,6 +20,7 @@ namespace Data
         public static List<Graph.O2RequestItem> O2Request { get; set; }
         public static List<DTO.MINP_CyclicDTO> MINP_Cyclic { get; set; }
         public static List<DTO.MINP_MatAddDTO> MINP_MatAdds { get; set; }
+        public static List<DTO.MINP_MatAddDTO> MINP_MatChain { get; set; }
         public static List<DTO.MINP_TempMeasDTO> MINP_TempMeas { get; set; }
         public static List<DTO.MINP_ModelParametersDTO> MINP_ModelParameters { get; set; }
         public static DTO.MINP_ProcessPatternDTO MINP_ProcessPattern { get; set; }
@@ -36,6 +37,7 @@ namespace Data
             O2Request = new List<Graph.O2RequestItem>();
             MINP_Cyclic = new List<DTO.MINP_CyclicDTO>();
             MINP_MatAdds = new List<DTO.MINP_MatAddDTO>();
+            MINP_MatChain = new List<DTO.MINP_MatAddDTO>();
             MINP_TempMeas = new List<DTO.MINP_TempMeasDTO>();
             MINP_ModelParameters = new List<DTO.MINP_ModelParametersDTO>();
             MINP_ProcessPattern = null;
