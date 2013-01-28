@@ -18,8 +18,8 @@ namespace CPlusProcessor
         public static double OffGasV;
 
         public static HeatDataSmoother HDSmoother;
-        public const int PeriodSec = 15; // время сглаживания
-        public const int IntervalSec = 1; // интервал сглаживания
+        public const int PeriodSec = 3; // время сглаживания
+        public const int IntervalSec = 1; // интервал расчетов
         public static Timer IterateTimer = new Timer(IntervalSec * 1000);
         public static Dictionary<Int64, MFCPData> WaitCarbonDic; // очередь ожидания углерода
 
@@ -113,6 +113,9 @@ namespace CPlusProcessor
 
         static public void PushCarbon(double carbon)
         {
+            const double tresholdCarbon = 0.03;
+            carbon = carbon < tresholdCarbon ? tresholdCarbon : carbon; // ограничение на углерод
+
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate); //!!! временно выключен для временного перехода на старый углерод
@@ -189,7 +192,7 @@ namespace CPlusProcessor
         {
             const double minCarbonPercent = 0.03;
             const double maxCarbonPercent = 0.12;
-            const double maxHeightLance = 230;
+            //const double maxHeightLance = 230;
             const double maxCarbonMonoxideVolumePercent = 30;
             const double maxCarbonOxideVolumePercent = 30;
             const double minICO_Ico2Ratio = 1.5;
@@ -231,8 +234,8 @@ namespace CPlusProcessor
                    (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
-                   ((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
-                   //(HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+                   //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
+                   (HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
             //(IntegralCO > Program.COMin) && // проверка на интегральный CO
             //(IntegralCO < Program.COMax);
         }
