@@ -43,13 +43,13 @@ namespace NeuralProcessorC
 
                     if (CIterator.FirstHeating)
                     {
-                        CIterator.StartHeating();
+                        CIterator.Reset();
                         l.msg("Start First Heating");
                     }
                     else
                     {
                         //CIterator.ResetHeating(CIterator.CurrentHeatResult); // y
-                        CIterator.StartHeating();
+                        CIterator.Reset();
                         l.msg("Reset Heating");
                     }
 
