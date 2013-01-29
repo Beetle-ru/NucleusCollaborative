@@ -312,14 +312,15 @@ namespace Models
         /// Runs simulation from the beginning of the heat until now with modified model input data.
         /// </summary>
 
-        public bool RecalcFlagForDebaging; // remoove this after debug complete
+        public bool mRecalcContext = false;
+
         private void RecalculateFromBeginningInThread()
         {
-            RecalcFlagForDebaging = true;
+            mRecalcContext = true;
             mRecalculateFromTheBeginning = false;
             if (mRunningType == RunningType.RealTime) mTimer.Change(-1, -1);
             RunningType lPreviousRunningType = mRunningType;
-            mRunningType = RunningType.Simulation;
+            //mRunningType = RunningType.Simulation;
 
             // new Initialization
             Initialization();
@@ -334,24 +335,19 @@ namespace Models
             Data.MINP.MINP_MatChain = new List<DTO.MINP_MatAddDTO>();
             int lStepsCount = mStepsCount;
             mStepsCount = 0;
-
-            //Data.Clock lOldClock = Data.Clock.Current;
-            //new Data.Clock(lStartTime, mDeltaT_s);
             mOutputData.Clear();
 
             // loops
             int cs = 0;
-            var recalcDT = Data.Clock.Current.StartTime;
             while (cs < lStepsCount)
             {
                 if (lMINP_CyclicData.Count > 0)
                 {
                     Data.MINP.MINP_Cyclic.Add(lMINP_CyclicData[0]);
                     lMINP_CyclicData.RemoveAt(0);
-                    //recalcDT = Data.MINP.MINP_Cyclic[Data.MINP.MINP_Cyclic.Count - 1].TimeProcessed;
                 }
 
-                while (lMINP_MatAddChain.Count > 0 && lMINP_MatAddChain[0].TimeProcessed <= recalcDT)
+                while (lMINP_MatAddChain.Count > 0 && lMINP_MatAddChain[0].TimeProcessed <= lStartTime)
                 {
                     Data.MINP.MINP_MatAdds.Add(lMINP_MatAddChain[0]);
                     EnqueueMaterialAdded(lMINP_MatAddChain[0]);
@@ -359,16 +355,13 @@ namespace Models
                 }
                 ControlLoop(null);
                 cs++;
-                recalcDT = recalcDT.AddSeconds(1.0);
+                lStartTime = lStartTime.AddSeconds(1.0);
             }
-
-            //Data.Clock.Current = lOldClock;
-            
 
             mRunningType = lPreviousRunningType;
             if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
 
-            RecalcFlagForDebaging = false;
+            mRecalcContext = false;
         }
 
         private void StartSimulationTimer()

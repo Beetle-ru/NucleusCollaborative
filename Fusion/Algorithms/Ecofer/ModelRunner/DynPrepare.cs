@@ -318,7 +318,7 @@ NEXT_HEAT:
                                                };
                     DynModel.ModelLoopDone += (s, e) =>
                                                 {
-                                                    if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
+                                                    if (!DynModel.mRecalcContext)
                                                     {
                                                         SimulationOxygenBlowing();
                                                         FirePerSecEvent(++nStep, null, DynModel);
