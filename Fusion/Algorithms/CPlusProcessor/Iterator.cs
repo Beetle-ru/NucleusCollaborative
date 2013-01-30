@@ -240,7 +240,7 @@ namespace CPlusProcessor
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
                    //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+                   (HDSmoother.LanceHeigth >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
             //(IntegralCO > Program.COMin) && // проверка на интегральный CO
             //(IntegralCO < Program.COMax);
         }
@@ -301,8 +301,10 @@ namespace CPlusProcessor
         public RollingAverage CO;
         //public RollingAverage COPrevious;
         public RollingAverage CO2;
-        public RollingAverage LanceHeigth;
-        public RollingAverage LanceHeigthPrevious;
+        //public RollingAverage LanceHeigth;
+        //public RollingAverage LanceHeigthPrevious;
+        public double LanceHeigth;
+        public double LanceHeigthPrevious;
         //public RollingAverage Oxygen;
         public double Oxygen;
         public bool HeatIsStarted;
@@ -312,8 +314,10 @@ namespace CPlusProcessor
             CO = new RollingAverage(lengthBuff);
            // COPrevious = new RollingAverage(lengthBuff);
             CO2 = new RollingAverage(lengthBuff);
-            LanceHeigth = new RollingAverage(lengthBuff);
-            LanceHeigthPrevious = new RollingAverage(lengthBuff);
+            //LanceHeigth = new RollingAverage(lengthBuff);
+            //LanceHeigthPrevious = new RollingAverage(lengthBuff);
+            LanceHeigth = 0;
+            LanceHeigthPrevious = 0;
             //Oxygen = new RollingAverage(lengthBuff);
             Oxygen = 0.0;
             HeatIsStarted = false;

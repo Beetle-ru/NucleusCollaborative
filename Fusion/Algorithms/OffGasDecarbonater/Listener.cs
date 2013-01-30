@@ -66,6 +66,20 @@ namespace OffGasDecarbonater
                                 CIterator.HeatNumber, fxe.Arguments["SHEATNO"]
                                 );
                     }
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(CIterator.HeatNumber)))
+                        {
+                            l.msg(fxe.ToString());
+                            m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumberToLong(CIterator.HeatNumber), fxe.Arguments["HEAT_NO"]
+                                );
+                    }
                 }
 
                 if (newEvent is HeatChangeEvent)
