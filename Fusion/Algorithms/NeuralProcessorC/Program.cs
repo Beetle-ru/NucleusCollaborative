@@ -18,7 +18,7 @@ namespace NeuralProcessorC
         public static List<MFCMDataFull> MatrixStateDataFull;
         public static List<MFCMDataFull> MatrixStateDataFullTotal = new List<MFCMDataFull>();
         public static Dictionary<Int64, MFCMDataFull> WaitCarbonDic = new Dictionary<Int64, MFCMDataFull>(); // очередь ожидания углерода
-        public const string PathArch = @"Archives";
+        public const string PathArch = @"NeuralArchives";
         public static string ArchFileName = PathArch + @"\" + ArchNameGenerate("res");
         public static string Path;
         public static char Separator;

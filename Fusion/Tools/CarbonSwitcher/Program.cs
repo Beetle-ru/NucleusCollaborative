@@ -12,7 +12,7 @@ namespace CarbonSwitcher
     {
         public static Client MainGate;
         public static List<Models> ModelList;
-        public const int SupportModels = 3;
+        public const int SupportModels = 4;
         public static Conf Cfg;
         public static Configuration MainConf;
         static void Main(string[] args)

@@ -11,7 +11,7 @@ namespace NeuralProcessorC
 {
     internal static class CIterator
     {
-        public const int PeriodSec = 15; // время сглаживания
+        public const int PeriodSec = 5; // время сглаживания
         private static Stopwatch m_sw;
         public static Timer IterateTimer;
         private static int m_maxDownLancePosition;

@@ -46,6 +46,7 @@ namespace CarbonSwitcher
                     CarbonEventHandler(fxe, 0, "OffGasDecarbonater");
                     CarbonEventHandler(fxe, 1, "SMFCarbon");
                     CarbonEventHandler(fxe, 2, "CPlusProcessor");
+                    CarbonEventHandler(fxe, 3, "NeuralProcessorC");
 
                 }
             }

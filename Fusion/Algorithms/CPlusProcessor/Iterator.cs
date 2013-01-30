@@ -29,6 +29,8 @@ namespace CPlusProcessor
 
         private static bool m_isBadInitBlowinByCO;
 
+        private static double m_lastCarbon;
+
         public static void Init()
         {
             m_matrixTotal = new List<MFCPData>();
@@ -54,6 +56,7 @@ namespace CPlusProcessor
             IntegralCO = 0;
             IntegralCO2 = 0;
             OffGasV = 320001;
+            m_lastCarbon = 0;
         }
 
         public static void Iterate()
@@ -76,7 +79,9 @@ namespace CPlusProcessor
                     CurrentState.TimeFromX += IntervalSec;
                     CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
 
-                    PushCarbon(CurrentState.SteelCarbonPercentCalculated); // fire flex
+                    if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
+
+                    PushCarbon(m_lastCarbon); // fire flex
                     
                     Console.CursorTop = Console.CursorTop - 1;
                     Console.WriteLine("                                                   ");
@@ -230,8 +235,8 @@ namespace CPlusProcessor
             //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
                    //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
