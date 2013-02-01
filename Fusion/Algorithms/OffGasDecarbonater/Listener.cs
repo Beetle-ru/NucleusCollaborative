@@ -20,13 +20,15 @@ namespace OffGasDecarbonater
         private static double m_carbonOxideVolumePercentPrevious;
         private static double m_lastScrapMass;
         private static double m_lastHotIronMass;
+        private static double m_lastHotIronCarbon;
         private static int m_lanceHeigth;
         public Listener()
         {
             m_carbonMonoxideVolumePercentPrevious = 0.0;
             m_carbonOxideVolumePercentPrevious = 0.0;
             m_lastHotIronMass = 300000.1135;
-            m_lastScrapMass = 150000.1135;
+            m_lastScrapMass = 110000.1135;
+            m_lastHotIronCarbon = 4.5;
             m_lanceHeigth = Int32.MaxValue;
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
@@ -64,6 +66,21 @@ namespace OffGasDecarbonater
                             l.msg(
                                 "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
                                 CIterator.HeatNumber, fxe.Arguments["SHEATNO"]
+                                );
+                    }
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(CIterator.HeatNumber)))
+                        {
+                            l.msg(fxe.ToString());
+                            m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                            m_lastHotIronCarbon = Convert.ToDouble(fxe.Arguments["ANA_C"]);
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumberToLong(CIterator.HeatNumber), fxe.Arguments["HEAT_NO"]
                                 );
                     }
                 }
@@ -167,6 +184,7 @@ namespace OffGasDecarbonater
                     CIterator.DataCurrentHeat = CIterator.DataSmoothCurrent.GetHeatData(CIterator.DataCurrentHeat, CIterator.PeriodSec);
                     CIterator.DataCurrentHeat.IronMass = m_lastHotIronMass;
                     CIterator.DataCurrentHeat.ScrapMass = m_lastScrapMass;
+                    CIterator.DataCurrentHeat.IronCarbonPercent = m_lastHotIronCarbon;
                     //CIterator.Iterate(CIterator.DataCurrentHeat);
                     l.msg("Iterate");
                     l.msg("[Heat number: {0}][Carbone calculation percent: {1}][Carbone calculation mass: {2}]",

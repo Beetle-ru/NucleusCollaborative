@@ -34,13 +34,15 @@ namespace OffGasDecarbonater
             }
 
             CIterator.Init();
-            CIterator.IterateTimer.Elapsed += new ElapsedEventHandler(CIterator.IterateTimeOut);
-            CIterator.IterateTimer.Enabled = true;
+            
 
             var o = new HeatChangeEvent();
             PushGate = new Client();
             m_listenGate = new Client(new Listener());
             m_listenGate.Subscribe();
+
+            CIterator.IterateTimer.Elapsed += new ElapsedEventHandler(CIterator.IterateTimeOut);
+            CIterator.IterateTimer.Enabled = true;
 
             Console.WriteLine("Carbone processor is running, press enter to exit");
             Console.ReadLine();

@@ -29,6 +29,8 @@ namespace CPlusProcessor
 
         private static bool m_isBadInitBlowinByCO;
 
+        private static double m_lastCarbon;
+
         public static void Init()
         {
             m_matrixTotal = new List<MFCPData>();
@@ -54,6 +56,7 @@ namespace CPlusProcessor
             IntegralCO = 0;
             IntegralCO2 = 0;
             OffGasV = 320001;
+            m_lastCarbon = 0;
         }
 
         public static void Iterate()
@@ -76,7 +79,9 @@ namespace CPlusProcessor
                     CurrentState.TimeFromX += IntervalSec;
                     CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
 
-                    PushCarbon(CurrentState.SteelCarbonPercentCalculated); // fire flex
+                    if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
+
+                    PushCarbon(m_lastCarbon); // fire flex
                     
                     Console.CursorTop = Console.CursorTop - 1;
                     Console.WriteLine("                                                   ");
@@ -107,7 +112,7 @@ namespace CPlusProcessor
         static public void FireFixEvent()
         {
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
-            fex.Fire(Program.MainGate);// !!! временно выключен для временного перехода на старый углерод
+            fex.Fire(Program.MainGate);
             Console.WriteLine(fex.evt + "\n");
         }
 
@@ -118,7 +123,7 @@ namespace CPlusProcessor
 
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
             fex.AddArg("C", carbon);
-            fex.Fire(Program.MainGate); //!!! временно выключен для временного перехода на старый углерод
+            fex.Fire(Program.MainGate); 
         }
         static public void EnqueueWaitC()
         {
@@ -230,12 +235,12 @@ namespace CPlusProcessor
             //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
+                   //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
                    (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
                    //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
-                   (HDSmoother.LanceHeigth.Average(PeriodSec) >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+                   (HDSmoother.LanceHeigth >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
             //(IntegralCO > Program.COMin) && // проверка на интегральный CO
             //(IntegralCO < Program.COMax);
         }
@@ -296,8 +301,10 @@ namespace CPlusProcessor
         public RollingAverage CO;
         //public RollingAverage COPrevious;
         public RollingAverage CO2;
-        public RollingAverage LanceHeigth;
-        public RollingAverage LanceHeigthPrevious;
+        //public RollingAverage LanceHeigth;
+        //public RollingAverage LanceHeigthPrevious;
+        public double LanceHeigth;
+        public double LanceHeigthPrevious;
         //public RollingAverage Oxygen;
         public double Oxygen;
         public bool HeatIsStarted;
@@ -307,8 +314,10 @@ namespace CPlusProcessor
             CO = new RollingAverage(lengthBuff);
            // COPrevious = new RollingAverage(lengthBuff);
             CO2 = new RollingAverage(lengthBuff);
-            LanceHeigth = new RollingAverage(lengthBuff);
-            LanceHeigthPrevious = new RollingAverage(lengthBuff);
+            //LanceHeigth = new RollingAverage(lengthBuff);
+            //LanceHeigthPrevious = new RollingAverage(lengthBuff);
+            LanceHeigth = 0;
+            LanceHeigthPrevious = 0;
             //Oxygen = new RollingAverage(lengthBuff);
             Oxygen = 0.0;
             HeatIsStarted = false;

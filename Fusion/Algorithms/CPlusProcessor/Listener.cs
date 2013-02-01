@@ -45,8 +45,10 @@ namespace CPlusProcessor
                     var le = evt as LanceEvent;
                     //Iterator.HDSmoother.Oxygen.Add(le.O2TotalVol);
                     Iterator.HDSmoother.Oxygen = le.O2TotalVol;
-                    Iterator.HDSmoother.LanceHeigth.Add(le.LanceHeight);
-                    Iterator.HDSmoother.LanceHeigthPrevious.Add(LanceHeithPrevious);
+                    //Iterator.HDSmoother.LanceHeigth.Add(le.LanceHeight);
+                    Iterator.HDSmoother.LanceHeigth = le.LanceHeight;
+                    //Iterator.HDSmoother.LanceHeigthPrevious.Add(LanceHeithPrevious);
+                    Iterator.HDSmoother.LanceHeigthPrevious = LanceHeithPrevious;
                     LanceHeithPrevious = le.LanceHeight;
                 }
                 if (evt is BlowingEvent)

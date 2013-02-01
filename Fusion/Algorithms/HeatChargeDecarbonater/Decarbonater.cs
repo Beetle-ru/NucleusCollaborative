@@ -17,16 +17,16 @@ namespace HeatCharge
             double SteelCarbonPercent
             )
         {
-            return IronMass*IronCarbonPercent*0.01 +
-                   ScrapMass*ScrapCarbonPercent*0.01;// -
-                //0.88 * (IronMass + ScrapMass) * SteelCarbonPercent * 0.01
+            return (IronMass * IronCarbonPercent * 0.01 +
+                   ScrapMass * ScrapCarbonPercent * 0.01) * 1.14;//
+                   //0.88*(IronMass + ScrapMass);
             //;
         }
         public static double GasanCarbonMass(
             double CarbonMonoxideVolumePercent,
             double OffgasVolumeRate, 
             double DeltaT = 15.0,
-            double Kgasan = 0.6357
+            double Kgasan = 0.8
             )
         {
             var offgasVolumeRatePerSec = OffgasVolumeRate / 3600;

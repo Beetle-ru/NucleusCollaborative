@@ -11,7 +11,7 @@ namespace NeuralProcessorC
 {
     internal static class CIterator
     {
-        public const int PeriodSec = 15; // время сглаживания
+        public const int PeriodSec = 5; // время сглаживания
         private static Stopwatch m_sw;
         public static Timer IterateTimer;
         private static int m_maxDownLancePosition;
@@ -28,6 +28,7 @@ namespace NeuralProcessorC
         public static MFCMDataFull CurrentHeatResult { set; get; }
         public static HeatData DataCurrentHeat { set; get; }
         public static HeatDataSmoother DataSmoothCurrent { set; get; }
+        public static bool ModelIsStarted;
 
         public static void Init()
         {
@@ -46,9 +47,10 @@ namespace NeuralProcessorC
             TotalCarbonMassCalculated = false;
             GasCarbonMassFinished = false;
             m_noFixData = true;
+            ModelIsStarted = false;
         }
 
-        public static void StartHeating()
+        public static void Reset()
         {
             Init();
             FirstHeating = false;
@@ -82,22 +84,54 @@ namespace NeuralProcessorC
                         CurrentHeatResult.HeightLanceCentimeters = heatData.HeightLanceCentimeters;
                         EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
                         //Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
+                        FireFixEvent();
                         m_noFixData = false;
                     }
                 }
 
-
+                ModelIsStarted = ModelVerifiForStart(heatData.OxygenVolumeCurrent, heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent);
+                if (ModelIsStarted) FireStartEvent();
                 calculatedCarboneEvent.model = "Complex neural Model";
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
                 calculatedCarboneEvent.CarboneMass = RemainCarbonMass;
                 var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.Calc");
-                fex.AddArg("TypeNeural", "8 non linear");
+                fex.AddArg("TypeNeural", "non linear");
                 fex.AddArg("C", RemainCarbonPercent);
                 fex.Fire(Program.PushGate);
-                l.msg("fired carbon:\n{0}",fex.evt.ToString());
+
+                FireResultCarbonEvent();
+
+                //l.msg("fired carbon:\n{0}",fex.evt.ToString());
                 //Program.PushGate.PushEvent(calculatedCarboneEvent);
                 //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
             }
+        }
+        static public void FireResultCarbonEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.Result");
+            fex.AddArg("C", RemainCarbonPercent);
+            fex.Fire(Program.PushGate);
+            Console.WriteLine(fex.evt + "\n");
+        }
+        static public void FireStartEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.ModelIsStarted");
+            fex.Fire(Program.PushGate);
+            Console.WriteLine(fex.evt + "\n");
+        }
+        static public void FireFixEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.DataFix");
+            fex.Fire(Program.PushGate);
+            Console.WriteLine(fex.evt + "\n");
+        }
+
+        private static bool ModelVerifiForStart(double oxygen, double co, double co2)
+        {
+            const double oxygenTreshol = 16000;
+            return (!ModelIsStarted) &&
+                   (oxygen >= oxygenTreshol) &&
+                   (co2 >= co);
         }
 
         public static void HardFixData(MFCMDataFull currentHeatResult)
