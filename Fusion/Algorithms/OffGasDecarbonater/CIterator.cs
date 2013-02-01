@@ -318,7 +318,7 @@ namespace OffGasDecarbonater
             CarbonOxideVolumePercent = 0.0;
             OffgasVolumeRate = 0.0;                    
             DeltaT = 1.0;
-            Kgasan = 0.85;
+            Kgasan = 0.8;
             HeightLanceCentimeters = 0;
             OxygenVolumeRate = 0.0;
             OxygenVolumeCurrent = 0.0;

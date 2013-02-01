@@ -227,19 +227,21 @@ namespace CPlusProcessor
         {
             const int maxDownPosition = 255;
             const int minDownPosition = 190;
-            const int LanceFixPositionTreshold = 340;
+            const int LanceFixPositionTreshold = 330;
             const int lanceSpeed = 5; // + up , - down
             const double carbonMonoxideTreshol = 30.0; //%
             const double carbonOxideTreshol = 5.0; //%
+            const int oxigenTreshold = 17000;
 
             //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
 
             return (!m_dataIsFixed) &&
                    //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
                    //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
-                   (HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
-                   (HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
+                   //(HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
+                   //(HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
                    //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
+                   (HDSmoother.Oxygen > oxigenTreshold) &&
                    (HDSmoother.LanceHeigth >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
             //(IntegralCO > Program.COMin) && // проверка на интегральный CO
             //(IntegralCO < Program.COMax);

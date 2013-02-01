@@ -13,7 +13,7 @@ namespace CarbonVisualizer
         public double Carbon;
         public int LancePos;
         public double OxygenPercent;
-        public static double CarbonMonoxideVolumePercent;
+        public static double CarbonMonoxideVolumePercent, CarbonOxideVolumePercent;
         public static RollingAverage CarbonMonoxideVolumePercentSmooth;
         public static double OxigenVoluemeRate;
         public Listener()
@@ -63,6 +63,7 @@ namespace CarbonVisualizer
                 {
                     var offGas = newEvent as OffGasAnalysisEvent;
                     CarbonMonoxideVolumePercent = offGas.CO;
+                    CarbonOxideVolumePercent = offGas.CO2;
                     //CarbonMonoxideVolumePercentSmooth.Add(CarbonMonoxideVolumePercent);
                 }
 
@@ -86,10 +87,12 @@ namespace CarbonVisualizer
                         Program.MainWindow.Curves[0].AddPoint((float)OxygenPercent, (float)(Carbon*25));
                         Program.MainWindow.Curves[1].AddPoint((float)OxygenPercent, (float)(LancePos * 0.1)); // / 2000 * 100
                         Program.MainWindow.Curves[4].AddPoint((float)OxygenPercent, (float)(CarbonMonoxideVolumePercent));
+                        Program.MainWindow.Curves[5].AddPoint((float)OxygenPercent, (float)(CarbonOxideVolumePercent));
                         //Program.MainWindow.Curves[4].AddPoint((float)OxygenPercent, (float)(CarbonMonoxideVolumePercentSmooth.Average(5)));
                         Program.MainWindow.CarbonCurrent = Carbon;
                         Program.MainWindow.LancePos = LancePos;
                         Program.MainWindow.CarbonMonoxideVolumePercent = CarbonMonoxideVolumePercent;
+                        Program.MainWindow.CarbonOxideVolumePercent = CarbonOxideVolumePercent;
                         Program.MainWindow.Redraw();
                     }));
                 }

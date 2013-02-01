@@ -30,14 +30,14 @@
         {
             this.pbGraph = new System.Windows.Forms.PictureBox();
             this.splitMain = new System.Windows.Forms.SplitContainer();
+            this.lblCO = new System.Windows.Forms.Label();
             this.lblLancePosition = new System.Windows.Forms.Label();
             this.lblCarbon = new System.Windows.Forms.Label();
-            this.lblFixDataMFactorMText = new System.Windows.Forms.Label();
-            this.lblSubLanceStartText = new System.Windows.Forms.Label();
+            this.lblCOText = new System.Windows.Forms.Label();
             this.lblLancePositionText = new System.Windows.Forms.Label();
             this.lblCarbonText = new System.Windows.Forms.Label();
-            this.lblCOText = new System.Windows.Forms.Label();
-            this.lblCO = new System.Windows.Forms.Label();
+            this.lblCO2Text = new System.Windows.Forms.Label();
+            this.lblCO2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitMain)).BeginInit();
             this.splitMain.Panel1.SuspendLayout();
@@ -69,17 +69,28 @@
             // splitMain.Panel2
             // 
             this.splitMain.Panel2.BackColor = System.Drawing.Color.Maroon;
+            this.splitMain.Panel2.Controls.Add(this.lblCO2);
             this.splitMain.Panel2.Controls.Add(this.lblCO);
             this.splitMain.Panel2.Controls.Add(this.lblLancePosition);
             this.splitMain.Panel2.Controls.Add(this.lblCarbon);
-            this.splitMain.Panel2.Controls.Add(this.lblFixDataMFactorMText);
-            this.splitMain.Panel2.Controls.Add(this.lblSubLanceStartText);
+            this.splitMain.Panel2.Controls.Add(this.lblCO2Text);
             this.splitMain.Panel2.Controls.Add(this.lblCOText);
             this.splitMain.Panel2.Controls.Add(this.lblLancePositionText);
             this.splitMain.Panel2.Controls.Add(this.lblCarbonText);
             this.splitMain.Size = new System.Drawing.Size(911, 491);
             this.splitMain.SplitterDistance = 447;
             this.splitMain.TabIndex = 1;
+            // 
+            // lblCO
+            // 
+            this.lblCO.AutoSize = true;
+            this.lblCO.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCO.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblCO.Location = new System.Drawing.Point(503, 13);
+            this.lblCO.Name = "lblCO";
+            this.lblCO.Size = new System.Drawing.Size(58, 18);
+            this.lblCO.TabIndex = 0;
+            this.lblCO.Text = "0,0000";
             // 
             // lblLancePosition
             // 
@@ -103,27 +114,16 @@
             this.lblCarbon.TabIndex = 0;
             this.lblCarbon.Text = "0,0000";
             // 
-            // lblFixDataMFactorMText
+            // lblCOText
             // 
-            this.lblFixDataMFactorMText.AutoSize = true;
-            this.lblFixDataMFactorMText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblFixDataMFactorMText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblFixDataMFactorMText.Location = new System.Drawing.Point(722, 13);
-            this.lblFixDataMFactorMText.Name = "lblFixDataMFactorMText";
-            this.lblFixDataMFactorMText.Size = new System.Drawing.Size(186, 18);
-            this.lblFixDataMFactorMText.TabIndex = 0;
-            this.lblFixDataMFactorMText.Text = "Fix data M factor model";
-            // 
-            // lblSubLanceStartText
-            // 
-            this.lblSubLanceStartText.AutoSize = true;
-            this.lblSubLanceStartText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSubLanceStartText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblSubLanceStartText.Location = new System.Drawing.Point(589, 13);
-            this.lblSubLanceStartText.Name = "lblSubLanceStartText";
-            this.lblSubLanceStartText.Size = new System.Drawing.Size(116, 18);
-            this.lblSubLanceStartText.TabIndex = 0;
-            this.lblSubLanceStartText.Text = "Sublance start";
+            this.lblCOText.AutoSize = true;
+            this.lblCOText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCOText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblCOText.Location = new System.Drawing.Point(440, 13);
+            this.lblCOText.Name = "lblCOText";
+            this.lblCOText.Size = new System.Drawing.Size(57, 18);
+            this.lblCOText.TabIndex = 0;
+            this.lblCOText.Text = "CO% :";
             // 
             // lblLancePositionText
             // 
@@ -147,27 +147,27 @@
             this.lblCarbonText.TabIndex = 0;
             this.lblCarbonText.Text = "Carbone %:";
             // 
-            // lblCOText
+            // lblCO2Text
             // 
-            this.lblCOText.AutoSize = true;
-            this.lblCOText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCOText.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblCOText.Location = new System.Drawing.Point(440, 13);
-            this.lblCOText.Name = "lblCOText";
-            this.lblCOText.Size = new System.Drawing.Size(57, 18);
-            this.lblCOText.TabIndex = 0;
-            this.lblCOText.Text = "CO% :";
+            this.lblCO2Text.AutoSize = true;
+            this.lblCO2Text.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCO2Text.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblCO2Text.Location = new System.Drawing.Point(588, 13);
+            this.lblCO2Text.Name = "lblCO2Text";
+            this.lblCO2Text.Size = new System.Drawing.Size(66, 18);
+            this.lblCO2Text.TabIndex = 0;
+            this.lblCO2Text.Text = "CO2% :";
             // 
-            // lblCO
+            // lblCO2
             // 
-            this.lblCO.AutoSize = true;
-            this.lblCO.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblCO.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblCO.Location = new System.Drawing.Point(503, 13);
-            this.lblCO.Name = "lblCO";
-            this.lblCO.Size = new System.Drawing.Size(58, 18);
-            this.lblCO.TabIndex = 0;
-            this.lblCO.Text = "0,0000";
+            this.lblCO2.AutoSize = true;
+            this.lblCO2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblCO2.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.lblCO2.Location = new System.Drawing.Point(651, 13);
+            this.lblCO2.Name = "lblCO2";
+            this.lblCO2.Size = new System.Drawing.Size(58, 18);
+            this.lblCO2.TabIndex = 0;
+            this.lblCO2.Text = "0,0000";
             // 
             // Graph
             // 
@@ -194,11 +194,11 @@
         private System.Windows.Forms.Label lblCarbon;
         private System.Windows.Forms.Label lblCarbonText;
         private System.Windows.Forms.Label lblLancePosition;
-        private System.Windows.Forms.Label lblSubLanceStartText;
         private System.Windows.Forms.Label lblLancePositionText;
-        private System.Windows.Forms.Label lblFixDataMFactorMText;
         private System.Windows.Forms.Label lblCO;
         private System.Windows.Forms.Label lblCOText;
+        private System.Windows.Forms.Label lblCO2;
+        private System.Windows.Forms.Label lblCO2Text;
     }
 }
 

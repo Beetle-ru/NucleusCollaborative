@@ -17,7 +17,7 @@ namespace CarbonVisualizer
     {
         private System.Threading.Timer m_onLoad;
         public List<Implements.Curve> Curves;
-        public double CarbonCurrent, LancePos, CarbonMonoxideVolumePercent;
+        public double CarbonCurrent, LancePos, CarbonMonoxideVolumePercent, CarbonOxideVolumePercent;
         public SimpleGrp PaintGraphs;
         private bool bpIsCreated ;
         private ConnectionProvider.Client m_listenGate;
@@ -29,11 +29,13 @@ namespace CarbonVisualizer
             Curves.Add(new Implements.Curve());
             Curves.Add(new Implements.Curve());
             Curves.Add(new Implements.Curve());
+            Curves.Add(new Implements.Curve());
             Curves[0].ColorCurve = Color.Yellow;
             Curves[1].ColorCurve = Color.Magenta;
             Curves[2].ColorCurve = Color.DodgerBlue;
             Curves[3].ColorCurve = Color.LimeGreen;
             Curves[4].ColorCurve = Color.Blue;
+            Curves[5].ColorCurve = Color.DarkGreen;
             //Curves[0].AddPoint(10, 10);
             //for (int i = 0; i < 100; i++)
             //{
@@ -100,11 +102,18 @@ namespace CarbonVisualizer
                 lblCO.Text = Math.Round(CarbonMonoxideVolumePercent, 5).ToString();
                 lblCO.ForeColor = Curves[4].ColorCurve;
                 lblCOText.ForeColor = Curves[4].ColorCurve;
+
+                lblCO2.Text = Math.Round(CarbonOxideVolumePercent, 5).ToString();
+                lblCO2.ForeColor = Curves[5].ColorCurve;
+                lblCO2Text.ForeColor = Curves[5].ColorCurve;
                 
-                lblSubLanceStartText.ForeColor = Curves[2].ColorCurve;
-                
-                lblFixDataMFactorMText.ForeColor = Curves[3].ColorCurve;
+
             }
+        }
+
+        private void lblSubLanceStartText_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
