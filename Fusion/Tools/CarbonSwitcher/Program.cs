@@ -15,6 +15,10 @@ namespace CarbonSwitcher
         public const int SupportModels = 4;
         public static Conf Cfg;
         public static Configuration MainConf;
+        public static double KFirst; // K первого углерода для плавного перехода
+        public static double KSecond; // K второго углерода для плавного перехода
+        public const double SwitchSpeed = 0.2; // скорость плавного перехода
+        public static int LastIterateSecond;
         static void Main(string[] args)
         {
             Init();
@@ -43,15 +47,37 @@ namespace CarbonSwitcher
             {
                 ModelList.Add(new Models());
             }
+
+            KFirst = 1; // сначала показываем первую модель
+            KSecond = 1 - KFirst;
+            LastIterateSecond = 0;
         }
 
         public static void Iterate()
         {
+            //var currentS2 = DateTime.Now.Second;
+            //Console.WriteLine("now = {0}; last = {2}; delta = {1}", currentS2, Math.Abs(LastIterateSecond - currentS2), LastIterateSecond);
+            //if (Math.Abs(LastIterateSecond - currentS2) >= 1)
+            //{
+            //    LastIterateSecond = currentS2;
+            //    Console.Write("#");
+            //}
             if (ModelList[Cfg.SecondModel].IsStarted)
             {
                 if (!ModelList[Cfg.SecondModel].IsFixed)
                 {
-                    FireCarbon(ModelList[Cfg.SecondModel].C);
+                    //FireCarbon(ModelList[Cfg.SecondModel].C);
+                    FireCarbon(ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond);
+                    KSecond = 1 - KFirst;
+                    var currentSecond = DateTime.Now.Second;
+                    if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
+                    {
+                        LastIterateSecond = currentSecond;
+                        if (KFirst > 0) KFirst -= SwitchSpeed;
+                        else KFirst = 0;
+                        //Console.Write("#");
+                    }
+                    
                 }
                 else
                 {
@@ -66,6 +92,7 @@ namespace CarbonSwitcher
             else
             {
                 FireCarbon(ModelList[Cfg.FirstModel].C);
+                KFirst = 1;
             }
         }
 

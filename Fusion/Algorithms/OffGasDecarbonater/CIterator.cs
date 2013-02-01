@@ -14,7 +14,7 @@ namespace OffGasDecarbonater
     static class CIterator
     {
         private static Stopwatch m_sw;
-        public const int PeriodSec = 15; // время сглаживания
+        public const int PeriodSec = 5; // время сглаживания
         public const int IntervalSec = 1; // время сглаживания
         public static Timer IterateTimer = new Timer(IntervalSec * 1000);
         public static double TotalCarbonMass                    { set; get; }
@@ -234,6 +234,7 @@ namespace OffGasDecarbonater
                            (scrapMass - (scrapMass*scrapCarbonPercent*0.01));
             if (ferumMass > 0.0)
             {
+                //return (carbonMass/(ironMass + scrapMass)*0.88)*100;
                 return carbonMass/ferumMass*100;
             }
             else
@@ -307,17 +308,17 @@ namespace OffGasDecarbonater
         public HeatData()
         {
             IronMass = 300000.1133; //!!!!!!!!!!!!!!!!!
-            IronCarbonPercent = 4.1133; //!!!!!!!!!!!!!!!!!!!!!!!
-            ScrapMass = 150000.0; //!!!!!!!!!!!!!!!!!!!!!                     
+            IronCarbonPercent = 4.5; //!!!!!!!!!!!!!!!!!!!!!!!
+            ScrapMass = 110000.0; //!!!!!!!!!!!!!!!!!!!!!                     
             //ScrapMass = 0.0;
-            ScrapCarbonPercent = 0.21;
+            ScrapCarbonPercent = 0.2;
             //SteelCarbonPercent = 0.04;
             SteelCarbonPercent = 0.055;
             CarbonMonoxideVolumePercent = 0.0;
             CarbonOxideVolumePercent = 0.0;
             OffgasVolumeRate = 0.0;                    
             DeltaT = 1.0;
-            Kgasan = 0.6357;
+            Kgasan = 0.85;
             HeightLanceCentimeters = 0;
             OxygenVolumeRate = 0.0;
             OxygenVolumeCurrent = 0.0;
