@@ -19,6 +19,7 @@ namespace CSVArchPlayer
         public static char Separator = ';';
         private static Timer m_timer;
         private static int m_position;
+        private static int m_step;
         public static List<HeatData> HDataList;
         public static ConnectionProvider.Client MainGate;
         private static double m_totalO2;
@@ -70,7 +71,14 @@ namespace CSVArchPlayer
             {
                 return;
             }
-            Console.WriteLine("press any key for exit");
+            while (true)
+            {
+                if ('p' == Console.ReadKey().KeyChar)
+                {
+                    m_timer.Enabled ^= true;
+                    Console.WriteLine(m_timer.Enabled ? "lay" : "ause");
+                }
+            }
             Console.ReadLine();
         }
 
@@ -80,7 +88,7 @@ namespace CSVArchPlayer
             if (m_vPathIsOutput)
             {
                 Console.WriteLine(
-                    "{0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0} " +
+                    "{17:0000}: {0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0} " +
                     "| {9:0000} | {10:0000} | {11:0000} | {12:0000} | {13:0000} | {14:0000} | {15:0000} | {16:0000}",
                     m_totalO2,
                     HDataList[m_position].HeightLance,
@@ -98,14 +106,15 @@ namespace CSVArchPlayer
                     HDataList[m_position].Bunkers.RB9,
                     HDataList[m_position].Bunkers.RB10,
                     HDataList[m_position].Bunkers.RB11,
-                    HDataList[m_position].Bunkers.RB12
+                    HDataList[m_position].Bunkers.RB12,
+                    ++m_step
                 );
                 m_vPathDataLast = HDataList[m_position].Bunkers;
             }
             else
             {
                 Console.WriteLine(
-                    "{0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0}",
+                    "{9:0000}: {0:00000} > {1:000} | {2:0000.0} | {3:00.0} | {4:00.0} | {5:00.0} | {6:00.0} | {7:00.0} | {8:00.0}",
                     m_totalO2,
                     HDataList[m_position].HeightLance,
                     HDataList[m_position].RateO2,
@@ -114,7 +123,8 @@ namespace CSVArchPlayer
                     HDataList[m_position].CO,
                     HDataList[m_position].CO2,
                     HDataList[m_position].N2,
-                    HDataList[m_position].Ar
+                    HDataList[m_position].Ar,
+                    ++m_step
                 );
             }
             var le = new LanceEvent();
