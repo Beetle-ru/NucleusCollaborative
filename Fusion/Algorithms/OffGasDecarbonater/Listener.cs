@@ -73,6 +73,7 @@ namespace OffGasDecarbonater
                         {
                             l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
                             m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000;
+                            CIterator.DataCurrentHeat.IronMass = m_lastHotIronMass;
                         }
                         else
                             l.msg(
@@ -88,6 +89,8 @@ namespace OffGasDecarbonater
                             l.msg(fxe.ToString());
                             m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
                             m_lastHotIronCarbon = VerifyHICP(Convert.ToDouble(fxe.Arguments["ANA_C"]));
+                            CIterator.DataCurrentHeat.IronMass = m_lastHotIronMass;
+                            CIterator.DataCurrentHeat.IronCarbonPercent = m_lastHotIronCarbon;
                         }
                         else
                             l.msg(
@@ -101,21 +104,23 @@ namespace OffGasDecarbonater
                 {
                     var heatChangeEvent = newEvent as HeatChangeEvent;
 
-                    if (CIterator.FirstHeating)
+                    if (CIterator.HeatNumber != heatChangeEvent.HeatNumber)
                     {
-                        CIterator.StartHeating();
-                        l.msg("Start First Heating");
+                        if (CIterator.FirstHeating)
+                        {
+                            CIterator.StartHeating();
+                            l.msg("Start First Heating");
+                        }
+                        else
+                        {
+                            //CIterator.ResetHeating(CIterator.CurrentHeatResult); // y
+                            CIterator.StartHeating();
+                            Reset();
+                            l.msg("Reset Heating");
+                        }
+                        CIterator.HeatNumber = heatChangeEvent.HeatNumber;
+                        l.msg("Number Heat: {0}", CIterator.HeatNumber);
                     }
-                    else
-                    {
-                        //CIterator.ResetHeating(CIterator.CurrentHeatResult); // y
-                        CIterator.StartHeating();
-                        Reset();
-                        l.msg("Reset Heating");
-                    }
-
-                    CIterator.HeatNumber = heatChangeEvent.HeatNumber;
-                    l.msg("Number Heat: {0}", CIterator.HeatNumber);
                 }
                 //if (newEvent is SublanceCEvent) // на будущее из другого места брать углерод
                 //{
@@ -135,34 +140,35 @@ namespace OffGasDecarbonater
                     {
                         CIterator.DataCurrentHeat.ScrapMass = scrapEvent.TotalWeight;
                         m_lastScrapMass = scrapEvent.TotalWeight;
+                        CIterator.DataCurrentHeat.ScrapMass = m_lastScrapMass;
                         l.msg("Scrap mass: {0}", CIterator.DataCurrentHeat.ScrapMass);
                     }
                 }
-                if (newEvent is MixerAnalysisEvent)
-                {
-                    var mixerAnalysisEvent = newEvent as MixerAnalysisEvent;
-                    CIterator.DataCurrentHeat.IronCarbonPercent = mixerAnalysisEvent.C;
-                    l.msg("Iron carbon Percent: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
-                    if (CIterator.DataCurrentHeat.IronCarbonPercent <= 0)
-                    {
-                        CIterator.DataCurrentHeat.IronCarbonPercent = CIterator.DefHotIronCarbonPercent;
-                        l.err("Iron carbon Percent is bad, default value: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
-                    }
-                }
-                if (newEvent is HotMetalLadleEvent)
-                {
-                    var hotMetalLadleEvent = newEvent as HotMetalLadleEvent;
-                    if (hotMetalLadleEvent.ConverterNumber == Program.ConverterNumber)
-                    {
-                        CIterator.DataCurrentHeat.IronMass = hotMetalLadleEvent.HotMetalTotalWeight;
-                        l.msg("Iron mass: {0}", CIterator.DataCurrentHeat.IronMass);
-                        if (CIterator.DataCurrentHeat.IronMass <= 0)
-                        {
-                            CIterator.DataCurrentHeat.IronMass = CIterator.DefHotIronMass;
-                            l.err("Iron mass is bad, default value: {0}", CIterator.DataCurrentHeat.IronMass);
-                        }
-                    }
-                }
+                //if (newEvent is MixerAnalysisEvent)
+                //{
+                //    var mixerAnalysisEvent = newEvent as MixerAnalysisEvent;
+                //    CIterator.DataCurrentHeat.IronCarbonPercent = mixerAnalysisEvent.C;
+                //    l.msg("Iron carbon Percent: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
+                //    if (CIterator.DataCurrentHeat.IronCarbonPercent <= 0)
+                //    {
+                //        CIterator.DataCurrentHeat.IronCarbonPercent = CIterator.DefHotIronCarbonPercent;
+                //        l.err("Iron carbon Percent is bad, default value: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
+                //    }
+                //}
+                //if (newEvent is HotMetalLadleEvent)
+                //{
+                //    var hotMetalLadleEvent = newEvent as HotMetalLadleEvent;
+                //    if (hotMetalLadleEvent.ConverterNumber == Program.ConverterNumber)
+                //    {
+                //        CIterator.DataCurrentHeat.IronMass = hotMetalLadleEvent.HotMetalTotalWeight;
+                //        l.msg("Iron mass: {0}", CIterator.DataCurrentHeat.IronMass);
+                //        if (CIterator.DataCurrentHeat.IronMass <= 0)
+                //        {
+                //            CIterator.DataCurrentHeat.IronMass = CIterator.DefHotIronMass;
+                //            l.err("Iron mass is bad, default value: {0}", CIterator.DataCurrentHeat.IronMass);
+                //        }
+                //    }
+                //}
                 if (newEvent is LanceEvent)
                 {
                     var lanceEvent = newEvent as LanceEvent;
