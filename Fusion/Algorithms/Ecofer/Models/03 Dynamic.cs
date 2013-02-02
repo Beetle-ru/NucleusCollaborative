@@ -323,7 +323,11 @@ namespace Models
             //mRunningType = RunningType.Simulation;
 
             // new Initialization
-            Initialization();
+            lock (((ICollection)mRequestQueue).SyncRoot)
+            {
+                Initialization();
+            }
+
 
             DateTime lStartTime = Data.Clock.Current.StartTime;
             DateTime lNow = Data.Clock.Current.ActualTime;
@@ -359,7 +363,7 @@ namespace Models
             }
 
             mRunningType = lPreviousRunningType;
-            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
+            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(mDeltaT_s), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
 
             mRecalcContext = false;
         }
