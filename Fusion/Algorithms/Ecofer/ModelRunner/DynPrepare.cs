@@ -267,8 +267,6 @@ NEXT_HEAT:
                         goto WAIT_END_OF_HEAT;
                     }
 
-                    aChargingData = MakeCharging(visTargetVal.evt, Listener.CurrWeight,
-                                                 ChargingReason.forRecalculation);
                     #region Define Oxygen Blowing Phases
 
                     // see listener::onEvent SteelMakingPattern
@@ -281,14 +279,16 @@ NEXT_HEAT:
                     Data.MINP.Phases = new Phases(aInputData.OxygenBlowingPhases);
                     Data.MINP.Phases.SwitchToNextPhase();
 
+                    aChargingData = MakeCharging(visTargetVal.evt, Listener.CurrWeight,
+                                                 ChargingReason.forRecalculation);
                     DynModel = new Dynamic(aInputData, 1, Dynamic.RunningType.RealTime);
-
                     foreach (var m in Listener.MatAdd)
                     {
-                        m.TimeProcessed = System.DateTime.Now; 
+                        m.TimeProcessed = System.DateTime.Now;
                         DynModel.EnqueueMaterialAdded(m);
                     }
                     Listener.MatAdd.Clear();
+
                     SimulationOxygenBlowing();
 
                     DynModel.PhaseChanged += (s, e) =>
@@ -514,21 +514,24 @@ WAIT_END_OF_HEAT:
             inp.Scraps[0] = matScrap.MINP_GD_Material;
             inp.Scraps_t[0] = (int) (matScrap.Amount_kg*0.001);
 
-            var matCoke = DynPrepare.AddCoke(weight["COKE"]);
-            inp.Coke = matCoke.MINP_GD_Material;
-            inp.Coke_kg = matCoke.Amount_kg;
+            if (reason == ChargingReason.forCharging)
+            {
+                var matCoke = DynPrepare.AddCoke(weight["COKE"]);
+                inp.Coke = matCoke.MINP_GD_Material;
+                inp.Coke_kg = matCoke.Amount_kg;
 
-            var matDolomite = DynPrepare.AddDolom(weight["DOLMAX"]);
-            inp.Dolomite = matDolomite.MINP_GD_Material;
-            inp.Dolomite_kg = matDolomite.Amount_kg;
+                var matDolomite = DynPrepare.AddDolom(weight["DOLMAX"]);
+                inp.Dolomite = matDolomite.MINP_GD_Material;
+                inp.Dolomite_kg = matDolomite.Amount_kg;
 
-            var matFOM = DynPrepare.AddFom(weight["FOM"]);
-            inp.FOM = matFOM.MINP_GD_Material;
-            inp.FOM_kg = matFOM.Amount_kg;
+                var matFOM = DynPrepare.AddFom(weight["FOM"]);
+                inp.FOM = matFOM.MINP_GD_Material;
+                inp.FOM_kg = matFOM.Amount_kg;
 
-            var matLime = DynPrepare.AddCaO(weight["LIME"]);
-            inp.Lime = matLime.MINP_GD_Material;
-            inp.Lime_kg = matLime.Amount_kg;
+                var matLime = DynPrepare.AddCaO(weight["LIME"]);
+                inp.Lime = matLime.MINP_GD_Material;
+                inp.Lime_kg = matLime.Amount_kg;
+            }
 
             if (reason == ChargingReason.forRecalculation)
             {
@@ -540,27 +543,13 @@ WAIT_END_OF_HEAT:
                 Data.MINP.MINP_MatAdds.Insert(0, matIron); aInputData.ChargedMaterials.Add(matIron);
                 Data.MINP.MINP_MatAdds.Insert(1, matScrap); aInputData.ChargedMaterials.Add(matScrap);
                 MINP.MINP_GD_ModelMaterials = new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
-                Data.MINP.MINP_MatAdds.Insert(2, matCoke); aInputData.ChargedMaterials.Add(matCoke);
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke,
-                                matCoke.MINP_GD_Material);
-                Data.MINP.MINP_MatAdds.Insert(3, matDolomite); aInputData.ChargedMaterials.Add(matDolomite);
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
-                                matDolomite.MINP_GD_Material);
-                Data.MINP.MINP_MatAdds.Insert(4, matFOM); aInputData.ChargedMaterials.Add(matFOM);
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM,
-                                matFOM.MINP_GD_Material);
-                Data.MINP.MINP_MatAdds.Insert(5, matLime); aInputData.ChargedMaterials.Add(matLime);
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO,
-                                matLime.MINP_GD_Material);
-                var matOdpr = AddOdprasky(3000);
-                inp.Odprasky = matOdpr.MINP_GD_Material; 
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky, matOdpr.MINP_GD_Material);
-                var matSlag = AddSlag(30000);
-                inp.StrStr = matSlag.MINP_GD_Material;
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag, matSlag.MINP_GD_Material);
-                var matSteel = AddSteel(420000);
-                inp.Steel = matSteel.MINP_GD_Material;
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel, matSteel.MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke, AddCoke(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite, AddDolom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM, AddFom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO, AddCaO(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky, AddOdprasky(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag, AddSlag(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel, AddSteel(0).MINP_GD_Material);
             }
             else
             {
