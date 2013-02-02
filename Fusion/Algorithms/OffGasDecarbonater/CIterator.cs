@@ -32,6 +32,11 @@ namespace OffGasDecarbonater
         private static int m_currentMatrix;
         private static bool m_noFixData;
 
+        public const double DefHotIronCarbonPercent = 4.5;
+        public const double DefScrapCarbonPercent = 0.2;
+        public const double DefHotIronMass = 300000.1133;
+        public const double DefScrapMass = 110000.0;
+
         public static long HeatNumber;
 
         static public void Init()
@@ -307,11 +312,11 @@ namespace OffGasDecarbonater
 
         public HeatData()
         {
-            IronMass = 300000.1133; //!!!!!!!!!!!!!!!!!
-            IronCarbonPercent = 4.5; //!!!!!!!!!!!!!!!!!!!!!!!
-            ScrapMass = 110000.0; //!!!!!!!!!!!!!!!!!!!!!                     
+            IronMass = CIterator.DefHotIronMass; //!!!!!!!!!!!!!!!!!
+            IronCarbonPercent = CIterator.DefHotIronCarbonPercent; //!!!!!!!!!!!!!!!!!!!!!!!
+            ScrapMass = CIterator.DefScrapMass; //!!!!!!!!!!!!!!!!!!!!!                     
             //ScrapMass = 0.0;
-            ScrapCarbonPercent = 0.2;
+            ScrapCarbonPercent = CIterator.DefScrapCarbonPercent;
             //SteelCarbonPercent = 0.04;
             SteelCarbonPercent = 0.055;
             CarbonMonoxideVolumePercent = 0.0;

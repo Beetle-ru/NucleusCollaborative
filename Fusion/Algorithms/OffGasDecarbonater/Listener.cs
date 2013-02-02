@@ -24,15 +24,27 @@ namespace OffGasDecarbonater
         private static int m_lanceHeigth;
         public Listener()
         {
-            m_carbonMonoxideVolumePercentPrevious = 0.0;
-            m_carbonOxideVolumePercentPrevious = 0.0;
-            m_lastHotIronMass = 300000.1135;
-            m_lastScrapMass = 110000.1135;
-            m_lastHotIronCarbon = 4.5;
-            m_lanceHeigth = Int32.MaxValue;
+            Reset();
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
+
+        public void Reset()
+        {
+            m_carbonMonoxideVolumePercentPrevious = 0.0;
+            m_carbonOxideVolumePercentPrevious = 0.0;
+            m_lastHotIronMass = CIterator.DefHotIronMass;
+            m_lastScrapMass = CIterator.DefScrapMass;
+            m_lastHotIronCarbon = CIterator.DefHotIronCarbonPercent;
+            m_lanceHeigth = Int32.MaxValue;
+        }
         
+        public double VerifyHICP(double carbon)
+        {
+            const double minCarbonTreshold = 3.5;
+            carbon = carbon < minCarbonTreshold ? CIterator.DefHotIronCarbonPercent : carbon;
+            return carbon;
+        }
+
         public Int64 HeatNumberToShort(Int64 heatNLong)
         {
             Int64 reminder = 0;
@@ -75,7 +87,7 @@ namespace OffGasDecarbonater
                         {
                             l.msg(fxe.ToString());
                             m_lastHotIronMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
-                            m_lastHotIronCarbon = Convert.ToDouble(fxe.Arguments["ANA_C"]);
+                            m_lastHotIronCarbon = VerifyHICP(Convert.ToDouble(fxe.Arguments["ANA_C"]));
                         }
                         else
                             l.msg(
@@ -98,6 +110,7 @@ namespace OffGasDecarbonater
                     {
                         //CIterator.ResetHeating(CIterator.CurrentHeatResult); // y
                         CIterator.StartHeating();
+                        Reset();
                         l.msg("Reset Heating");
                     }
 
@@ -132,7 +145,7 @@ namespace OffGasDecarbonater
                     l.msg("Iron carbon Percent: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
                     if (CIterator.DataCurrentHeat.IronCarbonPercent <= 0)
                     {
-                        CIterator.DataCurrentHeat.IronCarbonPercent = 4.1133;
+                        CIterator.DataCurrentHeat.IronCarbonPercent = CIterator.DefHotIronCarbonPercent;
                         l.err("Iron carbon Percent is bad, default value: {0}", CIterator.DataCurrentHeat.IronCarbonPercent);
                     }
                 }
@@ -145,7 +158,7 @@ namespace OffGasDecarbonater
                         l.msg("Iron mass: {0}", CIterator.DataCurrentHeat.IronMass);
                         if (CIterator.DataCurrentHeat.IronMass <= 0)
                         {
-                            CIterator.DataCurrentHeat.IronMass = 300000.1133;
+                            CIterator.DataCurrentHeat.IronMass = CIterator.DefHotIronMass;
                             l.err("Iron mass is bad, default value: {0}", CIterator.DataCurrentHeat.IronMass);
                         }
                     }
