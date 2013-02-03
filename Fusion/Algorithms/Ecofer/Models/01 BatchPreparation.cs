@@ -22,44 +22,44 @@ namespace Models
         {
             Data.Model.BatchPreparationOutput lOutputData = new Data.Model.BatchPreparationOutput();
 
-            float lSuma_podilu_SZ = 0;
-            float[] lStredni_SZ = new float[Global.MATERIALELEMENTS_COUNT];
-            float[] lPodil_SZ = new float[Global.HOTMETAL_COUNT];
-            float lSuma_podilu_SROT = 0;
-            float[] lStredni_Srot = new float[Global.MATERIALELEMENTS_COUNT];
-            float[] lPodil_Srot = new float[Global.SCRAPYARDS_COUNT];
+            double lSuma_podilu_SZ = 0;
+            double[] lStredni_SZ = new double[Global.MATERIALELEMENTS_COUNT];
+            double[] lPodil_SZ = new double[Global.HOTMETAL_COUNT];
+            double lSuma_podilu_SROT = 0;
+            double[] lStredni_Srot = new double[Global.MATERIALELEMENTS_COUNT];
+            double[] lPodil_Srot = new double[Global.SCRAPYARDS_COUNT];
 
-            float lm_SZ = 300000;
-            float lm_Srot = 10000;
-            float lKrok_m_Srot = Common.Global.Step_m_Scrap_kg;
+            double lm_SZ = 300000;
+            double lm_Srot = 10000;
+            double lKrok_m_Srot = Common.Global.Step_m_Scrap_kg;
 
-            float lH_SZ = 0;
-            float lH_Srot = 0;
-            float lm_SiO2 = 0;
-            float lm_MnO = 0;
-            float lm_Al2O3 = 0;
-            float lm_CaO = 0;
-            float lm_Struska = 0;
-            float lm_MgO = 0;
-            float lT_Struska = 0;
-            float lH_Struskotvorne = 0;
-            float lH_Struskotvorne_Vystup = 0;
-            float lm_FeO = 0;
-            float lm_Fe_k_oxidaci = 0;
+            double lH_SZ = 0;
+            double lH_Srot = 0;
+            double lm_SiO2 = 0;
+            double lm_MnO = 0;
+            double lm_Al2O3 = 0;
+            double lm_CaO = 0;
+            double lm_Struska = 0;
+            double lm_MgO = 0;
+            double lT_Struska = 0;
+            double lH_Struskotvorne = 0;
+            double lH_Struskotvorne_Vystup = 0;
+            double lm_FeO = 0;
+            double lm_Fe_k_oxidaci = 0;
 
-            float lH_Si_oxidace = 0;
-            float lH_Mn_oxidace = 0;
-            float lH_Al_oxidace = 0;
-            float lH_Fe_oxidace = 0;
-            float lH_C_oxidace = 0;
-            float lH_Koks = 0;
-            float lH_Vsazka = 0;
-            float lm_Ocel = 0;
-            float lH_Ocel = 0;
-            float lH_Odprasky = 0;
+            double lH_Si_oxidace = 0;
+            double lH_Mn_oxidace = 0;
+            double lH_Al_oxidace = 0;
+            double lH_Fe_oxidace = 0;
+            double lH_C_oxidace = 0;
+            double lH_Koks = 0;
+            double lH_Vsazka = 0;
+            double lm_Ocel = 0;
+            double lH_Ocel = 0;
+            double lH_Odprasky = 0;
 
-            float lm_Dolomite = 0;
-            float lm_Lime = 0;
+            double lm_Dolomite = 0;
+            double lm_Lime = 0;
 
             #region Initialization
             for (int i = 0; i < Global.HOTMETAL_COUNT; i++) lStredni_SZ[i] = 0;
@@ -86,7 +86,7 @@ namespace Models
 
                     if (lMaterialItem != null)
                     {
-                        lStredni_SZ[iElement] += lPodil_SZ[i] * (float)lMaterialItem.Amount_p;
+                        lStredni_SZ[iElement] += lPodil_SZ[i] * (double)lMaterialItem.Amount_p;
                     }
                 }
             }
@@ -111,7 +111,7 @@ namespace Models
 
                     if (lMaterialItem != null)
                     {
-                        lStredni_Srot[iElement] += lPodil_Srot[i] * (float)lMaterialItem.Amount_p;
+                        lStredni_Srot[iElement] += lPodil_Srot[i] * (double)lMaterialItem.Amount_p;
                     }
                 }
             }
@@ -123,14 +123,14 @@ namespace Models
             #endregion
 
             // temperatures - real x [69]
-            float lT_StredniSZ_69 = (mInputData.HotMetal_Temperature.HasValue && mInputData.HotMetal_Temperature.Value != 0) ? mInputData.HotMetal_Temperature.Value : lStredni_SZ[69];
-            float lT_StredniSrot_69 = (mInputData.Scrap_Temperature.HasValue && mInputData.Scrap_Temperature.Value != 0) ? mInputData.Scrap_Temperature.Value : lStredni_Srot[69];
-            float lT_Lime_69 = MINP.FP(mInputData.Lime, 69);
-            float lT_FOM_69 = MINP.FP(mInputData.FOM, 69);
-            float lT_S1_69 = MINP.FP(mInputData.S1, 69);
-            float lT_S2_69 = MINP.FP(mInputData.S2, 69);
-            float lT_Coke_69 = MINP.FP(mInputData.Coke, 69);
-            float lT_Dolomit_69 = MINP.FP(mInputData.Dolomite, 69);
+            double lT_StredniSZ_69 = (mInputData.HotMetal_Temperature.HasValue && mInputData.HotMetal_Temperature.Value != 0) ? mInputData.HotMetal_Temperature.Value : lStredni_SZ[69];
+            double lT_StredniSrot_69 = (mInputData.Scrap_Temperature.HasValue && mInputData.Scrap_Temperature.Value != 0) ? mInputData.Scrap_Temperature.Value : lStredni_Srot[69];
+            double lT_Lime_69 = MINP.FP(mInputData.Lime, 69);
+            double lT_FOM_69 = MINP.FP(mInputData.FOM, 69);
+            double lT_S1_69 = MINP.FP(mInputData.S1, 69);
+            double lT_S2_69 = MINP.FP(mInputData.S2, 69);
+            double lT_Coke_69 = MINP.FP(mInputData.Coke, 69);
+            double lT_Dolomit_69 = MINP.FP(mInputData.Dolomite, 69);
 
             bool lAmountEnough = false;
             bool lLastCalculationFinished = false;
@@ -185,12 +185,12 @@ namespace Models
                 #endregion
 
                 #region Výpočet strusky (R 56..61, R 31..35)
-                float lm_CaOX = lm_CaO
+                double lm_CaOX = lm_CaO
                     - mInputData.S1_kg * MINP.FP(mInputData.S1, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.S1, 67) / MINP.ConversionVector(67)
                     - mInputData.S2_kg * MINP.FP(mInputData.S2, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                     - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
                     - lm_SZ * lStredni_SZ[50] / MINP.ConversionVector(50) - lm_Srot * lStredni_Srot[50] / MINP.ConversionVector(50);
-                float lm_MgOX = lm_MgO
+                double lm_MgOX = lm_MgO
                     - mInputData.S1_kg * MINP.FP(mInputData.S1, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S1, 67) / MINP.ConversionVector(67)
                     - mInputData.S2_kg * MINP.FP(mInputData.S2, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                     - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
@@ -245,7 +245,7 @@ namespace Models
                     lAmountEnough = true;
 
                     // real amounts
-                    float lCoef = 0;
+                    double lCoef = 0;
 
                     if (mInputData.HotMetal_t.HasValue)
                     {
@@ -306,7 +306,7 @@ namespace Models
 
             for (int i = 0; i < lIndexes.Length; i++)
             {
-                float lResult = (lm_SZ * lStredni_SZ[lIndexes[i]] + lm_Srot * lStredni_Srot[lIndexes[i]]) / lm_Ocel;
+                double lResult = (lm_SZ * lStredni_SZ[lIndexes[i]] + lm_Srot * lStredni_Srot[lIndexes[i]]) / lm_Ocel;
 
                 switch (i)
                 {

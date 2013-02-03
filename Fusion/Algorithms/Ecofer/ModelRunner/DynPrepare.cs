@@ -456,7 +456,7 @@ WAIT_END_OF_HEAT:
                                                 O2Request =
                                                     (Data.MINP.Heat.CalculatedOxygenAmount_Nm3.HasValue &&
                                                      Data.MINP.Heat.CalculatedOxygenAmount_Nm3.Value != 0)
-                                                        ? (float) lO2Consumption/
+                                                        ? (double) lO2Consumption/
                                                           Data.MINP.Heat.CalculatedOxygenAmount_Nm3.Value
                                                         : 0
                                             });
@@ -499,7 +499,7 @@ WAIT_END_OF_HEAT:
         public static ChargingInput MakeCharging(FlexEvent fxe, Dictionary<string, int> weight, ChargingReason reason)
         {
             Data.Model.ChargingInput inp = new ChargingInput();
-            inp.Basicity = 2.7f; ///! (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
+            inp.Basicity = 2.7f; ///! (double)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
             inp.FeO_p = Convert.ToInt32(fxe.Arguments["FeO"]);
             inp.MgO_p = Convert.ToInt32(fxe.Arguments["MgO"]);
             inp.Final_Temperature = Convert.ToInt32(fxe.Arguments["T"]);

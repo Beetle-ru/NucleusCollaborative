@@ -8,6 +8,6 @@ namespace Data.Graph
     public class O2RequestItem
     {
         public DateTime TimeProcessed { get; set; }
-        public float O2Request { get; set; }
+        public double O2Request { get; set; }
     }
 }

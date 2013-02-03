@@ -408,7 +408,7 @@ namespace Data
         /// If the method is called again then Dolomit will not be found.
         /// </summary>
         /// <param name="aCoef"></param>
-        public void ReplaceDolomit(float aCoef)
+        public void ReplaceDolomit(double aCoef)
         {
             if (CurrentPhase == null) return;
 

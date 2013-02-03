@@ -7,7 +7,7 @@ namespace Data.Model
 {
     public class ChargingOutput
     {
-        public float? ReplaceDolomitCoef;
+        public double? ReplaceDolomitCoef;
         /// <summary>
         /// ErrCode =
         /// 0 - OK
@@ -17,32 +17,32 @@ namespace Data.Model
         /// </summary>
         public int ErrCode;
 
-        public float ForecastTemperature_C;
+        public double ForecastTemperature_C;
         public int OxygenAmountTotalEnd_Nm3;
-        public float OxygenAmountTotal1stStep_Nm3;
-        public float OxygenAmountC_Nm3;
-        public float OxygenAmountSi_Nm3;
-        public float OxygenAmountMn_Nm3;
-        public float OxygenAmountP_Nm3;
-        public float OxygenAmountAl_Nm3;
-        public float OxygenAmountFe_Nm3;
+        public double OxygenAmountTotal1stStep_Nm3;
+        public double OxygenAmountC_Nm3;
+        public double OxygenAmountSi_Nm3;
+        public double OxygenAmountMn_Nm3;
+        public double OxygenAmountP_Nm3;
+        public double OxygenAmountAl_Nm3;
+        public double OxygenAmountFe_Nm3;
 
-        public float H_Vsazka;
-        public float H_SZ;
-        public float H_Srot;
-        public float H_Ocel;
-        public float H_Struskotvorne;
-        public float H_Struskotvorne_Vystup;
-        public float H_Si_oxidace;
-        public float H_Mn_oxidace;
-        public float H_Al_oxidace;
-        public float H_Fe_oxidace;
-        public float H_C_oxidace;
-        public float H_Koks;
-        public float H_Odprasky;
+        public double H_Vsazka;
+        public double H_SZ;
+        public double H_Srot;
+        public double H_Ocel;
+        public double H_Struskotvorne;
+        public double H_Struskotvorne_Vystup;
+        public double H_Si_oxidace;
+        public double H_Mn_oxidace;
+        public double H_Al_oxidace;
+        public double H_Fe_oxidace;
+        public double H_C_oxidace;
+        public double H_Koks;
+        public double H_Odprasky;
 
-        public float m_lime;
-        public float m_dolomite;
+        public double m_lime;
+        public double m_dolomite;
 
         public string SForecastTemperature_C { get { return ForecastTemperature_C.ToString("0.00"); } set { } }
         public string SOxygenAmountTotalEnd_Nm3 { get { return OxygenAmountTotalEnd_Nm3.ToString("0.00"); } set {} }

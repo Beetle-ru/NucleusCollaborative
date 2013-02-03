@@ -28,7 +28,7 @@ namespace Data.Model
         public DTO.MINP_GD_MaterialDTO[] Scraps;
         public int[] Scraps_t;
         
-        public float Basicity;
+        public double Basicity;
         public int FeO_p;
         public int MgO_p;
         public DTO.MINP_GD_MaterialDTO Lime;

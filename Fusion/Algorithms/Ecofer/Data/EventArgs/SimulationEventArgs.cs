@@ -8,7 +8,7 @@ namespace Data.EventArgs
     public class SimulationTempMeasEventArgs : System.EventArgs
     {
         public int? Temperature;
-        public float? Carbon_p;
+        public double? Carbon_p;
 
         public SimulationTempMeasEventArgs()
         {
@@ -19,7 +19,7 @@ namespace Data.EventArgs
         /// Initializes a new instance of the SimulationEventArgs class.
         /// </summary>
         /// <param name="temperature"></param>
-        public SimulationTempMeasEventArgs(int? aTemperature, float? aCarbon)
+        public SimulationTempMeasEventArgs(int? aTemperature, double? aCarbon)
         {
             Temperature = aTemperature;
             Carbon_p = aCarbon;
