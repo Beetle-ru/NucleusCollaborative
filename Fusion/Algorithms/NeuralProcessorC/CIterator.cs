@@ -84,7 +84,7 @@ namespace NeuralProcessorC
                         CurrentHeatResult.HeightLanceCentimeters = heatData.HeightLanceCentimeters;
                         EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
                         //Program.PushGate.PushEvent(new FixDataMfactorModelEvent());
-                        FireFixEvent();
+                        FireFixEvent(RemainCarbonPercent);
                         m_noFixData = false;
                     }
                 }
@@ -119,9 +119,10 @@ namespace NeuralProcessorC
             fex.Fire(Program.PushGate);
             Console.WriteLine(fex.evt + "\n");
         }
-        static public void FireFixEvent()
+        static public void FireFixEvent(double carbon)
         {
             var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.DataFix");
+            fex.AddArg("C", carbon);
             fex.Fire(Program.PushGate);
             Console.WriteLine(fex.evt + "\n");
         }

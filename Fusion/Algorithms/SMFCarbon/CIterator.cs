@@ -98,6 +98,7 @@ namespace SMFCarbon
                             EnqueueWaitC(CurrentHeatResult); // ставим в очередь ожидания углерода
                             
                             var fex = new ConnectionProvider.FlexHelper("SMFCarbon.DataFix");
+                            fex.AddArg("C", RemainCarbonPercent);
                             fex.Fire(Program.PushGate); 
                             l.msg(fex.evt + "\n");
 

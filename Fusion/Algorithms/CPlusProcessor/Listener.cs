@@ -95,7 +95,7 @@ namespace CPlusProcessor
                     var sse = evt as SublanceStartEvent;
                     if (sse.SublanceStartFlag == 1)
                     {
-                        Iterator.FireFixEvent();
+                        Iterator.FireFixEvent(-11.33);
                         l.msg("Sublance begin metering");
                     }
                     if (sse.SublanceStartFlag == 0)

@@ -84,6 +84,7 @@ namespace CarbonSwitcher
                     if (!ModelList[Cfg.SecondModel].IsFiredFixed)
                     {
                         var fex = new FlexHelper("CarbonSwitcher.DataFix");
+                        fex.AddArg("C", ModelList[Cfg.SecondModel].C);
                         fex.Fire(Program.MainGate);
                         ModelList[Cfg.SecondModel].IsFiredFixed = true;
                     }

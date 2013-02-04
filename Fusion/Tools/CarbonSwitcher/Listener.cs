@@ -79,6 +79,16 @@ namespace CarbonSwitcher
             evtName = String.Format("{0}.DataFix", prefix);
             if (felexE.Operation.StartsWith(evtName))
             {
+                var key = "C";
+                try
+                {
+                    Program.ModelList[id].C = (double)felexE.Arguments[key];
+                    Program.Iterate();
+                }
+                catch (Exception e)
+                {
+                    InstantLogger.err("{2} - {1} : \n{0}", e.ToString(), key, evtName);
+                }
                 Program.ModelList[id].IsFixed = true;
                 Program.Iterate();
             }
