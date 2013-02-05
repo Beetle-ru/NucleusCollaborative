@@ -82,10 +82,7 @@ namespace CPlusProcessor
                     if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
 
                     PushCarbon(m_lastCarbon); // fire flex
-                    
-                    Console.CursorTop = Console.CursorTop - 1;
-                    Console.WriteLine("                                                   ");
-                    Console.CursorTop = Console.CursorTop - 1;
+
                     Console.WriteLine("Carbone = " + CurrentState.SteelCarbonPercentCalculated + "%");
                     m_dataIsFixed = ModelVerifiForFix();
                 }
@@ -97,7 +94,7 @@ namespace CPlusProcessor
                 {
                     var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
-                    Console.WriteLine(fex.evt + "\n");
+                    InstantLogger.msg(fex.evt + "\n");
                 }
             }
 
@@ -114,7 +111,7 @@ namespace CPlusProcessor
             var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate);
-            Console.WriteLine(fex.evt + "\n");
+            InstantLogger.msg(fex.evt + "\n");
         }
 
         static public void PushCarbon(double carbon)
@@ -232,9 +229,7 @@ namespace CPlusProcessor
             const int lanceSpeed = 5; // + up , - down
             const double carbonMonoxideTreshol = 30.0; //%
             const double carbonOxideTreshol = 5.0; //%
-            const int oxigenTreshold = 17000;
-
-            //InstantLogger.msg("integral CO {1} > {0} > {2}", IntegralCO, Program.COMax, Program.COMin);
+            const int oxigenTreshold = 16000;
 
                 return (!m_dataIsFixed) &&
                    //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&

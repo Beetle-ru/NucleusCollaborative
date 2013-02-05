@@ -32,7 +32,7 @@ namespace OffGasDecarbonater
         private static int m_currentMatrix;
         private static bool m_noFixData;
 
-        public const double DefHotIronCarbonPercent = 4.5;
+        public const double DefHotIronCarbonPercent = 4.65;
         public const double DefScrapCarbonPercent = 0.2;
         public const double DefHotIronMass = 300000.1133;
         public const double DefScrapMass = 110000.0;
@@ -323,7 +323,7 @@ namespace OffGasDecarbonater
             CarbonOxideVolumePercent = 0.0;
             OffgasVolumeRate = 0.0;                    
             DeltaT = 1.0;
-            Kgasan = 0.8;
+            Kgasan = 0.75;
             HeightLanceCentimeters = 0;
             OxygenVolumeRate = 0.0;
             OxygenVolumeCurrent = 0.0;
