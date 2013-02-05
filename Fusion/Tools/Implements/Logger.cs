@@ -342,9 +342,8 @@ namespace Implements
 
         private static string logNameGenerate()
         {
-            string timeLine = DateTime.Now.ToString();
-            timeLine = timeLine.Replace(':', '_');
-            timeLine = timeLine.Replace('.', '_');
+            var dt = DateTime.Now;
+            string timeLine = String.Format("Y{0}M{1}D{2}H{3}m{4}S{5}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
             timeLine = timeLine + ".log";
             return String.Format("{0}_{1}",Process.GetCurrentProcess().ProcessName,timeLine);
         }
