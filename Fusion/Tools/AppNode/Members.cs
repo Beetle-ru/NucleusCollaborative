@@ -13,7 +13,7 @@ namespace AppNode
     {
         public static List<Process> PrecessList;
         public const string WorkingDirectory = "AppsData";
-        public static List<Application> AppList;
+        public static List<Application> AppList = new List<Application>();
         public static int ActiveApp = -1;
         public static System.Timers.Timer ConsoleStreamTimer = new Timer(300);
         public static System.Timers.Timer ReincornatorTimer = new Timer(1000);
@@ -21,5 +21,6 @@ namespace AppNode
         public static bool RefrashScreen = true;
         public static string InfoBuffer = "";
         public static bool IsWritingConsole;
+        public const string CfgPath = "AppNode.cfg";
     }
 }

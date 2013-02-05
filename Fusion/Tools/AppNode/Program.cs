@@ -15,7 +15,7 @@ namespace AppNode
         static void Main(string[] args)
         {
             ConsolePrepare();
-            LoadCfg("AppNode.cfg");
+            LoadCfg(CfgPath);
             ExecuteAll();
             StartConsoleStream();
             StartReincornator();

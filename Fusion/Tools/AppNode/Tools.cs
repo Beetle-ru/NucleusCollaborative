@@ -180,5 +180,44 @@ namespace AppNode
         {
             InfoBuffer = "";
         }
+
+        public static void InsertApp(Application appDescription, int line)
+        {
+            if (AppList.Count > line)
+            {
+                if (AppDescComparison(AppList[line], appDescription))
+                {
+                    AppList[line].DelayAfterExecute = appDescription.DelayAfterExecute;
+                }
+                else
+                {
+                    AppList[line].KillProc();
+                    AppList[line] = appDescription;
+                }
+            }
+            else
+            {
+                AppList.Add(appDescription);
+            }
+            AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
+        }
+
+        public static void RemoveExcessApps(int last)
+        {
+            if (last > 0)
+            {
+                while (AppList.Count > last)
+                {
+                    AppList[AppList.Count - 1].KillProc();
+                    AppList.RemoveAt(AppList.Count - 1);
+                }
+            }
+        }
+
+        public static bool AppDescComparison(Application appDescription1, Application appDescription2)
+        {
+            return (appDescription1.FileName == appDescription2.FileName);// &&
+                   //(appDescription1.DelayAfterExecute == appDescription2.DelayAfterExecute);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace AppNode
         {
             ClearInfo();
             Directory.CreateDirectory(WorkingDirectory);
-            AppList = new List<Application>();
+            //AppList = new List<Application>();
             string[] strings;
             try
             {
@@ -30,6 +30,7 @@ namespace AppNode
                 return;
             }
 
+            var existAppsIndex = 0;
             try
             {
                 for (int i = 0; i < strings.Count(); i++)
@@ -42,11 +43,16 @@ namespace AppNode
 
                     if (File.Exists(execPatch))
                     {
-                        AppList.Add(new Application());
-                        AppList[AppList.Count - 1].FileName = execPatch;
-                        AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
-                        AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
-                        AppList[AppList.Count - 1].DelayAfterExecute = delay;
+                        //AppList.Add(new Application());
+                        //AppList[AppList.Count - 1].FileName = execPatch;
+                        //AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
+                        //AppList[AppList.Count - 1].NumberApp = AppList.Count - 1;
+                        //AppList[AppList.Count - 1].DelayAfterExecute = delay;
+                        var appDescr = new Application();
+                        appDescr.FileName = execPatch;
+                        appDescr.WorkingDirectory = WorkingDirectory;
+                        appDescr.DelayAfterExecute = delay;
+                        InsertApp(appDescr, existAppsIndex++);
                         WriteInfo(String.Format("Application added, path = {0}", strings[i]));
                     }
                     else
@@ -63,6 +69,7 @@ namespace AppNode
                 RefrashConsoleNow();
                 throw e;
             }
+            RemoveExcessApps(existAppsIndex);
             PrintInfo(InfoBuffer);
         }
     }

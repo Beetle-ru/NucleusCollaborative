@@ -179,6 +179,13 @@ namespace AppNode
                     WriteInfo("Help:");
                     RefrashConsoleNow();
                 }
+                else if (cki.Key == ConsoleKey.U)
+                {
+                    LoadCfg(CfgPath);
+                    ExecuteAll(); 
+                    Console.Clear();
+                    RefrashConsoleNow();
+                }
                 else
                 {
                     var fKey = false;
