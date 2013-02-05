@@ -24,12 +24,35 @@ namespace AppNode
                     (cki.Key == ConsoleKey.Escape)
                     )
                 {
-                    ReincornatorTimer.Enabled = false;
-                    Console.Clear();
-                    KillAll();
-                    RefrashConsoleNow();
-                    RefrashScreen = false;
-                    AppExit();
+                    var loop = true;
+
+                    while (loop)
+                    {
+                        WriteInfo("Quit? (Y/N): ");
+
+                        RefrashConsoleNow();
+                        RefrashScreen = false;
+
+                        cki = Console.ReadKey(true);
+                        Console.Clear();
+                        int appNumber;
+                        if (cki.Key == ConsoleKey.Y)
+                        {
+                            ReincornatorTimer.Enabled = false;
+                            Console.Clear();
+                            KillAll();
+                            RefrashConsoleNow();
+                            RefrashScreen = false;
+                            AppExit();
+                        }
+                        else if (cki.Key == ConsoleKey.N)
+                        {
+                            WriteInfo("Abort quit");
+                            loop = false;
+                        }
+                        RefrashScreen = true;
+                        RefrashConsoleNow();
+                    }
                 }
                 else if (cki.Key == ConsoleKey.S)
                 {
