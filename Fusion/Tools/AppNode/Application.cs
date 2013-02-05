@@ -172,7 +172,7 @@ namespace AppNode
                 }
                 else
                 {
-                    startPos = (Stream.Count) - m_streamChanged;
+                    startPos = Stream.Count < m_streamChanged ? 0: Stream.Count - m_streamChanged;
                 }
                 m_streamChanged = 0;
                 for (int i = startPos; i < Stream.Count; i++)
