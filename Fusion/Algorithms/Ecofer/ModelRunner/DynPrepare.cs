@@ -29,6 +29,15 @@ namespace ModelRunner
 
     partial class DynPrepare
     {
+        public static FlexHelper visTargetVal = null;
+        static DynPrepare()
+        {
+            visTargetVal = new FlexHelper("ConverterUI.TargetValues");
+            visTargetVal.AddDbl("C", 0.03);
+            visTargetVal.AddDbl("T", 1665);
+            visTargetVal.AddDbl("MgO", 11);
+            visTargetVal.AddDbl("FeO", 27);
+        }
         public enum ChargingReason
         {
             forCharging,
@@ -46,7 +55,6 @@ namespace ModelRunner
         public static FlexHelper fxeIron = null;
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
-        public static FlexHelper visTargetVal = null;
         public static bool recallChargingReq = true;
         private static void OutLine(String str)
         {
