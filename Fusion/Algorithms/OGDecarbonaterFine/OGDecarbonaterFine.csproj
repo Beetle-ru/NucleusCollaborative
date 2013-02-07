@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,8 +44,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HeatData.cs" />
+    <Compile Include="Iterator.cs" />
+    <Compile Include="Listener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommonTypes\CommonTypes.csproj">
+      <Project>{0FA91088-3580-4088-B580-FAE138DEFF14}</Project>
+      <Name>CommonTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ConnectionProvider\ConnectionProvider.csproj">
+      <Project>{6908AF06-DBFF-458F-9354-E8FD38F8C932}</Project>
+      <Name>ConnectionProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Converter\Converter.csproj">
+      <Project>{DB6D9DBC-C09F-47F8-8908-3FEB8D580EB0}</Project>
+      <Name>Converter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Tools\Implements\Implements.csproj">
+      <Project>{A666AD62-F9EF-4F0A-B459-073F18986D6B}</Project>
+      <Name>Implements</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
