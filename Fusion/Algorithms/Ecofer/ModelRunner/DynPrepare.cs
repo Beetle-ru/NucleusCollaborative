@@ -239,35 +239,6 @@ NEXT_HEAT:
                     {
                         FireScrapDangerEvent();
                     }
-
-                    //MakeDynamicCharging();
-
-                    //#region Model materials
-
-                    //// Odprasky
-                    //var matOdpr = AddOdprasky(3000);
-                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky,
-                    //                                matOdpr.MINP_GD_Material);
-
-                    //// Slag
-                    //var matSlag = AddSlag(30000);
-                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag,
-                    //                                matSlag.MINP_GD_Material);
-                    //// Steel
-                    //var matSteel = AddSteel(420000);
-                    //MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel,
-                    //                                matSteel.MINP_GD_Material);
-
-                    //#endregion
-
-                    //for (int i = 0; i < matIron.MINP_GD_Material.MINP_GD_MaterialItems.Count; i++)
-                    //{
-                    //    if (matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].MINP_GD_MaterialElement.Index == 69)
-                    //    {
-                    //        aInputData.HotMetal_Temperature = (int)matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].Amount_p;
-                    //        break;
-                    //    }
-                    //}
                     aInputData.HotMetal_Temperature = (int)Listener.IronTemp;
                     aInputData.Scrap_Temperature = (int)Listener.ScrapTemp;
                     if (0 != (HeatFlags & ModelStatus.ModelDisabled))
@@ -282,7 +253,7 @@ NEXT_HEAT:
                     #endregion
 
                     MINP.HeatAimData = new MINP_HeatAimDataDTO();
-                    MINP.HeatAimData.FinalTemperature = 1700;
+                    MINP.HeatAimData.FinalTemperature = (int)visTargetVal.GetDbl("T");
 
                     Data.MINP.Phases = new Phases(aInputData.OxygenBlowingPhases);
                     Data.MINP.Phases.SwitchToNextPhase();
@@ -298,6 +269,12 @@ NEXT_HEAT:
                     Listener.MatAdd.Clear();
 
                     SimulationOxygenBlowing();
+                    FireChemistryEvent("IRON", Data.MINP.MINP_MatAdds[0].MINP_GD_Material);
+                    FireChemistryEvent("SCRAP", Data.MINP.MINP_MatAdds[1].MINP_GD_Material);
+                    FireChemistryEvent("LIME", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.CaO]);
+                    FireChemistryEvent("DOLMAX", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Dolomite]);
+                    FireChemistryEvent("FOM", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.FOM]);
+                    FireChemistryEvent("COKE", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke]);
 
                     DynModel.PhaseChanged += (s, e) =>
                                                {
@@ -374,11 +351,10 @@ WAIT_END_OF_HEAT:
                     l.msg("Heat Number old: {0}, new: {1}", HeatNumber, Listener.HeatNumber);
                     HeatNumber = Listener.HeatNumber;
                     nStep = 0;
+                    DynModel.Dispose();
 
                     goto NEXT_HEAT;
  
-                    DynModel.Dispose();
-                    throw new Exception("************** End Of Heat ***************");
                 }
                 catch (Exception e)
                 {

@@ -136,5 +136,17 @@ namespace ModelRunner
             fex.AddStr("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
             fex.Fire(CoreGate);
         }
+
+        public static void FireChemistryEvent(string Substance, DTO.MINP_GD_MaterialDTO mat)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Chemistry");
+            fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddStr("Substance", Substance);
+            foreach (var m in mat.MINP_GD_MaterialItems)
+            {
+                fex.AddDbl(fp.fp[m.MINP_GD_MaterialElement.Index].Marking, m.Amount_p);
+            }
+            fex.Fire(CoreGate);
+        }
     }
 }
