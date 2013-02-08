@@ -79,27 +79,37 @@ namespace ModelRunner
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 380.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.2));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.2));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al", 0.03));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("V", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.1));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("O", 50.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 50.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 96.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.5));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.5));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 2.0));
+            if (null == fxeScrap)
+            {
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.2));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.2));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al", 0.03));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("V", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.1));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("O", 50.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 50.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 96.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.5));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.5));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 2.0));
+            }
+            else
+            {
+                foreach (var scel in fxeScrap.evt.Arguments)
+                {
+                    matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(scel.Key, (double)scel.Value));
+                }
+            }
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9962));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Basiticy", 1.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));

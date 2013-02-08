@@ -81,47 +81,6 @@ namespace ModelRunner
             return vx;
         }
 
-        private static void MakeDynamicCharging()
-        {
-            aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
-
-            // Iron
-            var matIron = AddIron((int)Listener.IronWeight);
-            aInputData.ChargedMaterials.Add(matIron);
-            //goto LABEL_START;
-
-            // Scrap
-            aInputData.ChargedMaterials.Add(AddScrap((int)Listener.ScrapWeight));
-
-            MINP.MINP_GD_ModelMaterials =
-                new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
-            // CaO ИЗВЕСТ
-            var matCaO = AddCaO(1);
-            aInputData.ChargedMaterials.Add(matCaO);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO,
-                                            matCaO.MINP_GD_Material);
-
-            // Dolom ДОЛМИТ
-            var matDolom = AddDolom(1);
-            aInputData.ChargedMaterials.Add(matDolom);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
-                                            matDolom.MINP_GD_Material);
-
-            // FOM
-            var matFom = AddFom(1);
-            aInputData.ChargedMaterials.Add(matFom);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM,
-                                            matFom.MINP_GD_Material);
-
-            // Coke
-            var matCoke = AddCoke(1);
-            aInputData.ChargedMaterials.Add(matCoke);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke,
-                                            matCoke.MINP_GD_Material);
-
-            
-        }
-
         private static void Main(string[] args)
         {
             //AppDomain.CurrentDomain.UnhandledException += (s, e) =>

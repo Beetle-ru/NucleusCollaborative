@@ -133,7 +133,6 @@ namespace Models
                     mCSVOutput.Append(';'); mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode.StartsWith("01")).ToArray().Sum(aR => aR.Amount_kg)); // m_SŽ
                     mCSVOutput.Append(';'); mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode.StartsWith("02")).ToArray().Sum(aR => aR.Amount_kg));
                     mCSVOutput.Append(';');
-                    double sum = 0.0;
                     if (Data.MINP.MINP_GD_ModelMaterials.ContainsKey(Enumerations.MINP_GD_Material_ModelMaterial.Coke))
                         mCSVOutput.Append(mInputData.ChargedMaterials.Where(aR => aR.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke].ShortCode).ToArray().Sum(aR => aR.Amount_kg));
                     else

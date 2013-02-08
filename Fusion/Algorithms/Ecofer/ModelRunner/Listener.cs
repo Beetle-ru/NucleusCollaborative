@@ -11,6 +11,8 @@ using CommonTypes;
 using DTO;
 using Data;
 using Data.Model;
+using Ecofer.ModelRunner;
+using Ecofer.ModelRunner.ChemistryDataSetTableAdapters;
 using Implements;
 using System.Configuration;
 using Models;
@@ -19,6 +21,9 @@ namespace ModelRunner
 {
     internal class Listener : IEventListener
     {
+        public static ChemistryDataSet dataset;
+        public static ScrapChemistryTableAdapter Adapter = new ScrapChemistryTableAdapter();
+        public static ChemistryDataSet.ScrapChemistryDataTable Tbl = new ChemistryDataSet.ScrapChemistryDataTable();
         public static RollingAverage avox = new RollingAverage(1200.1133);
         public static RollingAverage avofg = new RollingAverage(360000.1133);
         public static RollingAverage avofg_pco = new RollingAverage(10.1133);
@@ -105,180 +110,6 @@ namespace ModelRunner
             lvb.Add(new VBItem(0.8, "=99=66="));
             lvb.Add(new VBItem(1.0, "=89=33=35=28=98=96="));
             for (var i = 0; i < 8; i++) m_bunkersNames[i] = "?";
-        }
-
-        private static double VBProb(int ScrapType, int ScrapWeight)
-        {
-            foreach (var lvbi in lvb)
-            {
-                if (lvbi.scraps.Contains(string.Format("={0}=", ScrapType)))
-                {
-                    return 5*lvbi.coeff*ScrapWeight;
-                }
-            }
-            return 0.0;
-        }
-
-        public static string Encoder(string str)
-        {
-            char[] charArray = str.ToCharArray();
-            str = "";
-            foreach (char c in charArray)
-            {
-                if (c > 127)
-                {
-                    str += (char) (c + 848);
-                }
-                else
-                {
-                    str += c;
-                }
-            }
-            return str;
-        }
-
-        public static void MVBounder(Logger l)
-        {
-            Dictionary<string, double> MVDic = new Dictionary<string, double>();
-            for (var i = 0; i < bunkersCount; i++)
-            {
-                ///! AR: reset bunkerNames if empty
-                if ((m_bunkersNames[i] != "") && (m_bunkersTotalMass[i] != 0))
-                {
-                    if (Encoder(m_bunkersNames[i]) == "ИЗВЕСТ")
-                    {
-                        if (CurrWeight["LIME"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddCaO((int) m_bunkersTotalMass[i] - CurrWeight["LIME"]));
-                            CurrWeight["LIME"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material added LIME: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                    else if (Encoder(m_bunkersNames[i]) == "ДОЛОМС")
-                    {
-                        if (CurrWeight["DOLOMS"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddDolomS((int) m_bunkersTotalMass[i] - CurrWeight["DOLOMS"]));
-                            CurrWeight["DOLOMS"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material added DOLOMS: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                    else if (Encoder(m_bunkersNames[i]) == "ДОЛМИТ")
-                    {
-                        if (CurrWeight["DOLMAX"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddDolom((int) m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
-                            CurrWeight["DOLMAX"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material added DOLMIT: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                    else if (Encoder(m_bunkersNames[i]) == "МАХГ  ")
-                    {
-                        if (CurrWeight["DOLMAX"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddDolom((int) m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
-                            CurrWeight["DOLMAX"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material added MAXG: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                    else if (Encoder(m_bunkersNames[i]) == "ФОМ   ")
-                    {
-                        if (CurrWeight["FOM"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddFom((int) m_bunkersTotalMass[i] - CurrWeight["FOM"]));
-                            CurrWeight["FOM"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material Added FOM: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                    else if (Encoder(m_bunkersNames[i]) == "KOKS  ")
-                    {
-                        if (CurrWeight["COKE"] < (int) m_bunkersTotalMass[i])
-                        {
-                            MatAdd.Add(DynPrepare.AddCoke((int) m_bunkersTotalMass[i] - CurrWeight["COKE"]));
-                            CurrWeight["COKE"] = (int) m_bunkersTotalMass[i];
-                            l.msg("Material added COKE: {0}", (int) m_bunkersTotalMass[i]);
-                        }
-                    }
-                }
-                //else throw new Exception("Either bunker names or values are empty");
-            }
-        }
-
-        private void CollectOxygen(SteelMakingPatternEvent smpe)
-        {
-            DynPrepare.aInputData.OxygenBlowingPhases = new List<PhaseItem>();
-            var ph1 = new PhaseItemL1Command();
-            var ph2 = new PhaseItemOxygenBlowing();
-            ph1.PhaseName = "Initial";
-            ph1.L1Command = Enumerations.L2L1_Command.OxygenBlowingStart;
-            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
-            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
-            for (var step = 0; step < smpe.steps.Count; step++)
-            {
-                var cstep = smpe.steps[step];
-                ph2 = new PhaseItemOxygenBlowing();
-                ph2.PhaseName = String.Format("OxyBlowStep{0}", step);
-                ph2.LanceDistance_mm = cstep.lance.LancePositin;
-                ph2.O2Amount_Nm3 = cstep.O2Volume;
-                ph2.O2Flow_Nm3_min = Convert.ToInt32(Math.Ceiling(cstep.lance.O2Flow));
-                ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
-                DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
-            }
-            ph1 = new PhaseItemL1Command();
-            ph1.PhaseName = "Measure";
-            ph1.L1Command = Enumerations.L2L1_Command.TemperatureMeasurement;
-            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
-            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
-
-            ph2 = new PhaseItemOxygenBlowing();
-            ph2.PhaseName = "Correction";
-            ph2.LanceDistance_mm = 220;
-            ph2.O2Flow_Nm3_min = 1200;
-            ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
-            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
-
-            ph1 = new PhaseItemL1Command();
-            ph1.PhaseName = "Parking";
-            ph1.L1Command = Enumerations.L2L1_Command.OxygenLanceToParkingPosition;
-            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
-            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
-        }
-
-        private void CollectAdditions(SteelMakingPatternEvent smpe, Logger l)
-        {
-            ModWeight["LIME"] = 0;
-            ModWeight["DOLOMS"] = 0;
-            ModWeight["DOLMAX"] = 0;
-            ModWeight["FOM"] = 0;
-            ModWeight["COKE"] = 0;
-            for (var step = 0; step < smpe.steps.Count; step++)
-            {
-                if (smpe.steps[step] == null) continue;
-                for (int weirline = 0; weirline < smpe.steps[step].weigherLines.Count; weirline++)
-                {
-                    if (smpe.steps[step].weigherLines[weirline] == null) continue;
-                    for (int bunkerId = 0; bunkerId < m_bunkersNames.Count; bunkerId++)
-                    {
-                        if (smpe.steps[step].weigherLines[weirline].BunkerId == bunkerId)
-                        {
-                            try
-                            {
-                                var weight = smpe.steps[step].weigherLines[weirline].PortionWeight;
-                                var name = m_bunkersNames[bunkerId];
-                                ModWeight[matRename[name]] += (int) weight;
-                            }
-                            catch (Exception e)
-                            {
-                                var sb = new StringBuilder("SteelMaking trap:");
-                                sb.AppendFormat(" step={0}", step);
-                                sb.AppendFormat(" bunkerId={0}", bunkerId);
-                                sb.AppendFormat(" weirline={0}", weirline);
-                                l.err("exceptioninfo {0}\n\t{1}", sb.ToString(), e.ToString());
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         public void OnEvent(BaseEvent evt)
@@ -400,6 +231,52 @@ namespace ModelRunner
                             l.msg("Target Values From ConverterUI appeared: {0}", fxe);
                         }
                     }
+#if (SCRAPEVENT_IS_FLEX)
+                    else if (fxe.Operation.StartsWith("OPC.ScrapEvent"))
+                    {
+                        var fse = new FlexHelper(fxe);
+                        if (fse.GetInt("ConverterNumber") == Converter)
+                        {
+                            double totalmass = 0.0;
+                            DynPrepare.fxeScrap = new FlexHelper("Scrap.Mixer");
+                            ScrapDanger = 0.2;
+                            for (int i = 1; i <= 8; i++)
+                            {
+                                var code = (short)fse.GetInt(String.Format("ScrapType{0}", i));
+                                var mass = fse.GetInt(String.Format("Weight{0}", i));
+                                if (0 == code) break;
+                                ScrapDanger += VBProb(code, mass);
+                                Adapter.Fill(Tbl, code);
+                                StringBuilder sb = new StringBuilder(String.Format("Scrap chemistry for code {0}:\n", code));
+                                for (int j = 0; j < Tbl.Rows.Count; j++)
+                                {
+                                    sb.AppendFormat("{0}: {1}\n", Tbl[j].Name, Tbl[j].Value);
+                                    if (DynPrepare.fxeScrap.evt.Arguments.ContainsKey(Tbl[j].Name))
+                                    {
+                                        DynPrepare.fxeScrap.evt.Arguments[Tbl[j].Name] = mass * Tbl[j].Value + DynPrepare.fxeScrap.GetDbl(Tbl[j].Name);
+                                    }
+                                    else
+                                    {
+                                        DynPrepare.fxeScrap.AddDbl(Tbl[j].Name, mass * Tbl[j].Value);
+                                    }
+                                }
+                                sb.Append("=============\n");
+                                l.msg(sb.ToString());
+                                totalmass += mass;
+                            }
+                            for (int i = 0; i < DynPrepare.fxeScrap.evt.Arguments.Count; i++)
+                            {
+                                var v = (double)DynPrepare.fxeScrap.evt.Arguments[DynPrepare.fxeScrap.evt.Arguments.ElementAt(i).Key];
+                                DynPrepare.fxeScrap.evt.Arguments[DynPrepare.fxeScrap.evt.Arguments.ElementAt(i).Key] = v / totalmass;
+                            }
+                            ScrapWeight = totalmass;
+                            ScrapReason = "SCRAPEVENT";
+                            ScrapDanger /= ScrapWeight;
+                            DynPrepare.HeatFlags |= ModelStatus.ScrapDefined;
+                        }
+
+                    }
+#endif
                     else if (fxe.Operation.StartsWith("Model.Dynamic"))
                     {
                         l.msg("Model Related Event Appeared: {0}\n", fxe);
@@ -435,6 +312,7 @@ namespace ModelRunner
                     avofg_pco.Add(0.1133);
                     avofg_pco2.Add(0.1133);
                     DynPrepare.fxeIron = null;
+                    DynPrepare.fxeScrap = null;
                     CurrWeight["LIME"] = 1;
                     CurrWeight["DOLOMS"] = 1;
                     CurrWeight["DOLMAX"] = 1;
@@ -603,5 +481,181 @@ namespace ModelRunner
                 }
             }
         }
+
+        private static double VBProb(int ScrapType, int ScrapWeight)
+        {
+            foreach (var lvbi in lvb)
+            {
+                if (lvbi.scraps.Contains(string.Format("={0}=", ScrapType)))
+                {
+                    return 5 * lvbi.coeff * ScrapWeight;
+                }
+            }
+            return 0.0;
+        }
+
+        public static string Encoder(string str)
+        {
+            char[] charArray = str.ToCharArray();
+            str = "";
+            foreach (char c in charArray)
+            {
+                if (c > 127)
+                {
+                    str += (char)(c + 848);
+                }
+                else
+                {
+                    str += c;
+                }
+            }
+            return str;
+        }
+
+        public static void MVBounder(Logger l)
+        {
+            Dictionary<string, double> MVDic = new Dictionary<string, double>();
+            for (var i = 0; i < bunkersCount; i++)
+            {
+                ///! AR: reset bunkerNames if empty
+                if ((m_bunkersNames[i] != "") && (m_bunkersTotalMass[i] != 0))
+                {
+                    if (Encoder(m_bunkersNames[i]) == "ИЗВЕСТ")
+                    {
+                        if (CurrWeight["LIME"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddCaO((int)m_bunkersTotalMass[i] - CurrWeight["LIME"]));
+                            CurrWeight["LIME"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added LIME: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "ДОЛОМС")
+                    {
+                        if (CurrWeight["DOLOMS"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddDolomS((int)m_bunkersTotalMass[i] - CurrWeight["DOLOMS"]));
+                            CurrWeight["DOLOMS"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added DOLOMS: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "ДОЛМИТ")
+                    {
+                        if (CurrWeight["DOLMAX"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddDolom((int)m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
+                            CurrWeight["DOLMAX"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added DOLMIT: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "МАХГ  ")
+                    {
+                        if (CurrWeight["DOLMAX"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddDolom((int)m_bunkersTotalMass[i] - CurrWeight["DOLMAX"]));
+                            CurrWeight["DOLMAX"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added MAXG: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "ФОМ   ")
+                    {
+                        if (CurrWeight["FOM"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddFom((int)m_bunkersTotalMass[i] - CurrWeight["FOM"]));
+                            CurrWeight["FOM"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material Added FOM: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                    else if (Encoder(m_bunkersNames[i]) == "KOKS  ")
+                    {
+                        if (CurrWeight["COKE"] < (int)m_bunkersTotalMass[i])
+                        {
+                            MatAdd.Add(DynPrepare.AddCoke((int)m_bunkersTotalMass[i] - CurrWeight["COKE"]));
+                            CurrWeight["COKE"] = (int)m_bunkersTotalMass[i];
+                            l.msg("Material added COKE: {0}", (int)m_bunkersTotalMass[i]);
+                        }
+                    }
+                }
+                //else throw new Exception("Either bunker names or values are empty");
+            }
+        }
+
+        private void CollectOxygen(SteelMakingPatternEvent smpe)
+        {
+            DynPrepare.aInputData.OxygenBlowingPhases = new List<PhaseItem>();
+            var ph1 = new PhaseItemL1Command();
+            var ph2 = new PhaseItemOxygenBlowing();
+            ph1.PhaseName = "Initial";
+            ph1.L1Command = Enumerations.L2L1_Command.OxygenBlowingStart;
+            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
+            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
+            for (var step = 0; step < smpe.steps.Count; step++)
+            {
+                var cstep = smpe.steps[step];
+                ph2 = new PhaseItemOxygenBlowing();
+                ph2.PhaseName = String.Format("OxyBlowStep{0}", step);
+                ph2.LanceDistance_mm = cstep.lance.LancePositin;
+                ph2.O2Amount_Nm3 = cstep.O2Volume;
+                ph2.O2Flow_Nm3_min = Convert.ToInt32(Math.Ceiling(cstep.lance.O2Flow));
+                ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
+                DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
+            }
+            ph1 = new PhaseItemL1Command();
+            ph1.PhaseName = "Measure";
+            ph1.L1Command = Enumerations.L2L1_Command.TemperatureMeasurement;
+            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
+            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
+
+            ph2 = new PhaseItemOxygenBlowing();
+            ph2.PhaseName = "Correction";
+            ph2.LanceDistance_mm = 220;
+            ph2.O2Flow_Nm3_min = 1200;
+            ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
+            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
+
+            ph1 = new PhaseItemL1Command();
+            ph1.PhaseName = "Parking";
+            ph1.L1Command = Enumerations.L2L1_Command.OxygenLanceToParkingPosition;
+            ph1.PhaseGroup = PhasePrimaryDivision.OxygenBlowingCorrection;
+            DynPrepare.aInputData.OxygenBlowingPhases.Add(ph1);
+        }
+
+        private void CollectAdditions(SteelMakingPatternEvent smpe, Logger l)
+        {
+            ModWeight["LIME"] = 0;
+            ModWeight["DOLOMS"] = 0;
+            ModWeight["DOLMAX"] = 0;
+            ModWeight["FOM"] = 0;
+            ModWeight["COKE"] = 0;
+            for (var step = 0; step < smpe.steps.Count; step++)
+            {
+                if (smpe.steps[step] == null) continue;
+                for (int weirline = 0; weirline < smpe.steps[step].weigherLines.Count; weirline++)
+                {
+                    if (smpe.steps[step].weigherLines[weirline] == null) continue;
+                    for (int bunkerId = 0; bunkerId < m_bunkersNames.Count; bunkerId++)
+                    {
+                        if (smpe.steps[step].weigherLines[weirline].BunkerId == bunkerId)
+                        {
+                            try
+                            {
+                                var weight = smpe.steps[step].weigherLines[weirline].PortionWeight;
+                                var name = m_bunkersNames[bunkerId];
+                                ModWeight[matRename[name]] += (int)weight;
+                            }
+                            catch (Exception e)
+                            {
+                                var sb = new StringBuilder("SteelMaking trap:");
+                                sb.AppendFormat(" step={0}", step);
+                                sb.AppendFormat(" bunkerId={0}", bunkerId);
+                                sb.AppendFormat(" weirline={0}", weirline);
+                                l.err("exceptioninfo {0}\n\t{1}", sb.ToString(), e.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
     }
 }
