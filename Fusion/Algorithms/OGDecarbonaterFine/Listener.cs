@@ -53,7 +53,11 @@ namespace OGDecarbonaterFine
                 if (evt is OffGasAnalysisEvent)
                 {
                     var ogae = evt as OffGasAnalysisEvent;
-                    
+                    Iterator.HDSmoother.CO.Add(ogae.CO);
+                    Iterator.HDSmoother.CO2.Add(ogae.CO2);
+                    Iterator.HDSmoother.N2.Add(ogae.N2);
+                    Iterator.HDSmoother.O2.Add(ogae.O2);
+                    Iterator.HDSmoother.H2.Add(ogae.H2);
                 }
                 if (evt is OffGasEvent)
                 {

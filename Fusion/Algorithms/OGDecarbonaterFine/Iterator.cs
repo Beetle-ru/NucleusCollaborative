@@ -57,6 +57,14 @@ namespace OGDecarbonaterFine
     {
         public RollingAverage CO;
         public RollingAverage CO2;
+        public RollingAverage H2;
+        public RollingAverage O2;
+        public RollingAverage N2;
+        public RollingAverage Ar;
+        public RollingAverage OffGasT;
+        public RollingAverage OffGasV;
+        public RollingAverage OffGasDecompression;
+
         public double LanceHeigth;
         public double Oxygen;
         public bool HeatIsStarted;
@@ -65,6 +73,14 @@ namespace OGDecarbonaterFine
         {
             CO = new RollingAverage(lengthBuff);
             CO2 = new RollingAverage(lengthBuff);
+            H2 = new RollingAverage(lengthBuff);
+            O2 = new RollingAverage(lengthBuff);
+            N2 = new RollingAverage(lengthBuff);
+            Ar = new RollingAverage(lengthBuff);
+            OffGasT = new RollingAverage(lengthBuff);
+            OffGasV = new RollingAverage(lengthBuff);
+            OffGasDecompression = new RollingAverage(lengthBuff);
+
             LanceHeigth = 0;
             Oxygen = 0.0;
             HeatIsStarted = false;
