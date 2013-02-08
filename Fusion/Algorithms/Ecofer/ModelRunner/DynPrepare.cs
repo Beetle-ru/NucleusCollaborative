@@ -53,6 +53,7 @@ namespace ModelRunner
         public static DynamicInput aInputData = new DynamicInput();
         public static ChargingInput aChargingData = new ChargingInput();
         public static FlexHelper fxeIron = null;
+        public static FlexHelper fxeScrap = null;
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
         public static bool recallChargingReq = true;

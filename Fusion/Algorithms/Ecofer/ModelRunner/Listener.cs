@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define SCRAPEVENT_IS_FLEX
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -354,8 +356,8 @@ namespace ModelRunner
                     }
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
                     {
-                        //if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
-                        //{
+                        if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
+                        {
                             if (0 == (DynPrepare.HeatFlags & ModelStatus.ModelDisabled))
                             {
                                 DynPrepare.fxeIron = new FlexHelper(fxe);
@@ -367,16 +369,12 @@ namespace ModelRunner
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
                                 if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) && (null != DynPrepare.visTargetVal))
                                 {
-                                    //if (!DynamicModelRecalculationCalled)
-                                    //{
-                                    //    DynamicModelRecalculationCalled = true;
-                                        DynPrepare.DynModel.Pause();
-                                        DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
-                                            DynPrepare.visTargetVal.evt, Listener.CurrWeight,
-                                            DynPrepare.ChargingReason.forRecalculation));
-                                        l.msg("ATTENTION!!! Model Recalculated");
-                                        DynPrepare.DynModel.Resume();
-                                    //}
+                                    DynPrepare.DynModel.Pause();
+                                    DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
+                                        DynPrepare.visTargetVal.evt, Listener.CurrWeight,
+                                        DynPrepare.ChargingReason.forRecalculation));
+                                    l.msg("ATTENTION!!! Model Recalculated");
+                                    DynPrepare.DynModel.Resume();
                                 }
                                 else
                                 {
@@ -388,12 +386,11 @@ namespace ModelRunner
                             {
                                 l.err("XIMIRON appeared but too late -- model disabled");
                             }
-                        //}
-                        //else
-                        //    l.msg(
-                        //        "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
-                        //        HeatNumber, fxe.Arguments["HEAT_NO"]
-                        //        );
+                        }
+                        else l.msg(
+                                "Iron Chemistry from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumber, fxe.Arguments["HEAT_NO"]
+                                );
                     }
                     else if (fxe.Operation.StartsWith("ConverterUI.TargetValues"))
                     {
@@ -445,6 +442,7 @@ namespace ModelRunner
                     CurrWeight["COKE"] = 1;
                     DynPrepare.HeatFlags = 0;
                 }
+#if (!SCRAPEVENT_IS_FLEX)
                 else if (evt is ScrapEvent)
                 {
                     var se = evt as ScrapEvent;
@@ -466,6 +464,7 @@ namespace ModelRunner
                         DynPrepare.HeatFlags |= ModelStatus.ScrapDefined;
                     }
                 }
+#endif
                 else if (evt is SteelMakingPatternEvent)
                 {
                     var smpe = evt as SteelMakingPatternEvent;
