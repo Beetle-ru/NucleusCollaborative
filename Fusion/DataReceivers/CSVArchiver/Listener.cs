@@ -29,16 +29,16 @@ namespace CSVArchiver
                     Program.SDS.OxygenRate.Add(lanceEvent.O2Flow);
                     Program.OxygenRate.Add(lanceEvent.O2Flow);
                 }
-                if (newEvent is OffGasAnalysisEvent)
-                {
-                    var offGasAnalysisEvent = newEvent as OffGasAnalysisEvent;
-                    Program.SDS.H2Perc.Add(offGasAnalysisEvent.H2);
-                    Program.SDS.O2Perc.Add(offGasAnalysisEvent.O2);
-                    Program.SDS.COPerc.Add(offGasAnalysisEvent.CO);
-                    Program.SDS.CO2Perc.Add(offGasAnalysisEvent.CO2);
-                    Program.SDS.N2Perc.Add(offGasAnalysisEvent.N2);
-                    Program.SDS.ArPerc.Add(offGasAnalysisEvent.Ar);
-                }
+                //if (newEvent is OffGasAnalysisEvent)
+                //{
+                //    var offGasAnalysisEvent = newEvent as OffGasAnalysisEvent;
+                //    Program.SDS.H2Perc.Add(offGasAnalysisEvent.H2);
+                //    Program.SDS.O2Perc.Add(offGasAnalysisEvent.O2);
+                //    Program.SDS.COPerc.Add(offGasAnalysisEvent.CO);
+                //    Program.SDS.CO2Perc.Add(offGasAnalysisEvent.CO2);
+                //    Program.SDS.N2Perc.Add(offGasAnalysisEvent.N2);
+                //    Program.SDS.ArPerc.Add(offGasAnalysisEvent.Ar);
+                //}
                 if (newEvent is OffGasEvent)
                 {
                     var offGasEvent = newEvent as OffGasEvent;
@@ -141,6 +141,29 @@ namespace CSVArchiver
                         catch (Exception e)
                         {
                             InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
+                        }
+                    }
+
+                    if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent"))
+                    {
+                        var key = "H2";
+                        try
+                        {
+                            Program.SDS.H2Perc.Add((double)fxe.Arguments[key]);
+                            key = "O2";
+                            Program.SDS.O2Perc.Add((double)fxe.Arguments[key]);
+                            key = "CO";
+                            Program.SDS.COPerc.Add((double)fxe.Arguments[key]);
+                            key = "CO2";
+                            Program.SDS.CO2Perc.Add((double)fxe.Arguments[key]);
+                            key = "N2";
+                            Program.SDS.N2Perc.Add((double)fxe.Arguments[key]);
+                            key = "Ar";
+                            Program.SDS.ArPerc.Add((double)fxe.Arguments[key]);
+                        }
+                        catch (Exception e)
+                        {
+                            InstantLogger.err("UDP.OffGasAnalysisEvent - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                 }
