@@ -43,12 +43,11 @@ namespace CPlusProcessor
                 if (evt is LanceEvent)
                 {
                     var le = evt as LanceEvent;
-                    //Iterator.HDSmoother.Oxygen.Add(le.O2TotalVol);
+                    
                     Iterator.HDSmoother.Oxygen = le.O2TotalVol;
-                    //Iterator.HDSmoother.LanceHeigth.Add(le.LanceHeight);
                     Iterator.HDSmoother.LanceHeigth = le.LanceHeight;
-                    //Iterator.HDSmoother.LanceHeigthPrevious.Add(LanceHeithPrevious);
                     Iterator.HDSmoother.LanceHeigthPrevious = LanceHeithPrevious;
+                   
                     LanceHeithPrevious = le.LanceHeight;
                 }
                 if (evt is BlowingEvent)
@@ -66,8 +65,6 @@ namespace CPlusProcessor
                         Iterator.IntegralCO += ogae.CO;
                         Iterator.IntegralCO2 += ogae.CO2;
                     }
-                    //InstantLogger.msg("integral CO {1} > {0} > {2}", Iterator.IntegralCO, Program.COMax, Program.COMin);
-                    
                 }
                 if (evt is OffGasEvent)
                 {
@@ -95,7 +92,6 @@ namespace CPlusProcessor
                     var sse = evt as SublanceStartEvent;
                     if (sse.SublanceStartFlag == 1)
                     {
-                        //Iterator.FireFixEvent(-11.33);
                         l.msg("Sublance begin metering");
                     }
                     if (sse.SublanceStartFlag == 0)
@@ -110,16 +106,6 @@ namespace CPlusProcessor
                     l.msg("Spectroluks C = {0}; HN = {1}", vse.C, HeatNumberToShort(vse.HeatNumber));
                     Iterator.AddCarbonToQueue(HeatNumberToShort(vse.HeatNumber), vse.C);
                 }
-                //if (evt is CalculatedCarboneEvent)
-                //{
-                //    var cce = evt as CalculatedCarboneEvent;
-                //    const double treshold = 0.12; 
-                //    if (!Iterator.ModelIsStarted)
-                //    {
-                //        var c = cce.CarbonePercent;
-                //Iterator.PushCarbon(c >= treshold ? c : treshold);
-                //    }
-                //}
             }
         }
     }

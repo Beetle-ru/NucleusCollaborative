@@ -28,6 +28,7 @@ namespace CPlusProcessor
         private static bool m_dataIsEnqueue;
 
         private static bool m_isBadInitBlowinByCO;
+        private static bool m_isBlowingUpliftLance;
 
         private static double m_lastCarbon;
 
@@ -52,6 +53,7 @@ namespace CPlusProcessor
             m_dataIsFixed = false;
             m_dataIsEnqueue = false;
             m_isBadInitBlowinByCO = false;
+            m_isBlowingUpliftLance = false;
             Console.WriteLine("Reset");
             IntegralCO = 0;
             IntegralCO2 = 0;
@@ -68,7 +70,7 @@ namespace CPlusProcessor
                     if (!m_dataIsEnqueue)
                     {
                         CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
-                        EnqueueWaitC();
+                        if (VerifyForEnqueueWaitC()) EnqueueWaitC(); // ставим в очередь если плавка нормальная
                         m_dataIsEnqueue = true;
                         FireFixEvent(CurrentState.SteelCarbonPercentCalculated);
                     }
@@ -98,6 +100,7 @@ namespace CPlusProcessor
                 }
             }
 
+            HDSmoother.HeatIsStarted = true; ///
             if (HDSmoother.HeatIsStarted)
             {
                 CurrentState.HightQualityHeat = HightQualityHeatVerify();
@@ -165,7 +168,7 @@ namespace CPlusProcessor
                     i++;
                 }
             }
-            const int maxLength = 1000;
+            const int maxLength = 10000;
             if (WaitCarbonDic.Count > maxLength) // если по каким-то причинам очередь слишком разрослась, то безжалостно ее прибиваем
             {
                 WaitCarbonDic.Clear();
@@ -177,8 +180,29 @@ namespace CPlusProcessor
         {
             if (VerifiDataForSave(hDataResult))
             {
-                m_matrix.RemoveAt(0);
-                m_matrix.Add(hDataResult);
+                //m_matrix.RemoveAt(0);
+                //m_matrix.Add(hDataResult);
+                //m_matrix.Insert();
+                const double epsilon = 0.005;
+                var isFoundInMatrix = false;
+                for (int i = 0; i < m_matrix.Count; i++)
+                {
+                    if (Math.Abs(m_matrix[i].SteelCarbonPercent - hDataResult.SteelCarbonPercent) < epsilon)
+                    {
+                        m_matrix.RemoveAt(i);
+                        m_matrix.Insert(i, hDataResult);
+                        isFoundInMatrix = true;
+                        break;
+                    }
+                }
+                if (isFoundInMatrix)
+                {
+                    InstantLogger.log("hDataResult.SteelCarbonPercent is found in m_matrix and replased");
+                }
+                else
+                {
+                    InstantLogger.err("hDataResult.SteelCarbonPercent = {0} not found in m_matrix", hDataResult.SteelCarbonPercent);
+                }
             }
             else
             {
@@ -195,24 +219,24 @@ namespace CPlusProcessor
         {
             const double minCarbonPercent = 0.03;
             const double maxCarbonPercent = 0.12;
-            //const double maxHeightLance = 230;
-            const double maxCarbonMonoxideVolumePercent = 30;
-            const double maxCarbonOxideVolumePercent = 30;
-            const double minICO_Ico2Ratio = 1.5;
-
-            var it4 = (!((IntegralCO / IntegralCO2) < minICO_Ico2Ratio)); // 4. Плавки, выполненные с полным дожиганием «СО»
-            if (!it4) Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2, minICO_Ico2Ratio);
 
             return   (currentHeatResult.SteelCarbonPercentCalculated != 0) &&
                      (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
                      (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
-                     (IntegralCO > Program.COMin) && // проверка на интегральный CO
-                     (IntegralCO < Program.COMax) &&
-                     it4 &&
-                     false && // заблокировано сохранение пока, на время -- до отладки механизма верификации
                      (currentHeatResult.HightQualityHeat); 
         }
 
+        static private bool VerifyForEnqueueWaitC()
+        {
+            const double minIcoIco2Ratio = 1.6;
+
+            var it4 = (!((IntegralCO / IntegralCO2) < minIcoIco2Ratio)); // 4. Плавки, выполненные с полным дожиганием «СО»
+            if (!it4) Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2, minIcoIco2Ratio);
+            return it4 &&
+                   (IntegralCO > Program.COMin) && // проверка на интегральный CO
+                   (IntegralCO < Program.COMax);
+        }
+        
         private static bool ModelVerifiForStart()
         {
             const double oxygenTreshol = 16000;
@@ -223,33 +247,25 @@ namespace CPlusProcessor
 
         static public bool ModelVerifiForFix()
         {
-            const int maxDownPosition = 255;
-            const int minDownPosition = 190;
-            const int LanceFixPositionTreshold = 330;
-            const int lanceSpeed = 5; // + up , - down
-            const double carbonMonoxideTreshol = 30.0; //%
-            const double carbonOxideTreshol = 5.0; //%
+            const int lanceFixPositionTreshold = 330;
             const int oxigenTreshold = 16000;
 
                 return (!m_dataIsFixed) &&
-                   //(HDSmoother.LanceHeigth.Average(PeriodSec) < maxDownPosition) &&
-                   //(HDSmoother.LanceHeigth.Average(PeriodSec) > minDownPosition) &&
-                   //(HDSmoother.CO.Average(PeriodSec) < carbonMonoxideTreshol) &&
-                   //(HDSmoother.CO2.Average(PeriodSec) > carbonOxideTreshol) &&
-                   //((HDSmoother.LanceHeigth.Average(PeriodSec) - HDSmoother.LanceHeigthPrevious.Average(PeriodSec)) > lanceSpeed);
                    (HDSmoother.Oxygen > oxigenTreshold) &&
-                   (HDSmoother.LanceHeigth >= LanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
-            //(IntegralCO > Program.COMin) && // проверка на интегральный CO
-            //(IntegralCO < Program.COMax);
+                   (HDSmoother.LanceHeigth >= lanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
         }
 
         static public bool HightQualityHeatVerify()
         {
-            const double initCOTreshold = 2;
+            const double initCOTreshold = 1;
             const double minOffGasV = 320000;
             const double maxOffGasV = 420000;
-            const double minOxiIgnition = 2000;
-            const double maxOxiIgnition = 7000;
+            const double minOxiIgnition = 2000; //начало периода зажигания
+            const double maxOxiIgnition = 7000; // окончание периода зажигания
+
+            const double minOxiLanceDown = 2000; // начало периода нижнего положения фурмы
+            const double maxOxiLanceDown = 16000; // конец периода нижнего положения фурмы
+            const double maxLanceHeigth = 500;
             if (HDSmoother.Oxygen > minOxiIgnition && HDSmoother.Oxygen < maxOxiIgnition) // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
             {
                 if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold)
@@ -258,12 +274,22 @@ namespace CPlusProcessor
                     InstantLogger.err("Bad blowing item 2.: {0} < {1}\n CurrentOxygen -- {2}\n", HDSmoother.CO.Average(PeriodSec), initCOTreshold, HDSmoother.Oxygen);
                 }
             }
+
             if (OffGasV < minOffGasV && OffGasV > maxOffGasV) // 5. Плавки с искажениями по величине отходящих газов
             {
                 m_isBadInitBlowinByCO = true;
                 InstantLogger.err("Bad blowing item 5.: {2} < {0} < {1}\n", minOffGasV, minOffGasV, maxOffGasV);
             }
-            return !m_isBadInitBlowinByCO;
+
+            if (HDSmoother.Oxygen > minOxiLanceDown && HDSmoother.Oxygen < maxOxiLanceDown) // проверка на слив шлака
+            {
+                if (HDSmoother.LanceHeigth >= maxLanceHeigth)
+                {
+                    m_isBlowingUpliftLance = true;
+                    InstantLogger.err("Bad blowing Lance heigth {0} > {1}\n CurrentOxygen -- {2}\n", HDSmoother.LanceHeigth, maxLanceHeigth, HDSmoother.Oxygen);
+                }
+            }
+            return !m_isBadInitBlowinByCO && !m_isBlowingUpliftLance;
         }
 
         public static void IterateTimeOut(object source, ElapsedEventArgs e)
@@ -274,65 +300,25 @@ namespace CPlusProcessor
 
     }
 
-    //class HeatData
-    //{
-    //    public double CO;
-    //    public double COPrevious;
-    //    public double CO2;
-    //    public int LanceHeigth;
-    //    public int LanceHeigthPrevious;
-    //    public int Oxygen;
-
-    //    public HeatData()
-    //    {
-    //        CO = 0.0;
-    //        COPrevious = 0.0;
-    //        CO2 = 0.0;
-    //        LanceHeigth = 0;
-    //        LanceHeigthPrevious = 0;
-    //        Oxygen = 0;
-    //    }
-    //}
-
     class HeatDataSmoother
     {
         public RollingAverage CO;
-        //public RollingAverage COPrevious;
         public RollingAverage CO2;
-        //public RollingAverage LanceHeigth;
-        //public RollingAverage LanceHeigthPrevious;
+        
         public double LanceHeigth;
         public double LanceHeigthPrevious;
-        //public RollingAverage Oxygen;
         public double Oxygen;
         public bool HeatIsStarted;
 
         public HeatDataSmoother(int lengthBuff = 50)
         {
             CO = new RollingAverage(lengthBuff);
-           // COPrevious = new RollingAverage(lengthBuff);
             CO2 = new RollingAverage(lengthBuff);
-            //LanceHeigth = new RollingAverage(lengthBuff);
-            //LanceHeigthPrevious = new RollingAverage(lengthBuff);
+
             LanceHeigth = 0;
             LanceHeigthPrevious = 0;
-            //Oxygen = new RollingAverage(lengthBuff);
             Oxygen = 0.0;
             HeatIsStarted = false;
         }
-
-        //public HeatData GetHeatData(HeatData hd, int intervalSec)
-        //{
-        //    if (hd == null) throw new ArgumentNullException("hd");
-
-        //    hd.CO = CO.Average(intervalSec);
-        //    //hd.COPrevious = COPrevious.Average(intervalSec);
-        //    hd.CO2 = CO2.Average(intervalSec);
-        //    hd.LanceHeigth = (int)Math.Round(LanceHeigth.Average(intervalSec));
-        //    hd.LanceHeigthPrevious = (int)Math.Round(LanceHeigthPrevious.Average(intervalSec));
-        //    hd.Oxygen = (int)Math.Round(Oxygen.Average(intervalSec));
-
-        //    return hd;
-        //}
     }
 }
