@@ -232,6 +232,17 @@ namespace CPlusProcessor
 
             var it4 = (!((IntegralCO / IntegralCO2) < minIcoIco2Ratio)); // 4. Плавки, выполненные с полным дожиганием «СО»
             if (!it4) Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2, minIcoIco2Ratio);
+            InstantLogger.msg("(!((IntegralCO[{0}] / IntegralCO2[{1}])[{2}] < minIcoIco2Ratio[{3}])) = {4}\n(IntegralCO[{0}] > Program.COMin[{5}]) = {6}\n (IntegralCO[{0}] < Program.COMax[{7}]) = {8}",
+                             IntegralCO, 
+                             IntegralCO2, 
+                             (IntegralCO / IntegralCO2),
+                             minIcoIco2Ratio, 
+                             it4, 
+                             Program.COMin, 
+                             (IntegralCO > Program.COMin), 
+                             Program.COMax, 
+                             (IntegralCO < Program.COMax)
+                             );
             return it4 &&
                    (IntegralCO > Program.COMin) && // проверка на интегральный CO
                    (IntegralCO < Program.COMax);

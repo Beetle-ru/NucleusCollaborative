@@ -156,7 +156,7 @@ namespace CSVArchPlayer
                 Console.WriteLine("specroluks push Heat = {0} ", longHN);
                 MainGate.PushEvent(new SublanceCEvent() { C = HDataList[m_position].SublanceC });
                 m_sublanceCIsPushed = true;
-                Console.WriteLine("Carbone pushed C = {0}", HDataList[m_position].SublanceC);
+                Console.WriteLine("Carbone pushed C = {0}, heatNumber = {1}", HDataList[m_position].SublanceC, longHN);
             }
 
             MainGate.PushEvent(le);

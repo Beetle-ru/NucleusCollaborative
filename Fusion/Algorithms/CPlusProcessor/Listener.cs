@@ -62,8 +62,8 @@ namespace CPlusProcessor
                     Iterator.HDSmoother.CO2.Add(ogae.CO2);
                     if (Iterator.HDSmoother.Oxygen > 0)
                     {
-                        Iterator.IntegralCO += ogae.CO;
-                        Iterator.IntegralCO2 += ogae.CO2;
+                        Iterator.IntegralCO += Double.IsNaN(ogae.CO) ? 0 : ogae.CO;
+                        Iterator.IntegralCO2 += Double.IsNaN(ogae.CO2) ? 0 : ogae.CO2;
                     }
                 }
                 if (evt is OffGasEvent)
