@@ -128,9 +128,9 @@ namespace Implements
             return path + @"\" + logNameGenerate();
         }
         private static StreamWriter logFile;
-        private static bool writeLogFile = true;
+        public static bool writeLogFile = true;
         private static bool writeLogFileInitialised = false;
-        private static bool writeLogConsole = true;
+        public static bool writeLogConsole = true;
 
         public enum TypeMessage
         {
