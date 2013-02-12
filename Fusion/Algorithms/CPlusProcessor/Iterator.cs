@@ -72,6 +72,7 @@ namespace CPlusProcessor
                         CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
                         if (VerifyForEnqueueWaitC()) EnqueueWaitC(); // ставим в очередь если плавка нормальная
                         m_dataIsEnqueue = true;
+                        FireCurrentCarbon(CurrentState.SteelCarbonPercentCalculated);
                         FireFixEvent(CurrentState.SteelCarbonPercentCalculated);
                     }
                 }
@@ -83,7 +84,7 @@ namespace CPlusProcessor
 
                     if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
 
-                    PushCarbon(m_lastCarbon); // fire flex
+                    FireCurrentCarbon(m_lastCarbon); // fire flex
 
                     Console.WriteLine("Carbone = " + CurrentState.SteelCarbonPercentCalculated + "%");
                     m_dataIsFixed = ModelVerifiForFix();
@@ -100,7 +101,6 @@ namespace CPlusProcessor
                 }
             }
 
-            HDSmoother.HeatIsStarted = true; ///
             if (HDSmoother.HeatIsStarted)
             {
                 CurrentState.HightQualityHeat = HightQualityHeatVerify();
@@ -117,7 +117,7 @@ namespace CPlusProcessor
             InstantLogger.msg(fex.evt + "\n");
         }
 
-        static public void PushCarbon(double carbon)
+        static public void FireCurrentCarbon(double carbon)
         {
             const double tresholdCarbon = 0.03;
             carbon = carbon < tresholdCarbon ? tresholdCarbon : carbon; // ограничение на углерод
