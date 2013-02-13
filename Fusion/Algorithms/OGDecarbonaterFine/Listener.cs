@@ -62,6 +62,13 @@ namespace OGDecarbonaterFine
                 if (evt is OffGasEvent)
                 {
                     var oge = evt as OffGasEvent;
+                    Iterator.HDSmoother.OffGasV.Add(oge.OffGasFlow);
+                    Iterator.HDSmoother.OffGasT.Add(oge.OffGasTemp);
+                }
+                if (evt is DecompressionOffGasEvent)
+                {
+                    var doge = evt as DecompressionOffGasEvent;
+                    Iterator.HDSmoother.OffGasDecompression.Add(doge.Decompression);
                 }
                 if (evt is HeatChangeEvent)
                 {

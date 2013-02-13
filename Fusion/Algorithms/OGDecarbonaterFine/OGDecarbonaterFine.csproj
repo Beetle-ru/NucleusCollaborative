@@ -45,7 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HeatData.cs" />
+    <Compile Include="HeatDataSmoother.cs" />
     <Compile Include="Iterator.cs" />
+    <Compile Include="IteratorCalcFormulas.cs" />
+    <Compile Include="IteratorMembers.cs" />
+    <Compile Include="IteratorTools.cs" />
     <Compile Include="Listener.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
