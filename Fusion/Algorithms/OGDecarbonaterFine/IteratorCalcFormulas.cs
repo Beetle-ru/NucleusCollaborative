@@ -17,7 +17,7 @@ namespace OGDecarbonaterFine
         {
             const double k1 = 0.3030303030; // 1/3.3
             const double k2 = 2500;
-            CurrentState.PFlue = (HDSmoother.GetOffGasDecompression() + k2) * k1;
+            CurrentState.PFlue = (CurrentState.OffGasDecompression + k2) * k1;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace OGDecarbonaterFine
         /// </summary>
         static void CalcQ1()
         {
-            CurrentState.Q1 = CurrentState.K1 * HDSmoother.GetOffGasV();
+            CurrentState.Q1 = CurrentState.K1 * CurrentState.OffGasV;
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace OGDecarbonaterFine
         {
             const double k1 = 10200;
             const double k2 = 0.0001; // 1 / 10000
-            CurrentState.Pa = (HDSmoother.GetOffGasDecompression() + k1)*k2;
+            CurrentState.Pa = (CurrentState.OffGasDecompression + k1) * k2;
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace OGDecarbonaterFine
             const double k1 = 0.000184;
             const double k2 = 0.012366;
             const double k3 = 0.277243;
-            CurrentState.SH2O = k1 * Math.Pow(HDSmoother.GetOffGasT(), 2) - k2 + k3;
+            CurrentState.SH2O = k1 * Math.Pow(CurrentState.OffGasT, 2) - k2 + k3;
         }
 
         /// <summary>
@@ -113,23 +113,21 @@ namespace OGDecarbonaterFine
             const double DH2O = 0.5980;
 
             //текущие концентрации газов
-            var O2 = HDSmoother.GetO2();
-            var H2 = HDSmoother.GetH2();
-            var CO = HDSmoother.GetCO();
-            var CO2 = HDSmoother.GetCO2();
-            var N2 = HDSmoother.GetN2();
-            var Ar = HDSmoother.GetAr();
+            var O2 = CurrentState.O2;
+            var H2 = CurrentState.H2;
+            var CO = CurrentState.CO;
+            var CO2 = CurrentState.CO2;
+            var N2 = CurrentState.N2;
+            var Ar = CurrentState.Ar;
             var H2O = CurrentState.SH2O;
             var _H2O = 1 - H2O;
 
-
-            // необходим учет задержки газоанализатора
-            CurrentState.OffgasDensity = ((DO2*O2*_H2O) + 
-                                          (DH2*H2*_H2O) + 
-                                          (DCO*CO*_H2O) + 
+            CurrentState.OffgasDensity = ((DO2*O2*_H2O)   + 
+                                          (DH2*H2*_H2O)   + 
+                                          (DCO*CO*_H2O)   + 
                                           (DCO2*CO2*_H2O) +
-                                          (DN2*N2*_H2O) + 
-                                          (DAr*Ar*_H2O) + 
+                                          (DN2*N2*_H2O)   + 
+                                          (DAr*Ar*_H2O)   + 
                                           (DH2O*H2O*k1)
                                          )*k2;
         }

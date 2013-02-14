@@ -5,9 +5,10 @@ using System.Text;
 
 namespace OGDecarbonaterFine
 {
-    public class HeatData
+    public class RecalculateData : InputData
     {
         public Int64 HeatNumber;
+        public int OffGasTransportDelay;
 
         /// <summary>
         /// Давление в газоходе
@@ -54,9 +55,10 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double OffgasDensity;
 
-        public HeatData()
+        public RecalculateData()
         {
             HeatNumber = 0;
+            OffGasTransportDelay = 25;
             PFlue = 0.0;
             Pa1 = 0.0;
             Pa2 = 0.0;

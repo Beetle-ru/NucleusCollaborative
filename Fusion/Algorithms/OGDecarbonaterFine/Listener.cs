@@ -48,27 +48,27 @@ namespace OGDecarbonaterFine
                 if (evt is BlowingEvent)
                 {
                     var be = evt as BlowingEvent;
-                    Iterator.HDSmoother.HeatIsStarted = be.BlowingFlag == 1;
+                    Iterator.Receiver.HeatIsStarted = be.BlowingFlag == 1;
                 }
-                if (evt is OffGasAnalysisEvent)
-                {
-                    var ogae = evt as OffGasAnalysisEvent;
-                    Iterator.HDSmoother.CO.Add(ogae.CO);
-                    Iterator.HDSmoother.CO2.Add(ogae.CO2);
-                    Iterator.HDSmoother.N2.Add(ogae.N2);
-                    Iterator.HDSmoother.O2.Add(ogae.O2);
-                    Iterator.HDSmoother.H2.Add(ogae.H2);
-                }
+                //if (evt is OffGasAnalysisEvent)
+                //{
+                //    var ogae = evt as OffGasAnalysisEvent;
+                //    Iterator.Receiver.CO.Add(ogae.CO);
+                //    Iterator.Receiver.CO2.Add(ogae.CO2);
+                //    Iterator.Receiver.N2.Add(ogae.N2);
+                //    Iterator.Receiver.O2.Add(ogae.O2);
+                //    Iterator.Receiver.H2.Add(ogae.H2);
+                //}
                 if (evt is OffGasEvent)
                 {
                     var oge = evt as OffGasEvent;
-                    Iterator.HDSmoother.OffGasV.Add(oge.OffGasFlow);
-                    Iterator.HDSmoother.OffGasT.Add(oge.OffGasTemp);
+                    Iterator.Receiver.OffGasV.Add(oge.OffGasFlow);
+                    Iterator.Receiver.OffGasT.Add(oge.OffGasTemp);
                 }
                 if (evt is DecompressionOffGasEvent)
                 {
                     var doge = evt as DecompressionOffGasEvent;
-                    Iterator.HDSmoother.OffGasDecompression.Add(doge.Decompression);
+                    Iterator.Receiver.OffGasDecompression.Add(doge.Decompression);
                 }
                 if (evt is HeatChangeEvent)
                 {
@@ -102,6 +102,30 @@ namespace OGDecarbonaterFine
                 if (evt is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = evt as visSpectrluksEvent;
+                }
+
+                if (evt is FlexEvent)
+                {
+                    var fxe = evt as FlexEvent;
+                    if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent"))
+                    {
+                        var fxh = new FlexHelper(fxe);
+
+                        Iterator.Receiver.H2.Add(fxh.GetDbl("H2"));
+                        Iterator.Receiver.O2.Add(fxh.GetDbl("O2"));
+                        Iterator.Receiver.CO.Add(fxh.GetDbl("CO"));
+                        Iterator.Receiver.CO2.Add(fxh.GetDbl("CO2"));
+                        Iterator.Receiver.N2.Add(fxh.GetDbl("N2"));
+                        Iterator.Receiver.Ar.Add(fxh.GetDbl("Ar"));
+
+                        if (fxh.GetDbl("Branch") == 1)
+                        {
+                            Iterator.CurrentState.OffGasTransportDelay = (int)Math.Round(fxh.GetDbl("TransportDelay1"));
+                        } else if (fxh.GetDbl("Branch") == 2)
+                        {
+                            Iterator.CurrentState.OffGasTransportDelay = (int)Math.Round(fxh.GetDbl("TransportDelay2"));
+                        }
+                    }
                 }
             }
         }

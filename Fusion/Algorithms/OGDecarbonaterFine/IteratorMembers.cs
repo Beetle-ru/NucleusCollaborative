@@ -9,10 +9,11 @@ namespace OGDecarbonaterFine
 {
     internal static partial class Iterator
     {
-        public static HeatDataSmoother HDSmoother;
+        public static HeatDataReceiver Receiver;
         public const int PeriodSec = 3; // время сглаживания
         public const int IntervalSec = 1; // интервал расчетов
         public static Timer IterateTimer = new Timer(IntervalSec*1000);
-        public static HeatData CurrentState;
+        public static RecalculateData CurrentState;
+        public static List<InputData> InputDataBuffer;
     }
 }

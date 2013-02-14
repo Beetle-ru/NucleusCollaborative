@@ -7,7 +7,7 @@ using Implements;
 
 namespace OGDecarbonaterFine
 {
-    class HeatDataSmoother
+    class HeatDataReceiver
     {
         public int SmoothPeriod;
 
@@ -98,7 +98,7 @@ namespace OGDecarbonaterFine
         }
         #endregion
 
-        public HeatDataSmoother( int smoothPeriod, int lengthBuff = 50)
+        public HeatDataReceiver( int smoothPeriod, int lengthBuff = 50)
         {
             SmoothPeriod = smoothPeriod;
 

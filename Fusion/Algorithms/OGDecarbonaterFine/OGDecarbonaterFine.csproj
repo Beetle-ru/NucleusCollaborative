@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HeatData.cs" />
-    <Compile Include="HeatDataSmoother.cs" />
+    <Compile Include="InputData.cs" />
+    <Compile Include="RecalculateData.cs" />
+    <Compile Include="HeatDataReceiver.cs" />
     <Compile Include="Iterator.cs" />
     <Compile Include="IteratorCalcFormulas.cs" />
     <Compile Include="IteratorMembers.cs" />

@@ -11,13 +11,17 @@ namespace OGDecarbonaterFine
     {
         public static void Iterate()
         {
-
+            SyncPushInputData(); // синхронизируя проталкиваем последние данные
         }
 
         public static void IterateTimeOut(object source, ElapsedEventArgs e)
         {
-            Iterate();
-            Console.Write(".");
+            if (Receiver.HeatIsStarted)
+            {
+                Iterate();
+                Console.Write("*");
+            }
+            else Console.Write(".");
         }
     }
 }

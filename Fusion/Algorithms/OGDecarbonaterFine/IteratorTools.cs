@@ -20,9 +20,51 @@ namespace OGDecarbonaterFine
 
         public static void Reset()
         {
-            HDSmoother = new HeatDataSmoother(PeriodSec);
-            CurrentState = new HeatData();
+            Receiver = new HeatDataReceiver(PeriodSec);
+            CurrentState = new RecalculateData();
+            InputDataBuffer = new List<InputData>();
             Console.WriteLine("Reset");
+        }
+
+        public static void PutInputDataIntoTheBuffer()
+        {
+            var data = new InputData();
+            data.Ar = Receiver.GetAr();
+            data.CO = Receiver.GetCO();
+            data.CO2 = Receiver.GetCO2();
+            data.H2 = Receiver.GetH2();
+            data.N2 = Receiver.GetN2();
+            data.O2 = Receiver.GetO2();
+            data.OffGasDecompression = Receiver.GetOffGasDecompression();
+            data.OffGasT = Receiver.GetOffGasT();
+            data.OffGasV = Receiver.GetOffGasV();
+
+            InputDataBuffer.Add(data);
+        }
+
+        public static void SyncInputData()
+        {
+            if (InputDataBuffer.Any() && (InputDataBuffer.Count > CurrentState.OffGasTransportDelay))
+            {
+                var currentSecond = InputDataBuffer.Count - 1;
+                var delayedSecond = currentSecond - CurrentState.OffGasTransportDelay;
+                CurrentState.Ar = InputDataBuffer[currentSecond].Ar;
+                CurrentState.CO = InputDataBuffer[currentSecond].CO;
+                CurrentState.CO2 = InputDataBuffer[currentSecond].CO2;
+                CurrentState.H2 = InputDataBuffer[currentSecond].H2;
+                CurrentState.N2 = InputDataBuffer[currentSecond].N2;
+                CurrentState.O2 = InputDataBuffer[currentSecond].O2;
+
+                CurrentState.OffGasV = InputDataBuffer[delayedSecond].OffGasV;
+                CurrentState.OffGasT = InputDataBuffer[delayedSecond].OffGasT;
+                CurrentState.OffGasDecompression = InputDataBuffer[delayedSecond].OffGasDecompression;
+            }
+        }
+
+        public static void SyncPushInputData()
+        {
+            PutInputDataIntoTheBuffer();
+            SyncInputData();
         }
 
         static public void PushCarbon(double carbon)
