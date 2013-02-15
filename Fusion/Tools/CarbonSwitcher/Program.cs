@@ -67,13 +67,15 @@ namespace CarbonSwitcher
                 if (!ModelList[Cfg.SecondModel].IsFixed)
                 {
                     //FireCarbon(ModelList[Cfg.SecondModel].C);
-                    FireCarbon(ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond);
+                    
                     KSecond = 1 - KFirst;
                     var currentSecond = DateTime.Now.Second;
                     if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
                     {
+                        FireCarbon(ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond);
+
                         LastIterateSecond = currentSecond;
-                        if (KFirst > 0) KFirst -= SwitchSpeed;
+                        if (KFirst >= 0) KFirst -= SwitchSpeed;
                         else KFirst = 0;
                         //Console.Write("#");
                     }
