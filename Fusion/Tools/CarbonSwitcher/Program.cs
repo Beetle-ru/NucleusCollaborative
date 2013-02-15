@@ -75,7 +75,7 @@ namespace CarbonSwitcher
                         FireCarbon(ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond);
 
                         LastIterateSecond = currentSecond;
-                        if (KFirst >= 0) KFirst -= SwitchSpeed;
+                        if (KFirst - SwitchSpeed > 0) KFirst -= SwitchSpeed;
                         else KFirst = 0;
                         //Console.Write("#");
                     }
