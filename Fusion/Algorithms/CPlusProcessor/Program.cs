@@ -70,9 +70,11 @@ namespace CPlusProcessor
                             HeatNumber = Convertion.StrToInt64(values[0]),
                             TimeFromX = Convertion.StrToInt32(values[1]),
                             CarbonOxideIVP = Convertion.StrToDouble(values[2]),
-                            SteelCarbonPercent = Convertion.StrToDouble(values[3]),
-                            SteelCarbonPercentCalculated = Convertion.StrToDouble(values[4]),
-                            HightQualityHeat = Convertion.StrToBool(values[5])
+                            CarbonMonoxideVP = Convertion.StrToDouble(values[3]),
+                            CarbonOxideVP = Convertion.StrToDouble(values[4]),
+                            SteelCarbonPercent = Convertion.StrToDouble(values[5]),
+                            SteelCarbonPercentCalculated = Convertion.StrToDouble(values[6]),
+                            HightQualityHeat = Convertion.StrToBool(values[7])
                         });
                     }
                 }
@@ -91,11 +93,13 @@ namespace CPlusProcessor
                 string[] strings = new string[matrixStateDataFull.Count];
                 for (int dataCnt = 0; dataCnt < matrixStateDataFull.Count; dataCnt++)
                 {
-                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}",
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
                                                      Separator,
                                                      matrixStateDataFull[dataCnt].HeatNumber,
                                                      matrixStateDataFull[dataCnt].TimeFromX,
                                                      matrixStateDataFull[dataCnt].CarbonOxideIVP,
+                                                     matrixStateDataFull[dataCnt].CarbonMonoxideVP,
+                                                     matrixStateDataFull[dataCnt].CarbonOxideVP,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercent,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercentCalculated,
                                                      matrixStateDataFull[dataCnt].HightQualityHeat

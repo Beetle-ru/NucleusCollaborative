@@ -72,7 +72,7 @@ namespace HeatCharge
 
         public static double MFactorCarbonPlus(List<MFCPData> matrixStateData, MFCPData currentStateData)
         {
-            const int nFeatures = 2;
+            const int nFeatures = 4;
             int nFeaturesCoefficcients;
             int info = 0;
             var inVector = new double[matrixStateData.Count, nFeatures + 1];
@@ -84,8 +84,10 @@ namespace HeatCharge
             for (int item = 0; item < lenghtData; item++)
             {
                 inVector[item, 0] = matrixStateData[item].TimeFromX;                   // X1
-                inVector[item, 1] = matrixStateData[item].CarbonOxideIVP;           // X2
-                inVector[item, 2] = matrixStateData[item].SteelCarbonPercent;          // Y
+                inVector[item, 1] = matrixStateData[item].CarbonOxideIVP;              // X2
+                inVector[item, 2] = matrixStateData[item].CarbonMonoxideVP;            // X3
+                inVector[item, 3] = matrixStateData[item].CarbonOxideVP;               // X4
+                inVector[item, 4] = matrixStateData[item].SteelCarbonPercent;          // Y
             }
 
             alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
@@ -98,9 +100,11 @@ namespace HeatCharge
             {
                 return -2.011;
             }
-            double calculatedCarbon = coefficcients[2];
+            double calculatedCarbon = coefficcients[4];
             calculatedCarbon += coefficcients[0] * currentStateData.TimeFromX;
             calculatedCarbon += coefficcients[1] * currentStateData.CarbonOxideIVP;
+            calculatedCarbon += coefficcients[2] * currentStateData.CarbonMonoxideVP;
+            calculatedCarbon += coefficcients[3] * currentStateData.CarbonOxideVP;
 
             return calculatedCarbon;
         }
@@ -186,7 +190,9 @@ namespace HeatCharge
     public class MFCPData // multi factor carbon plus data
     {
         public Int32 TimeFromX { set; get; }             // X1
-        public double CarbonOxideIVP { set; get; }    // X2
+        public double CarbonOxideIVP { set; get; }       // X2
+        public double CarbonMonoxideVP { set; get; }     // X3
+        public double CarbonOxideVP { set; get; }        // X4
         public double SteelCarbonPercent { set; get; }   // Y
 
         public Int64 HeatNumber { set; get; }
@@ -197,6 +203,8 @@ namespace HeatCharge
         {
             TimeFromX = 0;
             HeatNumber = 0;
+            CarbonMonoxideVP = 0; 
+            CarbonOxideVP = 0;
             SteelCarbonPercentCalculated = 0.0;
             SteelCarbonPercent = 0.0;
             HightQualityHeat = false;
