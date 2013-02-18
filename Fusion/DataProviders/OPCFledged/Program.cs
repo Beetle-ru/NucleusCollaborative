@@ -16,6 +16,7 @@ namespace OPCFledged
 
         static void Main(string[] args)
         {
+            InstantLogger.writeLogConsole = false;
             using (Logger l = new Logger("Fledged"))
             {
                 try
