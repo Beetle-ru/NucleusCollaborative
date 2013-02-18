@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Channels;
 using System.Text;
 using Core;
 using System.Reflection;
@@ -157,7 +158,13 @@ namespace Core
         {
             try
             {
-                IMainGateCallback chGate = OperationContext.Current.GetCallbackChannel<IMainGateCallback>();
+                var context = OperationContext.Current;
+                IMainGateCallback chGate = context.GetCallbackChannel<IMainGateCallback>();
+                var clientIp =
+                    (context.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as
+                     RemoteEndpointMessageProperty).Address;
+
+                
                 bool isFound = false;
                 foreach (var callback in subscribers)
                 {
@@ -168,8 +175,23 @@ namespace Core
                 }
                 if (!isFound)
                 {
-                    InstantLogger.log(chGate.ToString(), "listener is subscribed", InstantLogger.TypeMessage.important);
-                    subscribers.Add(chGate);
+                    var isAllow = false;
+                    foreach (var allowIP in Program.AllowIPs)
+                    {
+                        if ((clientIp == allowIP) || (allowIP == "*")) isAllow = true;
+                    }
+                    var msg = String.Format("request subscrib from ip = {0}  ", clientIp);
+                    
+                    if (isAllow)
+                    {
+                        subscribers.Add(chGate);
+                        msg += "==> listener is subscribed";
+                    }
+                    else
+                    {
+                        msg += "client ip is not allow";
+                    }
+                    InstantLogger.msg(msg);
                 }
                 return true;
             }
