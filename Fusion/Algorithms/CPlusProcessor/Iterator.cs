@@ -97,6 +97,7 @@ namespace CPlusProcessor
             else
             {
                 ModelIsStarted = ModelVerifiForStart();
+                ModelIsStarted = true;
                 if (ModelIsStarted)
                 {
                     var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.ModelIsStarted");
