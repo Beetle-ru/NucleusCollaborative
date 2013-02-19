@@ -26,7 +26,7 @@ namespace OGDecarbonaterFine
         public double Pa2;
 
         /// <summary>
-        /// Поправочный коэффициент
+        /// Поправочный коэффициент к расходу
         /// </summary>
         public double K1;
 
@@ -55,6 +55,46 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double OffgasDensity;
 
+        /// <summary>
+        /// Поправочный коэффициент на плотность #
+        /// </summary>
+        public double KDensity;
+
+        /// <summary>
+        /// Объемный расход окончательный
+        /// </summary>
+        public double Q3;
+
+        /// <summary>
+        /// Текущий унос углерода от CO
+        /// </summary>
+        public double Mco;
+
+        /// <summary>
+        /// Накопленный унос углерода от CO
+        /// </summary>
+        public double MIco;
+
+        /// <summary>
+        /// Текущий унос углерода от CO2
+        /// </summary>
+        public double Mco2;
+
+        /// <summary>
+        /// Накопленный унос углерода от CO2
+        /// </summary>
+        public double MIco2;
+
+        /// <summary>
+        /// Суммарный текущий унос углерода
+        /// </summary>
+        public double M;
+       
+        /// <summary>
+        /// Суммарный накопленный унос углерода
+        /// </summary>
+        public double MI;
+
         public RecalculateData()
         {
             HeatNumber = 0;
@@ -68,6 +108,14 @@ namespace OGDecarbonaterFine
             SH2O = 0.0;
             Q2 = 0.0;
             OffgasDensity = 0.0;
+            KDensity = 0.0;
+            Q3 = 0.0;
+            Mco = 0.0;
+            MIco = 0.0;
+            Mco2 = 0.0;
+            MIco2 = 0.0;
+            M = 0.0;
+            MI = 0.0;
         }
     }
 }

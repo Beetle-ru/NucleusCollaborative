@@ -131,6 +131,79 @@ namespace OGDecarbonaterFine
                                           (DH2O*H2O*k1)
                                          )*k2;
         }
+
+        /// <summary>
+        /// Расчет поправочного коэффициента на плотность
+        /// </summary>
+        static void CalcDensity()
+        {
+            const double k1 = 0.80321285140562248995983935742972; // 1/1,245
+
+            CurrentState.KDensity = Math.Sqrt(CurrentState.OffgasDensity*k1);
+        }
+
+        /// <summary>
+        /// Расчет окончательного объемного расхода
+        /// </summary>
+        static void CalcQ3()
+        {
+            CurrentState.Q3 = CurrentState.KDensity*CurrentState.Q2;
+        }
+        #endregion
+
+        #region 2 Расчет массы уноса углерода
+        
+        /// <summary>
+        /// Расчет текущего и накопленного уноса углерода от CO
+        /// </summary>
+        static void CalcMIco()
+        {
+            const double k1 = 0.01; // 1/100
+            const double k2 = 0.0002777778; // 1/3600
+            const double k3 = 0.0821;
+            const double k4 = 273.15;
+            const double k5 = 12;
+            
+            var Pa = CurrentState.Pa;
+            var CO = CurrentState.CO;
+            var q3 = CurrentState.Q3;
+            var T = CurrentState.OffGasT;
+            
+            CurrentState.Mco = (Pa*CO*k1*q3*k2)/(k3*(k4+T)) * k5;
+            
+            CurrentState.MIco += CurrentState.Mco;
+        }
+
+        /// <summary>
+        /// Расчет текущего и накопленного уноса углерода от CO2
+        /// </summary>
+        static void CalcMIco2()
+        {
+            const double k1 = 0.01; // 1/100
+            const double k2 = 0.0002777778; // 1/3600
+            const double k3 = 0.0821;
+            const double k4 = 273.15;
+            const double k5 = 12;
+            
+            var Pa = CurrentState.Pa;
+            var CO2 = CurrentState.CO2;
+            var q3 = CurrentState.Q3;
+            var T = CurrentState.OffGasT;
+            
+            CurrentState.Mco2 = (Pa * CO2 * k1 * q3 * k2) / (k3 * (k4 + T)) * k5;
+            
+            CurrentState.MIco2 += CurrentState.Mco2;
+        }
+
+        /// <summary>
+        /// Расчет суммарного текущего и накопленного уноса углерода от CO и CO2
+        /// </summary>
+        static void CalcMI()
+        {
+            CurrentState.M = CurrentState.Mco + CurrentState.Mco2;
+
+            CurrentState.MI = CurrentState.MIco + CurrentState.MIco2;
+        }
         #endregion
     }
 }
