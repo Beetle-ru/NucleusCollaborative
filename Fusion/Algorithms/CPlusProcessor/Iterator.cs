@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using ConnectionProvider;
 using HeatCharge;
 using Implements;
 
@@ -21,7 +22,7 @@ namespace CPlusProcessor
         public const int PeriodSec = 3; // время сглаживания
         public const int IntervalSec = 1; // интервал расчетов
         public static Timer IterateTimer = new Timer(IntervalSec * 1000);
-        public static Dictionary<Int64, MFCPData> WaitCarbonDic; // очередь ожидания углерода
+        public static Dictionary<long, MFCPData> WaitCarbonDic; // очередь ожидания углерода
 
         public static bool ModelIsStarted;
         private static bool m_dataIsFixed;
@@ -31,6 +32,7 @@ namespace CPlusProcessor
         private static bool m_isBlowingUpliftLance;
 
         private static double m_lastCarbon;
+        private static double m_previousCarbon;
 
         public static void Init()
         {
@@ -41,7 +43,7 @@ namespace CPlusProcessor
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
 
-            WaitCarbonDic = new Dictionary<Int64, MFCPData>();
+            WaitCarbonDic = new Dictionary<long, MFCPData>();
         }
 
         public static void Reset()
@@ -59,6 +61,7 @@ namespace CPlusProcessor
             IntegralCO2 = 0;
             OffGasV = 320001;
             m_lastCarbon = 0;
+            m_previousCarbon = Double.MaxValue;
         }
 
         public static void Iterate()
@@ -70,6 +73,7 @@ namespace CPlusProcessor
                     if (!m_dataIsEnqueue)
                     {
                         CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
+                        CurrentState.SteelCarbonPercentCalculated = CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
                         if (VerifyForEnqueueWaitC()) EnqueueWaitC(); // ставим в очередь если плавка нормальная
                         m_dataIsEnqueue = true;
                         FireCurrentCarbon(CurrentState.SteelCarbonPercentCalculated);
@@ -86,9 +90,9 @@ namespace CPlusProcessor
                     CurrentState.TimeFromX += IntervalSec;
                     CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
 
-                    if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
-
-                    FireCurrentCarbon(m_lastCarbon); // fire flex
+                    //if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
+                    CurrentState.SteelCarbonPercentCalculated = CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
+                    FireCurrentCarbon(CurrentState.SteelCarbonPercentCalculated); // fire flex
 
                     Console.WriteLine("Carbone = " + CurrentState.SteelCarbonPercentCalculated + "%");
                     m_dataIsFixed = ModelVerifiForFix();
@@ -97,10 +101,10 @@ namespace CPlusProcessor
             else
             {
                 ModelIsStarted = ModelVerifiForStart();
-                ModelIsStarted = true;
+
                 if (ModelIsStarted)
                 {
-                    var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.ModelIsStarted");
+                    var fex = new FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
                     InstantLogger.msg(fex.evt + "\n");
                 }
@@ -113,10 +117,24 @@ namespace CPlusProcessor
             
         }
 
+        public static double CarbonClipper(double carbon)
+        {
+            var res = 0.0;
+            if (carbon > m_previousCarbon)
+            {
+                res = m_previousCarbon;
+            }
+            else
+            {
+                res = carbon;
+                m_previousCarbon = carbon;
+            }
+            return res;
+        }
 
         static public void FireFixEvent(double carbon)
         {
-            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.DataFix");
+            var fex = new FlexHelper("CPlusProcessor.DataFix");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate);
             InstantLogger.msg(fex.evt + "\n");
@@ -127,7 +145,7 @@ namespace CPlusProcessor
             const double tresholdCarbon = 0.03;
             carbon = carbon < tresholdCarbon ? tresholdCarbon : carbon; // ограничение на углерод
 
-            var fex = new ConnectionProvider.FlexHelper("CPlusProcessor.Result");
+            var fex = new FlexHelper("CPlusProcessor.Result");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate); 
         }
@@ -313,7 +331,6 @@ namespace CPlusProcessor
             Iterate();
             Console.Write(".");
         }
-
     }
 
     class HeatDataSmoother

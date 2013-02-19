@@ -19,6 +19,7 @@ namespace CarbonSwitcher
         public static double KSecond; // K второго углерода для плавного перехода
         public const double SwitchSpeed = 0.2; // скорость плавного перехода
         public static int LastIterateSecond;
+        
         static void Main(string[] args)
         {
             Init();
@@ -51,6 +52,7 @@ namespace CarbonSwitcher
             KFirst = 1; // сначала показываем первую модель
             KSecond = 1 - KFirst;
             LastIterateSecond = 0;
+            m_previousCarbon = 0.1;
         }
 
         public static void Iterate()
