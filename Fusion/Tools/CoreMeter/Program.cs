@@ -69,7 +69,7 @@ namespace CoreMeter
             fex.Fire(MainGate);
             var last = ResultList.Count - 1;
             ResultList[last].FieredEvents++;
-            Console.Write(".");
+            //Console.Write(".");
             //SaveMatrix(ArchPath);
         }
 
