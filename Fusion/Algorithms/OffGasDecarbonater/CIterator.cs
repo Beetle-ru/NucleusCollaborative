@@ -176,7 +176,7 @@ namespace OffGasDecarbonater
                             );
                     }
                 }
-                const double carbonTreshold = 0.08;
+                const double carbonTreshold = 0.095;
                 RemainCarbonPercent = RemainCarbonPercent < carbonTreshold ? carbonTreshold : RemainCarbonPercent; // ограничение углерода
 
                 var fex2 = new ConnectionProvider.FlexHelper("OffGasDecarbonater.Result");
