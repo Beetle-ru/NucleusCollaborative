@@ -248,12 +248,14 @@ namespace SublanceGenerator
                             {
                                 //Console.WriteLine("Ck = " + Iterator.Ck);
                                 Iterator.Ck = (double)fxe.Arguments[key];
+                                key = "PeriodlNumber";
+                                Iterator.PeriodNumber = (int)fxe.Arguments[key];
                                 Iterator.Iterate(); ///!!!
                             }
                         }
                         catch (Exception e)
                         {
-                            InstantLogger.err("CPlusProcessor.Result - {1} : \n{0}", e.ToString(), key);
+                            InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
                     

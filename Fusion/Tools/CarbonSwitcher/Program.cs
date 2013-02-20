@@ -68,7 +68,8 @@ namespace CarbonSwitcher
                     if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
                     {
                         var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
-                        FireCarbon(secondCarbon,2);
+                        var periodSwitch = KSecond < 1 ? -2 : 2; // если еще не переключились, то -2
+                        FireCarbon(secondCarbon, periodSwitch);
 
                         LastIterateSecond = currentSecond;
                         if (Math.Round(KFirst - SwitchSpeed,3) > 0.0) KFirst -= SwitchSpeed;
@@ -101,7 +102,7 @@ namespace CarbonSwitcher
         {
             var fex = new FlexHelper("CarbonSwitcher.Result");
             fex.AddArg("C", c);
-            fex.AddArg("periodlNumber", periodlNumber);
+            fex.AddArg("PeriodlNumber", periodlNumber);
             fex.Fire(Program.MainGate);
         }
     }
