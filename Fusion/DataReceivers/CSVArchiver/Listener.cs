@@ -104,9 +104,12 @@ namespace CSVArchiver
                 if (newEvent is HeatChangeEvent)
                 {
                     var heatChangeEvent = newEvent as HeatChangeEvent;
-                    Program.SaverData(Program.SDList, m_lasIdHeat);
-                    m_lasIdHeat = heatChangeEvent.HeatNumber;
-                    Program.Init();
+                    if (m_lasIdHeat != heatChangeEvent.HeatNumber)
+                    {
+                        Program.SaverData(Program.SDList, m_lasIdHeat);
+                        m_lasIdHeat = heatChangeEvent.HeatNumber;
+                        Program.Init();
+                    }
                 }
                 if (newEvent is FlexEvent)
                 {

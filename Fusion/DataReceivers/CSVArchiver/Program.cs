@@ -72,7 +72,7 @@ namespace CSVArchiver
             const int smoothTime = 1; //sec
             const int oxySmoothTime = 10; //sec
             var smoothOxy = OxygenRate.Average(oxySmoothTime);
-            if ((smoothOxy > 0) || (smoothOxy != smoothOxy))
+            if ((smoothOxy > 0) || (!(smoothOxy == smoothOxy)))
             {
                 SDList.Add(SDS.GetSecData(smoothTime));
                 InstantLogger.msg(SDList.Last().ToString());

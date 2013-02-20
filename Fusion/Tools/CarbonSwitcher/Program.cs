@@ -69,7 +69,9 @@ namespace CarbonSwitcher
                         var currentSecond = DateTime.Now.Second;
                         if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
                         {
+                            
                             var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
+                            Implements.InstantLogger.msg("CReal = {0}; Cmixed = {1}; K1 = {2}; K2 = {3}; K1 + K2 = {4}", ModelList[Cfg.SecondModel].C, secondCarbon, KFirst, KSecond, KFirst + KSecond);
                             var periodSwitch = KSecond < 1 ? -2 : 2; // если еще не переключились, то -2
                             FireCarbon(secondCarbon, periodSwitch);
 

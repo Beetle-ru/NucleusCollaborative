@@ -94,7 +94,7 @@ namespace CPlusProcessor
                     CurrentState.SteelCarbonPercentCalculated = CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
                     FireCurrentCarbon(CurrentState.SteelCarbonPercentCalculated); // fire flex
 
-                    Console.WriteLine("Carbone = " + CurrentState.SteelCarbonPercentCalculated + "%");
+                    //Console.WriteLine("Carbone = " + CurrentState.SteelCarbonPercentCalculated + "%");
                     m_dataIsFixed = ModelVerifiForFix();
                 }
             }
@@ -104,7 +104,7 @@ namespace CPlusProcessor
 
                 if (ModelIsStarted)
                 {
-                    FireCurrentCarbon(0.1);
+                    FireCurrentCarbon(0.095);
                     var fex = new FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
                     InstantLogger.msg(fex.evt + "\n");
@@ -148,7 +148,8 @@ namespace CPlusProcessor
 
             var fex = new FlexHelper("CPlusProcessor.Result");
             fex.AddArg("C", carbon);
-            fex.Fire(Program.MainGate); 
+            fex.Fire(Program.MainGate);
+            InstantLogger.msg("carbon = {0}", carbon);
         }
         static public void EnqueueWaitC()
         {
