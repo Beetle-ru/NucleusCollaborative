@@ -103,9 +103,9 @@ namespace SublanceGenerator
                     m_isNotfiredK = false;
                 }
                 //PeriodNumber = 2;
-                if (PeriodNumber == 2) // начинаем по старту многофакторной
+                if ((PeriodNumber == 2) && m_isNotfiredPrognosis) // начинаем по старту многофакторной
                 {
-                    if (VerificatePrognosis(TargetCk, ReactionTime, Ck) && m_isNotfiredPrognosis) // команда на старт зонда по прогнозу
+                    if (VerificatePrognosis(TargetCk, ReactionTime, Ck)) // команда на старт зонда по прогнозу
                     {
                         var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.RecommendMetering.Prognosis");
                         fex.AddArg("TargetCk", TargetCk);
@@ -142,6 +142,7 @@ namespace SublanceGenerator
 
         private static bool VerificatePrognosis(double targetCk, double reactionTime, double cNow)
         {
+            if (targetCk < 0) return false;
             if (LastIterateTime.Ticks != 0) // проверка на первый запуск в текущей плавке
             {
                 var currentSecond = DateTime.Now.Second;
@@ -151,6 +152,9 @@ namespace SublanceGenerator
                 if (deltaSec >= 1) // чтоб не чаще 1 раза в секунду
                 {
                     SecondFromBeginMFM += deltaSec;
+
+                    if (SecondFromBeginMFM < 5) return false; // если текущая секунда меньше 5, то не считаем
+
                     Xn = SecondFromBeginMFM;
                     Yn = cNow;
                     var X = (((Y1 + ((Y1 - Yn) / (Xn - X1)) * X1) - targetCk) * (Xn - X1)) / (Y1 - Yn); // время когда углерод попадет в цель

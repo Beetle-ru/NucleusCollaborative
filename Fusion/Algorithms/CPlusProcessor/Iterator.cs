@@ -104,6 +104,7 @@ namespace CPlusProcessor
 
                 if (ModelIsStarted)
                 {
+                    FireCurrentCarbon(0.1);
                     var fex = new FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
                     InstantLogger.msg(fex.evt + "\n");

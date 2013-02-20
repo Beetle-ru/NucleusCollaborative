@@ -61,24 +61,26 @@ namespace CarbonSwitcher
             {
                 if (!ModelList[Cfg.SecondModel].IsFixed)
                 {
-                    //FireCarbon(ModelList[Cfg.SecondModel].C);
-                    
-                    
-                    var currentSecond = DateTime.Now.Second;
-                    if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
+                    if (ModelList[Cfg.SecondModel].C > 0)
                     {
-                        var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
-                        var periodSwitch = KSecond < 1 ? -2 : 2; // если еще не переключились, то -2
-                        FireCarbon(secondCarbon, periodSwitch);
+                        //FireCarbon(ModelList[Cfg.SecondModel].C, 2);
 
-                        LastIterateSecond = currentSecond;
-                        if (Math.Round(KFirst - SwitchSpeed,3) > 0.0) KFirst -= SwitchSpeed;
-                        else KFirst = 0.0;
-                        KFirst = Math.Round(KFirst, 5);
-                        KSecond = Math.Round(1.0 - KFirst,5);
-                        //Console.Write("#");
+
+                        var currentSecond = DateTime.Now.Second;
+                        if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
+                        {
+                            var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
+                            var periodSwitch = KSecond < 1 ? -2 : 2; // если еще не переключились, то -2
+                            FireCarbon(secondCarbon, periodSwitch);
+
+                            LastIterateSecond = currentSecond;
+                            if (Math.Round(KFirst - SwitchSpeed, 3) > 0.0) KFirst -= SwitchSpeed;
+                            else KFirst = 0.0;
+                            KFirst = Math.Round(KFirst, 5);
+                            KSecond = Math.Round(1.0 - KFirst, 5);
+                            //Console.Write("#");
+                        }
                     }
-                    
                 }
                 else
                 {
