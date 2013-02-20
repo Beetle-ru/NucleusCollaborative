@@ -52,18 +52,11 @@ namespace CarbonSwitcher
             KFirst = 1; // сначала показываем первую модель
             KSecond = 1 - KFirst;
             LastIterateSecond = 0;
-            m_previousCarbon = 0.1;
         }
 
         public static void Iterate()
         {
-            //var currentS2 = DateTime.Now.Second;
-            //Console.WriteLine("now = {0}; last = {2}; delta = {1}", currentS2, Math.Abs(LastIterateSecond - currentS2), LastIterateSecond);
-            //if (Math.Abs(LastIterateSecond - currentS2) >= 1)
-            //{
-            //    LastIterateSecond = currentS2;
-            //    Console.Write("#");
-            //}
+
             if (ModelList[Cfg.SecondModel].IsStarted)
             {
                 if (!ModelList[Cfg.SecondModel].IsFixed)
@@ -74,7 +67,8 @@ namespace CarbonSwitcher
                     var currentSecond = DateTime.Now.Second;
                     if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
                     {
-                        FireCarbon(ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond);
+                        var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
+                        FireCarbon(secondCarbon,2);
 
                         LastIterateSecond = currentSecond;
                         if (Math.Round(KFirst - SwitchSpeed,3) > 0.0) KFirst -= SwitchSpeed;
@@ -98,15 +92,16 @@ namespace CarbonSwitcher
             }
             else
             {
-                FireCarbon(ModelList[Cfg.FirstModel].C);
+                FireCarbon(ModelList[Cfg.FirstModel].C,1);
                 KFirst = 1;
             }
         }
 
-        public static void FireCarbon(double c)
+        public static void FireCarbon(double c, int periodlNumber)
         {
             var fex = new FlexHelper("CarbonSwitcher.Result");
             fex.AddArg("C", c);
+            fex.AddArg("periodlNumber", periodlNumber);
             fex.Fire(Program.MainGate);
         }
     }

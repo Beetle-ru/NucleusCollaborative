@@ -61,7 +61,7 @@ namespace SublanceGenerator
             {
                 var oxy = Oxigen.Average(SmoothInterval);
                 var co = CarbonMonoxide.Average(SmoothInterval);
-                if (VerificateB(oxy, co, HotMetallMass) && m_isNotfiredB)
+                if (VerificateB(oxy, co, HotMetallMass) && m_isNotfiredB) // рекомендация кислорода на продувку
                 {
                     var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.RecommendMetering.B");
                     fex.AddArg("OxygenStartValue", m_oxygenStartValue);
@@ -73,7 +73,7 @@ namespace SublanceGenerator
                     l.msg(msg);
                     m_isNotfiredB = false;
                 }
-                if (VerificateK(TargetCk, TargetCku, Ck) && m_isNotfiredK)
+                if (VerificateK(TargetCk, TargetCku, Ck) && m_isNotfiredK) // команда на старт зонда по углероду и предуставке
                 {
                     var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.RecommendMetering.K");
                     fex.AddArg("TargetCk", TargetCk);
