@@ -238,7 +238,7 @@ namespace CorrectionCT
         public static void EndNowHandler()
         {
             DoStopBlow();
-            //EndMeteringAccept();
+            EndMeteringAccept(); //!!! или оставлять или говорить с шарниным чтоб наладил
         }
         public static void EndMeteringAccept()
         {
