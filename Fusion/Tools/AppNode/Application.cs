@@ -103,6 +103,8 @@ namespace AppNode
 
         public void PrintStatusProc()
         {
+            try
+            {
             if (PubProc != null)
             {
                 var outstr = "";
@@ -134,6 +136,21 @@ namespace AppNode
 
                 Console.WriteLine(outstr);
             }
+
+
+            }
+            catch (Exception) // при неожиданном завершении не можем получить достут к данным процесса -- это штатно
+            {
+                var outstr = "";
+                outstr += String.Format("|xxxxx").PadRight(6);
+                outstr += String.Format("|xxxxxxxxxxxxxxxxxxxxxxxxxxxxx").PadRight(30);
+                outstr += String.Format("|xxxxxx").PadRight(7); ;
+                outstr += String.Format("|xxxxx");
+                outstr += String.Format("|xxxxxxxxxxxxxx").PadRight(15);
+                outstr += String.Format("|xxxxx").PadRight(6);
+                outstr += String.Format("|xxxxxx").PadRight(7);
+                Console.WriteLine(outstr);
+            } 
         }
 
         public static void PrintStatusHeader()
