@@ -10,6 +10,21 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,15 +74,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\Implements.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Appearance.cs" />
@@ -75,6 +89,20 @@
     <Compile Include="Common\Enumerations.cs" />
     <Compile Include="Common\EventArgs.cs" />
     <Compile Include="Common\Global.cs" />
+    <Compile Include="ModelRunner\ChemistryDataSet.cs">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ModelRunner\ChemistryDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
@@ -174,9 +202,27 @@
     <Compile Include="Models\01 BatchPreparation.cs" />
     <Compile Include="Models\02 Charging.cs" />
     <Compile Include="Models\03 Dynamic.cs" />
+    <None Include="ModelRunner\ChemistryDataSet.xsc">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ModelRunner\ChemistryDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ChemistryDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ModelRunner\ChemistryDataSet.xss">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Models\Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Chemistry.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Common\bin\Debug\Common.dll" />
     <Content Include="Common\bin\Debug\Common.pdb" />
     <Content Include="Common\Common.csproj" />
@@ -231,6 +277,9 @@
     <Content Include="ModelRunner\bin\Debug\ModelRunner.vshost.exe" />
     <Content Include="ModelRunner\bin\Debug\Models.dll" />
     <Content Include="ModelRunner\bin\Debug\Models.pdb" />
+    <Content Include="ModelRunner\Chemistry.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ModelRunner\ModelRunner.csproj" />
     <Content Include="ModelRunner\obj\x86\Debug\ModelRunner.csproj.FileListAbsolute.txt" />
     <Content Include="ModelRunner\obj\x86\Debug\ModelRunner.exe" />
@@ -302,6 +351,33 @@
     <Folder Include="DTO\obj\Debug\TempPE\" />
     <Folder Include="ModelRunner\obj\x86\Debug\TempPE\" />
     <Folder Include="Models\obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5 SP2</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

@@ -32,5 +32,15 @@ namespace AlgorithmsUI.Properties {
                 return ((string)(this["ChemistryConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=C:\\nucleus\\Fusion\\Algorithms\\AlgorithmsUI\\bin\\Debug\\DB\\Chemistry.sdf")]
+        public string ChemistryConnectionString1 {
+            get {
+                return ((string)(this["ChemistryConnectionString1"]));
+            }
+        }
     }
 }

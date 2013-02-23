@@ -65,7 +65,7 @@ namespace ModelRunner
             fex.Fire(CoreGate);
         }
 
-        public static void FireTemperatureEvent(Models.Dynamic mo)
+        public static void FireTempCarboneEvent(Models.Dynamic mo)
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Temperature");
             fex.AddInt("Heat_No", Listener.HeatNumber);
@@ -108,7 +108,8 @@ namespace ModelRunner
             fex.AddInt("Heat_No", Listener.HeatNumber);
             fex.AddDbl("LIME", Listener.CurrWeight["LIME"]);
             fex.AddDbl("DOLOMS", Listener.CurrWeight["DOLOMS"]);
-            fex.AddDbl("DOLMAX", Listener.CurrWeight["DOLMAX"]);
+            fex.AddDbl("DOLMIT", Listener.CurrWeight["DOLMIT"]);
+            fex.AddDbl("MAXG", Listener.CurrWeight["MAXG"]);
             fex.AddDbl("FOM", Listener.CurrWeight["FOM"]);
             fex.AddDbl("COKE", Listener.CurrWeight["COKE"]);
             fex.Fire(CoreGate);
@@ -118,13 +119,39 @@ namespace ModelRunner
         {
             var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.ShixtaII");
             fex.AddInt("Heat_No", Listener.HeatNumber);
-            fex.AddInt("ResultCode", aut.ErrCode);
             fex.AddDbl("Oxygen", aut.OxygenAmountTotalEnd_Nm3);
+            fex.AddInt("ResultCode", aut.ErrCode);
             fex.AddDbl("LIME", aut.m_lime);
             fex.AddDbl("DOLOMS", aut.m_dolomite);
-            fex.AddDbl("DOLMAX", Listener.VisWeight["DOLMAX"]);
+            fex.AddDbl("DOLMIT", Listener.VisWeight["DOLMIT"]);
+            fex.AddDbl("MAXG", Listener.VisWeight["MAXG"]);
             fex.AddDbl("FOM", Listener.VisWeight["FOM"]);
-            fex.AddDbl("COKE", Listener.VisWeight["COKE"]);
+            fex.Fire(CoreGate);
+        }
+
+        public static void FireScrapDangerEvent()
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
+            fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddDbl("Prob", Listener.ScrapDanger);
+            fex.AddStr("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
+            fex.Fire(CoreGate);
+        }
+
+        public static void FireChemistryEvent(string Substance, DTO.MINP_GD_MaterialDTO mat)
+        {
+            var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Chemistry");
+            fex.AddInt("Heat_No", Listener.HeatNumber);
+            fex.AddStr("Substance", Substance);
+            if ("IRON" == Substance)
+            {
+                fex.AddInt("IronIsValid", Listener.IronIsValid ? 1 : 0);
+                fex.AddInt("IronCIsValid", Listener.IronCIsValid ? 1 : 0);
+            }
+            foreach (var m in mat.MINP_GD_MaterialItems)
+            {
+                fex.AddDbl(fp.fp[m.MINP_GD_MaterialElement.Index].Marking, m.Amount_p);
+            }
             fex.Fire(CoreGate);
         }
     }

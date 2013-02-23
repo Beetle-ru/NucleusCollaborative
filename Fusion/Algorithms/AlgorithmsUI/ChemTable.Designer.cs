@@ -135,12 +135,12 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView gridChem;
-        private System.Windows.Forms.Panel panCtrl;
-        private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.DataGridViewTextBoxColumn key;
-        private System.Windows.Forms.DataGridViewTextBoxColumn value;
-        private ChemistryDataSet chemistryDataSet;
+        public System.Windows.Forms.DataGridView gridChem;
+        public System.Windows.Forms.Panel panCtrl;
+        public System.Windows.Forms.Button btnSave;
+        public System.Windows.Forms.DataGridViewTextBoxColumn key;
+        public System.Windows.Forms.DataGridViewTextBoxColumn value;
+        public ChemistryDataSet chemistryDataSet;
         private System.Windows.Forms.BindingSource additionBindingSource;
         private ChemistryDataSetTableAdapters.AdditionTableAdapter additionTableAdapter;
 

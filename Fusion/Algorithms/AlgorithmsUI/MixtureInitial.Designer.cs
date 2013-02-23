@@ -20,6 +20,13 @@
             base.Dispose(disposing);
         }
 
+        public System.Windows.Forms.TextBox txbHeatNum;
+        public System.Windows.Forms.TextBox txbSteelTemp;
+        public System.Windows.Forms.TextBox txbCarbonPercent;
+        public System.Windows.Forms.TextBox txbMgO;
+        public System.Windows.Forms.TextBox txbFeO;
+        public System.Windows.Forms.TextBox txbBasiticy;
+
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -380,7 +387,7 @@
             this.lblLimeStoneIn.Name = "lblLimeStoneIn";
             this.lblLimeStoneIn.Size = new System.Drawing.Size(125, 20);
             this.lblLimeStoneIn.TabIndex = 31;
-            this.lblLimeStoneIn.Text = "Известняк, кг";
+            this.lblLimeStoneIn.Text = "Шлакообр., кг";
             // 
             // lblFomIn
             // 
@@ -586,6 +593,7 @@
             this.btnIronSel.TabIndex = 58;
             this.btnIronSel.Text = "Выбрать...";
             this.btnIronSel.UseVisualStyleBackColor = true;
+            this.btnIronSel.Click += new System.EventHandler(this.btnIronSel_Click);
             // 
             // btnScrapSel
             // 
@@ -621,7 +629,7 @@
             this.btnCalculate.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
             this.btnCalculate.Size = new System.Drawing.Size(280, 72);
             this.btnCalculate.TabIndex = 99;
-            this.btnCalculate.Text = "Выполнить рассчёт";
+            this.btnCalculate.Text = "Выполнить расчёт";
             this.btnCalculate.UseVisualStyleBackColor = true;
             this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
             // 
@@ -1011,7 +1019,7 @@
             this.lblLimeStoneOut.Name = "lblLimeStoneOut";
             this.lblLimeStoneOut.Size = new System.Drawing.Size(125, 20);
             this.lblLimeStoneOut.TabIndex = 5;
-            this.lblLimeStoneOut.Text = "Известняк, кг";
+            this.lblLimeStoneOut.Text = "Шлакообр., кг";
             // 
             // txbLimeOut
             // 
@@ -1159,7 +1167,6 @@
             // 
             this.panHeatNum.Controls.Add(this.txbHeatNum);
             this.panHeatNum.Controls.Add(this.lblHeatNum);
-            this.panHeatNum.Enabled = false;
             this.panHeatNum.Location = new System.Drawing.Point(214, 3);
             this.panHeatNum.Name = "panHeatNum";
             this.panHeatNum.Size = new System.Drawing.Size(161, 43);
@@ -1188,7 +1195,6 @@
             // 
             this.panSteelBrand.Controls.Add(this.cmbSteelBrand);
             this.panSteelBrand.Controls.Add(this.lblSteelBrand);
-            this.panSteelBrand.Enabled = false;
             this.panSteelBrand.Location = new System.Drawing.Point(381, 3);
             this.panSteelBrand.Name = "panSteelBrand";
             this.panSteelBrand.Size = new System.Drawing.Size(114, 43);
@@ -1198,6 +1204,12 @@
             // 
             this.cmbSteelBrand.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.cmbSteelBrand.FormattingEnabled = true;
+            this.cmbSteelBrand.Items.AddRange(new object[] {
+            "Группа 1",
+            "Группа 2",
+            "Группа 3",
+            "Группа 4",
+            "Группа 5"});
             this.cmbSteelBrand.Location = new System.Drawing.Point(3, 17);
             this.cmbSteelBrand.Name = "cmbSteelBrand";
             this.cmbSteelBrand.Size = new System.Drawing.Size(92, 23);
@@ -1245,7 +1257,6 @@
             // 
             this.panCarbonPercent.Controls.Add(this.lblCarbonPercent);
             this.panCarbonPercent.Controls.Add(this.txbCarbonPercent);
-            this.panCarbonPercent.Enabled = false;
             this.panCarbonPercent.Location = new System.Drawing.Point(626, 3);
             this.panCarbonPercent.Name = "panCarbonPercent";
             this.panCarbonPercent.Size = new System.Drawing.Size(120, 43);
@@ -1419,12 +1430,9 @@
 
         private System.Windows.Forms.Panel basement;
         private System.Windows.Forms.FlowLayoutPanel heading;
-        private System.Windows.Forms.TextBox txbSteelTemp;
-        private System.Windows.Forms.TextBox txbCarbonPercent;
         private System.Windows.Forms.Label lblHeatNum;
         private System.Windows.Forms.Label lblCarbonPercent;
         private System.Windows.Forms.Label lblSteelTemp;
-        private System.Windows.Forms.TextBox txbHeatNum;
         private System.Windows.Forms.Panel panSteelBrand;
         private System.Windows.Forms.Label lblSteelBrand;
         private System.Windows.Forms.ComboBox cmbSteelBrand;
@@ -1507,13 +1515,10 @@
         private System.Windows.Forms.Button btnVapno;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblTgtMgO;
-        private System.Windows.Forms.TextBox txbMgO;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblTgtFeO;
-        private System.Windows.Forms.TextBox txbFeO;
         private System.Windows.Forms.Panel panBasiticy;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txbBasiticy;
         private System.Windows.Forms.TextBox txbCokeIn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panTitleHeading;

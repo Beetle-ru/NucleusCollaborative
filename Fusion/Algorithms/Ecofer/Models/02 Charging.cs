@@ -20,7 +20,7 @@ namespace Models
         /// Expects Dolomit S as Slag former 1.
         /// </summary>
         /// <returns></returns>
-        public static float? GetDomolitReplacementCoef()
+        public static double? GetDomolitReplacementCoef()
         {
             DTO.MINP_GD_MaterialDTO lDolom_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.Dolomite];
             DTO.MINP_GD_MaterialDTO lDolomS_DTO = Data.MINP.MINP_GD_ModelMaterials[Common.Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1];
@@ -29,7 +29,7 @@ namespace Models
             {
                 try
                 {
-                    return (float?)(lDolom_DTO.MINP_GD_MaterialItems.Single(aR => aR.MINP_GD_MaterialElement.Index == Common.ElementIndex.Slag_MgO).Amount_p /
+                    return (double?)(lDolom_DTO.MINP_GD_MaterialItems.Single(aR => aR.MINP_GD_MaterialElement.Index == Common.ElementIndex.Slag_MgO).Amount_p /
                         lDolomS_DTO.MINP_GD_MaterialItems.Single(aR => aR.MINP_GD_MaterialElement.Index == Common.ElementIndex.Slag_MgO).Amount_p);
                 }
                 catch { };
@@ -44,49 +44,49 @@ namespace Models
 
             lOutputData.ReplaceDolomitCoef = null;
 
-            float lSuma_m_SZ_real = 0;
-            float[] lStredni_SZ = new float[Global.MATERIALELEMENTS_COUNT];
-            float[] lPodil_SZ = new float[Global.HOTMETAL_COUNT];
-            float lSuma_m_SROT_real = 0;
-            float[] lStredni_Srot = new float[Global.MATERIALELEMENTS_COUNT];
-            float[] lPodil_Srot = new float[Global.SCRAPYARDS_COUNT];
+            double lSuma_m_SZ_real = 0;
+            double[] lStredni_SZ = new double[Global.MATERIALELEMENTS_COUNT];
+            double[] lPodil_SZ = new double[Global.HOTMETAL_COUNT];
+            double lSuma_m_SROT_real = 0;
+            double[] lStredni_Srot = new double[Global.MATERIALELEMENTS_COUNT];
+            double[] lPodil_Srot = new double[Global.SCRAPYARDS_COUNT];
 
-            float lH_SZ = 0;
-            float lH_Srot = 0;
-            float lH_Struskotvorne = 0;
-            float lH_Struskotvorne_Vystup = 0;
+            double lH_SZ = 0;
+            double lH_Srot = 0;
+            double lH_Struskotvorne = 0;
+            double lH_Struskotvorne_Vystup = 0;
 
-            float lm_SiO2 = 0;
-            float lm_MnO = 0;
-            float lm_Al2O3 = 0;
-            float lm_CaO = 0;
-            float lm_Struska = 0;
-            float lm_MgO = 0;
-            float lm_FeO = 0;
-            float lm_Fe_k_oxidaci = 0;
+            double lm_SiO2 = 0;
+            double lm_MnO = 0;
+            double lm_Al2O3 = 0;
+            double lm_CaO = 0;
+            double lm_Struska = 0;
+            double lm_MgO = 0;
+            double lm_FeO = 0;
+            double lm_Fe_k_oxidaci = 0;
 
-            float lm_Ocel = 0;
-            float lH_Si_oxidace = 0;
-            float lH_Mn_oxidace = 0;
-            float lH_Al_oxidace = 0;
-            float lH_Fe_oxidace = 0;
-            float lH_C_oxidace = 0;
-            float lH_Koks = 0;
-            float lH_Vsazka = 0;
-            float lH_Ocel = 0;
-            float lH_Odprasky = 0;
-            float lH_Ztraty = Common.Global.H_Ztraty;
+            double lm_Ocel = 0;
+            double lH_Si_oxidace = 0;
+            double lH_Mn_oxidace = 0;
+            double lH_Al_oxidace = 0;
+            double lH_Fe_oxidace = 0;
+            double lH_C_oxidace = 0;
+            double lH_Koks = 0;
+            double lH_Vsazka = 0;
+            double lH_Ocel = 0;
+            double lH_Odprasky = 0;
+            double lH_Ztraty = Common.Global.H_Ztraty;
 
-            float lV_Oxygen_C = 0;
-            float lV_Oxygen_Si = 0;
-            float lV_Oxygen_Mn = 0;
-            float lV_Oxygen_P = 0;
-            float lV_Oxygen_Al = 0;
-            float lV_Oxygen_Fe = 0;
-            float lV_Oxygen_Total = 0;
+            double lV_Oxygen_C = 0;
+            double lV_Oxygen_Si = 0;
+            double lV_Oxygen_Mn = 0;
+            double lV_Oxygen_P = 0;
+            double lV_Oxygen_Al = 0;
+            double lV_Oxygen_Fe = 0;
+            double lV_Oxygen_Total = 0;
 
-            float lT_Forecast = 0;
-            float lT_Reference = Global.T_Reference;
+            double lT_Forecast = 0;
+            double lT_Reference = Global.T_Reference;
 
             // initialization in kg
             for (int i = 0; i < Global.HOTMETAL_COUNT; i++) lStredni_SZ[i] = 0;
@@ -112,7 +112,7 @@ namespace Models
 
                     if (lMaterialItem != null)
                     {
-                        lStredni_SZ[iElement] += lPodil_SZ[i] * (float)lMaterialItem.Amount_p;
+                        lStredni_SZ[iElement] += lPodil_SZ[i] * (double)lMaterialItem.Amount_p;
                     }
                 }
             }
@@ -137,7 +137,7 @@ namespace Models
 
                     if (lMaterialItem != null)
                     {
-                        lStredni_Srot[iElement] += lPodil_Srot[i] * (float)lMaterialItem.Amount_p;
+                        lStredni_Srot[iElement] += lPodil_Srot[i] * (double)lMaterialItem.Amount_p;
                     }
                 }
             }
@@ -149,14 +149,14 @@ namespace Models
             #endregion
 
             // temperatures - real x [69]
-            float lT_StredniSZ_69 = (mInputData.HotMetal_Temperature.HasValue && mInputData.HotMetal_Temperature.Value != 0) ? mInputData.HotMetal_Temperature.Value : lStredni_SZ[69];
-            float lT_StredniSrot_69 = (mInputData.Scrap_Temperature.HasValue && mInputData.Scrap_Temperature.Value != 0) ? mInputData.Scrap_Temperature.Value : lStredni_Srot[69];
-            float lT_Lime_69 = MINP.FP(mInputData.Lime, 69);
-            float lT_FOM_69 = MINP.FP(mInputData.FOM, 69);
-            float lT_S1_69 = MINP.FP(mInputData.S1, 69);
-            float lT_S2_69 = MINP.FP(mInputData.S2, 69);
-            float lT_Coke_69 = MINP.FP(mInputData.Coke, 69);
-            float lT_Dolomit_69 = MINP.FP(mInputData.Dolomite, 69);
+            double lT_StredniSZ_69 = (mInputData.HotMetal_Temperature.HasValue && mInputData.HotMetal_Temperature.Value != 0) ? mInputData.HotMetal_Temperature.Value : lStredni_SZ[69];
+            double lT_StredniSrot_69 = (mInputData.Scrap_Temperature.HasValue && mInputData.Scrap_Temperature.Value != 0) ? mInputData.Scrap_Temperature.Value : lStredni_Srot[69];
+            double lT_Lime_69 = MINP.FP(mInputData.Lime, 69);
+            double lT_FOM_69 = MINP.FP(mInputData.FOM, 69);
+            double lT_S1_69 = MINP.FP(mInputData.S1, 69);
+            double lT_S2_69 = MINP.FP(mInputData.S2, 69);
+            double lT_Coke_69 = MINP.FP(mInputData.Coke, 69);
+            double lT_Dolomit_69 = MINP.FP(mInputData.Dolomite, 69);
 
             #region Calculation of lime and dolomite (R 11..21, R30)
             lm_SiO2 = (lSuma_m_SZ_real * lStredni_SZ[1] / MINP.ConversionVector(1) + lSuma_m_SROT_real * lStredni_Srot[1] / MINP.ConversionVector(1)) * MINP.Mm(51) / MINP.Mm(1)
@@ -169,22 +169,22 @@ namespace Models
             lm_Struska = (lm_CaO + lm_SiO2 + lm_MnO + lm_Al2O3) * 100f / (100 - mInputData.FeO_p - mInputData.MgO_p);
             lm_MgO = lm_Struska * mInputData.MgO_p / 100f;
             // R 16
-            float lm_CaOX = lm_CaO
+            double lm_CaOX = lm_CaO
                 - mInputData.S1_kg * MINP.FP(mInputData.S1, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.S1, 67) / MINP.ConversionVector(67)
                 - mInputData.S2_kg * MINP.FP(mInputData.S2, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                 - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 50) / MINP.ConversionVector(50) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
                 - lSuma_m_SZ_real * lStredni_SZ[50] / MINP.ConversionVector(50) - lSuma_m_SROT_real * lStredni_Srot[50] / MINP.ConversionVector(50);
 
-            float lm_MgOX = lm_MgO
+            double lm_MgOX = lm_MgO
                 - mInputData.S1_kg * MINP.FP(mInputData.S1, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S1, 67) / MINP.ConversionVector(67)
                 - mInputData.S2_kg * MINP.FP(mInputData.S2, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.S2, 67) / MINP.ConversionVector(67)
                 - mInputData.FOM_kg * MINP.FP(mInputData.FOM, 63) / MINP.ConversionVector(63) * MINP.FP(mInputData.FOM, 67) / MINP.ConversionVector(67)
                 - lSuma_m_SZ_real * lStredni_SZ[63] / MINP.ConversionVector(63) - lSuma_m_SROT_real * lStredni_Srot[63] / MINP.ConversionVector(63);
 
             // R 18
-            float lm_Dolomite = (lm_CaOX / MINP.FP(mInputData.Lime, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Lime, 63) * MINP.ConversionVector(63))
+            double lm_Dolomite = (lm_CaOX / MINP.FP(mInputData.Lime, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Lime, 63) * MINP.ConversionVector(63))
                 / (MINP.FP(mInputData.Dolomite, 50) / MINP.FP(mInputData.Lime, 50) - MINP.FP(mInputData.Dolomite, 63) / MINP.FP(mInputData.Lime, 63));
-            float lm_Lime = (lm_CaOX / MINP.FP(mInputData.Dolomite, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Dolomite, 63) * MINP.ConversionVector(63))
+            double lm_Lime = (lm_CaOX / MINP.FP(mInputData.Dolomite, 50) * MINP.ConversionVector(50) - lm_MgOX / MINP.FP(mInputData.Dolomite, 63) * MINP.ConversionVector(63))
                 / (MINP.FP(mInputData.Lime, 50) / MINP.FP(mInputData.Dolomite, 50) - MINP.FP(mInputData.Lime, 63) / MINP.FP(mInputData.Dolomite, 63));
 
             // R20

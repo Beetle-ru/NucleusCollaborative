@@ -18,28 +18,28 @@ namespace Data.Model
         public int SlagS2_kg { get; set; }
         public int Coke_kg { get; set; }
         public int[] Scrap_kg { get; set; }
-        public float FinalCu_p { get; set; }
-        public float FinalMo_p { get; set; }
-        public float FinalNi_p { get; set; }
-        public float FinalW_p { get; set; }
-        public float FinalCo_p { get; set; }
-        public float FinalAs_p { get; set; }
-        public float FinalSb_p { get; set; }
-        public float FinalSn_p { get; set; }
+        public double FinalCu_p { get; set; }
+        public double FinalMo_p { get; set; }
+        public double FinalNi_p { get; set; }
+        public double FinalW_p { get; set; }
+        public double FinalCo_p { get; set; }
+        public double FinalAs_p { get; set; }
+        public double FinalSb_p { get; set; }
+        public double FinalSn_p { get; set; }
 
-        public float H_Vsazka;
-        public float H_SZ;
-        public float H_Srot;
-        public float H_Ocel;
-        public float H_Struskotvorne;
-        public float H_Struskotvorne_Vystup;
-        public float H_Si_oxidace;
-        public float H_Mn_oxidace;
-        public float H_Al_oxidace;
-        public float H_Fe_oxidace;
-        public float H_C_oxidace;
-        public float H_Koks;
-        public float H_Odprasky;
-        public float T_Struska;
+        public double H_Vsazka;
+        public double H_SZ;
+        public double H_Srot;
+        public double H_Ocel;
+        public double H_Struskotvorne;
+        public double H_Struskotvorne_Vystup;
+        public double H_Si_oxidace;
+        public double H_Mn_oxidace;
+        public double H_Al_oxidace;
+        public double H_Fe_oxidace;
+        public double H_C_oxidace;
+        public double H_Koks;
+        public double H_Odprasky;
+        public double T_Struska;
     }
 }

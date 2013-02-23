@@ -29,7 +29,7 @@ namespace TransferModelBunkers
             }
             return str;
         }
-        public static long HeatNumber = 441100;
+        public static long HeatNumber = 228223;
         public void OnEvent(BaseEvent evt)
         {
             using (var l = new Logger("ModelRunner::Listener"))
@@ -40,20 +40,20 @@ namespace TransferModelBunkers
                     if (odr.EventName == "HeatChangeEvent")
                     {
                         var hce = new HeatChangeEvent();
-                        hce.HeatNumber = ++HeatNumber;
+                        hce.HeatNumber = /*++*/HeatNumber;
                         Program.m_pushGate.PushEvent(hce);
                     }
                     else if (odr.EventName == "visAdditionTotalEvent")
                     {
                         var vate = new visAdditionTotalEvent();
-                        vate.RB5TotalWeight = 1654;
-                        vate.RB6TotalWeight = 0;
-                        vate.RB7TotalWeight = 2433;
-                        vate.RB8TotalWeight = 6002;
-                        vate.RB9TotalWeight = 6085;
-                        vate.RB10TotalWeight = 4000;
-                        vate.RB11TotalWeight = 1479;
-                        vate.RB12TotalWeight = 2008;
+                        vate.RB5TotalWeight = 5;
+                        vate.RB6TotalWeight = 6;
+                        vate.RB7TotalWeight = 7;
+                        vate.RB8TotalWeight = 8;
+                        vate.RB9TotalWeight = 9;
+                        vate.RB10TotalWeight = 10;
+                        vate.RB11TotalWeight = 11;
+                        vate.RB12TotalWeight = 12;
                         Program.m_pushGate.PushEvent(vate);
                     }
                     else if (odr.EventName == "BoundNameMaterialsEvent")

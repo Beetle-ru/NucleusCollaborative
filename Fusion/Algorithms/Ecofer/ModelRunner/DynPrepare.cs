@@ -10,6 +10,8 @@ using DTO;
 using Data;
 using Data.Model;
 using Common;
+using Ecofer.ModelRunner;
+using Ecofer.ModelRunner.ChemistryDataSetTableAdapters;
 using Implements;
 using Models;
 using System.Linq;
@@ -29,6 +31,17 @@ namespace ModelRunner
 
     partial class DynPrepare
     {
+        public static AdditionChemistryTableAdapter Adapter = new AdditionChemistryTableAdapter();
+        public static ChemistryDataSet.AdditionChemistryDataTable Tbl = new ChemistryDataSet.AdditionChemistryDataTable();
+        public static FlexHelper visTargetVal = null;
+        static DynPrepare()
+        {
+            visTargetVal = new FlexHelper("ConverterUI.TargetValues");
+            visTargetVal.AddDbl("C", 0.03);
+            visTargetVal.AddDbl("T", 1665);
+            visTargetVal.AddDbl("MgO", 11);
+            visTargetVal.AddDbl("FeO", 27);
+        }
         public enum ChargingReason
         {
             forCharging,
@@ -42,12 +55,12 @@ namespace ModelRunner
         private const int _N_matElements = 74;
         private static List<string> StrList = new List<string>();
         public static DynamicInput aInputData = new DynamicInput();
+        public static ChargingInput aChargingData = new ChargingInput();
         public static FlexHelper fxeIron = null;
-        private static DTO.MINP_MatAddDTO matIron;
+        public static FlexHelper fxeScrap = null;
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
-        public static FlexHelper visTargetVal = null;
-        public static bool recallChargingReq = true;
+        public static bool recallChargingReq = false;
         private static void OutLine(String str)
         {
             Console.WriteLine(str + Environment.NewLine);
@@ -72,53 +85,12 @@ namespace ModelRunner
             return vx;
         }
 
-        private static void MakeDynamicCharging()
-        {
-            aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
-
-            // Iron
-            matIron = AddIron((int)Listener.IronWeight);
-            aInputData.ChargedMaterials.Add(matIron);
-            //goto LABEL_START;
-
-            // Scrap
-            aInputData.ChargedMaterials.Add(AddScrap((int)Listener.ScrapWeight));
-
-            MINP.MINP_GD_ModelMaterials =
-                new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
-            // CaO ИЗВЕСТ
-            var matCaO = AddCaO(1);
-            aInputData.ChargedMaterials.Add(matCaO);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO,
-                                            matCaO.MINP_GD_Material);
-
-            // Dolom ДОЛМИТ
-            var matDolom = AddDolom(1);
-            aInputData.ChargedMaterials.Add(matDolom);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite,
-                                            matDolom.MINP_GD_Material);
-
-            // FOM
-            var matFom = AddFom(1);
-            aInputData.ChargedMaterials.Add(matFom);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM,
-                                            matFom.MINP_GD_Material);
-
-            // Coke
-            var matCoke = AddCoke(1);
-            aInputData.ChargedMaterials.Add(matCoke);
-            MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke,
-                                            matCoke.MINP_GD_Material);
-
-            
-        }
-
         private static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-                                                              {
-                                                                  InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
-                                                              };
+            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            //                                                  {
+            //                                                      InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
+            //                                                  };
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
@@ -229,42 +201,10 @@ NEXT_HEAT:
                     HeatFlags |= ModelStatus.ModelStarted;
                     if (Listener.ScrapDanger > 0.25)
                     {
-                        var fex = new ConnectionProvider.FlexHelper("Model.Dynamic.Output.Scrap.Danger");
-                        fex.AddInt("Heat_No", Listener.HeatNumber);
-                        fex.AddDbl("Prob", Listener.ScrapDanger);
-                        fex.AddStr("Descr", Listener.ScrapDanger > 0.75 ? "HIGH" : "MEDIUM");
-                        fex.Fire(CoreGate);
+                        FireScrapDangerEvent();
                     }
-
-                    MakeDynamicCharging();
-
-                    #region Model materials
-
-                    // Odprasky
-                    var matOdpr = AddOdprasky(3000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky,
-                                                    matOdpr.MINP_GD_Material);
-
-                    // Slag
-                    var matSlag = AddSlag(30000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag,
-                                                    matSlag.MINP_GD_Material);
-                    // Steel
-                    var matSteel = AddSteel(420000);
-                    MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel,
-                                                    matSteel.MINP_GD_Material);
-
-                    #endregion
-
-                    for (int i = 0; i < matIron.MINP_GD_Material.MINP_GD_MaterialItems.Count; i++)
-                    {
-                        if (matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].MINP_GD_MaterialElement.Index == 69)
-                        {
-                            aInputData.HotMetal_Temperature = (int)matIron.MINP_GD_Material.MINP_GD_MaterialItems[i].Amount_p;
-                            break;
-                        }
-                    }
-                    aInputData.Scrap_Temperature = 0;
+                    aInputData.HotMetal_Temperature = (int)Listener.IronTemp;
+                    aInputData.Scrap_Temperature = (int)Listener.ScrapTemp;
                     if (0 != (HeatFlags & ModelStatus.ModelDisabled))
                     {
                         goto WAIT_END_OF_HEAT;
@@ -277,19 +217,29 @@ NEXT_HEAT:
                     #endregion
 
                     MINP.HeatAimData = new MINP_HeatAimDataDTO();
-                    MINP.HeatAimData.FinalTemperature = 1700;
+                    MINP.HeatAimData.FinalTemperature = (int)visTargetVal.GetDbl("T");
 
                     Data.MINP.Phases = new Phases(aInputData.OxygenBlowingPhases);
                     Data.MINP.Phases.SwitchToNextPhase();
 
+                    aChargingData = MakeCharging(visTargetVal.evt, Listener.CurrWeight,
+                                                 ChargingReason.forRecalculation);
                     DynModel = new Dynamic(aInputData, 1, Dynamic.RunningType.RealTime);
-
                     foreach (var m in Listener.MatAdd)
                     {
+                        m.TimeProcessed = System.DateTime.Now;
                         DynModel.EnqueueMaterialAdded(m);
                     }
                     Listener.MatAdd.Clear();
+
                     SimulationOxygenBlowing();
+                    FireChemistryEvent("IRON", Data.MINP.MINP_MatAdds[0].MINP_GD_Material);
+                    FireChemistryEvent("SCRAP", Data.MINP.MINP_MatAdds[1].MINP_GD_Material);
+                    FireChemistryEvent("LIME", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.CaO]);
+                    FireChemistryEvent("DOLOMS", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1]);
+                    FireChemistryEvent("DOLMAX", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Dolomite]);
+                    FireChemistryEvent("FOM", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.FOM]);
+                    FireChemistryEvent("COKE", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke]);
 
                     DynModel.PhaseChanged += (s, e) =>
                                                {
@@ -318,29 +268,32 @@ NEXT_HEAT:
                                                };
                     DynModel.ModelLoopDone += (s, e) =>
                                                 {
-                                                    SimulationOxygenBlowing();
-                                                    FirePerSecEvent(++nStep, null, DynModel);
-                                                    //Thread.Sleep(1000);
-                                                    if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
+                                                    if (!DynModel.mRecalcContext)
                                                     {
-                                                        foreach (var m in Listener.MatAdd)
+                                                        SimulationOxygenBlowing();
+                                                        FirePerSecEvent(++nStep, null, DynModel);
+                                                        if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
                                                         {
-                                                            DynModel.EnqueueMaterialAdded(m);
+                                                            foreach (var m in Listener.MatAdd)
+                                                            {
+                                                                m.TimeProcessed = System.DateTime.Now;
+                                                                DynModel.EnqueueMaterialAdded(m);
+                                                            }
+                                                            Listener.MatAdd.Clear();
                                                         }
-                                                        Listener.MatAdd.Clear();
-                                                    }
-                                                    else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
-                                                    {
-                                                        if (Listener.avox.Average(10) < 10.0)
+                                                        else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
                                                         {
-                                                            if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
+                                                            if (Listener.avox.Average(10) < 10.0)
+                                                            {
+                                                                if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
+                                                            }
+                                                            else EmptyBlowCount = 0;
                                                         }
-                                                        else EmptyBlowCount = 0;
-                                                    }
-                                                    else
-                                                    {
-                                                        l.err("TROUBLE!!! Model is in an unexpected state {0}",
-                                                              DynModel.State());
+                                                        else
+                                                        {
+                                                            l.err("TROUBLE!!! Model is in an unexpected state {0}",
+                                                                  DynModel.State());
+                                                        }
                                                     }
                                                 };
                     DynModel.Start();
@@ -363,11 +316,10 @@ WAIT_END_OF_HEAT:
                     l.msg("Heat Number old: {0}, new: {1}", HeatNumber, Listener.HeatNumber);
                     HeatNumber = Listener.HeatNumber;
                     nStep = 0;
+                    DynModel.Dispose();
 
                     goto NEXT_HEAT;
  
-                    DynModel.Dispose();
-                    throw new Exception("************** End Of Heat ***************");
                 }
                 catch (Exception e)
                 {
@@ -380,6 +332,7 @@ WAIT_END_OF_HEAT:
         public static void SimulationOxygenBlowing()
         {
             TimeSpan lTotalDuration = Data.Clock.Current.ActualTime - Data.Clock.Current.StartTime;
+            lTotalDuration = lTotalDuration.TotalHours > 1000 ? new TimeSpan() : lTotalDuration; //
             int lO2Consumption = 0;
             int lO2Flow = 0;
 
@@ -434,6 +387,7 @@ WAIT_END_OF_HEAT:
                 DTO.MINP_CyclicDTO lCyclicDTO = new DTO.MINP_CyclicDTO();
                 lCyclicDTO.MINP_HeatID = Data.MINP.Heat.ID;
                 lCyclicDTO.TimeProcessed = Data.Clock.Current.ActualTime;
+                //lCyclicDTO.OxygenConsumption_m3 = lO2Consumption < 0 ? 0 : lO2Consumption;
                 lCyclicDTO.OxygenConsumption_m3 = lO2Consumption;
                 lCyclicDTO.OxygenFlow_Nm3_min = (int) Listener.avox.Average(_3_);
                 var d = Math.Round(Listener.avofg.Average(_3_) * 0.0166666666666667);
@@ -441,56 +395,27 @@ WAIT_END_OF_HEAT:
                 lCyclicDTO.Wastegas_CO2_p = (int) Listener.avofg_pco2.Average(_3_);
                 lCyclicDTO.Wastegas_CO_p = (int) Listener.avofg_pco.Average(_3_);
                 Data.MINP.MINP_Cyclic.Add(lCyclicDTO);
+                //if (DynModel.mRunningType == Dynamic.RunningType.RealTime)
+                //{
+                //    Data.MINP.MINP_Cyclic.Add(lCyclicDTO);
+                //}
                 Data.MINP.O2Request.Add(new Data.Graph.O2RequestItem()
                                             {
                                                 TimeProcessed = Data.Clock.Current.ActualTime,
                                                 O2Request =
                                                     (Data.MINP.Heat.CalculatedOxygenAmount_Nm3.HasValue &&
                                                      Data.MINP.Heat.CalculatedOxygenAmount_Nm3.Value != 0)
-                                                        ? (float) lO2Consumption/
+                                                        ? (double) lO2Consumption/
                                                           Data.MINP.Heat.CalculatedOxygenAmount_Nm3.Value
                                                         : 0
                                             });
-            }
-        }
-        private char m_separator = ':';
-        public void LoadCSVData(DTO.MINP_MatAddDTO Material, string Name, string Dir = "data")
-        {
-            using (var l = new Logger("ModelRunner::LoadCSVData"))
-            {
-                string filePath = String.Format("{0}\\{1}.csv", Dir, Name);
-                string[] strings;
-                try
-                {
-                    strings = File.ReadAllLines(filePath);
-                }
-                catch (Exception e)
-                {
-                    strings = new string[0];
-                    l.err("Cannot read the file: {0}, call: {1}", filePath, e.ToString());
-                    return;
-                }
-                try
-                {
-                    for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
-                    {
-                        string[] values = strings[strCnt].Split(m_separator);
-                        Material.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(values[0], Convert.ToDouble(values[1])));
-                    }
-                }
-                catch (Exception e)
-                {
-                    l.err("Cannot read the file: {0}, bad format call exeption: {1}", filePath, e.ToString());
-                    throw e;
-                }
-
             }
         }
 
         public static ChargingInput MakeCharging(FlexEvent fxe, Dictionary<string, int> weight, ChargingReason reason)
         {
             Data.Model.ChargingInput inp = new ChargingInput();
-            inp.Basicity = 2.7f; ///! (float)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
+            inp.Basicity = 2.7f; ///! (double)Convert.ToDouble(fxe.Arguments["CaOSio2"]);
             inp.FeO_p = Convert.ToInt32(fxe.Arguments["FeO"]);
             inp.MgO_p = Convert.ToInt32(fxe.Arguments["MgO"]);
             inp.Final_Temperature = Convert.ToInt32(fxe.Arguments["T"]);
@@ -507,31 +432,95 @@ WAIT_END_OF_HEAT:
             inp.Scraps[0] = matScrap.MINP_GD_Material;
             inp.Scraps_t[0] = (int) (matScrap.Amount_kg*0.001);
 
-            inp.Odprasky = DynPrepare.AddOdprasky(0).MINP_GD_Material;
-            inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
-            inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
+            if (reason == ChargingReason.forCharging)
+            {
+                var matCoke = DynPrepare.AddCoke(weight["COKE"]);
+                inp.Coke = matCoke.MINP_GD_Material;
+                inp.Coke_kg = matCoke.Amount_kg;
 
-            var matCoke = DynPrepare.AddCoke(weight["COKE"]);
-            inp.Coke = matCoke.MINP_GD_Material;
-            inp.Coke_kg = matCoke.Amount_kg;
+                var matLime = DynPrepare.AddCaO(weight["LIME"]);
+                inp.Lime = matLime.MINP_GD_Material;
+                inp.Lime_kg = matLime.Amount_kg;
 
-            var matDolomite = DynPrepare.AddDolom(weight["DOLMAX"]);
-            inp.Dolomite = matDolomite.MINP_GD_Material;
-            inp.Dolomite_kg = matDolomite.Amount_kg;
+                var matDolomite = DynPrepare.AddDolomS(weight["DOLOMS"]);
+                inp.Dolomite = matDolomite.MINP_GD_Material;
+                inp.Dolomite_kg = matDolomite.Amount_kg;
 
-            var matFOM = DynPrepare.AddFom(weight["FOM"]);
-            inp.FOM = matFOM.MINP_GD_Material;
-            inp.FOM_kg = matFOM.Amount_kg;
+                var matDolom = DynPrepare.AddDolom(weight["DOLMIT"]);
+                inp.S1 = matDolom.MINP_GD_Material;
+                inp.S1_kg = matDolom.Amount_kg;
 
-            var matLime = DynPrepare.AddCaO(weight["LIME"]);
-            inp.Lime = matLime.MINP_GD_Material;
-            inp.Lime_kg = matLime.Amount_kg;
+                var matMaxG = DynPrepare.AddMaxG(weight["MAXG"]);
+                inp.S2 = matMaxG.MINP_GD_Material;
+                inp.S2_kg = matMaxG.Amount_kg;
 
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("01"));
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("02"));
-            Data.MINP.MINP_MatAdds.Insert(0, matIron);
-            Data.MINP.MINP_MatAdds.Insert(1, matScrap);
+                var matFOM = DynPrepare.AddFom(weight["FOM"]);
+                inp.FOM = matFOM.MINP_GD_Material;
+                inp.FOM_kg = matFOM.Amount_kg;
+            }
+
+            if (reason == ChargingReason.forRecalculation)
+            {
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("01"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("02"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("04"));
+                Data.MINP.MINP_MatAdds.RemoveAll(aR => aR.MINP_GD_Material.ShortCode.StartsWith("05"));
+                aInputData.ChargedMaterials = new List<DTO.MINP_MatAddDTO>();
+                Data.MINP.MINP_MatAdds.Insert(0, matIron); aInputData.ChargedMaterials.Add(matIron);
+                Data.MINP.MINP_MatAdds.Insert(1, matScrap); aInputData.ChargedMaterials.Add(matScrap);
+                MINP.MINP_GD_ModelMaterials = new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke, AddCoke(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite, AddDolomS(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1, AddDolom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer2, AddMaxG(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM, AddFom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO, AddCaO(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky, AddOdprasky(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Slag, AddSlag(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Steel, AddSteel(0).MINP_GD_Material);
+            }
+            else
+            {
+                inp.Odprasky = DynPrepare.AddOdprasky(0).MINP_GD_Material;
+                inp.StrStr = DynPrepare.AddSlag(0).MINP_GD_Material;
+                inp.Steel = DynPrepare.AddSteel(0).MINP_GD_Material;
+            }
             return inp;
         }
     }
 }
+
+//private char m_separator = ':';
+//public void LoadCSVData(DTO.MINP_MatAddDTO Material, string Name, string Dir = "data")
+//{
+//    using (var l = new Logger("ModelRunner::LoadCSVData"))
+//    {
+//        string filePath = String.Format("{0}\\{1}.csv", Dir, Name);
+//        string[] strings;
+//        try
+//        {
+//            strings = File.ReadAllLines(filePath);
+//        }
+//        catch (Exception e)
+//        {
+//            strings = new string[0];
+//            l.err("Cannot read the file: {0}, call: {1}", filePath, e.ToString());
+//            return;
+//        }
+//        try
+//        {
+//            for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
+//            {
+//                string[] values = strings[strCnt].Split(m_separator);
+//                Material.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(values[0], Convert.ToDouble(values[1])));
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            l.err("Cannot read the file: {0}, bad format call exeption: {1}", filePath, e.ToString());
+//            throw e;
+//        }
+
+//    }
+//}
+

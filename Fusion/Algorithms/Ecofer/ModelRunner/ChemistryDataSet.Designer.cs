@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace AlgorithmsUI {
+namespace Ecofer.ModelRunner {
     
     
     /// <summary>
@@ -20,19 +20,19 @@ namespace AlgorithmsUI {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("ScrapDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("ChemistryDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class ScrapDataSet : global::System.Data.DataSet {
+    public partial class ChemistryDataSet : global::System.Data.DataSet {
         
-        private ScrapDataTable tableScrap;
+        private AdditionChemistryDataTable tableAdditionChemistry;
         
-        private ScrapMixerDataTable tableScrapMixer;
+        private ScrapChemistryDataTable tableScrapChemistry;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public ScrapDataSet() {
+        public ChemistryDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -43,7 +43,7 @@ namespace AlgorithmsUI {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        protected ScrapDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected ChemistryDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -56,11 +56,11 @@ namespace AlgorithmsUI {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Scrap"] != null)) {
-                    base.Tables.Add(new ScrapDataTable(ds.Tables["Scrap"]));
+                if ((ds.Tables["AdditionChemistry"] != null)) {
+                    base.Tables.Add(new AdditionChemistryDataTable(ds.Tables["AdditionChemistry"]));
                 }
-                if ((ds.Tables["ScrapMixer"] != null)) {
-                    base.Tables.Add(new ScrapMixerDataTable(ds.Tables["ScrapMixer"]));
+                if ((ds.Tables["ScrapChemistry"] != null)) {
+                    base.Tables.Add(new ScrapChemistryDataTable(ds.Tables["ScrapChemistry"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -84,9 +84,9 @@ namespace AlgorithmsUI {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ScrapDataTable Scrap {
+        public AdditionChemistryDataTable AdditionChemistry {
             get {
-                return this.tableScrap;
+                return this.tableAdditionChemistry;
             }
         }
         
@@ -94,9 +94,9 @@ namespace AlgorithmsUI {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ScrapMixerDataTable ScrapMixer {
+        public ScrapChemistryDataTable ScrapChemistry {
             get {
-                return this.tableScrapMixer;
+                return this.tableScrapChemistry;
             }
         }
         
@@ -142,7 +142,7 @@ namespace AlgorithmsUI {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            ScrapDataSet cln = ((ScrapDataSet)(base.Clone()));
+            ChemistryDataSet cln = ((ChemistryDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -167,11 +167,11 @@ namespace AlgorithmsUI {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Scrap"] != null)) {
-                    base.Tables.Add(new ScrapDataTable(ds.Tables["Scrap"]));
+                if ((ds.Tables["AdditionChemistry"] != null)) {
+                    base.Tables.Add(new AdditionChemistryDataTable(ds.Tables["AdditionChemistry"]));
                 }
-                if ((ds.Tables["ScrapMixer"] != null)) {
-                    base.Tables.Add(new ScrapMixerDataTable(ds.Tables["ScrapMixer"]));
+                if ((ds.Tables["ScrapChemistry"] != null)) {
+                    base.Tables.Add(new ScrapChemistryDataTable(ds.Tables["ScrapChemistry"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -206,16 +206,16 @@ namespace AlgorithmsUI {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableScrap = ((ScrapDataTable)(base.Tables["Scrap"]));
+            this.tableAdditionChemistry = ((AdditionChemistryDataTable)(base.Tables["AdditionChemistry"]));
             if ((initTable == true)) {
-                if ((this.tableScrap != null)) {
-                    this.tableScrap.InitVars();
+                if ((this.tableAdditionChemistry != null)) {
+                    this.tableAdditionChemistry.InitVars();
                 }
             }
-            this.tableScrapMixer = ((ScrapMixerDataTable)(base.Tables["ScrapMixer"]));
+            this.tableScrapChemistry = ((ScrapChemistryDataTable)(base.Tables["ScrapChemistry"]));
             if ((initTable == true)) {
-                if ((this.tableScrapMixer != null)) {
-                    this.tableScrapMixer.InitVars();
+                if ((this.tableScrapChemistry != null)) {
+                    this.tableScrapChemistry.InitVars();
                 }
             }
         }
@@ -223,26 +223,26 @@ namespace AlgorithmsUI {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "ScrapDataSet";
+            this.DataSetName = "ChemistryDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/ScrapDataSet.xsd";
-            this.EnforceConstraints = false;
+            this.Namespace = "http://tempuri.org/ChemistryDataSet.xsd";
+            this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableScrap = new ScrapDataTable();
-            base.Tables.Add(this.tableScrap);
-            this.tableScrapMixer = new ScrapMixerDataTable();
-            base.Tables.Add(this.tableScrapMixer);
+            this.tableAdditionChemistry = new AdditionChemistryDataTable();
+            base.Tables.Add(this.tableAdditionChemistry);
+            this.tableScrapChemistry = new ScrapChemistryDataTable();
+            base.Tables.Add(this.tableScrapChemistry);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeScrap() {
+        private bool ShouldSerializeAdditionChemistry() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeScrapMixer() {
+        private bool ShouldSerializeScrapChemistry() {
             return false;
         }
         
@@ -257,7 +257,7 @@ namespace AlgorithmsUI {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            ScrapDataSet ds = new ScrapDataSet();
+            ChemistryDataSet ds = new ChemistryDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -302,314 +302,17 @@ namespace AlgorithmsUI {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ScrapRowChangeEventHandler(object sender, ScrapRowChangeEvent e);
+        public delegate void AdditionChemistryRowChangeEventHandler(object sender, AdditionChemistryRowChangeEvent e);
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void ScrapMixerRowChangeEventHandler(object sender, ScrapMixerRowChangeEvent e);
+        public delegate void ScrapChemistryRowChangeEventHandler(object sender, ScrapChemistryRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ScrapDataTable : global::System.Data.TypedTableBase<ScrapRow> {
-            
-            private global::System.Data.DataColumn columnId;
-            
-            private global::System.Data.DataColumn columnCode;
-            
-            private global::System.Data.DataColumn columnDescription;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapDataTable() {
-                this.TableName = "Scrap";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ScrapDataTable(global::System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ScrapDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn IdColumn {
-                get {
-                    return this.columnId;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CodeColumn {
-                get {
-                    return this.columnCode;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DescriptionColumn {
-                get {
-                    return this.columnDescription;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            [global::System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRow this[int index] {
-                get {
-                    return ((ScrapRow)(this.Rows[index]));
-                }
-            }
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapRowChangeEventHandler ScrapRowChanging;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapRowChangeEventHandler ScrapRowChanged;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapRowChangeEventHandler ScrapRowDeleting;
-            
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapRowChangeEventHandler ScrapRowDeleted;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddScrapRow(ScrapRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRow AddScrapRow(System.Guid Id, short Code, string Description) {
-                ScrapRow rowScrapRow = ((ScrapRow)(this.NewRow()));
-                object[] columnValuesArray = new object[] {
-                        Id,
-                        Code,
-                        Description};
-                rowScrapRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowScrapRow);
-                return rowScrapRow;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRow FindById(System.Guid Id) {
-                return ((ScrapRow)(this.Rows.Find(new object[] {
-                            Id})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public override global::System.Data.DataTable Clone() {
-                ScrapDataTable cln = ((ScrapDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataTable CreateInstance() {
-                return new ScrapDataTable();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal void InitVars() {
-                this.columnId = base.Columns["Id"];
-                this.columnCode = base.Columns["Code"];
-                this.columnDescription = base.Columns["Description"];
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            private void InitClass() {
-                this.columnId = new global::System.Data.DataColumn("Id", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnId);
-                this.columnCode = new global::System.Data.DataColumn("Code", typeof(short), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCode);
-                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDescription);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnCode}, false));
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
-                                this.columnId}, true));
-                this.columnId.AllowDBNull = false;
-                this.columnId.Unique = true;
-                this.columnCode.AllowDBNull = false;
-                this.columnCode.Unique = true;
-                this.columnDescription.MaxLength = 100;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRow NewScrapRow() {
-                return ((ScrapRow)(this.NewRow()));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ScrapRow(builder);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override global::System.Type GetRowType() {
-                return typeof(ScrapRow);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.ScrapRowChanged != null)) {
-                    this.ScrapRowChanged(this, new ScrapRowChangeEvent(((ScrapRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.ScrapRowChanging != null)) {
-                    this.ScrapRowChanging(this, new ScrapRowChangeEvent(((ScrapRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.ScrapRowDeleted != null)) {
-                    this.ScrapRowDeleted(this, new ScrapRowChangeEvent(((ScrapRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.ScrapRowDeleting != null)) {
-                    this.ScrapRowDeleting(this, new ScrapRowChangeEvent(((ScrapRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveScrapRow(ScrapRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
-                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                ScrapDataSet ds = new ScrapDataSet();
-                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ScrapDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
-                if (xs.Contains(dsSchema.TargetNamespace)) {
-                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
-                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
-                    try {
-                        global::System.Xml.Schema.XmlSchema schema = null;
-                        dsSchema.Write(s1);
-                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
-                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
-                            s2.SetLength(0);
-                            schema.Write(s2);
-                            if ((s1.Length == s2.Length)) {
-                                s1.Position = 0;
-                                s2.Position = 0;
-                                for (; ((s1.Position != s1.Length) 
-                                            && (s1.ReadByte() == s2.ReadByte())); ) {
-                                    ;
-                                }
-                                if ((s1.Position == s1.Length)) {
-                                    return type;
-                                }
-                            }
-                        }
-                    }
-                    finally {
-                        if ((s1 != null)) {
-                            s1.Close();
-                        }
-                        if ((s2 != null)) {
-                            s2.Close();
-                        }
-                    }
-                }
-                xs.Add(dsSchema);
-                return type;
-            }
-        }
-        
-        /// <summary>
-        ///Represents the strongly named DataTable class.
-        ///</summary>
-        [global::System.Serializable()]
-        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ScrapMixerDataTable : global::System.Data.TypedTableBase<ScrapMixerRow> {
-            
-            private global::System.Data.DataColumn columnId;
-            
-            private global::System.Data.DataColumn columnCode;
-            
-            private global::System.Data.DataColumn columnDescription;
+        public partial class AdditionChemistryDataTable : global::System.Data.TypedTableBase<AdditionChemistryRow> {
             
             private global::System.Data.DataColumn columnName;
             
@@ -617,8 +320,8 @@ namespace AlgorithmsUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerDataTable() {
-                this.TableName = "ScrapMixer";
+            public AdditionChemistryDataTable() {
+                this.TableName = "AdditionChemistry";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -626,7 +329,7 @@ namespace AlgorithmsUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ScrapMixerDataTable(global::System.Data.DataTable table) {
+            internal AdditionChemistryDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -643,33 +346,9 @@ namespace AlgorithmsUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected ScrapMixerDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected AdditionChemistryDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn IdColumn {
-                get {
-                    return this.columnId;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn CodeColumn {
-                get {
-                    return this.columnCode;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn DescriptionColumn {
-                get {
-                    return this.columnDescription;
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -699,49 +378,53 @@ namespace AlgorithmsUI {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerRow this[int index] {
+            public AdditionChemistryRow this[int index] {
                 get {
-                    return ((ScrapMixerRow)(this.Rows[index]));
+                    return ((AdditionChemistryRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapMixerRowChangeEventHandler ScrapMixerRowChanging;
+            public event AdditionChemistryRowChangeEventHandler AdditionChemistryRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapMixerRowChangeEventHandler ScrapMixerRowChanged;
+            public event AdditionChemistryRowChangeEventHandler AdditionChemistryRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapMixerRowChangeEventHandler ScrapMixerRowDeleting;
+            public event AdditionChemistryRowChangeEventHandler AdditionChemistryRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event ScrapMixerRowChangeEventHandler ScrapMixerRowDeleted;
+            public event AdditionChemistryRowChangeEventHandler AdditionChemistryRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddScrapMixerRow(ScrapMixerRow row) {
+            public void AddAdditionChemistryRow(AdditionChemistryRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerRow AddScrapMixerRow(System.Guid Id, short Code, string Description, string Name, double Value) {
-                ScrapMixerRow rowScrapMixerRow = ((ScrapMixerRow)(this.NewRow()));
+            public AdditionChemistryRow AddAdditionChemistryRow(string Name, double Value) {
+                AdditionChemistryRow rowAdditionChemistryRow = ((AdditionChemistryRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        Id,
-                        Code,
-                        Description,
                         Name,
                         Value};
-                rowScrapMixerRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowScrapMixerRow);
-                return rowScrapMixerRow;
+                rowAdditionChemistryRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowAdditionChemistryRow);
+                return rowAdditionChemistryRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public AdditionChemistryRow FindByName(string Name) {
+                return ((AdditionChemistryRow)(this.Rows.Find(new object[] {
+                            Name})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                ScrapMixerDataTable cln = ((ScrapMixerDataTable)(base.Clone()));
+                AdditionChemistryDataTable cln = ((AdditionChemistryDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -749,15 +432,12 @@ namespace AlgorithmsUI {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new ScrapMixerDataTable();
+                return new AdditionChemistryDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnId = base.Columns["Id"];
-                this.columnCode = base.Columns["Code"];
-                this.columnDescription = base.Columns["Description"];
                 this.columnName = base.Columns["Name"];
                 this.columnValue = base.Columns["Value"];
             }
@@ -765,49 +445,42 @@ namespace AlgorithmsUI {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnId = new global::System.Data.DataColumn("Id", typeof(global::System.Guid), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnId);
-                this.columnCode = new global::System.Data.DataColumn("Code", typeof(short), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnCode);
-                this.columnDescription = new global::System.Data.DataColumn("Description", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDescription);
                 this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
                 this.columnValue = new global::System.Data.DataColumn("Value", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnValue);
-                this.columnId.ReadOnly = true;
-                this.columnCode.ReadOnly = true;
-                this.columnDescription.ReadOnly = true;
-                this.columnDescription.MaxLength = 100;
-                this.columnName.ReadOnly = true;
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnName}, true));
+                this.columnName.AllowDBNull = false;
+                this.columnName.Unique = true;
                 this.columnName.MaxLength = 6;
-                this.columnValue.ReadOnly = true;
+                this.columnValue.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerRow NewScrapMixerRow() {
-                return ((ScrapMixerRow)(this.NewRow()));
+            public AdditionChemistryRow NewAdditionChemistryRow() {
+                return ((AdditionChemistryRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new ScrapMixerRow(builder);
+                return new AdditionChemistryRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(ScrapMixerRow);
+                return typeof(AdditionChemistryRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ScrapMixerRowChanged != null)) {
-                    this.ScrapMixerRowChanged(this, new ScrapMixerRowChangeEvent(((ScrapMixerRow)(e.Row)), e.Action));
+                if ((this.AdditionChemistryRowChanged != null)) {
+                    this.AdditionChemistryRowChanged(this, new AdditionChemistryRowChangeEvent(((AdditionChemistryRow)(e.Row)), e.Action));
                 }
             }
             
@@ -815,8 +488,8 @@ namespace AlgorithmsUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ScrapMixerRowChanging != null)) {
-                    this.ScrapMixerRowChanging(this, new ScrapMixerRowChangeEvent(((ScrapMixerRow)(e.Row)), e.Action));
+                if ((this.AdditionChemistryRowChanging != null)) {
+                    this.AdditionChemistryRowChanging(this, new AdditionChemistryRowChangeEvent(((AdditionChemistryRow)(e.Row)), e.Action));
                 }
             }
             
@@ -824,8 +497,8 @@ namespace AlgorithmsUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ScrapMixerRowDeleted != null)) {
-                    this.ScrapMixerRowDeleted(this, new ScrapMixerRowChangeEvent(((ScrapMixerRow)(e.Row)), e.Action));
+                if ((this.AdditionChemistryRowDeleted != null)) {
+                    this.AdditionChemistryRowDeleted(this, new AdditionChemistryRowChangeEvent(((AdditionChemistryRow)(e.Row)), e.Action));
                 }
             }
             
@@ -833,14 +506,14 @@ namespace AlgorithmsUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ScrapMixerRowDeleting != null)) {
-                    this.ScrapMixerRowDeleting(this, new ScrapMixerRowChangeEvent(((ScrapMixerRow)(e.Row)), e.Action));
+                if ((this.AdditionChemistryRowDeleting != null)) {
+                    this.AdditionChemistryRowDeleting(this, new AdditionChemistryRowChangeEvent(((AdditionChemistryRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveScrapMixerRow(ScrapMixerRow row) {
+            public void RemoveAdditionChemistryRow(AdditionChemistryRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -849,7 +522,7 @@ namespace AlgorithmsUI {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                ScrapDataSet ds = new ScrapDataSet();
+                ChemistryDataSet ds = new ChemistryDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -867,7 +540,281 @@ namespace AlgorithmsUI {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ScrapMixerDataTable";
+                attribute2.FixedValue = "AdditionChemistryDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ScrapChemistryDataTable : global::System.Data.TypedTableBase<ScrapChemistryRow> {
+            
+            private global::System.Data.DataColumn columnName;
+            
+            private global::System.Data.DataColumn columnValue;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScrapChemistryDataTable() {
+                this.TableName = "ScrapChemistry";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal ScrapChemistryDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected ScrapChemistryDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn ValueColumn {
+                get {
+                    return this.columnValue;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScrapChemistryRow this[int index] {
+                get {
+                    return ((ScrapChemistryRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ScrapChemistryRowChangeEventHandler ScrapChemistryRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ScrapChemistryRowChangeEventHandler ScrapChemistryRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ScrapChemistryRowChangeEventHandler ScrapChemistryRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public event ScrapChemistryRowChangeEventHandler ScrapChemistryRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void AddScrapChemistryRow(ScrapChemistryRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScrapChemistryRow AddScrapChemistryRow(string Name, double Value) {
+                ScrapChemistryRow rowScrapChemistryRow = ((ScrapChemistryRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Name,
+                        Value};
+                rowScrapChemistryRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowScrapChemistryRow);
+                return rowScrapChemistryRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScrapChemistryRow FindByName(string Name) {
+                return ((ScrapChemistryRow)(this.Rows.Find(new object[] {
+                            Name})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                ScrapChemistryDataTable cln = ((ScrapChemistryDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new ScrapChemistryDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal void InitVars() {
+                this.columnName = base.Columns["Name"];
+                this.columnValue = base.Columns["Value"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            private void InitClass() {
+                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnValue = new global::System.Data.DataColumn("Value", typeof(double), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnValue);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnName}, true));
+                this.columnName.AllowDBNull = false;
+                this.columnName.Unique = true;
+                this.columnName.MaxLength = 6;
+                this.columnValue.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public ScrapChemistryRow NewScrapChemistryRow() {
+                return ((ScrapChemistryRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new ScrapChemistryRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(ScrapChemistryRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ScrapChemistryRowChanged != null)) {
+                    this.ScrapChemistryRowChanged(this, new ScrapChemistryRowChangeEvent(((ScrapChemistryRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ScrapChemistryRowChanging != null)) {
+                    this.ScrapChemistryRowChanging(this, new ScrapChemistryRowChangeEvent(((ScrapChemistryRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ScrapChemistryRowDeleted != null)) {
+                    this.ScrapChemistryRowDeleted(this, new ScrapChemistryRowChangeEvent(((ScrapChemistryRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ScrapChemistryRowDeleting != null)) {
+                    this.ScrapChemistryRowDeleting(this, new ScrapChemistryRowChangeEvent(((ScrapChemistryRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void RemoveScrapChemistryRow(ScrapChemistryRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                ChemistryDataSet ds = new ChemistryDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ScrapChemistryDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -911,143 +858,25 @@ namespace AlgorithmsUI {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class ScrapRow : global::System.Data.DataRow {
+        public partial class AdditionChemistryRow : global::System.Data.DataRow {
             
-            private ScrapDataTable tableScrap;
+            private AdditionChemistryDataTable tableAdditionChemistry;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ScrapRow(global::System.Data.DataRowBuilder rb) : 
+            internal AdditionChemistryRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableScrap = ((ScrapDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid Id {
-                get {
-                    return ((global::System.Guid)(this[this.tableScrap.IdColumn]));
-                }
-                set {
-                    this[this.tableScrap.IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short Code {
-                get {
-                    return ((short)(this[this.tableScrap.CodeColumn]));
-                }
-                set {
-                    this[this.tableScrap.CodeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Description {
-                get {
-                    try {
-                        return ((string)(this[this.tableScrap.DescriptionColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'Scrap\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableScrap.DescriptionColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDescriptionNull() {
-                return this.IsNull(this.tableScrap.DescriptionColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDescriptionNull() {
-                this[this.tableScrap.DescriptionColumn] = global::System.Convert.DBNull;
-            }
-        }
-        
-        /// <summary>
-        ///Represents strongly named DataRow class.
-        ///</summary>
-        public partial class ScrapMixerRow : global::System.Data.DataRow {
-            
-            private ScrapMixerDataTable tableScrapMixer;
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal ScrapMixerRow(global::System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableScrapMixer = ((ScrapMixerDataTable)(this.Table));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public System.Guid Id {
-                get {
-                    try {
-                        return ((global::System.Guid)(this[this.tableScrapMixer.IdColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Id\' in table \'ScrapMixer\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableScrapMixer.IdColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public short Code {
-                get {
-                    try {
-                        return ((short)(this[this.tableScrapMixer.CodeColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Code\' in table \'ScrapMixer\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableScrapMixer.CodeColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string Description {
-                get {
-                    try {
-                        return ((string)(this[this.tableScrapMixer.DescriptionColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Description\' in table \'ScrapMixer\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableScrapMixer.DescriptionColumn] = value;
-                }
+                this.tableAdditionChemistry = ((AdditionChemistryDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Name {
                 get {
-                    try {
-                        return ((string)(this[this.tableScrapMixer.NameColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Name\' in table \'ScrapMixer\' is DBNull.", e);
-                    }
+                    return ((string)(this[this.tableAdditionChemistry.NameColumn]));
                 }
                 set {
-                    this[this.tableScrapMixer.NameColumn] = value;
+                    this[this.tableAdditionChemistry.NameColumn] = value;
                 }
             }
             
@@ -1055,76 +884,48 @@ namespace AlgorithmsUI {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public double Value {
                 get {
-                    try {
-                        return ((double)(this[this.tableScrapMixer.ValueColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Value\' in table \'ScrapMixer\' is DBNull.", e);
-                    }
+                    return ((double)(this[this.tableAdditionChemistry.ValueColumn]));
                 }
                 set {
-                    this[this.tableScrapMixer.ValueColumn] = value;
+                    this[this.tableAdditionChemistry.ValueColumn] = value;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class ScrapChemistryRow : global::System.Data.DataRow {
+            
+            private ScrapChemistryDataTable tableScrapChemistry;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            internal ScrapChemistryRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableScrapChemistry = ((ScrapChemistryDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Name {
+                get {
+                    return ((string)(this[this.tableScrapChemistry.NameColumn]));
+                }
+                set {
+                    this[this.tableScrapChemistry.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsIdNull() {
-                return this.IsNull(this.tableScrapMixer.IdColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetIdNull() {
-                this[this.tableScrapMixer.IdColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsCodeNull() {
-                return this.IsNull(this.tableScrapMixer.CodeColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetCodeNull() {
-                this[this.tableScrapMixer.CodeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsDescriptionNull() {
-                return this.IsNull(this.tableScrapMixer.DescriptionColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetDescriptionNull() {
-                this[this.tableScrapMixer.DescriptionColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsNameNull() {
-                return this.IsNull(this.tableScrapMixer.NameColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetNameNull() {
-                this[this.tableScrapMixer.NameColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsValueNull() {
-                return this.IsNull(this.tableScrapMixer.ValueColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetValueNull() {
-                this[this.tableScrapMixer.ValueColumn] = global::System.Convert.DBNull;
+            public double Value {
+                get {
+                    return ((double)(this[this.tableScrapChemistry.ValueColumn]));
+                }
+                set {
+                    this[this.tableScrapChemistry.ValueColumn] = value;
+                }
             }
         }
         
@@ -1132,22 +933,22 @@ namespace AlgorithmsUI {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ScrapRowChangeEvent : global::System.EventArgs {
+        public class AdditionChemistryRowChangeEvent : global::System.EventArgs {
             
-            private ScrapRow eventRow;
+            private AdditionChemistryRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRowChangeEvent(ScrapRow row, global::System.Data.DataRowAction action) {
+            public AdditionChemistryRowChangeEvent(AdditionChemistryRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapRow Row {
+            public AdditionChemistryRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1166,22 +967,22 @@ namespace AlgorithmsUI {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class ScrapMixerRowChangeEvent : global::System.EventArgs {
+        public class ScrapChemistryRowChangeEvent : global::System.EventArgs {
             
-            private ScrapMixerRow eventRow;
+            private ScrapChemistryRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerRowChangeEvent(ScrapMixerRow row, global::System.Data.DataRowAction action) {
+            public ScrapChemistryRowChangeEvent(ScrapChemistryRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public ScrapMixerRow Row {
+            public ScrapChemistryRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -1197,7 +998,7 @@ namespace AlgorithmsUI {
         }
     }
 }
-namespace AlgorithmsUI.ScrapDataSetTableAdapters {
+namespace Ecofer.ModelRunner.ChemistryDataSetTableAdapters {
     
     
     /// <summary>
@@ -1209,7 +1010,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class ScrapTableAdapter : global::System.ComponentModel.Component {
+    public partial class AdditionChemistryTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlServerCe.SqlCeDataAdapter _adapter;
         
@@ -1223,7 +1024,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public ScrapTableAdapter() {
+        public AdditionChemistryTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1320,66 +1121,60 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
             this._adapter = new global::System.Data.SqlServerCe.SqlCeDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Scrap";
-            tableMapping.ColumnMappings.Add("Id", "Id");
-            tableMapping.ColumnMappings.Add("Code", "Code");
-            tableMapping.ColumnMappings.Add("Description", "Description");
+            tableMapping.DataSetTable = "AdditionChemistry";
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("Value", "Value");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Scrap] WHERE (([Id] = @p1) AND ([Code] = @p2))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Element] WHERE (([Name] = @p1) AND ([Id] = @p2))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.InsertCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Scrap] ([Id], [Code], [Description]) VALUES (@p1, @p2, @p3)";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p3", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Name", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Original, null));
             this._adapter.UpdateCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Scrap] SET [Id] = @p1, [Code] = @p2, [Description] = @p3 WHERE (([Id] = @" +
-                "p4) AND ([Code] = @p5))";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Element] SET [Name] = @p1, [Value] = @p2, [Id] = @p3 WHERE (([Name] = @p4" +
+                ") AND ([Id] = @p5))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p3", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Description", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p4", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p5", global::System.Data.SqlDbType.SmallInt, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p1", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Name", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p2", global::System.Data.SqlDbType.Float, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Value", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p3", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p4", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Name", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@p5", global::System.Data.SqlDbType.UniqueIdentifier, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "Id", global::System.Data.DataRowVersion.Original, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlServerCe.SqlCeConnection();
-            this._connection.ConnectionString = global::AlgorithmsUI.Properties.Settings.Default.ChemistryConnectionString;
+            this._connection.ConnectionString = global::Ecofer.Properties.Settings.Default.ChemistryConnectionString3;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[2];
+            this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [Id], [Code], [Description] FROM [Scrap]";
+            this._commandCollection[0].CommandText = "SELECT        Element.Name, Element.Value\r\nFROM            Addition INNER JOIN\r\n " +
+                "                        Element ON Addition.Id = Element.Sid\r\nWHERE        (Addi" +
+                "tion.Name = @Param1)\r\nORDER BY Element.Name";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1] = new global::System.Data.SqlServerCe.SqlCeCommand();
-            this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "select scrap.id, scrap.code, scrap.description, element.name, element.value \r\nfro" +
-                "m (scrap left join element on scrap.id = element.sid) \r\nwhere scrap.code = @Code" +
-                "";
-            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Code", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Current, null));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.NVarChar, 100, global::System.Data.ParameterDirection.Input, true, 0, 0, "Name", global::System.Data.DataRowVersion.Current, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(ScrapDataSet.ScrapDataTable dataTable) {
+        public virtual int Fill(ChemistryDataSet.AdditionChemistryDataTable dataTable, string Param1) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((Param1 == null)) {
+                throw new global::System.ArgumentNullException("Param1");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(Param1));
+            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -1390,40 +1185,15 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual ScrapDataSet.ScrapDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            ScrapDataSet.ScrapDataTable dataTable = new ScrapDataSet.ScrapDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillByCode(ScrapDataSet.ScrapDataTable dataTable, short Code) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((short)(Code));
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(ScrapDataSet.ScrapDataTable dataTable) {
+        public virtual int Update(ChemistryDataSet.AdditionChemistryDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(ScrapDataSet dataSet) {
-            return this.Adapter.Update(dataSet, "Scrap");
+        public virtual int Update(ChemistryDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "AdditionChemistry");
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1440,97 +1210,6 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         public virtual int Update(global::System.Data.DataRow[] dataRows) {
             return this.Adapter.Update(dataRows);
         }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(System.Guid p1, short p2) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((System.Guid)(p1));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((short)(p2));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(System.Guid p1, short p2, string p3) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((System.Guid)(p1));
-            this.Adapter.InsertCommand.Parameters[1].Value = ((short)(p2));
-            if ((p3 == null)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(p3));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(System.Guid p1, short p2, string p3, System.Guid p4, short p5) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((System.Guid)(p1));
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((short)(p2));
-            if ((p3 == null)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(p3));
-            }
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((System.Guid)(p4));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((short)(p5));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(short p2, string p3, System.Guid p4, short p5) {
-            return this.Update(p4, p2, p3, p4, p5);
-        }
     }
     
     /// <summary>
@@ -1542,7 +1221,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class ScrapMixerTableAdapter : global::System.ComponentModel.Component {
+    public partial class ScrapChemistryTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlServerCe.SqlCeDataAdapter _adapter;
         
@@ -1556,7 +1235,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public ScrapMixerTableAdapter() {
+        public ScrapChemistryTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -1653,10 +1332,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
             this._adapter = new global::System.Data.SqlServerCe.SqlCeDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "ScrapMixer";
-            tableMapping.ColumnMappings.Add("Id", "Id");
-            tableMapping.ColumnMappings.Add("Code", "Code");
-            tableMapping.ColumnMappings.Add("Description", "Description");
+            tableMapping.DataSetTable = "ScrapChemistry";
             tableMapping.ColumnMappings.Add("Name", "Name");
             tableMapping.ColumnMappings.Add("Value", "Value");
             this._adapter.TableMappings.Add(tableMapping);
@@ -1666,7 +1342,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlServerCe.SqlCeConnection();
-            this._connection.ConnectionString = global::AlgorithmsUI.Properties.Settings.Default.ChemistryConnectionString1;
+            this._connection.ConnectionString = global::Ecofer.Properties.Settings.Default.ChemistryConnectionString4;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1675,20 +1351,20 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "select scrap.id, scrap.code, scrap.description, element.name, element.value \r\nfro" +
-                "m (scrap left join element on scrap.id = element.sid) \r\nwhere scrap.code = @Code" +
-                "";
+            this._commandCollection[0].CommandText = "SELECT        Element.Name, Element.Value\r\nFROM            Scrap INNER JOIN\r\n    " +
+                "                     Element ON Scrap.Id = Element.Sid\r\nWHERE        (Scrap.Code" +
+                " = @Param1)";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Code", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Current, null));
+            this._commandCollection[0].Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Param1", global::System.Data.SqlDbType.SmallInt, 2, global::System.Data.ParameterDirection.Input, true, 0, 0, "Code", global::System.Data.DataRowVersion.Current, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int FillByCode(ScrapDataSet.ScrapMixerDataTable dataTable, short Code) {
+        public virtual int Fill(ChemistryDataSet.ScrapChemistryDataTable dataTable, short Param1) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((short)(Code));
+            this.Adapter.SelectCommand.Parameters[0].Value = ((short)(Param1));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -1709,7 +1385,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         
         private UpdateOrderOption _updateOrder;
         
-        private ScrapTableAdapter _scrapTableAdapter;
+        private AdditionChemistryTableAdapter _additionChemistryTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -1731,12 +1407,12 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
-        public ScrapTableAdapter ScrapTableAdapter {
+        public AdditionChemistryTableAdapter AdditionChemistryTableAdapter {
             get {
-                return this._scrapTableAdapter;
+                return this._additionChemistryTableAdapter;
             }
             set {
-                this._scrapTableAdapter = value;
+                this._additionChemistryTableAdapter = value;
             }
         }
         
@@ -1759,9 +1435,9 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
                 if ((this._connection != null)) {
                     return this._connection;
                 }
-                if (((this._scrapTableAdapter != null) 
-                            && (this._scrapTableAdapter.Connection != null))) {
-                    return this._scrapTableAdapter.Connection;
+                if (((this._additionChemistryTableAdapter != null) 
+                            && (this._additionChemistryTableAdapter.Connection != null))) {
+                    return this._additionChemistryTableAdapter.Connection;
                 }
                 return null;
             }
@@ -1776,7 +1452,7 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
-                if ((this._scrapTableAdapter != null)) {
+                if ((this._additionChemistryTableAdapter != null)) {
                     count = (count + 1);
                 }
                 return count;
@@ -1788,14 +1464,14 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateUpdatedRows(ScrapDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(ChemistryDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._scrapTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Scrap.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._additionChemistryTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.AdditionChemistry.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._scrapTableAdapter.Update(updatedRows));
+                    result = (result + this._additionChemistryTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -1807,13 +1483,13 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateInsertedRows(ScrapDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(ChemistryDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._scrapTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Scrap.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._additionChemistryTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.AdditionChemistry.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._scrapTableAdapter.Update(addedRows));
+                    result = (result + this._additionChemistryTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -1825,13 +1501,13 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private int UpdateDeletedRows(ScrapDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(ChemistryDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._scrapTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.Scrap.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._additionChemistryTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.AdditionChemistry.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._scrapTableAdapter.Update(deletedRows));
+                    result = (result + this._additionChemistryTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -1867,15 +1543,15 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public virtual int UpdateAll(ScrapDataSet dataSet) {
+        public virtual int UpdateAll(ChemistryDataSet dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
             if ((dataSet.HasChanges() == false)) {
                 return 0;
             }
-            if (((this._scrapTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._scrapTableAdapter.Connection) == false))) {
+            if (((this._additionChemistryTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._additionChemistryTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
                         "tring.");
             }
@@ -1911,13 +1587,13 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
             try {
                 // ---- Prepare for update -----------
                 //
-                if ((this._scrapTableAdapter != null)) {
-                    revertConnections.Add(this._scrapTableAdapter, this._scrapTableAdapter.Connection);
-                    this._scrapTableAdapter.Connection = ((global::System.Data.SqlServerCe.SqlCeConnection)(workConnection));
-                    this._scrapTableAdapter.Transaction = ((global::System.Data.SqlServerCe.SqlCeTransaction)(workTransaction));
-                    if (this._scrapTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._scrapTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._scrapTableAdapter.Adapter);
+                if ((this._additionChemistryTableAdapter != null)) {
+                    revertConnections.Add(this._additionChemistryTableAdapter, this._additionChemistryTableAdapter.Connection);
+                    this._additionChemistryTableAdapter.Connection = ((global::System.Data.SqlServerCe.SqlCeConnection)(workConnection));
+                    this._additionChemistryTableAdapter.Transaction = ((global::System.Data.SqlServerCe.SqlCeTransaction)(workTransaction));
+                    if (this._additionChemistryTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._additionChemistryTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._additionChemistryTableAdapter.Adapter);
                     }
                 }
                 // 
@@ -1978,9 +1654,9 @@ namespace AlgorithmsUI.ScrapDataSetTableAdapters {
                 if (workConnOpened) {
                     workConnection.Close();
                 }
-                if ((this._scrapTableAdapter != null)) {
-                    this._scrapTableAdapter.Connection = ((global::System.Data.SqlServerCe.SqlCeConnection)(revertConnections[this._scrapTableAdapter]));
-                    this._scrapTableAdapter.Transaction = null;
+                if ((this._additionChemistryTableAdapter != null)) {
+                    this._additionChemistryTableAdapter.Connection = ((global::System.Data.SqlServerCe.SqlCeConnection)(revertConnections[this._additionChemistryTableAdapter]));
+                    this._additionChemistryTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

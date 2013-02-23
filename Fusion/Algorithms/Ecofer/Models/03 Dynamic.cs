@@ -68,7 +68,7 @@ namespace Models
 
             mStepsCount = 0;
             mDeltaT_s = aDeltaT_s;
-            mDeltaT_min = (float)aDeltaT_s / 60;
+            mDeltaT_min = (double)aDeltaT_s / 60;
 
             mRunningType = aRunningType;
 
@@ -315,6 +315,7 @@ namespace Models
         public void EnqueueMaterialAdded(DTO.MINP_MatAddDTO aMaterial)
         {
             mRequestQueue.Enqueue(aMaterial);
+            Data.MINP.MINP_MatChain.Add(aMaterial);
         }
         public Dynamic.ModelPhaseState State()
         {
@@ -344,33 +345,40 @@ namespace Models
         /// <summary>
         /// Runs simulation from the beginning of the heat until now with modified model input data.
         /// </summary>
+
+        public bool mRecalcContext = false;
+
         private void RecalculateFromBeginningInThread()
         {
-            mRecalculating = true;
+            mRecalcContext = true;
             mRecalculateFromTheBeginning = false;
 
             if (mRunningType == RunningType.RealTime) mTimer.Change(-1, -1);
             RunningType lPreviousRunningType = mRunningType;
-            mRunningType = RunningType.Simulation;
+            //mRunningType = RunningType.Simulation;
 
             // new Initialization
-            Initialization();
+            lock (((ICollection)mRequestQueue).SyncRoot)
+            {
+                Initialization();
+            }
+
 
             DateTime lStartTime = Data.Clock.Current.StartTime;
             DateTime lNow = Data.Clock.Current.ActualTime;
             List<DTO.MINP_CyclicDTO> lMINP_CyclicData = Data.MINP.MINP_Cyclic.OrderBy(aR => aR.TimeProcessed).ToList();
             List<DTO.MINP_MatAddDTO> lMINP_MatAddData = Data.MINP.MINP_MatAdds.Where(aR => !aR.ShortCode.StartsWith("01") && !aR.ShortCode.StartsWith("02")).OrderBy(aR => aR.TimeProcessed).ToList();
+            List<DTO.MINP_MatAddDTO> lMINP_MatAddChain = Data.MINP.MINP_MatChain;
             Data.MINP.MINP_Cyclic = new List<DTO.MINP_CyclicDTO>();
-            Data.MINP.MINP_MatAdds.RemoveAll(aR => lMINP_MatAddData.Contains(aR));
+            Data.MINP.MINP_MatAdds = new List<DTO.MINP_MatAddDTO>();
+            Data.MINP.MINP_MatChain = new List<DTO.MINP_MatAddDTO>();
             int lStepsCount = mStepsCount;
             mStepsCount = 0;
-
-            Data.Clock lOldClock = Data.Clock.Current;
-            new Data.Clock(lStartTime, mDeltaT_s);
-            //mOutputData.Clear();
+            mOutputData.Clear();
 
             // loops
-            while (mStepsCount < lStepsCount)
+            int cs = 0;
+            while (cs < lStepsCount)
             {
                 if (lMINP_CyclicData.Count > 0)
                 {
@@ -378,22 +386,21 @@ namespace Models
                     lMINP_CyclicData.RemoveAt(0);
                 }
 
-                while (lMINP_MatAddData.Count > 0 && lMINP_MatAddData[0].TimeProcessed <= Data.Clock.Current.ActualTime)
+                while (lMINP_MatAddChain.Count > 0 && lMINP_MatAddChain[0].TimeProcessed <= lStartTime)
                 {
-                    Data.MINP.MINP_MatAdds.Add(lMINP_MatAddData[0]);
-                    EnqueueMaterialAdded(lMINP_MatAddData[0]);
-                    lMINP_MatAddData.RemoveAt(0);
+                    Data.MINP.MINP_MatAdds.Add(lMINP_MatAddChain[0]);
+                    EnqueueMaterialAdded(lMINP_MatAddChain[0]);
+                    lMINP_MatAddChain.RemoveAt(0);
                 }
-
                 ControlLoop(null);
+                cs++;
+                lStartTime = lStartTime.AddSeconds(1.0);
             }
 
-            Data.Clock.Current = lOldClock;
-
             mRunningType = lPreviousRunningType;
-            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(mDeltaT_s));
+            if (mRunningType == RunningType.RealTime) mTimer.Change(TimeSpan.FromSeconds(mDeltaT_s), TimeSpan.FromSeconds(mDeltaT_s)); //was 0
 
-            mRecalculating = false;
+            mRecalcContext = false;
         }
 
         private void StartSimulationTimer()
@@ -411,7 +418,7 @@ namespace Models
         private void Initialization()
         {
             // R 5.9 .. R 5.15
-            mC_kov_min_p = new Dictionary<Enumerations.M3ElementEnum, float>();
+            mC_kov_min_p = new Dictionary<Enumerations.M3ElementEnum, double>();
             foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
             {
                 Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -420,27 +427,27 @@ namespace Models
 
             #region Data structures initialization
             mCurrentOutputData = new Data.Model.DynamicOutput();
-            mCurrentOutputData.FP_Tavby = new float[Global.MATERIALELEMENTS_COUNT];
-            mCurrentOutputData.m_SlozkaTavby = new float[Global.MATERIALELEMENTS_STEELANDSLAG_COUNT];
-            mCurrentOutputData.FP_Kov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentOutputData.FP_Struska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
-            mCurrentOutputData.m_SlozkaKov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentOutputData.m_SlozkaStruska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
-            mCurrentOutputData.c_Kov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentOutputData.c_Struska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentOutputData.FP_Tavby = new double[Global.MATERIALELEMENTS_COUNT];
+            mCurrentOutputData.m_SlozkaTavby = new double[Global.MATERIALELEMENTS_STEELANDSLAG_COUNT];
+            mCurrentOutputData.FP_Kov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentOutputData.FP_Struska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentOutputData.m_SlozkaKov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentOutputData.m_SlozkaStruska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentOutputData.c_Kov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentOutputData.c_Struska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
             for (int i = 0; i < Global.MATERIALELEMENTS_COUNT; i++) mCurrentOutputData.FP_Tavby[i] = 0;
 
             mCurrentStateData = new Data.Model.DynamicState();
-            mCurrentStateData.FP_Tavby = new float[Global.MATERIALELEMENTS_COUNT];
-            mCurrentStateData.m_SlozkaTavby = new float[Global.MATERIALELEMENTS_STEELANDSLAG_COUNT];
-            mCurrentStateData.FP_Kov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentStateData.FP_Struska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
-            mCurrentStateData.m_SlozkaKov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentStateData.m_SlozkaStruska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
-            mCurrentStateData.c_Kov = new float[Global.MATERIALELEMENTS_STEEL_COUNT];
-            mCurrentStateData.c_Struska = new float[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentStateData.FP_Tavby = new double[Global.MATERIALELEMENTS_COUNT];
+            mCurrentStateData.m_SlozkaTavby = new double[Global.MATERIALELEMENTS_STEELANDSLAG_COUNT];
+            mCurrentStateData.FP_Kov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentStateData.FP_Struska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentStateData.m_SlozkaKov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentStateData.m_SlozkaStruska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
+            mCurrentStateData.c_Kov = new double[Global.MATERIALELEMENTS_STEEL_COUNT];
+            mCurrentStateData.c_Struska = new double[Global.MATERIALELEMENTS_SLAG_COUNT];
             for (int i = 0; i < Global.MATERIALELEMENTS_COUNT; i++) mCurrentStateData.FP_Tavby[i] = 0;
-            mCurrentStateData.E_Elements = new Dictionary<Enumerations.M3ElementEnum, float>();
+            mCurrentStateData.E_Elements = new Dictionary<Enumerations.M3ElementEnum, double>();
             mCO2Buffer = 0;
             #endregion
 
@@ -463,10 +470,10 @@ namespace Models
                 mCurrentStateData.FP_Tavby[i] /= mCurrentStateData.m_Tavby;
             }
 
-            float lSuma_m_SZ_real = 0;
-            float[] lStredni_SZ = new float[Global.MATERIALELEMENTS_COUNT];
-            float lSuma_m_Other_real = 0;
-            float[] lStredni_Other = new float[Global.MATERIALELEMENTS_COUNT];
+            double lSuma_m_SZ_real = 0;
+            double[] lStredni_SZ = new double[Global.MATERIALELEMENTS_COUNT];
+            double lSuma_m_Other_real = 0;
+            double[] lStredni_Other = new double[Global.MATERIALELEMENTS_COUNT];
 
             DTO.MINP_MatAddDTO[] lHotMetals;
             DTO.MINP_MatAddDTO[] lOtherMaterials;
@@ -485,7 +492,7 @@ namespace Models
                 for (int iElement = 69; iElement <= 72; iElement++)
                 {
                     DTO.MINP_GD_MaterialItemsDTO lMaterialItem = nItem.MINP_GD_Material.MINP_GD_MaterialItems.SingleOrDefault(aR => aR.MINP_GD_MaterialElement.Index == iElement);
-                    if (lMaterialItem != null) lStredni_SZ[iElement] += nItem.Amount_kg * (float)lMaterialItem.Amount_p;
+                    if (lMaterialItem != null) lStredni_SZ[iElement] += nItem.Amount_kg * (double)lMaterialItem.Amount_p;
                 }
             }
 
@@ -502,7 +509,7 @@ namespace Models
                 for (int iElement = 69; iElement <= 72; iElement++)
                 {
                     DTO.MINP_GD_MaterialItemsDTO lMaterialItem = nItem.MINP_GD_Material.MINP_GD_MaterialItems.SingleOrDefault(aR => aR.MINP_GD_MaterialElement.Index == iElement);
-                    if (lMaterialItem != null) lStredni_Other[iElement] += nItem.Amount_kg * (float)lMaterialItem.Amount_p;
+                    if (lMaterialItem != null) lStredni_Other[iElement] += nItem.Amount_kg * (double)lMaterialItem.Amount_p;
                 }
             }
 
@@ -516,12 +523,12 @@ namespace Models
             mT_SZ = (mInputData.HotMetal_Temperature.HasValue) ? mInputData.HotMetal_Temperature.Value : lStredni_SZ[69];
             mT_Other = (mInputData.Scrap_Temperature.HasValue) ? mInputData.Scrap_Temperature.Value : lStredni_Other[69];
 
-            float lH_SZ = lSuma_m_SZ_real * (lStredni_SZ[70] / MINP.ConversionVector(70) / lStredni_SZ[72]) * mT_SZ;
+            double lH_SZ = lSuma_m_SZ_real * (lStredni_SZ[70] / MINP.ConversionVector(70) / lStredni_SZ[72]) * mT_SZ;
             if (mT_SZ > lStredni_SZ[72])
                 lH_SZ = lSuma_m_SZ_real * (lStredni_SZ[70] / MINP.ConversionVector(70) + lStredni_SZ[71] / MINP.ConversionVector(71) * (mT_SZ - lStredni_SZ[72]));
 
             // jiz spocten prumer pro vsechny ostatni pridane prisady
-            float lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
+            double lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
 
             mCurrentStateData.E_Tavby = lH_SZ + lH_Cold;
 
@@ -538,7 +545,7 @@ namespace Models
             RecalculateKovStruskaFromTavba();
 
             mC_kov_start = mCurrentStateData.FP_Kov[0];
-            mC_kov_end = Global.M3_Stat_C_konec + (float)(new Random()).NextDouble() * Global.M3_Stat_C_konec_random * 2f - Global.M3_Stat_C_konec_random;
+            mC_kov_end = Global.M3_Stat_C_konec + (double)(new Random()).NextDouble() * Global.M3_Stat_C_konec_random * 2f - Global.M3_Stat_C_konec_random;
         }
         /// <summary>
         /// Check if Phases in model input are valid.
@@ -577,7 +584,7 @@ namespace Models
         {
             if (mPaused) return;
 
-            if (!mRecalculating) StopSimulationTimer();
+            //CHEREP      StopSimulationTimer();
 
             if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
 
@@ -590,8 +597,11 @@ namespace Models
             #endregion
             #region Model loop
             ProcessQueueRequests();
+
             Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
-            lock (mOutputData)
+
+            bool tryAgainLater = true;
+            do
             {
                 mOutputData.Add(mOutputDataIndex++, lLoopOutputData);
             }
@@ -607,7 +617,7 @@ namespace Models
                 #region Main oxygen blowing
                 if (mCurrentPhaseState == ModelPhaseState.S10_MainOxygenBlowing)
                 {
-                    float lAmount_p = (float)lCyclicData.OxygenConsumption_m3.Value / mFinalOxygenAmount * 100;
+                    double lAmount_p = (double)lCyclicData.OxygenConsumption_m3.Value / mFinalOxygenAmount * 100;
 
                     if (mRunningType == RunningType.Simulation || !Global.M3_Stat_C_ON)
                     {
@@ -629,7 +639,7 @@ namespace Models
                     else
                     {
                         #region C statistical correction
-                        float lOprava_C = 0;
+                        double lOprava_C = 0;
 
                         if (LastOutputData != null && lCyclicData.Wastegas_CO2_p <= lCyclicData.Wastegas_CO_p)
                         {
@@ -757,8 +767,8 @@ namespace Models
 
                 break;
             }
-
-            if (!mRecalculating) StartSimulationTimer();
+            
+            //CHEREP    StartSimulationTimer();
         }
         private void ProcessQueueRequests()
         {
@@ -793,8 +803,8 @@ namespace Models
                 mCorrectionOxygenAmount = 0;
             }
 
-            float lO_Dofuk_C = 0;
-            float lO_Dofuk_T = 0;
+            double lO_Dofuk_C = 0;
+            double lO_Dofuk_T = 0;
 
             if (aTempMeas.Temperature <= Data.MINP.HeatAimData.FinalTemperature)
             {
@@ -802,7 +812,7 @@ namespace Models
             }
             if (aTempMeas.Carbon_p.HasValue && aTempMeas.Carbon_p.Value > Data.MINP.HeatAimData.FinalC_p)
             {
-                lO_Dofuk_C = (float)(Global.M3_O_C * (aTempMeas.Carbon_p.Value - Data.MINP.HeatAimData.FinalC_p));
+                lO_Dofuk_C = (double)(Global.M3_O_C * (aTempMeas.Carbon_p.Value - Data.MINP.HeatAimData.FinalC_p));
             }
 
             mCorrectionOxygenAmount = (int)Math.Round(lO_Dofuk_T);
@@ -830,8 +840,8 @@ namespace Models
             if (Data.MINP.MINP_GD_ModelMaterials.ContainsKey(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer2) && aMatAdd.ShortCode == Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer2].ShortCode) mCSVS1S2 += aMatAdd.Amount_kg;
 
             // ProcessMaterialAdded
-            float lSuma_m_Other_real = 0;
-            float[] lStredni_Other = new float[Global.MATERIALELEMENTS_COUNT];
+            double lSuma_m_Other_real = 0;
+            double[] lStredni_Other = new double[Global.MATERIALELEMENTS_COUNT];
 
             // FP Tavby
             for (int j = 0; j < Global.MATERIALELEMENTS_COUNT; j++)
@@ -847,7 +857,7 @@ namespace Models
             for (int iElement = 69; iElement <= 72; iElement++)
             {
                 DTO.MINP_GD_MaterialItemsDTO lMaterialItem = aMatAdd.MINP_GD_Material.MINP_GD_MaterialItems.SingleOrDefault(aR => aR.MINP_GD_MaterialElement.Index == iElement);
-                lStredni_Other[iElement] += aMatAdd.Amount_kg * (float)lMaterialItem.Amount_p;
+                lStredni_Other[iElement] += aMatAdd.Amount_kg * (double)lMaterialItem.Amount_p;
             }
 
 
@@ -862,7 +872,7 @@ namespace Models
                 lStredni_Other[iElement] = lStredni_Other[iElement] / lSuma_m_Other_real;
             }
 
-            float lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
+            double lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
             mCurrentStateData.E_Tavby += lH_Cold;
 
             // CO2 buffer
@@ -871,7 +881,7 @@ namespace Models
 
         private Data.Model.DynamicOutput ModelLoop()
         {
-            float lm_Odprasky_krok = (Global.M_Odprasky / Global.TauTavby * mDeltaT_min);
+            double lm_Odprasky_krok = (Global.M_Odprasky / Global.TauTavby * mDeltaT_min);
 
             #region m, c - kov, struska R 16 .. R 25
             mCurrentStateData.m_Struska = 0;
@@ -917,17 +927,18 @@ namespace Models
                 mCurrentStateData.m_SlozkaKov[i] -= lm_Odprasky_krok * MINP.FP(MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Odprasky], i) / MINP.ConversionVector(i);
             }
 
-            float lm_C_Start = mCurrentStateData.m_SlozkaKov[0];
+            double lm_C_Start = mCurrentStateData.m_SlozkaKov[0];
 
-            Dictionary<Enumerations.M3ElementEnum, float> lm_Ele_Start = new Dictionary<Enumerations.M3ElementEnum, float>();
+            Dictionary<Enumerations.M3ElementEnum, double> lm_Ele_Start = new Dictionary<Enumerations.M3ElementEnum, double>();
             foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 lm_Ele_Start.Add((Enumerations.M3ElementEnum)nIndex, mCurrentStateData.m_SlozkaKov[nIndex]);
-
+            
             DTO.MINP_CyclicDTO lCyclicData = Data.MINP.MINP_Cyclic.Last();
 
+
             // R 37 - 39
-            float lm_O2_blown = lCyclicData.OxygenFlow_Nm3_min.Value * mDeltaT_min * MINP.Mm(28) / MINP.O2_Stechio(28);
-            float lm_O2_blownC = 0;
+            double lm_O2_blown = lCyclicData.OxygenFlow_Nm3_min.Value * mDeltaT_min * MINP.Mm(28) / MINP.O2_Stechio(28);
+            double lm_O2_blownC = 0;
 
             if (mRunningType == RunningType.Simulation)
             {
@@ -943,14 +954,14 @@ namespace Models
             }
             else
             {
-                float lCO2 = (float)lCyclicData.Wastegas_CO2_p.Value;
+                double lCO2 = (double)lCyclicData.Wastegas_CO2_p.Value;
 
                 #region CO2 buffer
                 if (Global.M3_CO2_Buffer)
                 {
                     if (mCO2Buffer > 0)
                     {
-                        float lCO2Calc = (float)lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min * (float)lCyclicData.Wastegas_CO2_p.Value / 100
+                        double lCO2Calc = (double)lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min * (double)lCyclicData.Wastegas_CO2_p.Value / 100
                             * MINP.Mm(44) / MINP.O2_Stechio(44) * Global.M3_V_Wastegas;
 
                         if (mCO2Buffer > lCO2Calc)
@@ -967,7 +978,7 @@ namespace Models
                 }
                 #endregion
 
-                lm_O2_blownC = (float)(lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min
+                lm_O2_blownC = (double)(lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min
                     * (lCyclicData.Wastegas_CO_p.Value + lCO2) / 100
                     * (1 + Global.PostCombustion) * MINP.Mm(28) / MINP.O2_Stechio(0)) * Global.M3_V_Wastegas;
 
@@ -981,9 +992,9 @@ namespace Models
             if (lm_O2_blown > lm_O2_blownC)
             {
                 #region Priprava pro rozdeleni kysliku
-                float lm_O2_total = lm_O2_blown - lm_O2_blownC;
+                double lm_O2_total = lm_O2_blown - lm_O2_blownC;
 
-                Dictionary<Enumerations.M3ElementEnum, float> lDelta_G = new Dictionary<Enumerations.M3ElementEnum, float>();
+                Dictionary<Enumerations.M3ElementEnum, double> lDelta_G = new Dictionary<Enumerations.M3ElementEnum, double>();
                 foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 {
                     Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -991,33 +1002,33 @@ namespace Models
                 }
 
                 // R 50
-                float lK_Fe =
-                    (float)Math.Exp(
+                double lK_Fe =
+                    (double)Math.Exp(
                         -1 * (Global.M3_TZ_A[Enumerations.M3ElementEnum.Fe] + Global.M3_TZ_C[Enumerations.M3ElementEnum.Fe] * (mCurrentStateData.T_Tavby + Global.M3_K_273))
                         / Global.M3_K_8314 / (mCurrentStateData.T_Tavby + Global.M3_K_273))
                     * Global.M3_KF[Enumerations.M3ElementEnum.Fe];
-                Dictionary<Enumerations.M3ElementEnum, float> lK_Ele_rel = new Dictionary<Enumerations.M3ElementEnum, float>();
+                Dictionary<Enumerations.M3ElementEnum, double> lK_Ele_rel = new Dictionary<Enumerations.M3ElementEnum, double>();
 
                 foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 {
                     Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
-                    lK_Ele_rel[lEleIndex] = (float)Math.Exp(-1 * (Global.M3_TZ_A[lEleIndex] + Global.M3_TZ_C[lEleIndex] * (mCurrentStateData.T_Tavby + Global.M3_K_273))
+                    lK_Ele_rel[lEleIndex] = (double)Math.Exp(-1 * (Global.M3_TZ_A[lEleIndex] + Global.M3_TZ_C[lEleIndex] * (mCurrentStateData.T_Tavby + Global.M3_K_273))
                         / Global.M3_K_8314 / (mCurrentStateData.T_Tavby + Global.M3_K_273)) * Global.M3_KF[lEleIndex] / lK_Fe;
 
-                    if (float.IsInfinity(lK_Ele_rel[lEleIndex])) lK_Ele_rel[lEleIndex] = float.MaxValue;
+                    if (double.IsInfinity(lK_Ele_rel[lEleIndex])) lK_Ele_rel[lEleIndex] = double.MaxValue;
                 }
 
                 lK_Ele_rel[Enumerations.M3ElementEnum.Fe] = 1;
 
                 // R 58
-                Dictionary<Enumerations.M3ElementEnum, float> lK_Ele_rel_max = new Dictionary<Enumerations.M3ElementEnum, float>();
+                Dictionary<Enumerations.M3ElementEnum, double> lK_Ele_rel_max = new Dictionary<Enumerations.M3ElementEnum, double>();
                 foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 {
                     Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
                     lK_Ele_rel_max[lEleIndex] = lK_Ele_rel[lEleIndex] < 0 ? 0 : lK_Ele_rel[lEleIndex] * (mCurrentStateData.c_Kov[nIndex] - mC_kov_min_p[lEleIndex]);
                 }
 
-                float lK_O = lK_Ele_rel_max[Enumerations.M3ElementEnum.Si]
+                double lK_O = lK_Ele_rel_max[Enumerations.M3ElementEnum.Si]
                     + lK_Ele_rel_max[Enumerations.M3ElementEnum.Mn]
                     + lK_Ele_rel_max[Enumerations.M3ElementEnum.P]
                     + lK_Ele_rel_max[Enumerations.M3ElementEnum.Al]
@@ -1027,7 +1038,7 @@ namespace Models
                     + lK_Ele_rel[Enumerations.M3ElementEnum.Fe] * mCurrentStateData.c_Kov[32];
 
                 // R 59
-                Dictionary<Enumerations.M3ElementEnum, float> lO_for_Ele_wo_lim = new Dictionary<Enumerations.M3ElementEnum, float>();
+                Dictionary<Enumerations.M3ElementEnum, double> lO_for_Ele_wo_lim = new Dictionary<Enumerations.M3ElementEnum, double>();
                 foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 {
                     Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -1036,10 +1047,10 @@ namespace Models
                 lO_for_Ele_wo_lim[Enumerations.M3ElementEnum.Fe] = lK_Ele_rel[Enumerations.M3ElementEnum.Fe] / lK_O * mCurrentStateData.c_Kov[32] * lm_O2_total;
 
                 // R 68
-                float l_O_total = lO_for_Ele_wo_lim.Sum(aR => aR.Value);
+                double l_O_total = lO_for_Ele_wo_lim.Sum(aR => aR.Value);
 
                 // R 69
-                Dictionary<Enumerations.M3ElementEnum, float> lO_for_Ele_max = new Dictionary<Enumerations.M3ElementEnum, float>();
+                Dictionary<Enumerations.M3ElementEnum, double> lO_for_Ele_max = new Dictionary<Enumerations.M3ElementEnum, double>();
                 foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                 {
                     Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -1050,11 +1061,11 @@ namespace Models
                 #region 5.2.2 Mozne rozdeleni kysliku mezi jednotlive prvky
                 // R 76
                 mCurrentStateData.m_SlozkaKov[0] = mCurrentStateData.m_SlozkaKov[0] - lm_O2_blownC * MINP.Mm(0) / MINP.Mm(28) / (1 + Global.PostCombustion);
-                float lPrebytek_O2_Last = 0;
+                double lPrebytek_O2_Last = 0;
 
                 while (true)
                 {
-                    float lPrebytek_O2 = 0;
+                    double lPrebytek_O2 = 0;
 
                     foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                     {
@@ -1083,7 +1094,7 @@ namespace Models
                     // ****************************
 
                     // prepocet c_kov
-                    float lSuma_Kov = mCurrentStateData.m_SlozkaKov.Sum();
+                    double lSuma_Kov = mCurrentStateData.m_SlozkaKov.Sum();
 
                     for (int i = 0; i < Global.MATERIALELEMENTS_STEEL_COUNT; i++)
                     {
@@ -1118,7 +1129,7 @@ namespace Models
                     l_O_total = lO_for_Ele_wo_lim.Sum(aR => aR.Value);
 
                     // R 69
-                    lO_for_Ele_max = new Dictionary<Enumerations.M3ElementEnum, float>();
+                    lO_for_Ele_max = new Dictionary<Enumerations.M3ElementEnum, double>();
                     foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                     {
                         Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -1136,8 +1147,8 @@ namespace Models
             }
 
             // R 104.. R 113
-            float lm_Delta_C = mCurrentStateData.m_SlozkaKov[0] - lm_C_Start;
-            Dictionary<Enumerations.M3ElementEnum, float> lm_Delta_Ele = new Dictionary<Enumerations.M3ElementEnum, float>();
+            double lm_Delta_C = mCurrentStateData.m_SlozkaKov[0] - lm_C_Start;
+            Dictionary<Enumerations.M3ElementEnum, double> lm_Delta_Ele = new Dictionary<Enumerations.M3ElementEnum, double>();
             foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
             {
                 Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
@@ -1176,7 +1187,7 @@ namespace Models
 
 
             // odprasky
-            float lDeltam_Odprasky = Global.M_Odprasky / Global.TauTavby * mDeltaT_min;
+            double lDeltam_Odprasky = Global.M_Odprasky / Global.TauTavby * mDeltaT_min;
             for (int j = 0; j < Global.MATERIALELEMENTS_COUNT; j++)
             {
                 mCurrentStateData.FP_Tavby[j] = (mCurrentStateData.m_Tavby * mCurrentStateData.FP_Tavby[j] - lDeltam_Odprasky * MINP.FP(Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Odprasky], j))
@@ -1259,12 +1270,12 @@ namespace Models
                 mCurrentStateData.E_Tavby -= mCurrentStateData.E_Elements[lEleIndex];
             }
 
-            float lZtratovyVykonAkt = 0;
+            double lZtratovyVykonAkt = 0;
 
             if (Global.M3_Stat_T_ON)
             {
-                float lTDiff = mCurrentStateData.T_Tavby - Global.M3_Stat_T_korekce;
-                float lTAdapt =
+                double lTDiff = mCurrentStateData.T_Tavby - Global.M3_Stat_T_korekce;
+                double lTAdapt =
                     Global.M3_Stat_Ztratovy_vykon_lin * lTDiff
                     + Global.M3_Stat_Ztratovy_vykon_kvad * lTDiff * lTDiff
                     + Global.M3_Stat_Ztratovy_vykon_kub * lTDiff * lTDiff * lTDiff;
@@ -1281,7 +1292,7 @@ namespace Models
                 + MINP.FP(Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Odprasky], 70) / MINP.ConversionVector(70));
 
             // R 133 .. R 135   // +- kg -> t
-            float lCalc = mCurrentStateData.E_Tavby / mCurrentStateData.m_Tavby * 1000;
+            double lCalc = mCurrentStateData.E_Tavby / mCurrentStateData.m_Tavby * 1000;
             if (mCurrentStateData.FP_Tavby[70] > lCalc) // kg -> t
                 mCurrentStateData.T_Tavby = mCurrentStateData.E_Tavby / mCurrentStateData.m_Tavby * 1000 / mCurrentStateData.FP_Tavby[70] * mCurrentStateData.FP_Tavby[72];
             else if (mCurrentStateData.FP_Tavby[70] == lCalc)
@@ -1418,25 +1429,25 @@ namespace Models
             lResult.E_Tavby = aCurrentData.E_Tavby;
             lResult.T_Tavby = aCurrentData.T_Tavby;
             lResult.FP_C = aCurrentData.FP_C;
-            lResult.FP_Tavby = new float[aCurrentData.FP_Tavby.Length];
+            lResult.FP_Tavby = new double[aCurrentData.FP_Tavby.Length];
             Array.Copy(aCurrentData.FP_Tavby, lResult.FP_Tavby, aCurrentData.FP_Tavby.Length);
-            lResult.m_SlozkaTavby = new float[aCurrentData.m_SlozkaTavby.Length];
+            lResult.m_SlozkaTavby = new double[aCurrentData.m_SlozkaTavby.Length];
             Array.Copy(aCurrentData.m_SlozkaTavby, lResult.m_SlozkaTavby, aCurrentData.m_SlozkaTavby.Length);
 
             lResult.m_Struska = aCurrentData.m_Struska;
             lResult.m_Kov = aCurrentData.m_Kov;
 
-            lResult.FP_Struska = new float[aCurrentData.FP_Struska.Length];
+            lResult.FP_Struska = new double[aCurrentData.FP_Struska.Length];
             Array.Copy(aCurrentData.FP_Struska, lResult.FP_Struska, aCurrentData.FP_Struska.Length);
-            lResult.FP_Kov = new float[aCurrentData.FP_Kov.Length];
+            lResult.FP_Kov = new double[aCurrentData.FP_Kov.Length];
             Array.Copy(aCurrentData.FP_Kov, lResult.FP_Kov, aCurrentData.FP_Kov.Length);
-            lResult.m_SlozkaStruska = new float[aCurrentData.m_SlozkaStruska.Length];
+            lResult.m_SlozkaStruska = new double[aCurrentData.m_SlozkaStruska.Length];
             Array.Copy(aCurrentData.m_SlozkaStruska, lResult.m_SlozkaStruska, aCurrentData.m_SlozkaStruska.Length);
-            lResult.m_SlozkaKov = new float[aCurrentData.m_SlozkaKov.Length];
+            lResult.m_SlozkaKov = new double[aCurrentData.m_SlozkaKov.Length];
             Array.Copy(aCurrentData.m_SlozkaKov, lResult.m_SlozkaKov, aCurrentData.m_SlozkaKov.Length);
-            lResult.c_Struska = new float[aCurrentData.c_Struska.Length];
+            lResult.c_Struska = new double[aCurrentData.c_Struska.Length];
             Array.Copy(aCurrentData.c_Struska, lResult.c_Struska, aCurrentData.c_Struska.Length);
-            lResult.c_Kov = new float[aCurrentData.c_Kov.Length];
+            lResult.c_Kov = new double[aCurrentData.c_Kov.Length];
             Array.Copy(aCurrentData.c_Kov, lResult.c_Kov, aCurrentData.c_Kov.Length);
 
             return lResult;
@@ -1479,7 +1490,7 @@ namespace Models
         /// </summary>
         private void Run_C_Correction()
         {
-            float lC_ConversionVector = MINP.ConversionVector(0);
+            double lC_ConversionVector = MINP.ConversionVector(0);
             // C correction from the beginning R 6-10 .. 6-12
             foreach (var nItem in mOutputData.OrderBy(aR => aR.Key))
             {
@@ -1581,11 +1592,11 @@ namespace Models
         private Data.Model.DynamicState mCurrentStateData;
         private Data.Model.DynamicOutput mCurrentOutputData;
 
-        private RunningType mRunningType;
+        public RunningType mRunningType;
         private Data.Clock mClock;
         private int mStepsCount;
         private int mDeltaT_s;
-        private float mDeltaT_min;
+        private double mDeltaT_min;
         private System.Threading.Timer mTimer;
         private bool mPaused;
 
@@ -1596,17 +1607,17 @@ namespace Models
 
         private Queue<object> mRequestQueue;
 
-        private Dictionary<Enumerations.M3ElementEnum, float> mC_kov_min_p;
-        private float mT_SZ;
-        private float mT_Other;
+        private Dictionary<Enumerations.M3ElementEnum, double> mC_kov_min_p;
+        private double mT_SZ;
+        private double mT_Other;
         private int mCurrentO2Amount;
         private int mFinalOxygenAmount;
         private int mCorrectionOxygenAmount;
 
-        private float mSondaRemaining_s;
-        private float mC_kov_end;
-        private float mC_kov_start;
-        private float mCO2Buffer;
+        private double mSondaRemaining_s;
+        private double mC_kov_end;
+        private double mC_kov_start;
+        private double mCO2Buffer;
 
         private int mCSVCoke;
         private int mCSVLime;

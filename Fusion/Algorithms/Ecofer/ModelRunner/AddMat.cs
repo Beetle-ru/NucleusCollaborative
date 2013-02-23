@@ -18,19 +18,19 @@ namespace ModelRunner
 {
     partial class DynPrepare
     {
+        public static int CurrentTemp = 0; /* Celsius */
         public static FlexHelper matRegEvent = null;
         public static DTO.MINP_MatAddDTO AddIron(int weight)
         {
             var matIron = new DTO.MINP_MatAddDTO();
             matIron.ShortCode = "01Metal";
             matIron.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matIron.ShortCode, weight);
             matIron.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matIron.MINP_GD_Material.ShortCode = matIron.ShortCode;
             matIron.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
             if (fxeIron == null)
             {
-                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 1400.0));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.IronTemp));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 4.75));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.55));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.27));
@@ -72,35 +72,44 @@ namespace ModelRunner
             var matScrap = new DTO.MINP_MatAddDTO();
             matScrap.ShortCode = "02Scrap";
             matScrap.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matScrap.ShortCode, weight);
             matScrap.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matScrap.MINP_GD_Material.ShortCode = matScrap.ShortCode;
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
+            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.ScrapTemp));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 380.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.2));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.2));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al", 0.03));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("V", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.1));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("O", 50.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 50.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 96.0));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.5));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.5));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 2.0));
+            if (null == fxeScrap)
+            {
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.2));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.2));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al", 0.03));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("V", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.1));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("O", 50.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 50.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 96.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.5));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.5));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 2.0));
+            }
+            else
+            {
+                foreach (var scel in fxeScrap.evt.Arguments)
+                {
+                    matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(scel.Key, (double)scel.Value));
+                }
+            }
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9962));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Basiticy", 1.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
@@ -113,44 +122,65 @@ namespace ModelRunner
             var matCaO = new DTO.MINP_MatAddDTO();
             matCaO.ShortCode = "04CaO";
             matCaO.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matCaO.ShortCode, weight);
             matCaO.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCaO.MINP_GD_Material.ShortCode = matCaO.ShortCode;
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 420.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.4));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 96.5));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al2O3", 0.5));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MgO", 2.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 1.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
-            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 2000.0));
+            matCaO.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ИЗВЕСТЬ протокол №72
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "LIME.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "LIME");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matCaO;
         }
+        public static DTO.MINP_MatAddDTO AddMaxG(int weight)
+        {
+            var matMaxG = new DTO.MINP_MatAddDTO();
+            matMaxG.ShortCode = "04MaxG";
+            matMaxG.Amount_kg = weight;
+            matMaxG.MINP_GD_Material = new MINP_GD_MaterialDTO();
+            matMaxG.MINP_GD_Material.ShortCode = matMaxG.ShortCode;
+            matMaxG.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
+            Adapter.Fill(Tbl, "MAXG.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Adapter.Fill(Tbl, "MAXG");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
+            return matMaxG;
+        }
+
         public static DTO.MINP_MatAddDTO AddDolom(int weight)
         {
             var matDolom = new DTO.MINP_MatAddDTO();
             matDolom.ShortCode = "04Dolom";
             matDolom.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matDolom.ShortCode, weight);
             matDolom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolom.MINP_GD_Material.ShortCode = matDolom.ShortCode;
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 420.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.4));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 58.47));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 4.43));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al2O3", 1.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MgO", 35.25));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 1.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
-            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 2000.0));
+            matDolom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
+            Adapter.Fill(Tbl, "DOLMIT.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Adapter.Fill(Tbl, "DOLMIT");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matDolom;
         }
 
@@ -159,19 +189,20 @@ namespace ModelRunner
             var matDolomS = new DTO.MINP_MatAddDTO();
             matDolomS.ShortCode = "04DolomS";
             matDolomS.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matDolomS.ShortCode, weight);
             matDolomS.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolomS.MINP_GD_Material.ShortCode = matDolomS.ShortCode;
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 420.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.4));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 20.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MgO", 30.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 1.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
-            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
+            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ДОЛОМС протокол №1867
+            Adapter.Fill(Tbl, "DOLOMS.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Adapter.Fill(Tbl, "DOLOMS");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matDolomS;
         }
 
@@ -180,24 +211,20 @@ namespace ModelRunner
             var matFom = new DTO.MINP_MatAddDTO();
             matFom.ShortCode = "04Fom";
             matFom.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matFom.ShortCode, weight);
             matFom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matFom.MINP_GD_Material.ShortCode = matFom.ShortCode;
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 420.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.4));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 8.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 3.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MnO", 0.5));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.03));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 6.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MgO", 77.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9852));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
-            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 2000.0));
+            matFom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ФОМ протокол№48
+            Adapter.Fill(Tbl, "FOM.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Adapter.Fill(Tbl, "FOM");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matFom;
         }
 
@@ -206,19 +233,22 @@ namespace ModelRunner
             var matCoke = new DTO.MINP_MatAddDTO();
             matCoke.ShortCode = "05koks";
             matCoke.Amount_kg = weight;
-            //if (matRegEvent != null) matRegEvent.AddInt(matCoke.ShortCode, weight);
             matCoke.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCoke.MINP_GD_Material.ShortCode = matCoke.ShortCode;
             matCoke.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 350.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.35));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 97.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 1.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 85.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
-            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 2000.0));
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "COKE.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "COKE");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matCoke;
         }
 
@@ -231,7 +261,7 @@ namespace ModelRunner
             matOdpr.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matOdpr.MINP_GD_Material.ShortCode = matOdpr.ShortCode;
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
-            matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, 15.0));
+            matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 430.0));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
@@ -277,7 +307,7 @@ namespace ModelRunner
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.35));
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 50.0));
-            matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 15.0));
+            matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", CurrentTemp));
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 20.0));
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("MnO", 3.0));
             matSlag.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 2.0));

@@ -85,7 +85,7 @@ namespace Data
                 Data.PhaseItemOxygenBlowing lPreviousOxygenBlowingPhase = PreviousOxygenBlowingPhase;
                 if (lPreviousOxygenBlowingPhase == null)
                 {
-                    if (O2Amount_Nm3.HasValue) return TimeSpan.FromMinutes((float)O2Amount_Nm3.Value / O2Flow_Nm3_min);
+                    if (O2Amount_Nm3.HasValue) return TimeSpan.FromMinutes((double)O2Amount_Nm3.Value / O2Flow_Nm3_min);
                     return TimeSpan.Zero;
                 }
 
@@ -98,7 +98,7 @@ namespace Data
 
                 if (!O2Amount_Nm3.HasValue) return TimeSpan.Zero;
 
-                return TimeSpan.FromMinutes((float)(O2Amount_Nm3.Value - lPreviousOxygenBlowingPhase.O2Amount_Nm3.Value) / O2Flow_Nm3_min);
+                return TimeSpan.FromMinutes((double)(O2Amount_Nm3.Value - lPreviousOxygenBlowingPhase.O2Amount_Nm3.Value) / O2Flow_Nm3_min);
             }
         }
 
