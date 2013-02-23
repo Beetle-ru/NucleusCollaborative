@@ -76,6 +76,12 @@
     <Compile Include="ChemTable.Designer.cs">
       <DependentUpon>ChemTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="IronTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IronTable.Designer.cs">
+      <DependentUpon>IronTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MixtureFinal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IronTable.resx">
+      <DependentUpon>IronTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MixtureFinal.resx">
       <DependentUpon>MixtureFinal.cs</DependentUpon>

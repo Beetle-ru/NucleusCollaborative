@@ -23,8 +23,9 @@ namespace AlgorithmsUI
         {
             rtbReport.Clear();
         }
-        private ChemTable ch_Iron, ch_Scrap, ch_CaCO3, ch_Fom, ch_LimeStone, ch_Lime, ch_Coke, ch_Dust;
+        public ChemTable ch_Iron, ch_Scrap, ch_CaCO3, ch_Fom, ch_LimeStone, ch_Lime, ch_Coke, ch_Dust;
         private ScrapTable scrapTable;
+        public IronTable ironTable;
         private void GetValueByKey(string Key, TextBox Box)
         {
             if (mainConf.AppSettings.Settings.AllKeys.Contains(Key))
@@ -63,23 +64,24 @@ namespace AlgorithmsUI
             GetValueByKey("CokeTask", txbCokeIn);
             GetValueByKey("PercentMgO", txbMgO);
             GetValueByKey("PercentFeO", txbFeO);
-            ch_Iron = new ChemTable("Химия чугуна", "IronChemistry");
+            ch_Iron = new ChemTable("Химия чугуна", "IRON");
             ch_Iron.LoadCSVData();
-            ch_Scrap = new ChemTable("Химия лома", "ScrapChemistry");
+            ch_Scrap = new ChemTable("Химия лома", "SCRAP");
             ch_Scrap.LoadCSVData();
-            ch_Lime = new ChemTable("Химия извести", "LimeChemistry");
+            ch_Lime = new ChemTable("Химия извести", "LIME");
             ch_Lime.LoadCSVData();
-            ch_LimeStone = new ChemTable("Химия доломита (ДОЛМИТ, МАХГ)", "LimeStoneChemistry");
+            ch_LimeStone = new ChemTable("Химия доломита сушеного (ДОЛОМС)", "DOLOMS");
             ch_LimeStone.LoadCSVData();
             ch_Fom = new ChemTable("Химия ФОМа", "FOM");
             ch_Fom.LoadCSVData();
-            ch_CaCO3 = new ChemTable("Химия известняка (СaCO3)", "CaCO3Chemistry");
+            ch_CaCO3 = new ChemTable("Химия магнезита (МАХГ)", "MAXG");
             ch_CaCO3.LoadCSVData();
-            ch_Coke = new ChemTable("Химия кокса", "CokeChemistry");
+            ch_Coke = new ChemTable("Химия кокса", "COKE");
             ch_Coke.LoadCSVData();
-            ch_Dust = new ChemTable("Химия отходящих пылей", "DustChemistry");
+            ch_Dust = new ChemTable("Химия отходящих пылей", "OFFDUST");
             ch_Dust.LoadCSVData();
             scrapTable = new ScrapTable();
+            ironTable = new IronTable();
             btnCalculate.Select();
         }
 
@@ -353,6 +355,11 @@ namespace AlgorithmsUI
         private void btnScrapSel_Click(object sender, EventArgs e)
         {
             scrapTable.ShowDialog();
+        }
+
+        private void btnIronSel_Click(object sender, EventArgs e)
+        {
+            ironTable.ShowDialog();
         }
     }
 }

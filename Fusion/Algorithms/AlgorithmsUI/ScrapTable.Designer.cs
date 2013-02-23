@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panSelector = new System.Windows.Forms.Panel();
+            this.btnClear = new System.Windows.Forms.Button();
             this.btnAddScrap = new System.Windows.Forms.Button();
             this.lblScrapSelector = new System.Windows.Forms.Label();
             this.cmbScrap = new System.Windows.Forms.ComboBox();
@@ -39,6 +40,7 @@
             this.scrapTableAdapter = new AlgorithmsUI.ScrapDataSetTableAdapters.ScrapTableAdapter();
             this.gridScrap = new System.Windows.Forms.DataGridView();
             this.unitCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.scrapCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.text = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.pp = new System.Windows.Forms.DataGridViewButtonColumn();
             this.mm = new System.Windows.Forms.DataGridViewButtonColumn();
@@ -50,6 +52,7 @@
             // 
             // panSelector
             // 
+            this.panSelector.Controls.Add(this.btnClear);
             this.panSelector.Controls.Add(this.btnAddScrap);
             this.panSelector.Controls.Add(this.lblScrapSelector);
             this.panSelector.Controls.Add(this.cmbScrap);
@@ -58,6 +61,17 @@
             this.panSelector.Name = "panSelector";
             this.panSelector.Size = new System.Drawing.Size(834, 100);
             this.panSelector.TabIndex = 0;
+            // 
+            // btnClear
+            // 
+            this.btnClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnClear.Location = new System.Drawing.Point(608, 18);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(213, 68);
+            this.btnClear.TabIndex = 5;
+            this.btnClear.Text = "Очистить";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // btnAddScrap
             // 
@@ -100,6 +114,7 @@
             // scrapDataSet
             // 
             this.scrapDataSet.DataSetName = "ScrapDataSet";
+            this.scrapDataSet.EnforceConstraints = false;
             this.scrapDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // btnSave
@@ -127,6 +142,7 @@
             this.gridScrap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridScrap.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.unitCount,
+            this.scrapCode,
             this.text,
             this.pp,
             this.mm});
@@ -141,6 +157,11 @@
             this.unitCount.HeaderText = "Единиц";
             this.unitCount.Name = "unitCount";
             this.unitCount.ReadOnly = true;
+            // 
+            // scrapCode
+            // 
+            this.scrapCode.HeaderText = "Код";
+            this.scrapCode.Name = "scrapCode";
             // 
             // text
             // 
@@ -197,8 +218,10 @@
         private ScrapDataSetTableAdapters.ScrapTableAdapter scrapTableAdapter;
         private System.Windows.Forms.DataGridView gridScrap;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitCount;
+        private System.Windows.Forms.DataGridViewTextBoxColumn scrapCode;
         private System.Windows.Forms.DataGridViewTextBoxColumn text;
         private System.Windows.Forms.DataGridViewButtonColumn pp;
         private System.Windows.Forms.DataGridViewButtonColumn mm;
+        private System.Windows.Forms.Button btnClear;
     }
 }
