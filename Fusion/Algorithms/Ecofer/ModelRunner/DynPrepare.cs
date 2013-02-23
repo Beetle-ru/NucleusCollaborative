@@ -10,6 +10,8 @@ using DTO;
 using Data;
 using Data.Model;
 using Common;
+using Ecofer.ModelRunner;
+using Ecofer.ModelRunner.ChemistryDataSetTableAdapters;
 using Implements;
 using Models;
 using System.Linq;
@@ -29,6 +31,8 @@ namespace ModelRunner
 
     partial class DynPrepare
     {
+        public static AdditionChemistryTableAdapter Adapter = new AdditionChemistryTableAdapter();
+        public static ChemistryDataSet.AdditionChemistryDataTable Tbl = new ChemistryDataSet.AdditionChemistryDataTable();
         public static FlexHelper visTargetVal = null;
         static DynPrepare()
         {
@@ -56,7 +60,7 @@ namespace ModelRunner
         public static FlexHelper fxeScrap = null;
         public static long HeatNumber = -1;
         private static int EmptyBlowCount = 0;
-        public static bool recallChargingReq = true;
+        public static bool recallChargingReq = false;
         private static void OutLine(String str)
         {
             Console.WriteLine(str + Environment.NewLine);
@@ -232,6 +236,7 @@ NEXT_HEAT:
                     FireChemistryEvent("IRON", Data.MINP.MINP_MatAdds[0].MINP_GD_Material);
                     FireChemistryEvent("SCRAP", Data.MINP.MINP_MatAdds[1].MINP_GD_Material);
                     FireChemistryEvent("LIME", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.CaO]);
+                    FireChemistryEvent("DOLOMS", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1]);
                     FireChemistryEvent("DOLMAX", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Dolomite]);
                     FireChemistryEvent("FOM", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.FOM]);
                     FireChemistryEvent("COKE", Data.MINP.MINP_GD_ModelMaterials[Enumerations.MINP_GD_Material_ModelMaterial.Coke]);
@@ -406,39 +411,6 @@ WAIT_END_OF_HEAT:
                                             });
             }
         }
-        private char m_separator = ':';
-        public void LoadCSVData(DTO.MINP_MatAddDTO Material, string Name, string Dir = "data")
-        {
-            using (var l = new Logger("ModelRunner::LoadCSVData"))
-            {
-                string filePath = String.Format("{0}\\{1}.csv", Dir, Name);
-                string[] strings;
-                try
-                {
-                    strings = File.ReadAllLines(filePath);
-                }
-                catch (Exception e)
-                {
-                    strings = new string[0];
-                    l.err("Cannot read the file: {0}, call: {1}", filePath, e.ToString());
-                    return;
-                }
-                try
-                {
-                    for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
-                    {
-                        string[] values = strings[strCnt].Split(m_separator);
-                        Material.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(values[0], Convert.ToDouble(values[1])));
-                    }
-                }
-                catch (Exception e)
-                {
-                    l.err("Cannot read the file: {0}, bad format call exeption: {1}", filePath, e.ToString());
-                    throw e;
-                }
-
-            }
-        }
 
         public static ChargingInput MakeCharging(FlexEvent fxe, Dictionary<string, int> weight, ChargingReason reason)
         {
@@ -466,17 +438,25 @@ WAIT_END_OF_HEAT:
                 inp.Coke = matCoke.MINP_GD_Material;
                 inp.Coke_kg = matCoke.Amount_kg;
 
-                var matDolomite = DynPrepare.AddDolom(weight["DOLMAX"]);
+                var matLime = DynPrepare.AddCaO(weight["LIME"]);
+                inp.Lime = matLime.MINP_GD_Material;
+                inp.Lime_kg = matLime.Amount_kg;
+
+                var matDolomite = DynPrepare.AddDolomS(weight["DOLOMS"]);
                 inp.Dolomite = matDolomite.MINP_GD_Material;
                 inp.Dolomite_kg = matDolomite.Amount_kg;
+
+                var matDolom = DynPrepare.AddDolom(weight["DOLMIT"]);
+                inp.S1 = matDolom.MINP_GD_Material;
+                inp.S1_kg = matDolom.Amount_kg;
+
+                var matMaxG = DynPrepare.AddMaxG(weight["MAXG"]);
+                inp.S2 = matMaxG.MINP_GD_Material;
+                inp.S2_kg = matMaxG.Amount_kg;
 
                 var matFOM = DynPrepare.AddFom(weight["FOM"]);
                 inp.FOM = matFOM.MINP_GD_Material;
                 inp.FOM_kg = matFOM.Amount_kg;
-
-                var matLime = DynPrepare.AddCaO(weight["LIME"]);
-                inp.Lime = matLime.MINP_GD_Material;
-                inp.Lime_kg = matLime.Amount_kg;
             }
 
             if (reason == ChargingReason.forRecalculation)
@@ -490,7 +470,9 @@ WAIT_END_OF_HEAT:
                 Data.MINP.MINP_MatAdds.Insert(1, matScrap); aInputData.ChargedMaterials.Add(matScrap);
                 MINP.MINP_GD_ModelMaterials = new Dictionary<Common.Enumerations.MINP_GD_Material_ModelMaterial, DTO.MINP_GD_MaterialDTO>();
                 MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Coke, AddCoke(0).MINP_GD_Material);
-                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite, AddDolom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Dolomite, AddDolomS(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer1, AddDolom(0).MINP_GD_Material);
+                MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.SlagFormer2, AddMaxG(0).MINP_GD_Material);
                 MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.FOM, AddFom(0).MINP_GD_Material);
                 MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.CaO, AddCaO(0).MINP_GD_Material);
                 MINP.MINP_GD_ModelMaterials.Add(Enumerations.MINP_GD_Material_ModelMaterial.Odprasky, AddOdprasky(0).MINP_GD_Material);
@@ -507,3 +489,38 @@ WAIT_END_OF_HEAT:
         }
     }
 }
+
+//private char m_separator = ':';
+//public void LoadCSVData(DTO.MINP_MatAddDTO Material, string Name, string Dir = "data")
+//{
+//    using (var l = new Logger("ModelRunner::LoadCSVData"))
+//    {
+//        string filePath = String.Format("{0}\\{1}.csv", Dir, Name);
+//        string[] strings;
+//        try
+//        {
+//            strings = File.ReadAllLines(filePath);
+//        }
+//        catch (Exception e)
+//        {
+//            strings = new string[0];
+//            l.err("Cannot read the file: {0}, call: {1}", filePath, e.ToString());
+//            return;
+//        }
+//        try
+//        {
+//            for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
+//            {
+//                string[] values = strings[strCnt].Split(m_separator);
+//                Material.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(values[0], Convert.ToDouble(values[1])));
+//            }
+//        }
+//        catch (Exception e)
+//        {
+//            l.err("Cannot read the file: {0}, bad format call exeption: {1}", filePath, e.ToString());
+//            throw e;
+//        }
+
+//    }
+//}
+

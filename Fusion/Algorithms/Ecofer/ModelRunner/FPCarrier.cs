@@ -158,7 +158,9 @@ namespace HeatCharge
 
             AddDef(43, "Cai", 27);
 
-            for (var i = 44; i <= 49; i++) AddDef(i, "?" + i);
+            AddDef(44, "CO2", 44);
+
+            for (var i = 45; i <= 49; i++) AddDef(i, "?" + i);
 
             AddDef(50, "CaO", 56);
 
