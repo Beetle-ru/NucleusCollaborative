@@ -1,5 +1,5 @@
 ﻿#define LANCE_IN_PARKING_POSITION_NOSIGNAL
-#define MAIN_OXYGEN_BLOWING_ONLY
+//#define MAIN_OXYGEN_BLOWING_ONLY
 
 using System;
 using System.Collections.Generic;
@@ -40,14 +40,14 @@ namespace Models
         {
             get
             {
-                lock(mOutputData)
+                lock (mOutputData)
                 {
                     if (mOutputData.Count == 0) return null;
-                    return mOutputData.Last().Value;
+                    return mOutputData.ElementAt(mOutputData.Count - 1).Value;
                 }
             }
         }
-        public Dictionary<int, Data.Model.DynamicOutput> OutputData
+        public Dictionary<DateTime, Data.Model.DynamicOutput> OutputData
         {
             get
             {
@@ -64,7 +64,7 @@ namespace Models
             mRecalculateFromTheBeginning = false;
             mInputData = aInputData;
             mCurrentOutputData = new Data.Model.DynamicOutput();
-            mOutputData = new Dictionary<int, Data.Model.DynamicOutput>();
+            mOutputData = new Dictionary<DateTime, Data.Model.DynamicOutput>();
 
             mStepsCount = 0;
             mDeltaT_s = aDeltaT_s;
@@ -95,9 +95,8 @@ namespace Models
             mPaused = false;
 
             // check if oxygen amount is available
-            // TODO: commented only for test
-            // if (!ArePhasesValid()) throw new ApplicationException("Defined OxygenBlowingPhases in model input data are not valid.");
-            if (mCurrentPhaseState < ModelPhaseState.S50_Finished) Stop();
+            if (!ArePhasesValid()) throw new ApplicationException("Defined OxygenBlowingPhases in model input data are not valid.");
+            if (mCurrentPhaseState >= ModelPhaseState.S50_Finished) Stop();
 
             mCurrentPhase = mInputData.OxygenBlowingPhases
                 .Where(aR => aR.PhaseGroup == PhasePrimaryDivision.OxygenBlowing && aR is Data.PhaseItemOxygenBlowing).Cast<Data.PhaseItemOxygenBlowing>()
@@ -169,88 +168,59 @@ namespace Models
                     mCSVOutput.Append(';'); mCSVOutput.Append("");
                     mCSVOutput.Append(';'); mCSVOutput.Append("");    // T mer
                     mCSVOutput.Append(';'); mCSVOutput.Append("");    // C mer
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.T_Tavby);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Tavby);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Kov);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Struska);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[0]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[1]);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[2]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[3]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[7]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[10]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[11]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[5]);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[32]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[55 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.E_Tavby);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.T_Tavby);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Tavby);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Kov);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_Struska);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[0]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[1]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[2]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[3]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[7]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[10]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[11]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[5]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaKov[32]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.m_SlozkaStruska[55 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.E_Tavby);
                     mCSVOutput.Append(';'); mCSVOutput.Append("");
                     foreach (int nIndex in Enum.GetValues(typeof(Enumerations.M3ElementEnum)))
                     {
-                        mCSVOutput.Append(';'); mCSVOutput.Append("");
+                        Enumerations.M3ElementEnum lEleIndex = (Enumerations.M3ElementEnum)nIndex;
+
+                        if (lEleIndex == Enumerations.M3ElementEnum.Fe)
+                        {
+                            mCSVOutput.Append(';'); mCSVOutput.Append("");
+                        }
+                        else
+                        {
+                            mCSVOutput.Append(';'); mCSVOutput.Append("");
+                        }
                     }
 
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[0]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[1]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[2]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[3]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[7]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[10]);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[11]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[5]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[32]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[55 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX] / mCurrentStateData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
-                    //double lDeCSpaliny = 0;
-                    //mCSVOutput.Append(';'); mCSVOutput.Append(lDeCSpaliny);
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
-                    mCSVOutput.Append(';'); mCSVOutput.Append("");
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[0]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[1]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[2]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[3]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[7]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[10]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[11]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[5]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Kov[32]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[63 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[53 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[61 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[55 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(mCurrentStateData.FP_Struska[50 - Global.MATERIALELEMENTS_SLAG_STARTINDEX] / mCurrentStateData.FP_Struska[51 - Global.MATERIALELEMENTS_SLAG_STARTINDEX]);
+                    double lDeCSpaliny = 0;
+                    mCSVOutput.Append(';'); mCSVOutput.Append(lDeCSpaliny);
                     mCSVOutput.Append(';'); mCSVOutput.Append("");
                     if (Data.MINP.MINP_Cyclic.Count > 1)
                     {
@@ -317,10 +287,6 @@ namespace Models
             mRequestQueue.Enqueue(aMaterial);
             Data.MINP.MINP_MatChain.Add(aMaterial);
         }
-        public Dynamic.ModelPhaseState State()
-        {
-            return mCurrentPhaseState;
-        }
         /// <summary>
         /// Can be called only in MainOxygenBlowingPhase.
         /// Recalculates the model in the next ControlLoop call.
@@ -337,7 +303,6 @@ namespace Models
             if (mCurrentPhase.PhaseGroup != PhasePrimaryDivision.OxygenBlowing)
                 throw new ApplicationException("Dynamic model can be recalculated only within main oxygen blowing phase.");
             mRecalculateFromTheBeginning = true;
-
             mInputData.HotMetal_Temperature = aInputData.HotMetal_Temperature;
             mInputData.Scrap_Temperature = aInputData.Scrap_Temperature;
             mInputData.ChargedMaterials = Data.MINP.MINP_MatAdds.Where(aR => aR.ShortCode.StartsWith("01") || aR.ShortCode.StartsWith("02")).ToList();
@@ -352,7 +317,6 @@ namespace Models
         {
             mRecalcContext = true;
             mRecalculateFromTheBeginning = false;
-
             if (mRunningType == RunningType.RealTime) mTimer.Change(-1, -1);
             RunningType lPreviousRunningType = mRunningType;
             //mRunningType = RunningType.Simulation;
@@ -603,8 +567,20 @@ namespace Models
             bool tryAgainLater = true;
             do
             {
-                mOutputData.Add(mOutputDataIndex++, lLoopOutputData);
-            }
+                var lKey = Clock.Current.ActualTime;
+                lock (mOutputData)
+                {
+                    if (mOutputData.ContainsKey(lKey))
+                    {
+                        System.Threading.Thread.Sleep(1);
+                    }
+                    else
+                    {
+                        mOutputData.Add(lKey, lLoopOutputData);
+                        tryAgainLater = false;
+                    }
+                }
+            } while (tryAgainLater);
             mStepsCount++;
             if (mRunningType != RunningType.RealTime) Data.Clock.Current.IncSimulationStep();
             #endregion
@@ -628,7 +604,7 @@ namespace Models
                             || (lAmount_p >= Global.M3_End_Condition_O2_Min && 0 >= Global.M3_End_Condition_K2_Aim))
                         {
 #if MAIN_OXYGEN_BLOWING_ONLY
-                            if (!mRecalculating && ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+                            if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                             SwitchPhaseToL1OxygenLanceParking();
                             Stop();
                             return;
@@ -670,7 +646,7 @@ namespace Models
 
                                 // start temperature measurement
 #if MAIN_OXYGEN_BLOWING_ONLY
-                                if (!mRecalculating && ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+                                if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                                 SwitchPhaseToL1OxygenLanceParking();
                                 Stop();
                                 return;
@@ -692,7 +668,7 @@ namespace Models
 
                             // start temperature measurement
 #if MAIN_OXYGEN_BLOWING_ONLY
-                            if (!mRecalculating && ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+                            if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                             SwitchPhaseToL1OxygenLanceParking();
                             Stop();
                             return;
@@ -705,65 +681,62 @@ namespace Models
                 #endregion
 
                 // after C correction
-                if (!mRecalculating)
-                {
-                    if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+                if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
 
-                    #region Temperature measurement and waiting
-                    if (mCurrentPhaseState == ModelPhaseState.S20_TemperatureMeasurementCommand)
+                #region Temperature measurement and waiting
+                if (mCurrentPhaseState == ModelPhaseState.S20_TemperatureMeasurementCommand)
+                {
+                    SwitchPhaseToL1TemperatureMeasurement();
+                    break;
+                }
+                if (mCurrentPhaseState == ModelPhaseState.S25_Waiting4TemperatureMeasurement)
+                {
+                    if (mRunningType == RunningType.Simulation)
+                        System.Threading.Thread.Sleep(mDeltaT_s * 1000);
+                    break;
+                }
+                #endregion
+                #region Correction
+                if (mCurrentPhaseState == ModelPhaseState.S30_Correction)
+                {
+                    if (mCurrentO2Amount >= mCorrectionOxygenAmount)
                     {
-                        SwitchPhaseToL1TemperatureMeasurement();
-                        break;
+                        mCurrentPhaseState = ModelPhaseState.S40_LanceParkingCommand;
                     }
-                    if (mCurrentPhaseState == ModelPhaseState.S25_Waiting4TemperatureMeasurement)
-                    {
-                        if (mRunningType == RunningType.Simulation)
-                            System.Threading.Thread.Sleep(mDeltaT_s * 1000);
-                        break;
-                    }
-                    #endregion
-                    #region Correction
-                    if (mCurrentPhaseState == ModelPhaseState.S30_Correction)
-                    {
-                        if (mCurrentO2Amount >= mCorrectionOxygenAmount)
-                        {
-                            mCurrentPhaseState = ModelPhaseState.S40_LanceParkingCommand;
-                        }
-                    }
-                    #endregion
-                    #region Oxygen lance parking, Finish
-                    if (mCurrentPhaseState == ModelPhaseState.S40_LanceParkingCommand)
-                    {
-                        SwitchPhaseToL1OxygenLanceParking();
+                }
+                #endregion
+                #region Oxygen lance parking, Finish
+                if (mCurrentPhaseState == ModelPhaseState.S40_LanceParkingCommand)
+                {
+                    SwitchPhaseToL1OxygenLanceParking();
 #if LANCE_IN_PARKING_POSITION_NOSIGNAL
-                        Stop();     // in case of no signal from L1
-                        return;
+                    Stop();     // in case of no signal from L1
+                    return;
 #else
                     break;
 #endif
-                    }
-                    if (mCurrentPhaseState == ModelPhaseState.S45_Waiting4LanceParking)
-                    {
-                        if (mRunningType == RunningType.Simulation)
-                            System.Threading.Thread.Sleep(mDeltaT_s * 1000);
-                        break;
-                    }
-
-                    if (mCurrentPhaseState == ModelPhaseState.S50_Finished)
-                    {
-                        Stop();
-                        return;
-                    }
-                    #endregion
-
-                    // switch phase in other case
-                    if (mCurrentPhase != mLastMainOxygenBlowingPhase
-                        && mCurrentPhase is Data.PhaseItemOxygenBlowing
-                        && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemOxygenBlowing)mCurrentPhase).O2Amount_Nm3)
-                        SwitchToNextPhase();
-                    else if (mCurrentPhase is Data.PhaseItemMatAdd
-                        && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemMatAdd)mCurrentPhase).O2Amount_Nm3) SwitchToNextPhase();
                 }
+                if (mCurrentPhaseState == ModelPhaseState.S45_Waiting4LanceParking)
+                {
+                    if (mRunningType == RunningType.Simulation)
+                        System.Threading.Thread.Sleep(mDeltaT_s * 1000);
+                    break;
+                }
+
+                if (mCurrentPhaseState == ModelPhaseState.S50_Finished)
+                {
+                    Stop();
+                    return;
+                }
+                #endregion
+
+                // switch phase in other case
+                if (mCurrentPhase != mLastMainOxygenBlowingPhase
+                    && mCurrentPhase is Data.PhaseItemOxygenBlowing
+                    && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemOxygenBlowing)mCurrentPhase).O2Amount_Nm3)
+                    SwitchToNextPhase();
+                else if (mCurrentPhase is Data.PhaseItemMatAdd
+                    && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemMatAdd)mCurrentPhase).O2Amount_Nm3) SwitchToNextPhase();
 
                 break;
             }
@@ -818,8 +791,10 @@ namespace Models
             mCorrectionOxygenAmount = (int)Math.Round(lO_Dofuk_T);
             if (lO_Dofuk_C > lO_Dofuk_T) mCorrectionOxygenAmount = (int)Math.Round(lO_Dofuk_C);
 
+            aTempMeas.CorrectionOxigen = mCorrectionOxygenAmount;
             // calculated amount + main oxygen blowing amount
             mCorrectionOxygenAmount += mFinalOxygenAmount;
+            aTempMeas.TotalOxigen = mCorrectionOxygenAmount;
 
             if (mCorrectionOxygenBlowingPhase == null) Stop();
             else
@@ -874,11 +849,10 @@ namespace Models
 
             double lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
             mCurrentStateData.E_Tavby += lH_Cold;
-
             // CO2 buffer
             mCO2Buffer += aMatAdd.Amount_kg * MINP.FP(aMatAdd.MINP_GD_Material, 44);
         }
-
+        
         private Data.Model.DynamicOutput ModelLoop()
         {
             double lm_Odprasky_krok = (Global.M_Odprasky / Global.TauTavby * mDeltaT_min);
@@ -1320,7 +1294,7 @@ namespace Models
                     mCSVOutput.Append(';'); mCSVOutput.Append(lActualTime.Date);
                     mCSVOutput.Append(';'); mCSVOutput.Append(lActualTime.TimeOfDay);
                     mCSVOutput.Append(';'); mCSVOutput.Append(Data.Clock.Current.Duration);
-                    mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenConsumption_m3);
+                    mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenConsumption_m3 > 0 ? lCyclicData.OxygenConsumption_m3.ToString() : "");
                     mCSVOutput.Append(';'); mCSVOutput.Append("");
                     mCSVOutput.Append(';'); mCSVOutput.Append(lCyclicData.OxygenFlow_Nm3_min);
                     mCSVOutput.Append(';'); mCSVOutput.Append(""); // m_SŽ
@@ -1492,14 +1466,17 @@ namespace Models
         {
             double lC_ConversionVector = MINP.ConversionVector(0);
             // C correction from the beginning R 6-10 .. 6-12
-            foreach (var nItem in mOutputData.OrderBy(aR => aR.Key))
+            lock (mOutputData)
             {
-                nItem.Value.FP_Kov[0] =
-                    nItem.Value.FP_C +
-                    (nItem.Value.FP_C - mC_kov_start)
-                    * ((mC_kov_start - mC_kov_end) / (mC_kov_start - LastOutputData.FP_C) - 1);
-                nItem.Value.c_Kov[0] = nItem.Value.FP_Kov[0] / lC_ConversionVector;
-                nItem.Value.m_SlozkaKov[0] = nItem.Value.FP_Kov[0] * nItem.Value.m_Kov;
+                foreach (var nItem in mOutputData.OrderBy(aR => aR.Key))
+                {
+                    nItem.Value.FP_Kov[0] =
+                        nItem.Value.FP_C +
+                        (nItem.Value.FP_C - mC_kov_start)
+                        * ((mC_kov_start - mC_kov_end) / (mC_kov_start - LastOutputData.FP_C) - 1);
+                    nItem.Value.c_Kov[0] = nItem.Value.FP_Kov[0] / lC_ConversionVector;
+                    nItem.Value.m_SlozkaKov[0] = nItem.Value.FP_Kov[0] * nItem.Value.m_Kov;
+                }
             }
         }
         public void RealTimeSimulation_TemperatureMeasured()
@@ -1557,7 +1534,7 @@ namespace Models
                             File.Copy("Template.xlsx", Path.Combine(Global.M3_GenerateOutputFileDirectory, "Template.xlsx"));
                     }
                     catch { }
-
+                    
                     using (StreamWriter lOutputCsvFile = new StreamWriter(Path.Combine(Global.M3_GenerateOutputFileDirectory, String.Format("{1}_{0:yyyy_MM_dd HH_mm_ss}.csv", DateTime.Now, mHeatNumber))))
                     {
                         lOutputCsvFile.WriteLine("Krok;Datum;Cas;Doba tavby;O2 [m3];Vyska [cm];O2 intenzita [m3/min];m_SZ;m_SROT;m_KOKS;m_LIME;m_DOLOMIT;m_FOM;m_CaCO3;PRUTOK SPALIN;teplota spalin;CO;CO2;O2;H2;N2;Ar;T_MER;%C_MER;T;m_T;m_k;m_s;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;E_Tavby;E_C;E_Si;E_Mn;E_P;E_Al;E_Cr;E_V;E_Ti;E_Fe;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;B;rychlost deC spaliny;rychlost deC tavenina;Vyuziti O2 na deC;CO2 Buffer;m C Corr;% C Corr");
@@ -1586,8 +1563,7 @@ namespace Models
 
         // private members
         private Data.Model.DynamicInput mInputData;
-        private Dictionary<int, Data.Model.DynamicOutput> mOutputData;
-        private int mOutputDataIndex = 0;
+        private Dictionary<DateTime, Data.Model.DynamicOutput> mOutputData;
 
         private Data.Model.DynamicState mCurrentStateData;
         private Data.Model.DynamicOutput mCurrentOutputData;
@@ -1627,8 +1603,12 @@ namespace Models
 
         private string mHeatNumber;
         private StringBuilder mCSVOutput;
-
         private bool mRecalculateFromTheBeginning;
-        private bool mRecalculating;
+
+        // CHEREPOVETS ADDITIONS
+        public ModelPhaseState State()
+        {
+            return mCurrentPhaseState;
+        }
     }
 }
