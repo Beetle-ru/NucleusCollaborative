@@ -25,6 +25,7 @@ namespace CorrectionCT
         public static int CurrentOxygen;
         public static int CorrectionOxyT;
         public static int CorrectionOxyC;
+        public static double CorrectionDoloms;
         public static int EndBlowingOxygen;
         public static bool BlowStopSignalPushed;
         public static Timer WaitSublanceData;
@@ -83,6 +84,7 @@ namespace CorrectionCT
             CurrentOxygen = 0;
             CorrectionOxyT = 0;
             CorrectionOxyC = 0;
+            CorrectionDoloms = 0.0;
             EndBlowingOxygen = int.MaxValue;
             BlowStopSignalPushed = false;
             StopBlowFlagRelease();
@@ -162,6 +164,31 @@ namespace CorrectionCT
             }
             return 0;
         }
+
+        public static double CalcDolmsCooling(double deltaT, double currentC)
+        {
+            var k1 = 12.49;
+            var k2 = 93.01;
+            var k3 = 0.003339;
+            var c0 = 0.04;
+            var c1 = 0.05;
+            var ppm0 = 351;
+            var ppm1 = 550;
+            try
+            {
+                var oxidation = (((c0 + ((c0 - c1) / (ppm1 - ppm0)) * ppm0) - currentC) * (ppm1 - ppm0)) / (c0 - c1);
+                var kt = k1 - k2 * currentC + k3 * oxidation;
+                var Mdlms = deltaT / kt;
+                return Mdlms;
+            }
+            catch (Exception e)
+            {
+                InstantLogger.err("Function CalcDolmsCooling\n{0}",e.ToString());
+                return 0;
+            }
+            
+        }
+
         public static void Iterator()
         {
             var msg = "";
@@ -189,9 +216,16 @@ namespace CorrectionCT
             }
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered)
             {
+                if (CorrectionOxyT == -3)
+                {
+                    CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetT), Data.CurrentC);
+                    msg += String.Format("\nрекомендуется выполнить охлаждение Doloms = {0} тонны", CorrectionDoloms);
+                }
+
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
                 fex.AddArg("CorrectionOxygenT", CorrectionOxyT); // int
                 fex.AddArg("CorrectionOxygenC", CorrectionOxyC); // int
+                fex.AddArg("CorrectionDoloms", CorrectionDoloms);// double
                 fex.AddArg("CurrentC", Data.CurrentC); // double
                 fex.AddArg("TargetC", Data.TargetC); // double
                 fex.AddArg("CurrentT", Data.CurrentT); // int
@@ -208,10 +242,7 @@ namespace CorrectionCT
 
                 
 
-                if (CorrectionOxyT == -3)
-                {
-                    msg += String.Format("\nрекомендуется выполнить охлаждение");
-                }
+                
 
                 InstantLogger.msg("End blowing oxygen {0}{1}", EndBlowingOxygen, msg);
             }
