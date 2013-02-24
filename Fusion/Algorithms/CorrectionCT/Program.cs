@@ -220,6 +220,7 @@ namespace CorrectionCT
                 {
                     CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetT), Data.CurrentC);
                     msg += String.Format("\nрекомендуется выполнить охлаждение Doloms = {0} тонны", CorrectionDoloms);
+                    GiveDlmsCooling(Data.CurrentT, Data.TargetT);
                 }
 
                 var fex = new ConnectionProvider.FlexHelper("CorrectionCT.RecommendBalanceBlow");
@@ -251,6 +252,18 @@ namespace CorrectionCT
                 DoStopBlow();
             }
         }
+
+        public static void GiveDlmsCooling(double currentT, double targetT)
+        {
+            var diff = targetT - currentT;
+            if (diff < -10)
+            {
+                var fex = new ConnectionProvider.FlexHelper("CorrectionCT.GiveDlmsCooling");
+                fex.Fire(Program.MainGate);
+                InstantLogger.msg(fex.evt.ToString());
+            }
+        }
+
         public static void DoStopBlow()
         {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
