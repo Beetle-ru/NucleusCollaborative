@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ConnectionProvider;
 using Converter;
 using Implements;
 using System.Configuration;
@@ -34,6 +35,13 @@ namespace CorrectionCT
         public static int LanceMode;
         public static bool IsUncorrectMetering;
         public static bool IsActualOxygen;
+        public static Timer CarbonIterateTimer = new Timer(1 * 1000);
+        public static bool IsAfterMetering; // флаг сигнализирующий о том, что замер прошел
+        public static int MeteringOxygen; //значение кислорода при замере(для расчета углерода)
+        public static double NewCarbon; // углерод расчитываемый после замера
+        public static int LancePosition; //высота фурмы для остановки перерасчета углерода
+        public static bool StartedCRecalc; //означет, что начали пересчитывать углерод
+        public static bool StopedCRecalc; //означет, что закончили пересчитывать углерод
         static void Main(string[] args)
         {
             Init();
@@ -63,6 +71,7 @@ namespace CorrectionCT
             MatrixC.Description.Add(new ColumnPath() { ColumnName = "CMin", ColumnType = typeof(double) });
             MatrixC.Description.Add(new ColumnPath() { ColumnName = "CMax", ColumnType = typeof(double) });
             MatrixC.Description.Add(new ColumnPath() { ColumnName = "OxygenOnCarbon", ColumnType = typeof(int) });
+            
             MatrixC.Load();
 
             var o = new FlexEvent();
@@ -71,6 +80,9 @@ namespace CorrectionCT
 
             WaitSublanceData = new Timer();
             WaitSublanceData.Elapsed += new ElapsedEventHandler(SublanceDataLost);
+
+            CarbonIterateTimer.Elapsed += new ElapsedEventHandler(CarbonIterator);
+            CarbonIterateTimer.Enabled = true;
 
             Reset();
         }
@@ -91,6 +103,10 @@ namespace CorrectionCT
             //EndMeteringAccept();
             IsUncorrectMetering = false;
             IsActualOxygen = false;
+            IsAfterMetering = false;
+            MeteringOxygen = 0;
+            StartedCRecalc = false;
+            StopedCRecalc = true;
         }
         public static int CalcT(CSVTableParser matrixT, Estimates data)
         {
@@ -165,6 +181,28 @@ namespace CorrectionCT
             return 0;
         }
 
+
+        public static double CalcNewCarbon(CSVTableParser matrixC, Estimates data, int OxyAfterMetering)
+        {
+            using (var l = new Logger("CalcC"))
+            {
+                if (data.CurrentC == 0) return 0;
+
+                foreach (var row in matrixC.Rows)
+                {
+                    if ((double)(row.Cell["CMin"]) <= data.CurrentC && data.CurrentC < (double)(row.Cell["CMax"]))
+                    {
+                        l.msg("C item found --- CMin {0}; CMax {1}", row.Cell["CMin"], row.Cell["CMax"]);
+
+
+                        var oxygenOnCarbon = (int)(row.Cell["OxygenOnCarbon"]);
+                        return data.CurrentC-((OxyAfterMetering / oxygenOnCarbon) * 0.01);
+                    }
+                }
+            }
+            return 0;
+        }
+
         public static double CalcDolmsCooling(double deltaT, double currentC)
         {
             var k1 = 12.49;
@@ -187,6 +225,51 @@ namespace CorrectionCT
                 return 0;
             }
             
+        }
+
+        public static void CarbonIterator(object source, ElapsedEventArgs e)
+        {
+            const int lanceHeigthTreshold = 330;
+
+            if (IsAfterMetering && (LancePosition < lanceHeigthTreshold) && !StartedCRecalc)
+            {
+                StartedCRecalc = true;
+                FireStartCRecalc();
+            }
+
+            if (IsAfterMetering && (LancePosition > lanceHeigthTreshold) && StartedCRecalc)
+            {
+                StartedCRecalc = false;
+                FireFixCRecalc(NewCarbon);
+            }
+
+            if (StartedCRecalc)
+            {
+                var oxyAfterMetering = Math.Abs(CurrentOxygen - MeteringOxygen);
+                NewCarbon = CalcNewCarbon(MatrixC, Data, oxyAfterMetering);
+                FireResultCRecalc(NewCarbon);
+            }
+        }
+
+        public static void FireStartCRecalc()
+        {
+            var fex = new FlexHelper("CorrectionCT.ModelIsStarted");
+            fex.Fire(Program.MainGate);
+        }
+
+        public static void FireResultCRecalc(double carbon)
+        {
+            var fex = new FlexHelper("CorrectionCT.Result");
+            fex.AddArg("C", carbon);
+            fex.Fire(Program.MainGate);
+            InstantLogger.msg("Recaclc C = {0}", carbon);
+        }
+
+        public static void FireFixCRecalc(double carbon)
+        {
+            var fex = new FlexHelper("CorrectionCT.DataFix");
+            fex.AddArg("C", carbon);
+            fex.Fire(Program.MainGate);
         }
 
         public static void Iterator()

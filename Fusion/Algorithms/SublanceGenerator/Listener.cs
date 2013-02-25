@@ -188,18 +188,18 @@ namespace SublanceGenerator
                     }
                     if (fxe.Operation.StartsWith("ConverterUI.ZondAccept"))
                     {
-                        var key = "SId";
+                        //var key = "SId";
                         l.msg(fxe.ToString());
                         try
                         {
-                            if (Iterator.SIdK == (Guid)fxe.Arguments[key])
-                            {
+                            //if (Iterator.SIdK == (Guid)fxe.Arguments[key])
+                            //{
                                 Iterator.BeginMetering();
-                            }
+                            //}
                         }
                         catch (Exception e)
                         {
-                            l.err("ConverterUI.ZondAccept - {1} : \n{0}", e.ToString(), key);
+                            l.err("ConverterUI.ZondAccept - {0}", e.ToString());
                         }
                     }
                     if (fxe.Operation.StartsWith("CorrectionCT.EndMeteringAccept"))

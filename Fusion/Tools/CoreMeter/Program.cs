@@ -14,7 +14,7 @@ namespace CoreMeter
     {
         public static Client MainGate;
         public const char Separator = ';';
-        public static Timer FireTimer = new Timer(100);
+        public static Timer FireTimer = new Timer(1000);
         public static Timer HourTimer = new Timer(1000 * 60 * 60);
         //public static Timer HourTimer = new Timer(1000);
         public static List<FlexEvent> FlexList;

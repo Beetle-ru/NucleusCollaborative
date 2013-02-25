@@ -12,7 +12,7 @@ namespace CarbonSwitcher
     {
         public static Client MainGate;
         public static List<Models> ModelList;
-        public const int SupportModels = 4;
+        public const int SupportModels = 5;
         public static Conf Cfg;
         public static Configuration MainConf;
         public static double KFirst; // K первого углерода для плавного перехода
@@ -37,6 +37,7 @@ namespace CarbonSwitcher
             Cfg = new Conf();
             Cfg.FirstModel = Int32.Parse(MainConf.AppSettings.Settings["DefFirstModel"].Value);
             Cfg.SecondModel = Int32.Parse(MainConf.AppSettings.Settings["DefSecondModel"].Value);
+            Cfg.ThirdModel = Int32.Parse(MainConf.AppSettings.Settings["DefThirdModel"].Value);
 
             Reset();
         }
@@ -56,49 +57,72 @@ namespace CarbonSwitcher
 
         public static void Iterate()
         {
-
-            if (ModelList[Cfg.SecondModel].IsStarted)
+            var currentSecond = DateTime.Now.Second;
+            if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
             {
-                if (!ModelList[Cfg.SecondModel].IsFixed)
+                LastIterateSecond = currentSecond;
+                if (ModelList[Cfg.SecondModel].IsStarted)
                 {
-                    if (ModelList[Cfg.SecondModel].C > 0)
+                    if (ModelList[Cfg.ThirdModel].IsStarted)
                     {
-                        //FireCarbon(ModelList[Cfg.SecondModel].C, 2);
-
-
-                        var currentSecond = DateTime.Now.Second;
-                        if (Math.Abs(LastIterateSecond - currentSecond) >= 1) // чтоб не чаще 1 раза в секунду
+                        if (!ModelList[Cfg.ThirdModel].IsFixed)
                         {
-                            
-                            var secondCarbon = ModelList[Cfg.FirstModel].C * KFirst + ModelList[Cfg.SecondModel].C * KSecond;
-                            Implements.InstantLogger.msg("CReal = {0}; Cmixed = {1}; K1 = {2}; K2 = {3}; K1 + K2 = {4}", ModelList[Cfg.SecondModel].C, secondCarbon, KFirst, KSecond, KFirst + KSecond);
+                            if (ModelList[Cfg.ThirdModel].C > 0)
+                            {
+                                FireCarbon(ModelList[Cfg.ThirdModel].C, 3);
+                            }
+                        }
+                        else
+                        {
+                            //if (!ModelList[Cfg.ThirdModel].IsFiredFixed)
+                            //{
+                            //    var fex = new FlexHelper("CarbonSwitcher.DataFix");
+                            //    fex.AddArg("C", ModelList[Cfg.SecondModel].C); //посылаем от 2й для выгрузки
+                            //    fex.Fire(Program.MainGate);
+                            //    ModelList[Cfg.SecondModel].IsFiredFixed = true;
+                            //}
+                        }
+                    }
+                    else
+                    {
+                        if (!ModelList[Cfg.SecondModel].IsFixed)
+                        {
+                        if (ModelList[Cfg.SecondModel].C > 0)
+                        {
+                            //FireCarbon(ModelList[Cfg.SecondModel].C, 2);
+
+                            var secondCarbon = ModelList[Cfg.FirstModel].C*KFirst + ModelList[Cfg.SecondModel].C*KSecond;
+                            Implements.InstantLogger.msg(
+                                "CReal = {0}; Cmixed = {1}; K1 = {2}; K2 = {3}; K1 + K2 = {4}",
+                                ModelList[Cfg.SecondModel].C, secondCarbon, KFirst, KSecond, KFirst + KSecond);
                             var periodSwitch = KSecond < 1 ? -2 : 2; // если еще не переключились, то -2
                             FireCarbon(secondCarbon, periodSwitch);
 
-                            LastIterateSecond = currentSecond;
                             if (Math.Round(KFirst - SwitchSpeed, 3) > 0.0) KFirst -= SwitchSpeed;
                             else KFirst = 0.0;
                             KFirst = Math.Round(KFirst, 5);
                             KSecond = Math.Round(1.0 - KFirst, 5);
                             //Console.Write("#");
+
+                        }
+                        }
+                        else
+                        {
+                            if (!ModelList[Cfg.SecondModel].IsFiredFixed)
+                            {
+                                var fex = new FlexHelper("CarbonSwitcher.DataFix");
+                                fex.AddArg("C", ModelList[Cfg.SecondModel].C);
+                                fex.Fire(Program.MainGate);
+                                ModelList[Cfg.SecondModel].IsFiredFixed = true;
+                            }
                         }
                     }
                 }
                 else
                 {
-                    if (!ModelList[Cfg.SecondModel].IsFiredFixed)
-                    {
-                        var fex = new FlexHelper("CarbonSwitcher.DataFix");
-                        fex.AddArg("C", ModelList[Cfg.SecondModel].C);
-                        fex.Fire(Program.MainGate);
-                        ModelList[Cfg.SecondModel].IsFiredFixed = true;
-                    }
+                    FireCarbon(ModelList[Cfg.FirstModel].C, 1);
+                    KFirst = 1;
                 }
-            }
-            else
-            {
-                FireCarbon(ModelList[Cfg.FirstModel].C,1);
-                KFirst = 1;
             }
         }
 
@@ -123,6 +147,6 @@ namespace CarbonSwitcher
     {
         public int FirstModel;
         public int SecondModel;
-        //public int ThirdModel;
+        public int ThirdModel;
     }
 }

@@ -17,6 +17,7 @@ namespace CorrectionCT
     class Listener : IEventListener
     {
         public Int64 CurrentHeatNumber;
+        public int CurrentOxigen; //текущий кислород для фиксации по событиям не содержищим кислород
         public Listener()
         {
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
@@ -36,6 +37,13 @@ namespace CorrectionCT
                         Program.Reset();
                     }
                 }
+
+                if (evt is LanceEvent)
+                {
+                    var le = evt as LanceEvent;
+                    Program.LancePosition = le.LanceHeight;
+                }
+
                 if (evt is SublanceTemperatureEvent)
                 {
                     var ste = evt as SublanceTemperatureEvent;
@@ -84,6 +92,8 @@ namespace CorrectionCT
                 {
                     var be = evt as BlowingEvent;
                     Program.CurrentOxygen = be.O2TotalVol;
+                    CurrentOxigen = be.O2TotalVol;
+                    
                     Program.Iterator();
                 }
                 if (evt is SublanceStartEvent)
@@ -104,9 +114,13 @@ namespace CorrectionCT
                             Program.WaitSublanceData.Enabled = true;
                         }
                     }
-                    if (sse.SublanceStartFlag == 0)
+                    if (sse.SublanceStartFlag == 0) // sublance end metering
                     {
-                       
+                        if (!Program.IsAfterMetering)
+                        {
+                            Program.IsAfterMetering = true;
+                            Program.MeteringOxygen = CurrentOxigen;
+                        }
                     }
                 }
                 if (evt is ModeLanceEvent)
