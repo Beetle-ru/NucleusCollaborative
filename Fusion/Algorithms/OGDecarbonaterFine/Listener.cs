@@ -104,6 +104,16 @@ namespace OGDecarbonaterFine
                     var vse = evt as visSpectrluksEvent;
                 }
 
+                if (evt is ScrapEvent)
+                {
+                    var se = evt as ScrapEvent;
+                    if (se.ConverterNumber == Program.ConverterNumber)
+                    {
+                        Iterator.CurrentState.MSc = se.TotalWeight;
+                        l.msg("Scrap mass: {0}", Iterator.CurrentState.MSc);
+                    }
+                }
+
                 if (evt is FlexEvent)
                 {
                     var fxe = evt as FlexEvent;
@@ -125,6 +135,38 @@ namespace OGDecarbonaterFine
                         {
                             Iterator.CurrentState.OffGasTransportDelay = (int)Math.Round(fxh.GetDbl("TransportDelay2"));
                         }
+                    }
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
+                    {
+                        if ((string)fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumberToLong(Iterator.CurrentState.HeatNumber)))
+                        {
+                            l.msg("Iron Correction from Pipe: {0}\n", fxe.Arguments["NWGH_NETTO"]);
+                            var hotIronMass = Convert.ToDouble(fxe.Arguments["NWGH_NETTO"]) * 1000;
+                            Iterator.CurrentState.MHi = hotIronMass;
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                Iterator.CurrentState.HeatNumber, fxe.Arguments["SHEATNO"]
+                                );
+                    }
+
+                    if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
+                    {
+                        if ((string)fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumberToLong(Iterator.CurrentState.HeatNumber)))
+                        {
+                            l.msg(fxe.ToString());
+                            var hotIronMass = Convert.ToDouble(fxe.Arguments["HM_WEIGHT"]);
+                            var hotIronCarbon = Convert.ToDouble(fxe.Arguments["ANA_C"]);
+                            Iterator.CurrentState.MHi = hotIronMass;
+                            Iterator.CurrentState.PCHi = hotIronCarbon;
+                        }
+                        else
+                            l.msg(
+                                "Iron Correction from Pipe: wrong heat number - expected {0} found {1}",
+                                HeatNumberToLong(Iterator.CurrentState.HeatNumber), fxe.Arguments["HEAT_NO"]
+                                );
                     }
                 }
             }

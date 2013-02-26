@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ConnectionProvider;
 using Converter;
+using Implements;
 
 namespace OGDecarbonaterFine
 {
@@ -13,6 +14,7 @@ namespace OGDecarbonaterFine
         public static Client MainGate;
         public const char Separator = ';';
         public static Configuration MainConf;
+        public static int ConverterNumber;
 
         static void Main(string[] args)
         {
@@ -21,6 +23,9 @@ namespace OGDecarbonaterFine
             MainGate.Subscribe();
 
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
+
+            ConverterNumber = Convertion.StrToInt32(
+                        (string)ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["converterNumber"].Value);
 
             Console.WriteLine("Press Enter for exit\n");
             Console.ReadLine();

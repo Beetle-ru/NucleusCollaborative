@@ -95,6 +95,56 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double MI;
 
+        /// <summary>
+        /// Масса чугуна в кг
+        /// </summary>
+        public double MHi;
+
+        /// <summary>
+        /// Процент углерода в чугуне
+        /// </summary>
+        public double PCHi;
+
+        /// <summary>
+        /// Масса углерода в чугуне  в кг
+        /// </summary>
+        public double MCHi;
+
+        /// <summary>
+        /// Масса скрапа в кг
+        /// </summary>
+        public double MSc;
+
+        /// <summary>
+        /// Процент углерода в скрапе
+        /// </summary>
+        public double PCSc;
+
+        /// <summary>
+        /// Масса углерода в скрапе в кг
+        /// </summary>
+        public double MCSc;
+
+        ///// <summary>
+        ///// Масса кокса в кг
+        ///// </summary>
+        //public double MCoke;
+
+        ///// <summary>
+        ///// Процент углерода в коксе
+        ///// </summary>
+        //public double PCCoke;
+
+        ///// <summary>
+        ///// Масса углерода в коксе  в кг
+        ///// </summary>
+        //public double MCCoke;
+
+        /// <summary>
+        /// Масса углерода в металлошихте
+        /// </summary>
+        public double MCMetall;
+
         public RecalculateData()
         {
             HeatNumber = 0;
@@ -116,6 +166,16 @@ namespace OGDecarbonaterFine
             MIco2 = 0.0;
             M = 0.0;
             MI = 0.0;
+            MHi = 300000;
+            PCHi = 4.5;
+            MCHi = 0;
+            MSc = 110000;
+            PCSc = 0.2;
+            MCSc = 0;
+            //MCoke = 300;
+            //PCCoke = 96;
+            //MCCoke = 0;
+            MCMetall = 0;
         }
     }
 }

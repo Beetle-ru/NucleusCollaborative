@@ -205,5 +205,40 @@ namespace OGDecarbonaterFine
             CurrentState.MI = CurrentState.MIco + CurrentState.MIco2;
         }
         #endregion
+
+        #region 3.1 Расчет содержания углерода в металлошихте
+
+        /// <summary>
+        /// Расчет массы углерода в чугуне
+        /// </summary>
+        static void CalcMCHi()
+        {
+            const double k1 = 0.01; // 1/100
+
+            CurrentState.MCHi = CurrentState.MHi * CurrentState.PCHi * k1;
+        }
+
+        /// <summary>
+        /// Расчет массы углерода в скрапе
+        /// </summary>
+        static void CalcMCSc()
+        {
+            const double k1 = 0.01; // 1/100
+
+            CurrentState.MCSc = CurrentState.MSc * CurrentState.PCSc * k1;
+        }
+
+        /// <summary>
+        /// Расчет массы углерода в металлошихте
+        /// </summary>
+        static void CalcMCMetall()
+        {
+            CurrentState.MCMetall = CurrentState.MCHi * CurrentState.MSc;
+        }
+
+        #endregion
+
+        #region 3.2 Расчет углерода в сыпучих материалах
+        #endregion
     }
 }
