@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.IO;
 using System.Threading;
@@ -92,6 +93,21 @@ namespace BlowingSchemaEvent_generator
             {
                 Console.WriteLine("transmitter...................................................................................[started]\n");
             }*/
+
+            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(int[]));
+            var dimm = new int[] { 1, 2, 3 };
+            MemoryStream ms = new MemoryStream();
+            serializer.WriteObject(ms, dimm);
+            ms.Close();
+            var arr = ms.ToArray();
+            var str = Encoding.UTF8.GetString(arr);
+            Console.WriteLine(str);
+
+            var fxe = new FlexHelper("dimm");
+
+            fxe.AddArg("dd", str);
+            fxe.Fire(mainGate);
+
             var fex = new FlexHelper("OPC.Flex.Suka");
             fex.AddArg("val-i2", 1133);
             fex.AddArg("val-r4", -11.33);
