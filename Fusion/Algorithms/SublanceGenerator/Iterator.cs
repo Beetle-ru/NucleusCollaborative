@@ -37,6 +37,8 @@ namespace SublanceGenerator
         public static double X1, Y1, Xn, Yn; // вхоные данные для предсказывающего уравнения
         public const double ReactionTime = 25.0; // время реакции системы
         public static double PrognosisMeterTime; //прогнозируемое время замера
+        public static bool Item1IsFixed; // зафиксированы значения X1, Y1
+        
         public static void Init()
         {
             Oxigen = new RollingAverage();
@@ -64,6 +66,7 @@ namespace SublanceGenerator
             Xn = 0.0;
             Yn = 0.0;
             PrognosisMeterTime = 0.0;
+            Item1IsFixed = false;
         }
         public static void Renit()
         {
@@ -142,6 +145,8 @@ namespace SublanceGenerator
 
         private static bool VerificatePrognosis(double targetCk, double reactionTime, double cNow)
         {
+            const int item1SecFix = 3;
+            const int startCalcSec = 10;
             if (targetCk < 0) return false;
             if (LastIterateTime.Ticks != 0) // проверка на первый запуск в текущей плавке
             {
@@ -153,7 +158,13 @@ namespace SublanceGenerator
                 {
                     SecondFromBeginMFM += deltaSec;
 
-                    if (SecondFromBeginMFM < 5) return false; // если текущая секунда меньше 5, то не считаем
+                    if (!Item1IsFixed && SecondFromBeginMFM >= item1SecFix) // секунда на которой фиксируем первые значения
+                    {
+                        X1 = SecondFromBeginMFM;
+                        Y1 = cNow;
+                        Item1IsFixed = true;
+                    }
+                    if (SecondFromBeginMFM < startCalcSec) return false; // если текущая секунда меньше заданной, то не считаем, воизбежание ложных срабатываний
 
                     Xn = SecondFromBeginMFM;
                     Yn = cNow;
