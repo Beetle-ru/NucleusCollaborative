@@ -27,6 +27,8 @@ namespace OGDecarbonaterFine
             ConverterNumber = Convertion.StrToInt32(
                         (string)ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["converterNumber"].Value);
 
+            Iterator.Init();
+
             Console.WriteLine("Press Enter for exit\n");
             Console.ReadLine();
         }

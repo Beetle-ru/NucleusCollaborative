@@ -48,10 +48,10 @@ namespace Implements
             {
                 strings = File.ReadAllLines(FileName);
             }
-            catch
+            catch(Exception e)
             {
                 strings = new string[0];
-                InstantLogger.err("Cannot read the file: {0}", FileName);
+                InstantLogger.err("Cannot read the file: {0}\n {1}", FileName, e.Message);
                 //Console.WriteLine("Cannot read the file: {0}", FileName);
                 return;
             }

@@ -14,6 +14,9 @@ namespace OGDecarbonaterFine
         {
             Reset();
 
+            HimMaterials = new XimTable();
+            HimMaterials.LoadFromCSV(CSVHimFilePath);
+
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
         }

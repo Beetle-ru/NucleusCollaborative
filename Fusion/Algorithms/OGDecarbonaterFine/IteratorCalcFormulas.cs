@@ -137,9 +137,9 @@ namespace OGDecarbonaterFine
         /// </summary>
         static void CalcDensity()
         {
-            const double k1 = 0.80321285140562248995983935742972; // 1/1,245
+            const double k1 = 1.245;
 
-            CurrentState.KDensity = Math.Sqrt(CurrentState.OffgasDensity*k1);
+            CurrentState.KDensity = Math.Sqrt(k1/CurrentState.OffgasDensity);
         }
 
         /// <summary>
