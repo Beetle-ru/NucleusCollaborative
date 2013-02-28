@@ -94,25 +94,21 @@ namespace BlowingSchemaEvent_generator
                 Console.WriteLine("transmitter...................................................................................[started]\n");
             }*/
 
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(int[]));
+
             var dimm = new int[] { 1, 2, 3 };
-            MemoryStream ms = new MemoryStream();
-            serializer.WriteObject(ms, dimm);
-            ms.Close();
-            var arr = ms.ToArray();
-            var str = Encoding.UTF8.GetString(arr);
-            Console.WriteLine(str);
 
-            var fxe = new FlexHelper("dimm");
+            var fxe = new FlexHelper("TestComplex");
 
-            fxe.AddArg("dd", str);
+            fxe.AddComplexArg("dimm", dimm);
             fxe.Fire(mainGate);
+            Console.WriteLine("Send:");
+            Console.WriteLine(fxe.evt);
 
-            var fex = new FlexHelper("OPC.Flex.Suka");
-            fex.AddArg("val-i2", 1133);
-            fex.AddArg("val-r4", -11.33);
-            fex.AddArg("val-s", "Zalupa");
-            fex.Fire(mainGate);
+            //var fex = new FlexHelper("OPC.Flex.Suka");
+            //fex.AddArg("val-i2", 1133);
+            //fex.AddArg("val-r4", -11.33);
+            //fex.AddArg("val-s", "Zalupa");
+            //fex.Fire(mainGate);
            //mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
 
             //mainGate.PushEvent(new visSpectrluksEvent() { HeatNumber = 2201111, C = 0.05 });

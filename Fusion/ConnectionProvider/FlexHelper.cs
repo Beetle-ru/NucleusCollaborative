@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading;
 using Converter;
@@ -78,6 +80,30 @@ namespace ConnectionProvider
         {
             if (!evt.Arguments.ContainsKey(Key)) return null;
             return Convert.ToString(evt.Arguments[Key]);
+        }
+
+        public void AddComplexArg(string Key, object Value)
+        {
+            var serializer = new DataContractJsonSerializer(Value.GetType());
+            var ms = new MemoryStream();
+
+            serializer.WriteObject(ms, Value);
+            ms.Close();
+            var arr = ms.ToArray();
+            var str = Encoding.UTF8.GetString(arr);
+
+            evt.Arguments.Add(Key, str);
+        }
+
+        public object GetComplexArg(string Key, Type ValueType)
+        {
+            if (!evt.Arguments.ContainsKey(Key)) return null;
+            if (evt.Arguments[Key].GetType() != typeof(string)) return null;
+
+            var serializer = new DataContractJsonSerializer(ValueType);
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes((string)evt.Arguments[Key]));
+
+            return serializer.ReadObject(ms);
         }
     }
 }

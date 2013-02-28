@@ -52,6 +52,21 @@ namespace BlowingSchemaEvent_generator
             {
                 InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.error);
             }
+
+            if (newEvent is FlexEvent)
+            {
+                var flx = newEvent as FlexEvent;
+                if (flx.Operation.StartsWith("TestComplex"))
+                {
+                    var fxe = new FlexHelper(flx);
+                    var dimm = (int[])fxe.GetComplexArg("dimm", typeof(int[]));
+                    Console.WriteLine("Receive:");
+                    foreach (var i in dimm)
+                    {
+                        Console.Write((i + ", "));
+                    }
+                }
+            }
             //var v = (PLCGroup)newEvent.GetType().GetCustomAttributes(false).Where(x => x.GetType().Name == "PLCGroup").FirstOrDefault();
             //object first = null;
    /*         InstantLogger.log(newEvent.GetType().FullName);
