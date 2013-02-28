@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InputData.cs" />
+    <Compile Include="MaterialData.cs" />
     <Compile Include="RecalculateData.cs" />
     <Compile Include="HeatDataReceiver.cs" />
     <Compile Include="Iterator.cs" />
