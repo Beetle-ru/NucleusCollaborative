@@ -239,6 +239,42 @@ namespace OGDecarbonaterFine
         #endregion
 
         #region 3.2 Расчет углерода в сыпучих материалах
+
+        /// <summary>
+        /// Расчет массы углерода в сыпучих
+        /// </summary>
+        static void CalcMCsp()
+        {
+            const double k1 = 0.01; // 1/100
+            const double k2 = 100; // 
+            const double MMCO2 = 44; // молекулярная масса СО2
+            const double MMC = 12; // молекулярная масса С
+
+            foreach (var materialData in CurrentState.Materials.MaterialList)
+            {
+                var name = materialData.SystemName;
+                var wgh = materialData.TotalWeight;
+                var pmpp = HimMaterials.GetHimValue(name, "PMPP");
+                var c = HimMaterials.GetHimValue(name, "C");
+                var co2 = HimMaterials.GetHimValue(name, "CO2");
+
+                CurrentState.MCsp += wgh * (pmpp / (k2 * MMCO2)) * MMC + wgh * c * k1 + wgh * (co2 / (k2 * MMCO2)) * MMC;
+            }
+        }
+        #endregion
+
+        #region 4. Расчет остатка углерода в конвертере
+
+        /// <summary>
+        /// Расчет массы углерода в сыпучих
+        /// </summary>
+        static void CalcDeltaMC()
+        {
+
+            CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI - CurrentState.MCsp;
+            CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI;
+            CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
+        }
         #endregion
     }
 }

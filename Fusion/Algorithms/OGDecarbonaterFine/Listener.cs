@@ -17,10 +17,13 @@ namespace OGDecarbonaterFine
 
         public Int64 CHeatNumber;
         public int LanceHeithPrevious;
-        
+        public List<string> BoundMaterials;
+        public List<double> WeightMaterials;
 
         public Listener()
         {
+            BoundMaterials = new List<string>();
+            WeightMaterials = new List<double>();
             InstantLogger.log("Listener", "Started\n", InstantLogger.TypeMessage.important);
         }
         public Int64 HeatNumberToShort(Int64 heatNLong)
@@ -36,6 +39,36 @@ namespace OGDecarbonaterFine
             Int64 res = Math.DivRem(heatNShort, 10000, out reminder);
             return res * 100000 + reminder;
         }
+
+        public static string Encoder(string str)
+        {
+            char[] charArray = str.ToCharArray();
+            str = "";
+            foreach (char c in charArray)
+            {
+                if (c > 127)
+                {
+                    str += (char)(c + 848);
+                }
+                else
+                {
+                    str += c;
+                }
+            }
+            return str;
+        }
+
+        public string EncodeMatName(string matName)
+        {
+            var retmatName = "";
+            foreach (var arg in matName)
+            {
+                if (arg != '\b' && arg != 6)
+                    retmatName = retmatName + arg;
+            }
+            return retmatName.Trim();
+        }
+
         public void OnEvent(BaseEvent evt)
         {
             using (var l = new Logger("Listener"))
@@ -111,6 +144,49 @@ namespace OGDecarbonaterFine
                     {
                         Iterator.CurrentState.MSc = se.TotalWeight;
                         l.msg("Scrap mass: {0}", Iterator.CurrentState.MSc);
+                    }
+                }
+                if (evt is BoundNameMaterialsEvent)
+                {
+                    var bnme = evt as BoundNameMaterialsEvent;
+                    BoundMaterials = new List<string>();
+                    BoundMaterials.Add(bnme.Bunker5MaterialName);
+                    BoundMaterials.Add(bnme.Bunker6MaterialName);
+                    BoundMaterials.Add(bnme.Bunker7MaterialName);
+                    BoundMaterials.Add(bnme.Bunker8MaterialName);
+                    BoundMaterials.Add(bnme.Bunker9MaterialName);
+                    BoundMaterials.Add(bnme.Bunker10MaterialName);
+                    BoundMaterials.Add(bnme.Bunker11MaterialName);
+                    BoundMaterials.Add(bnme.Bunker12MaterialName);
+                }
+
+                if (evt is visAdditionTotalEvent)
+                {
+                    var vate = evt as visAdditionTotalEvent;
+                    WeightMaterials = new List<double>();
+                    WeightMaterials.Add(vate.RB5TotalWeight);
+                    WeightMaterials.Add(vate.RB6TotalWeight);
+                    WeightMaterials.Add(vate.RB7TotalWeight);
+                    WeightMaterials.Add(vate.RB8TotalWeight);
+                    WeightMaterials.Add(vate.RB9TotalWeight);
+                    WeightMaterials.Add(vate.RB10TotalWeight);
+                    WeightMaterials.Add(vate.RB11TotalWeight);
+                    WeightMaterials.Add(vate.RB12TotalWeight);
+
+                    var bunkerCnt = BoundMaterials.Count;
+                    for (int i = 0; i < bunkerCnt; i++)
+                    {
+                        var wgh = WeightMaterials[i];
+                        var name = BoundMaterials[i];
+                        for (int j = 0; j < bunkerCnt; j++)
+                        {
+                            if ((i != j) && (name == BoundMaterials[j]))
+                            {
+                                wgh += WeightMaterials[j];
+                            }
+                        }
+
+                        Iterator.CurrentState.Materials.SetTotalWeight(EncodeMatName(name), wgh, false);
                     }
                 }
 

@@ -125,25 +125,35 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double MCSc;
 
-        ///// <summary>
-        ///// Масса кокса в кг
-        ///// </summary>
-        //public double MCoke;
-
-        ///// <summary>
-        ///// Процент углерода в коксе
-        ///// </summary>
-        //public double PCCoke;
-
-        ///// <summary>
-        ///// Масса углерода в коксе  в кг
-        ///// </summary>
-        //public double MCCoke;
-
         /// <summary>
         /// Масса углерода в металлошихте
         /// </summary>
         public double MCMetall;
+
+        /// <summary>
+        /// Материалы отданные в конвертер
+        /// </summary>
+        public SupportMaterials Materials;
+
+        /// <summary>
+        /// Общаяя масса углерода в сыпучих
+        /// </summary>
+        public double MCsp;
+
+        /// <summary>
+        /// Общаяя масса углерода в конвертере
+        /// </summary>
+        public double DeltaMC;
+
+        /// <summary>
+        /// (для корректировки) ???
+        /// </summary>
+        public double DeltaMC1;
+
+        /// <summary>
+        /// Текущая масса углерода в конверторе ++
+        /// </summary>
+        public double CurrentMC;
 
         public RecalculateData()
         {
@@ -172,10 +182,12 @@ namespace OGDecarbonaterFine
             MSc = 110000;
             PCSc = 0.2;
             MCSc = 0;
-            //MCoke = 300;
-            //PCCoke = 96;
-            //MCCoke = 0;
             MCMetall = 0;
+            Materials = new SupportMaterials();
+            MCsp = 0;
+            DeltaMC = 0;
+            DeltaMC1 = 0;
+            CurrentMC = 0;
         }
     }
 }

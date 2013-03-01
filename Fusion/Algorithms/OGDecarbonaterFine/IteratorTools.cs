@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using Converter;
 using Implements;
 
 namespace OGDecarbonaterFine
@@ -16,6 +17,8 @@ namespace OGDecarbonaterFine
 
             HimMaterials = new XimTable();
             HimMaterials.LoadFromCSV(CSVHimFilePath);
+
+            Program.MainGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
 
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
