@@ -111,6 +111,7 @@ namespace OGDecarbonaterFine
                         CHeatNumber = hce.HeatNumber;
                         Iterator.Reset();
                         Iterator.CurrentState.HeatNumber = hce.HeatNumber;
+                        Iterator.ArchFileGen();
                         l.msg("Heat Changed. New Heat ID: {0}\n", Iterator.CurrentState.HeatNumber);
                     }
                     else

@@ -276,5 +276,34 @@ namespace OGDecarbonaterFine
             CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
         }
         #endregion
+
+
+        #region ПЕРЕСЧЕТ ВСЕГО
+        /// <summary>
+        /// Полный пересчет
+        /// </summary>
+        static void CalcAll()
+        {
+            CalcPlue();
+            CalcPa1();
+            CalcPa2();
+            CalcK1();
+            CalcQ1();
+            CalcPa();
+            CalcSH2O();
+            CalcQ2();
+            CalcOffgasDensity();
+            CalcDensity();
+            CalcQ3();
+            CalcMIco();
+            CalcMIco2();
+            CalcMI();
+            CalcMCHi();
+            CalcMCSc();
+            CalcMCMetall();
+            CalcMCsp();
+            CalcDeltaMC();
+        }
+        #endregion
     }
 }

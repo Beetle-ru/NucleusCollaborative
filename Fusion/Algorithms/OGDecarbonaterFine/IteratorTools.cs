@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Timers;
@@ -29,7 +30,14 @@ namespace OGDecarbonaterFine
             Receiver = new HeatDataReceiver(PeriodSec);
             CurrentState = new RecalculateData();
             InputDataBuffer = new List<InputData>();
+            ArchFileName = String.Format("{0}\\{1}", ArchDir, ArchNameGenerate(""));
             Console.WriteLine("Reset");
+        }
+
+        public static void ArchFileGen()
+        {
+            ArchFileName = String.Format("{0}\\{1}", ArchDir, ArchNameGenerate(CurrentState.HeatNumber.ToString()));
+            WriteFile(CurrentState.GetHeaderLine(), ArchFileName);
         }
 
         public static void PutInputDataIntoTheBuffer()
@@ -83,6 +91,37 @@ namespace OGDecarbonaterFine
             fex.Fire(Program.MainGate);
         }
 
+        static public void WriteFile(string msg, string outFileName)
+        {
+            try
+            {
+                StreamWriter oStreamWriterutFile;
+                if (File.Exists(outFileName))
+                {
+                    oStreamWriterutFile = File.AppendText(outFileName);
+                }
+                else
+                {
+                    oStreamWriterutFile = File.CreateText(outFileName);
+                }
+
+                oStreamWriterutFile.WriteLine(msg);
+                oStreamWriterutFile.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static string ArchNameGenerate(string subname)
+        {
+            string timeLine = DateTime.Now.ToString();
+            timeLine = timeLine.Replace(':', '_');
+            timeLine = timeLine.Replace('.', '_');
+            timeLine = timeLine + "_" + subname + ".csv";
+            return timeLine;
+        }
 
     }
 }
