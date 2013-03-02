@@ -35,7 +35,7 @@ namespace SublanceGenerator
         public static DateTime LastIterateTime; // последнее время - нужно для прогноза замера
         public static int SecondFromBeginMFM; // количество секунд от старта многофакторной модели, нужно для прогноза замера 
         public static double X1, Y1, Xn, Yn; // вхоные данные для предсказывающего уравнения
-        public const double ReactionTime = 25.0 - 10; // время реакции системы
+        public const double ReactionTime = 25.0 + 10; // время реакции системы
         public static double PrognosisMeterTime; //прогнозируемое время замера
         public static bool Item1IsFixed; // зафиксированы значения X1, Y1
         
