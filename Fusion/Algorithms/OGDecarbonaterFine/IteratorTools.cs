@@ -14,6 +14,7 @@ namespace OGDecarbonaterFine
 
         public static void Init()
         {
+            Directory.CreateDirectory(ArchDir);
             Reset();
 
             HimMaterials = new XimTable();
@@ -30,6 +31,7 @@ namespace OGDecarbonaterFine
             Receiver = new HeatDataReceiver(PeriodSec);
             CurrentState = new RecalculateData();
             InputDataBuffer = new List<InputData>();
+            MaterialsZeroLevel = new SupportMaterials();
             ArchFileName = String.Format("{0}\\{1}", ArchDir, ArchNameGenerate(""));
             Console.WriteLine("Reset");
         }

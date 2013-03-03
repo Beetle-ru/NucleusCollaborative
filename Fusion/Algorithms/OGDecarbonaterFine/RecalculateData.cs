@@ -155,6 +155,16 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double CurrentMC;
 
+        /// <summary>
+        /// Текущая масса железа в конверторе ++
+        /// </summary>
+        public double CurrentMF;
+
+        /// <summary>
+        /// Текущий процент углерода в конверторе ++
+        /// </summary>
+        public double CurrentPC;
+
         public RecalculateData()
         {
             HeatNumber = 0;
@@ -181,13 +191,15 @@ namespace OGDecarbonaterFine
             MCHi = 0;
             MSc = 110000;
             PCSc = 0.2;
-            MCSc = 0;
-            MCMetall = 0;
+            MCSc = 0.0;
+            MCMetall = 0.0;
             Materials = new SupportMaterials();
-            MCsp = 0;
-            DeltaMC = 0;
-            DeltaMC1 = 0;
-            CurrentMC = 0;
+            MCsp = 0.0;
+            DeltaMC = 0.0;
+            DeltaMC1 = 0.0;
+            CurrentMF = 0.0;
+            CurrentMC = 0.0;
+            CurrentPC = 0.0;
         }
 
         public string GetDataLine()
@@ -236,6 +248,8 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, DeltaMC);
             str += String.Format("{0}{1}", sep, DeltaMC1);
             str += String.Format("{0}{1}", sep, CurrentMC);
+            str += String.Format("{0}{1}", sep, CurrentMF);
+            str += String.Format("{0}{1}", sep, CurrentPC);
 
             return str;
         }
@@ -286,6 +300,8 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, "DeltaMC");
             str += String.Format("{0}{1}", sep, "DeltaMC1");
             str += String.Format("{0}{1}", sep, "CurrentMC");
+            str += String.Format("{0}{1}", sep, "CurrentMF");
+            str += String.Format("{0}{1}", sep, "CurrentPC");
 
             return str;
         }

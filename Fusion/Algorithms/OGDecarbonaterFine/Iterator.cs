@@ -18,6 +18,7 @@ namespace OGDecarbonaterFine
 
         public static void IterateTimeOut(object source, ElapsedEventArgs e)
         {
+            Receiver.HeatIsStarted = true;
             if (Receiver.HeatIsStarted)
             {
                 Iterate();

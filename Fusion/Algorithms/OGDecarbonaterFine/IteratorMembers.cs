@@ -22,5 +22,6 @@ namespace OGDecarbonaterFine
         public static List<InputData> InputDataBuffer;
         public static XimTable HimMaterials;
         public static string ArchFileName;
+        public static SupportMaterials MaterialsZeroLevel;
     }
 }
