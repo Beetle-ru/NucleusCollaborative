@@ -22,9 +22,9 @@ namespace OGDecarbonaterFine
             if (Receiver.HeatIsStarted)
             {
                 Iterate();
-                Console.Write("*");
+                //Console.Write("*");
             }
-            else Console.Write(".");
+            //else Console.Write(".");
         }
     }
 }

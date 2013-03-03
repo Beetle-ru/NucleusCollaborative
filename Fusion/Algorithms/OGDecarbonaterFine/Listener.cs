@@ -216,7 +216,7 @@ namespace OGDecarbonaterFine
                         //    Iterator.CurrentState.Materials.SetTotalWeight(name, wghZlevel - wgh, false); // временно для отладки
                         //}
 
-                        Iterator.CurrentState.Materials.SetTotalWeight(EncodeMatName(name), wgh, false);
+                        Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh, false);
                         //Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
                     }
                 }
