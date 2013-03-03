@@ -22,6 +22,7 @@ namespace OGDecarbonaterFine
         public RollingAverage OffGasDecompression;
 
         public bool HeatIsStarted;
+        public int LanceHeight;
 
         #region GET REGION
 
@@ -96,6 +97,14 @@ namespace OGDecarbonaterFine
             m_Ar = Double.IsNaN(res) ? m_Ar : res;
             return m_Ar;
         }
+
+        private int m_LanceHeight;
+        public int GetLanceHeight()
+        {
+            var res = LanceHeight;
+            m_LanceHeight = Int32.MinValue == res ? m_LanceHeight : res;
+            return m_LanceHeight;
+        }
         #endregion
 
         public HeatDataReceiver( int smoothPeriod, int lengthBuff = 50)
@@ -113,6 +122,7 @@ namespace OGDecarbonaterFine
             OffGasDecompression = new RollingAverage(lengthBuff);
 
             HeatIsStarted = false;
+            LanceHeight = 0;
         }
     }
 }

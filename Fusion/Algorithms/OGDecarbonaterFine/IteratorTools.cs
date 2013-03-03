@@ -54,6 +54,7 @@ namespace OGDecarbonaterFine
             data.OffGasDecompression = Receiver.GetOffGasDecompression();
             data.OffGasT = Receiver.GetOffGasT();
             data.OffGasV = Receiver.GetOffGasV();
+            data.LanceHeight = Receiver.GetLanceHeight();
 
             InputDataBuffer.Add(data);
         }
@@ -74,6 +75,7 @@ namespace OGDecarbonaterFine
                 CurrentState.OffGasV = InputDataBuffer[delayedSecond].OffGasV;
                 CurrentState.OffGasT = InputDataBuffer[delayedSecond].OffGasT;
                 CurrentState.OffGasDecompression = InputDataBuffer[delayedSecond].OffGasDecompression;
+                CurrentState.LanceHeight = InputDataBuffer[delayedSecond].LanceHeight;
             }
         }
 

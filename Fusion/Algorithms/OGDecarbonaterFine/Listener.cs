@@ -76,7 +76,7 @@ namespace OGDecarbonaterFine
                 if (evt is LanceEvent)
                 {
                     var le = evt as LanceEvent;
-
+                    Iterator.Receiver.LanceHeight = le.LanceHeight;
                 }
                 if (evt is BlowingEvent)
                 {
@@ -175,15 +175,15 @@ namespace OGDecarbonaterFine
                     WeightMaterials.Add(vate.RB12TotalWeight);
 
 
-                    BoundMaterials = new List<string>(); // на время отладки на эмуляторе
-                    BoundMaterials.Add("ДОЛОМС");
-                    BoundMaterials.Add("ALKонц");
-                    BoundMaterials.Add("KOKS  ");
-                    BoundMaterials.Add("ИЗВЕСТ");
-                    BoundMaterials.Add("ИЗВЕСТ");
-                    BoundMaterials.Add("ДОЛМИТ");
-                    BoundMaterials.Add("ДОЛОМС");
-                    BoundMaterials.Add("ФОМ   ");
+                    //BoundMaterials = new List<string>(); // на время отладки на эмуляторе
+                    //BoundMaterials.Add("ДОЛОМС");
+                    //BoundMaterials.Add("ALKонц");
+                    //BoundMaterials.Add("KOKS  ");
+                    //BoundMaterials.Add("ИЗВЕСТ");
+                    //BoundMaterials.Add("ИЗВЕСТ");
+                    //BoundMaterials.Add("ДОЛМИТ");
+                    //BoundMaterials.Add("ДОЛОМС");
+                    //BoundMaterials.Add("ФОМ   ");
 
 
                     var bunkerCnt = BoundMaterials.Count;
@@ -216,8 +216,8 @@ namespace OGDecarbonaterFine
                         //    Iterator.CurrentState.Materials.SetTotalWeight(name, wghZlevel - wgh, false); // временно для отладки
                         //}
 
-                        //Iterator.CurrentState.Materials.SetTotalWeight(EncodeMatName(name), wgh, false);
-                        Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
+                        Iterator.CurrentState.Materials.SetTotalWeight(EncodeMatName(name), wgh, false);
+                        //Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
                     }
                 }
 

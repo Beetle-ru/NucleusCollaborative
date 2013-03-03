@@ -207,6 +207,7 @@ namespace OGDecarbonaterFine
             const char sep = ';';
             var str = "";
             str += String.Format("{0}", DateTime.Now);
+            str += String.Format("{0}{1}", sep, LanceHeight);
             str += String.Format("{0}{1}", sep, Ar);
             str += String.Format("{0}{1}", sep, CO);
             str += String.Format("{0}{1}", sep, CO2);
@@ -259,6 +260,7 @@ namespace OGDecarbonaterFine
             const char sep = ';';
             var str = "";
             str += String.Format("{0}", DateTime.Now);
+            str += String.Format("{0}{1}", sep, "LanceHeight");
             str += String.Format("{0}{1}", sep, "Ar");
             str += String.Format("{0}{1}", sep, "CO");
             str += String.Format("{0}{1}", sep, "CO2");
