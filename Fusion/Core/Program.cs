@@ -19,7 +19,7 @@ namespace Core
         
         static void Main(string[] args)
         {
-            InstantLogger.writeLogConsole = false;
+            InstantLogger.writeLogConsole = true;
             try
             {
                 

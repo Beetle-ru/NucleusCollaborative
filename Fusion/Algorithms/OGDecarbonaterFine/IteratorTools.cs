@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using Converter;
 using Implements;
 
 namespace OGDecarbonaterFine
@@ -12,10 +14,13 @@ namespace OGDecarbonaterFine
 
         public static void Init()
         {
+            Directory.CreateDirectory(ArchDir);
             Reset();
 
             HimMaterials = new XimTable();
             HimMaterials.LoadFromCSV(CSVHimFilePath);
+
+            Program.MainGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
 
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
@@ -26,7 +31,15 @@ namespace OGDecarbonaterFine
             Receiver = new HeatDataReceiver(PeriodSec);
             CurrentState = new RecalculateData();
             InputDataBuffer = new List<InputData>();
+            MaterialsZeroLevel = new SupportMaterials();
+            ArchFileName = String.Format("{0}\\{1}", ArchDir, ArchNameGenerate(""));
             Console.WriteLine("Reset");
+        }
+
+        public static void ArchFileGen()
+        {
+            ArchFileName = String.Format("{0}\\{1}", ArchDir, ArchNameGenerate(CurrentState.HeatNumber.ToString()));
+            WriteFile(CurrentState.GetHeaderLine(), ArchFileName);
         }
 
         public static void PutInputDataIntoTheBuffer()
@@ -41,6 +54,7 @@ namespace OGDecarbonaterFine
             data.OffGasDecompression = Receiver.GetOffGasDecompression();
             data.OffGasT = Receiver.GetOffGasT();
             data.OffGasV = Receiver.GetOffGasV();
+            data.LanceHeight = Receiver.GetLanceHeight();
 
             InputDataBuffer.Add(data);
         }
@@ -61,6 +75,7 @@ namespace OGDecarbonaterFine
                 CurrentState.OffGasV = InputDataBuffer[delayedSecond].OffGasV;
                 CurrentState.OffGasT = InputDataBuffer[delayedSecond].OffGasT;
                 CurrentState.OffGasDecompression = InputDataBuffer[delayedSecond].OffGasDecompression;
+                CurrentState.LanceHeight = InputDataBuffer[delayedSecond].LanceHeight;
             }
         }
 
@@ -80,6 +95,37 @@ namespace OGDecarbonaterFine
             fex.Fire(Program.MainGate);
         }
 
+        static public void WriteFile(string msg, string outFileName)
+        {
+            try
+            {
+                StreamWriter oStreamWriterutFile;
+                if (File.Exists(outFileName))
+                {
+                    oStreamWriterutFile = File.AppendText(outFileName);
+                }
+                else
+                {
+                    oStreamWriterutFile = File.CreateText(outFileName);
+                }
+
+                oStreamWriterutFile.WriteLine(msg);
+                oStreamWriterutFile.Close();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
+        public static string ArchNameGenerate(string subname)
+        {
+            string timeLine = DateTime.Now.ToString();
+            timeLine = timeLine.Replace(':', '_');
+            timeLine = timeLine.Replace('.', '_');
+            timeLine = timeLine + "_" + subname + ".csv";
+            return timeLine;
+        }
 
     }
 }

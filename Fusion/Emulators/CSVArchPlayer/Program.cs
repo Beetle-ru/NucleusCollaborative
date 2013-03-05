@@ -27,6 +27,7 @@ namespace CSVArchPlayer
         private static VPathData m_vPathDataLast;
         private static Int64 m_heatNumber;
         private static bool m_sublanceCIsPushed;
+        private static int m_decompressionOffGas;
        
 
         static void Main(string[] args)
@@ -140,8 +141,18 @@ namespace CSVArchPlayer
             offGA.N2 = HDataList[m_position].N2;
             offGA.Ar = HDataList[m_position].Ar;
 
+            var fex = new FlexHelper("UDP.OffGasAnalysisEvent");
+            fex.AddArg("H2", HDataList[m_position].H2);
+            fex.AddArg("O2", HDataList[m_position].O2);
+            fex.AddArg("CO", HDataList[m_position].CO);
+            fex.AddArg("CO2", HDataList[m_position].CO2);
+            fex.AddArg("N2", HDataList[m_position].N2);
+            fex.AddArg("Ar", HDataList[m_position].Ar);
+            fex.Fire(MainGate);
+
             var offG = new OffGasEvent();
             offG.OffGasFlow = HDataList[m_position].VOffGas;
+            offG.OffGasTemp = (int)Math.Round(HDataList[m_position].TOffGas);
 
             var bE = new BlowingEvent();
             bE.O2TotalVol = (int)m_totalO2;
@@ -169,10 +180,15 @@ namespace CSVArchPlayer
                 Console.WriteLine("Carbone pushed C = {0}, heatNumber = {1}", HDataList[m_position].SublanceC, longHN);
             }
 
+            var doge = new DecompressionOffGasEvent();
+            m_decompressionOffGas = HDataList[m_position].DecompressionOffGas == Int32.MinValue ? m_decompressionOffGas : HDataList[m_position].DecompressionOffGas;
+            doge.Decompression = m_decompressionOffGas;
+
             MainGate.PushEvent(le);
             MainGate.PushEvent(offGA);
             MainGate.PushEvent(offG);
             MainGate.PushEvent(bE);
+            MainGate.PushEvent(doge);
 
             m_totalO2 += HDataList[m_position].RateO2 * 0.01666666666666666666666666666667;
 
@@ -252,7 +268,9 @@ namespace CSVArchPlayer
                     heatDataList[itemCounter].N2 = Convertion.StrToDouble(values[7]);
                     heatDataList[itemCounter].Ar = Convertion.StrToDouble(values[8]);
                     heatDataList[itemCounter].VOffGas = Convertion.StrToDouble(values[9]);
+                    heatDataList[itemCounter].TOffGas = Convertion.StrToDouble(values[10]);
                     heatDataList[itemCounter].SublanceC = Convertion.StrToDouble(values[12]);
+                    heatDataList[itemCounter].DecompressionOffGas = Convertion.StrToInt32(values[14]);
                     if (values.Count() >= 28)
                     {
                         heatDataList[itemCounter].Bunkers.RB5 = Convertion.StrToDouble(values[21]);

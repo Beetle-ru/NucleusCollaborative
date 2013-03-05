@@ -80,7 +80,8 @@ namespace OGDecarbonaterFine
             const double k1 = 0.000184;
             const double k2 = 0.012366;
             const double k3 = 0.277243;
-            CurrentState.SH2O = k1 * Math.Pow(CurrentState.OffGasT, 2) - k2 + k3;
+            CurrentState.SH2O = k1 * Math.Pow(CurrentState.OffGasT, 2) - k2 * CurrentState.OffGasT + k3;
+            //CurrentState.SH2O = k1 * CurrentState.OffGasT * CurrentState.OffGasT - k2 * CurrentState.OffGasT + k3;
         }
 
         /// <summary>
@@ -169,7 +170,7 @@ namespace OGDecarbonaterFine
             var q3 = CurrentState.Q3;
             var T = CurrentState.OffGasT;
             
-            CurrentState.Mco = (Pa*CO*k1*q3*k2)/(k3*(k4+T)) * k5;
+            CurrentState.Mco = (Pa * CO * k1 * q3 * k2) / (k3 * (k4 + T)) * k5;
             
             CurrentState.MIco += CurrentState.Mco;
         }
@@ -233,12 +234,97 @@ namespace OGDecarbonaterFine
         /// </summary>
         static void CalcMCMetall()
         {
-            CurrentState.MCMetall = CurrentState.MCHi * CurrentState.MSc;
+            CurrentState.MCMetall = CurrentState.MCHi + CurrentState.MCSc;
         }
 
         #endregion
 
         #region 3.2 Расчет углерода в сыпучих материалах
+
+        /// <summary>
+        /// Расчет массы углерода в сыпучих
+        /// </summary>
+        static void CalcMCsp()
+        {
+            const double k1 = 0.01; // 1/100
+            const double k2 = 100; // 
+            const double MMCO2 = 44; // молекулярная масса СО2
+            const double MMC = 12; // молекулярная масса С
+
+            CurrentState.MCsp = 0; // т.к. у нас данныый "нарастающим итогом" то нужно обнулять
+
+            foreach (var materialData in CurrentState.Materials.MaterialList)
+            {
+                var name = materialData.CodeName;
+                var wgh = materialData.TotalWeight;
+                var pmpp = HimMaterials.GetHimValue(name, "PMPP");
+                var c = HimMaterials.GetHimValue(name, "C");
+                var co2 = HimMaterials.GetHimValue(name, "CO2");
+
+                CurrentState.MCsp += wgh * (pmpp / (k2 * MMCO2)) * MMC + wgh * c * k1 + wgh * (co2 / (k2 * MMCO2)) * MMC;
+            }
+        }
+        #endregion
+
+        #region 4. Расчет остатка углерода в конвертере
+
+        /// <summary>
+        /// Расчет массы углерода в конвертере
+        /// </summary>
+        static void CalcDeltaMC()
+        {
+
+            CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI - CurrentState.MCsp;
+            CurrentState.DeltaMC1 = CurrentState.MCMetall - CurrentState.MI;
+            CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
+        }
+
+        /// <summary>
+        /// Расчет текущего процента железа в конвертере
+        /// </summary>
+        static void CalcCurrentMF()
+        {
+            CurrentState.CurrentMF = (CurrentState.MHi + CurrentState.MSc) - CurrentState.MCMetall;
+        }
+
+        /// <summary>
+        /// Расчет текущего процента углерода в конвертере
+        /// </summary>
+        static void CalcCurrentPC()
+        {
+            CurrentState.CurrentPC = CurrentState.CurrentMC/CurrentState.CurrentMF*100;
+        }
+        #endregion
+
+
+        #region ПЕРЕСЧЕТ ВСЕГО
+        /// <summary>
+        /// Полный пересчет
+        /// </summary>
+        static void CalcAll()
+        {
+            CalcPlue();
+            CalcPa1();
+            CalcPa2();
+            CalcK1();
+            CalcQ1();
+            CalcPa();
+            CalcSH2O();
+            CalcQ2();
+            CalcOffgasDensity();
+            CalcDensity();
+            CalcQ3();
+            CalcMIco();
+            CalcMIco2();
+            CalcMI();
+            CalcMCHi();
+            CalcMCSc();
+            CalcMCMetall();
+            CalcMCsp();
+            CalcDeltaMC();
+            CalcCurrentMF();
+            CalcCurrentPC();
+        }
         #endregion
     }
 }

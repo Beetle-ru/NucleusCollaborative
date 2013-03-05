@@ -125,25 +125,45 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double MCSc;
 
-        ///// <summary>
-        ///// Масса кокса в кг
-        ///// </summary>
-        //public double MCoke;
-
-        ///// <summary>
-        ///// Процент углерода в коксе
-        ///// </summary>
-        //public double PCCoke;
-
-        ///// <summary>
-        ///// Масса углерода в коксе  в кг
-        ///// </summary>
-        //public double MCCoke;
-
         /// <summary>
         /// Масса углерода в металлошихте
         /// </summary>
         public double MCMetall;
+
+        /// <summary>
+        /// Материалы отданные в конвертер
+        /// </summary>
+        public SupportMaterials Materials;
+
+        /// <summary>
+        /// Общаяя масса углерода в сыпучих
+        /// </summary>
+        public double MCsp;
+
+        /// <summary>
+        /// Общаяя масса углерода в конвертере
+        /// </summary>
+        public double DeltaMC;
+
+        /// <summary>
+        /// (для корректировки) ???
+        /// </summary>
+        public double DeltaMC1;
+
+        /// <summary>
+        /// Текущая масса углерода в конверторе ++
+        /// </summary>
+        public double CurrentMC;
+
+        /// <summary>
+        /// Текущая масса железа в конверторе ++
+        /// </summary>
+        public double CurrentMF;
+
+        /// <summary>
+        /// Текущий процент углерода в конверторе ++
+        /// </summary>
+        public double CurrentPC;
 
         public RecalculateData()
         {
@@ -171,11 +191,121 @@ namespace OGDecarbonaterFine
             MCHi = 0;
             MSc = 110000;
             PCSc = 0.2;
-            MCSc = 0;
-            //MCoke = 300;
-            //PCCoke = 96;
-            //MCCoke = 0;
-            MCMetall = 0;
+            MCSc = 0.0;
+            MCMetall = 0.0;
+            Materials = new SupportMaterials();
+            MCsp = 0.0;
+            DeltaMC = 0.0;
+            DeltaMC1 = 0.0;
+            CurrentMF = 0.0;
+            CurrentMC = 0.0;
+            CurrentPC = 0.0;
+        }
+
+        public string GetDataLine()
+        {
+            const char sep = ';';
+            var str = "";
+            str += String.Format("{0}", DateTime.Now);
+            str += String.Format("{0}{1}", sep, LanceHeight);
+            str += String.Format("{0}{1}", sep, Ar);
+            str += String.Format("{0}{1}", sep, CO);
+            str += String.Format("{0}{1}", sep, CO2);
+            str += String.Format("{0}{1}", sep, O2);
+            str += String.Format("{0}{1}", sep, N2);
+            str += String.Format("{0}{1}", sep, H2);
+            str += String.Format("{0}{1}", sep, OffGasTransportDelay);
+            str += String.Format("{0}{1}", sep, OffGasV);
+            str += String.Format("{0}{1}", sep, OffGasT);
+            str += String.Format("{0}{1}", sep, OffGasDecompression);
+            str += String.Format("{0}{1}", sep, PFlue);
+            str += String.Format("{0}{1}", sep, Pa1);
+            str += String.Format("{0}{1}", sep, Pa2);
+            str += String.Format("{0}{1}", sep, K1);
+            str += String.Format("{0}{1}", sep, Q1);
+            str += String.Format("{0}{1}", sep, Pa);
+            str += String.Format("{0}{1}", sep, SH2O);
+            str += String.Format("{0}{1}", sep, Q2);
+            str += String.Format("{0}{1}", sep, OffgasDensity);
+            str += String.Format("{0}{1}", sep, KDensity);
+            str += String.Format("{0}{1}", sep, Q3);
+            str += String.Format("{0}{1}", sep, Mco);
+            str += String.Format("{0}{1}", sep, MIco);
+            str += String.Format("{0}{1}", sep, Mco2);
+            str += String.Format("{0}{1}", sep, MIco2);
+            str += String.Format("{0}{1}", sep, M);
+            str += String.Format("{0}{1}", sep, MI);
+            str += String.Format("{0}{1}", sep, MHi);
+            str += String.Format("{0}{1}", sep, PCHi);
+            str += String.Format("{0}{1}", sep, MCHi);
+            str += String.Format("{0}{1}", sep, MSc);
+            str += String.Format("{0}{1}", sep, PCSc);
+            str += String.Format("{0}{1}", sep, MCSc);
+            str += String.Format("{0}{1}", sep, MCMetall);
+
+            str = Materials.MaterialList.Aggregate(str, (current, materialData) => current + String.Format("{0}{1}", sep, materialData.TotalWeight));
+
+            str += String.Format("{0}{1}", sep, MCsp);
+            str += String.Format("{0}{1}", sep, DeltaMC);
+            str += String.Format("{0}{1}", sep, DeltaMC1);
+            str += String.Format("{0}{1}", sep, CurrentMC);
+            str += String.Format("{0}{1}", sep, CurrentMF);
+            str += String.Format("{0}{1}", sep, CurrentPC);
+
+            return str;
+        }
+
+        public string GetHeaderLine()
+        {
+            const char sep = ';';
+            var str = "";
+            str += String.Format("{0}", DateTime.Now);
+            str += String.Format("{0}{1}", sep, "LanceHeight");
+            str += String.Format("{0}{1}", sep, "Ar");
+            str += String.Format("{0}{1}", sep, "CO");
+            str += String.Format("{0}{1}", sep, "CO2");
+            str += String.Format("{0}{1}", sep, "O2");
+            str += String.Format("{0}{1}", sep, "N2");
+            str += String.Format("{0}{1}", sep, "H2");
+            str += String.Format("{0}{1}", sep, "OffGasTransportDelay");
+            str += String.Format("{0}{1}", sep, "OffGasV");
+            str += String.Format("{0}{1}", sep, "OffGasT");
+            str += String.Format("{0}{1}", sep, "OffGasDecompression");
+            str += String.Format("{0}{1}", sep, "PFlue");
+            str += String.Format("{0}{1}", sep, "Pa1");
+            str += String.Format("{0}{1}", sep, "Pa2");
+            str += String.Format("{0}{1}", sep, "K1");
+            str += String.Format("{0}{1}", sep, "Q1");
+            str += String.Format("{0}{1}", sep, "Pa");
+            str += String.Format("{0}{1}", sep, "SH2O");
+            str += String.Format("{0}{1}", sep, "Q2");
+            str += String.Format("{0}{1}", sep, "OffgasDensity");
+            str += String.Format("{0}{1}", sep, "KDensity");
+            str += String.Format("{0}{1}", sep, "Q3");
+            str += String.Format("{0}{1}", sep, "Mco");
+            str += String.Format("{0}{1}", sep, "MIco");
+            str += String.Format("{0}{1}", sep, "Mco2");
+            str += String.Format("{0}{1}", sep, "MIco2");
+            str += String.Format("{0}{1}", sep, "M");
+            str += String.Format("{0}{1}", sep, "MI");
+            str += String.Format("{0}{1}", sep, "MHi");
+            str += String.Format("{0}{1}", sep, "PCHi");
+            str += String.Format("{0}{1}", sep, "MCHi");
+            str += String.Format("{0}{1}", sep, "MSc");
+            str += String.Format("{0}{1}", sep, "PCSc");
+            str += String.Format("{0}{1}", sep, "MCSc");
+            str += String.Format("{0}{1}", sep, "MCMetall");
+
+            str = Materials.MaterialList.Aggregate(str, (current, materialData) => current + String.Format("{0}{1}", sep, materialData.CodeName));
+
+            str += String.Format("{0}{1}", sep, "MCsp");
+            str += String.Format("{0}{1}", sep, "DeltaMC");
+            str += String.Format("{0}{1}", sep, "DeltaMC1");
+            str += String.Format("{0}{1}", sep, "CurrentMC");
+            str += String.Format("{0}{1}", sep, "CurrentMF");
+            str += String.Format("{0}{1}", sep, "CurrentPC");
+
+            return str;
         }
     }
 }
