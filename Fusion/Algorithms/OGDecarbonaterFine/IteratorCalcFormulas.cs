@@ -275,7 +275,7 @@ namespace OGDecarbonaterFine
         {
 
             CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI - CurrentState.MCsp;
-            CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI;
+            CurrentState.DeltaMC1 = CurrentState.MCMetall - CurrentState.MI;
             CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
         }
 
