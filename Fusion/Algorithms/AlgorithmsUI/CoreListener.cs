@@ -72,6 +72,10 @@ namespace AlgorithmsUI
                             mixerTimer.Interval = 1000;
                         }
                     }
+                    else if (fex.evt.Operation.StartsWith("Model.Shixta-I"))
+                    {
+                        l.msg("{0}", fex.evt);
+                    }
                 }
                 else if (evt is HeatChangeEvent)
                 {
@@ -84,11 +88,14 @@ namespace AlgorithmsUI
                     Program.face.Invoke(new MethodInvoker(delegate()
                     {
                         Program.face.txbHeatNum.Text = Convert.ToString(HeatNumber);
-                        Program.face.txbSteelTemp.Text = "1665";
+                        Program.face.txbSteelTemp.Text = "1650";
                         Program.face.txbCarbonPercent.Text = "0,03";
-                        Program.face.txbMgO.Text = "27";
-                        Program.face.txbFeO.Text = "10";
+                        Program.face.txbMgO.Text = "10";
+                        Program.face.txbFeO.Text = "27";
                         Program.face.txbBasiticy.Text = "2,7";
+                        Program.face.txbIronTask.Text = "300";
+                        Program.face.txbIronTemp.Text = "1380";
+
                     }));
                 }
             }

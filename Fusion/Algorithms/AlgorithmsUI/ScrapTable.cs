@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AlgorithmsUI.ScrapDataSetTableAdapters;
+using Oracle.DataAccess.Client;
 
 namespace AlgorithmsUI
 {
@@ -55,9 +56,18 @@ namespace AlgorithmsUI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(string.Format("Sum {0}", countScrapShares()));
+            //MessageBox.Show(string.Format("Sum {0}", countScrapShares()));
+#if DB_IS_ORACLE
+            Program.OraCmd.CommandText = "SELECT "
+            + "ELEMENT.NAME, ELEMENT.\"VALUE\" "
+            + "FROM ELEMENT, SCRAP "
+            + "WHERE ELEMENT.SID = SCRAP.ID AND (SCRAP.CODE = :C)";
+            Program.OraCmd.Parameters.Clear();
+            Program.OraCmd.Parameters.Add(new OracleParameter("C", OracleDbType.Int16, System.Data.ParameterDirection.Input));
+#else
             ScrapDataSetTableAdapters.ScrapMixerTableAdapter ada = new ScrapMixerTableAdapter();
             ScrapDataSet.ScrapMixerDataTable tbl = new ScrapDataSet.ScrapMixerDataTable();
+#endif
             WordPool<double> wpProps = new WordPool<double>(0.0);
             WordPool<double> wpTotal = new WordPool<double>(0.0);
             for (int i = 0; i < gridScrap.RowCount; i++)
@@ -65,8 +75,27 @@ namespace AlgorithmsUI
                 if (gridScrap.Rows[i].Cells[1].Value == null) break;
                 short code = Convert.ToInt16(gridScrap.Rows[i].Cells[1].Value);
                 short shares = Convert.ToInt16(gridScrap.Rows[i].Cells[0].Value);
+#if DB_IS_ORACLE
+                Program.OraCmd.Parameters["C"].Value = code;
+                if (Program.OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+                {
+                    Program.OraCmd.Connection.Close();
+                }
+                Program.OraCmd.Connection.Open();
+                Program.OraReader = Program.OraCmd.ExecuteReader();
+                if (Program.OraReader.HasRows)
+                {
+                    while (Program.OraReader.Read())
+                    {
+                        string key = Convert.ToString(Program.OraReader[0]);
+                        double val = Convert.ToDouble(Program.OraReader[1]);
+                        wpTotal.SetWord(key, wpTotal.GetWord(key) + shares * val);
+                    }
+                }
+#else
                 try
                 {
+                    ada.Connection.ConnectionString = "Data Source=Chemistry.sdf";
                     ada.FillByCode(tbl, code);
                 }
                 catch (Exception) { }
@@ -76,6 +105,7 @@ namespace AlgorithmsUI
                     string key = tbl[j].Name;
                     wpTotal.SetWord(key, wpTotal.GetWord(key) + shares * tbl[j].Value);
                 }
+#endif
             }
             double scaleFactor = 1.0 / countScrapShares();
             for (int k = 0; k < wpTotal.Count; k++)
@@ -86,6 +116,7 @@ namespace AlgorithmsUI
             {
                 wpProps.SetWord((string)Program.face.ch_Scrap.gridChem.Rows[i].Cells[0].Value, (double)Program.face.ch_Scrap.gridChem.Rows[i].Cells[1].Value);
             }
+            Program.face.ch_Scrap.m_inFP.Clear();
             Program.face.ch_Scrap.gridChem.Rows.Clear();
             Program.face.ch_Scrap.gridChem.RowCount = wpTotal.Count;
             for (var rowCnt = 0;
@@ -96,7 +127,8 @@ namespace AlgorithmsUI
                     = wpTotal.ElementAt(rowCnt).Key;
                 Program.face.ch_Scrap.gridChem.Rows[rowCnt].Cells[1].Value
                     = wpTotal.ElementAt(rowCnt).Value;
-
+                Program.face.ch_Scrap.m_inFP.SetWord(wpTotal.ElementAt(rowCnt).Key,
+                    wpTotal.ElementAt(rowCnt).Value);
             }
             Program.face.ch_Scrap.m_propsStart =
                 Program.face.ch_Scrap.gridChem.RowCount;
@@ -109,10 +141,13 @@ namespace AlgorithmsUI
                         = wpProps.ElementAt(rowCnt - Program.face.ch_Scrap.m_propsStart).Key;
                     Program.face.ch_Scrap.gridChem.Rows[rowCnt].Cells[1].Value
                         = wpProps.ElementAt(rowCnt - Program.face.ch_Scrap.m_propsStart).Value;
+                    Program.face.ch_Scrap.m_inFP.SetWord(wpProps.ElementAt(rowCnt - Program.face.ch_Scrap.m_propsStart).Key,
+                        wpProps.ElementAt(rowCnt - Program.face.ch_Scrap.m_propsStart).Value);
 
                 }
             }
             Program.face.ch_Scrap.m_readOnLoad = false;
+            Close();
         }
 
         private void gridScrap_CellContentClick(object sender, DataGridViewCellEventArgs e)

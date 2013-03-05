@@ -117,25 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="select.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="mixer.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="hmC.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="hmSi.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="hmMn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="hmP.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="hmS.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAIAICAQAAAABADoAgAAJgAAABAQEAAAAAQAKAEAAA4DAAAoAAAAIAAAAEAAAAABAAQAAAAAAAAC
+        AAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAMDAwACAgIAAAAD/AAD/
+        AAAA//8A/wAAAP8A/wD//wAA////AERP///////////////////0RE///////////////////0TET///
+        ///////////////0TMRP/////////////////0TsxE//////////////v/+0TOzET/+//7//v/+/////
+        /0TO7MRP//////////+//7/0TO7sxE//v/+//7//u/u7+0TO7uzES7v7u/u7+7u7u7u0TO7u7MRLu7u7
+        u7u7+7v7u0TO7u7sxEu7+7v7u7u7u7u0TO7u7uzES0u7u7u7u7u7u0TO7u7uzku7u7ubu5u7m7u0zO7u
+        7MS7u5u7u7u7u7u7TM7u7sxLu7u7u5u7m7ubtMzu7uzEu5u7m7uZuZm5mUzO7u7MSbmZuZm5mZmZmZTM
+        7u7sxJmZmZmZmZm5mblMzu7uzEmZuZm5mbmZmZSU7O7u7uxEmZmZmZmZmZmZlEzO7u7uxEmZmZmZmRmZ
+        GZkUTM7u7uxEmRmZGZmZmZmZmZRMzu7uxEmZmZmZGZkZmRmZFEzO7uxEGZkZmRGREZERkRGUTM7uxEGR
+        EZERERERERERERRMzuxEEREREZERkRGREZERlEzOxEERkREREREREREREREUTM5EERERERERERERERER
+        ERRMxEERERERERERERERERERFExEEREREREREREREREREREUREERERERERERERERERERERREAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAoAAAAEAAAACAAAAABAAQAAAAAAIAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAAAAgAAAgAAAAICAAIAA
+        AACAAIAAgIAAAMDAwACAgIAAAAD/AAD/AAAA//8A/wAAAP8A/wD//wAA////AM7M////////zOzM////
+        ///8zuzM//////vM7uzM+/v7+/zO7uzM+/u7u8zu7uzLu7u7vM7u7Mu7ubm8zu7Mubm5uczu7Mm5uZmc
+        zu7syZmZmZzO7u7MmZmRkczO7uzBkZGRkczO7syREREREczO7MEREREREczOzBEREREREczsAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+</value>
+  </data>
 </root>

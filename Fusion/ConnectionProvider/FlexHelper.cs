@@ -30,6 +30,8 @@ namespace ConnectionProvider
             evt = new FlexEvent(evt_.Operation);
             evt.Flags = evt_.Flags & (~FlexEventFlag.FlexEventCreated);
             evt.Arguments = evt_.Arguments;
+            evt.Id = evt_.Id;
+            evt.Time = evt_.Time;
         }
         public void Fire(Client CoreGate)
         {
