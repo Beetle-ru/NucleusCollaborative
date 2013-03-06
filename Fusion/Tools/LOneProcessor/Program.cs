@@ -19,6 +19,7 @@ namespace LOneProcessor
 
             EventLoop.Init();
 
+            Keeper.MainGate = MainGate;
             EventLoop.HandlerList.Add(Keeper.Handler);
 
             EventLoop.RunLoop();

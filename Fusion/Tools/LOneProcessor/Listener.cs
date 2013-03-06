@@ -9,6 +9,7 @@ using Converter;
 using CommonTypes;
 using ConnectionProvider.MainGate;
 using Implements;
+using LOneProcessor.SubSystems;
 
 namespace LOneProcessor
 {
@@ -24,7 +25,11 @@ namespace LOneProcessor
         {
             using (var l = new Logger("Listener"))
             {
-
+                if (evt is BlowingEvent)
+                {
+                    var be = evt as BlowingEvent;
+                    Keeper.SetBlowingStatus(be.BlowingFlag == 1);
+                }
             }
         }
     }
