@@ -280,7 +280,7 @@ namespace OGDecarbonaterFine
         }
 
         /// <summary>
-        /// Расчет текущего процента железа в конвертере
+        /// Расчет текущей массы железа в конвертере
         /// </summary>
         static void CalcCurrentMF()
         {
