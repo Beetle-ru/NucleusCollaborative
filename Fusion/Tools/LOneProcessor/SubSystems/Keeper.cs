@@ -13,7 +13,17 @@ namespace LOneProcessor.SubSystems
     {
         public static void Handler()
         {
+            Console.WriteLine("Keeper");
+        }
+
+        public static void SetGasAnalysis(double co, double co2)
+        {
             
+        }
+        
+        public static void SetBlowingStatus()
+        {
+
         }
     }
 }

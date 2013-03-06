@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ConnectionProvider;
 using Converter;
+using LOneProcessor.SubSystems;
 
 namespace LOneProcessor
 {
@@ -17,6 +18,8 @@ namespace LOneProcessor
             MainGate.Subscribe();
 
             EventLoop.Init();
+
+            EventLoop.HandlerList.Add(Keeper.Handler);
 
             EventLoop.RunLoop();
 
