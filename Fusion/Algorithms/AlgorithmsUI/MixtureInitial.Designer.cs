@@ -26,6 +26,8 @@
         public System.Windows.Forms.TextBox txbMgO;
         public System.Windows.Forms.TextBox txbFeO;
         public System.Windows.Forms.TextBox txbBasiticy;
+        public System.Windows.Forms.TextBox txbIronTask;
+        public System.Windows.Forms.TextBox txbIronTemp;
 
         #region Windows Form Designer generated code
 
@@ -306,9 +308,9 @@
             this.lblDolom.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblDolom.Location = new System.Drawing.Point(4, 175);
             this.lblDolom.Name = "lblDolom";
-            this.lblDolom.Size = new System.Drawing.Size(112, 20);
+            this.lblDolom.Size = new System.Drawing.Size(153, 20);
             this.lblDolom.TabIndex = 44;
-            this.lblDolom.Text = "Доломит, кг";
+            this.lblDolom.Text = "Доломит суш., кг";
             // 
             // lblVapno
             // 
@@ -986,9 +988,9 @@
             this.lblDolomite.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblDolomite.Location = new System.Drawing.Point(4, 175);
             this.lblDolomite.Name = "lblDolomite";
-            this.lblDolomite.Size = new System.Drawing.Size(112, 20);
+            this.lblDolomite.Size = new System.Drawing.Size(153, 20);
             this.lblDolomite.TabIndex = 7;
-            this.lblDolomite.Text = "Доломит, кг";
+            this.lblDolomite.Text = "Доломит суш., кг";
             // 
             // lblCokeOut
             // 
@@ -1500,12 +1502,10 @@
         private System.Windows.Forms.Button btnCaCO3Chem;
         private System.Windows.Forms.TextBox txbLimeIn;
         private System.Windows.Forms.TextBox txbDolomIn;
-        private System.Windows.Forms.TextBox txbIronTask;
         private System.Windows.Forms.Panel panScrapTemp;
         private System.Windows.Forms.Label lblScrapTemp;
         private System.Windows.Forms.TextBox txbScrapTemp;
         private System.Windows.Forms.Label lblIronTemp;
-        private System.Windows.Forms.TextBox txbIronTemp;
         private System.Windows.Forms.CheckBox calcDolmax;
         private System.Windows.Forms.CheckBox calcFom;
         private System.Windows.Forms.CheckBox calcVapenec;

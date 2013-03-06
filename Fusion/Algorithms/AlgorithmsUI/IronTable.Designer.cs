@@ -57,6 +57,7 @@
             this.dgw.Name = "dgw";
             this.dgw.Size = new System.Drawing.Size(839, 324);
             this.dgw.TabIndex = 0;
+            this.dgw.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgw_CellContentClick);
             // 
             // select
             // 

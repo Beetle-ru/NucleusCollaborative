@@ -49,39 +49,39 @@ namespace HeatCharge
 
             AddDef(0, "C", 12);
             fp[0].O2Stoichio = 11.2;
-            fp[0].E_ox1 = 2.84936;
-            fp[0].E_ox2 = 6.27997;
+            fp[0].E_ox1 = 2.9;
+            fp[0].E_ox2 = 6.6;
             fp[0].Eta_ox1 = 0.99;
             fp[0].Eta_ox2 = 0.45;
             fp[0].isO2balanced = true;
 
             AddDef(1, "Si", 28);
             fp[1].O2Stoichio = 22.4;
-            fp[1].E_ox1 = 8.69342;
+            fp[1].E_ox1 = 4.8;
             fp[1].isO2balanced = true;
 
             AddDef(2, "Mn", 55);
             fp[2].O2Stoichio = 11.2;
-            fp[2].E_ox1 = 1.94919;
+            fp[2].E_ox1 = 2;
             fp[2].isO2balanced = true;
 
             AddDef(3, "P", 31);
             fp[3].O2Stoichio = 28;
-            fp[3].E_ox1 = 2;
+            fp[3].E_ox1 = 6.9;
             fp[3].isO2balanced = true;
 
             AddDef(4, "S", 32);
 
             AddDef(5, "Al", 27);
             fp[5].O2Stoichio = 33.6;
-            fp[5].E_ox1 = 8.63411;
+            fp[5].E_ox1 = 8.6;
             fp[5].isO2balanced = true;
 
             AddDef(6, "Cu", 63.5);
 
             AddDef(7, "Cr", 52);
             fp[7].O2Stoichio = 33.6;
-            fp[7].E_ox1 = 3.04822;
+            fp[7].E_ox1 = 3;
             fp[7].isO2balanced = true;
 
             AddDef(8, "Mo", 96);
@@ -94,7 +94,7 @@ namespace HeatCharge
 
             AddDef(11, "Ti", 47.9);
             fp[11].O2Stoichio = 22.4;
-            fp[11].E_ox1 = 5.48122;
+            fp[11].E_ox1 = 5.5;
             fp[11].isO2balanced = true;
 
             AddDef(12, "Nb", 93);
@@ -147,7 +147,7 @@ namespace HeatCharge
 
             AddDef(32, "Fe", 55.8);
             fp[32].O2Stoichio = 11.2;
-            fp[32].E_ox1 = 2.7; //4.61594;
+            fp[32].E_ox1 = 1.4; //2.7; //4.61594;
             fp[32].isO2balanced = true;
 
             for (var i = 33; i <= 40; i++) AddDef(i, "?" + i);
@@ -158,7 +158,9 @@ namespace HeatCharge
 
             AddDef(43, "Cai", 27);
 
-            for (var i = 44; i <= 49; i++) AddDef(i, "?" + i);
+            AddDef(44, "CO2", 44);
+
+            for (var i = 45; i <= 49; i++) AddDef(i, "?" + i);
 
             AddDef(50, "CaO", 56);
 

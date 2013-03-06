@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ConnectionProvider;
 using HeatCharge;
 using Implements;
 
@@ -13,6 +14,8 @@ namespace AlgorithmsUI
 {
     public partial class MixtureInitial : Form
     {
+        public FlexHelper fexIn = new FlexHelper("Model.Shixta-I.Input");
+        public FlexHelper fexOut = new FlexHelper("Model.Shixta-I.Result");
         private void LogStr(String str)
         {
             rtbReport.Text += String.Format("{0}\n", str);
@@ -23,7 +26,7 @@ namespace AlgorithmsUI
         {
             rtbReport.Clear();
         }
-        public ChemTable ch_Iron, ch_Scrap, ch_CaCO3, ch_Fom, ch_LimeStone, ch_Lime, ch_Coke, ch_Dust;
+        public ChemTable ch_Iron, ch_Scrap, ch_Doloms, ch_Fom, ch_Dolmax, ch_Lime, ch_Coke, ch_Dust;
         private ScrapTable scrapTable;
         public IronTable ironTable;
         private void GetValueByKey(string Key, TextBox Box)
@@ -58,9 +61,9 @@ namespace AlgorithmsUI
             GetValueByKey("SteelTemp", txbSteelTemp);
             GetValueByKey("Basiticy", txbBasiticy);
             GetValueByKey("LimeTask", txbLimeIn);
-            GetValueByKey("DolmaxTask", txbDolomIn);
+            GetValueByKey("DolomSTask", txbLimeStoneIn);
             GetValueByKey("FomTask", txbFomIn);
-            GetValueByKey("LimeStoneTask", txbLimeStoneIn);
+            GetValueByKey("DolmaxTask", txbDolomIn);
             GetValueByKey("CokeTask", txbCokeIn);
             GetValueByKey("PercentMgO", txbMgO);
             GetValueByKey("PercentFeO", txbFeO);
@@ -70,12 +73,23 @@ namespace AlgorithmsUI
             ch_Scrap.LoadCSVData();
             ch_Lime = new ChemTable("Химия извести", "LIME");
             ch_Lime.LoadCSVData();
-            ch_LimeStone = new ChemTable("Химия доломита сушеного (ДОЛОМС)", "DOLOMS");
-            ch_LimeStone.LoadCSVData();
+            ch_Dolmax = new ChemTable("Химия доломита сушеного (ДОЛОМС)", "DOLOMS");
+            ch_Dolmax.LoadCSVData();
             ch_Fom = new ChemTable("Химия ФОМа", "FOM");
             ch_Fom.LoadCSVData();
-            ch_CaCO3 = new ChemTable("Химия магнезита (МАХГ)", "MAXG");
-            ch_CaCO3.LoadCSVData();
+            if (Program.slagFormerIsMaxG)
+            {
+                lblLimeStoneIn.Text = "Магнезит";
+                lblLimeStoneOut.Text = "Магнезит";
+                ch_Doloms = new ChemTable("Химия магнезита (МАХГ)", "MAXG");
+            }
+            else
+            {
+                lblLimeStoneIn.Text = "Доломит";
+                lblLimeStoneOut.Text = "Доломит";
+                ch_Doloms = new ChemTable("Химия доломита (ДОЛМИТ)", "DOLMIT");
+            }
+            ch_Doloms.LoadCSVData();
             ch_Coke = new ChemTable("Химия кокса", "COKE");
             ch_Coke.LoadCSVData();
             ch_Dust = new ChemTable("Химия отходящих пылей", "OFFDUST");
@@ -123,13 +137,13 @@ namespace AlgorithmsUI
             result &= CheckItem(txbBasiticy, new dMargin(1, 4), out Mixture1.basiticy, "Basiticy");
             if (txbLimeIn.Visible)
             {
-                result &= CheckItem(txbLimeIn, new dMargin(0, 20000), out Mixture1.m_lime, "LimeTask");
-                Mixture1.m_lime *= 0.001;
+                result &= CheckItem(txbLimeIn, new dMargin(0, 20000), out Mixture1.m_Lime, "LimeTask");
+                Mixture1.m_Lime *= 0.001;
             }
             if (txbDolomIn.Visible)
             {
-                result &= CheckItem(txbDolomIn, new dMargin(0, 20000), out Mixture1.m_dolomite, "DolmaxTask");
-                Mixture1.m_dolomite *= 0.001;
+                result &= CheckItem(txbDolomIn, new dMargin(0, 20000), out Mixture1.m_DolomS, "DolmaxTask");
+                Mixture1.m_DolomS *= 0.001;
             }
             if (txbFomIn.Visible)
             {
@@ -138,8 +152,8 @@ namespace AlgorithmsUI
             }
             if (txbLimeStoneIn.Visible)
             {
-                result &= CheckItem(txbLimeStoneIn, new dMargin(0, 20000), out Mixture1.m_CaCO3, "LimeStoneTask");
-                Mixture1.m_CaCO3 *= 0.001;
+                result &= CheckItem(txbLimeStoneIn, new dMargin(0, 20000), out Mixture1.m_DolMax, "DolomSTask");
+                Mixture1.m_DolMax *= 0.001;
             }
             Mixture1.calcPattern = 0;
             if (calcSelectedCount < 2)
@@ -199,9 +213,9 @@ namespace AlgorithmsUI
             LogStr(string.Format("m_Scrap = {0}", Mixture1.m_Scrap));
             LogStr(string.Format("m_Steel = {0}", Mixture1.m_Steel));
             LogStr(string.Format("m_Fom = {0}", Mixture1.m_Fom));
-            LogStr(string.Format("m_CaCO3 = {0}", Mixture1.m_CaCO3));
-            LogStr(string.Format("m_dolomite = {0}", Mixture1.m_dolomite));
-            LogStr(string.Format("m_lime = {0}", Mixture1.m_lime));
+            LogStr(string.Format("m_DolMax = {0}", Mixture1.m_DolMax));
+            LogStr(string.Format("m_DolomS = {0}", Mixture1.m_DolomS));
+            LogStr(string.Format("m_Lime = {0}", Mixture1.m_Lime));
             LogStr(string.Format("m_slag = {0}", Mixture1.m_slag));
         }
         private void ClearOutputs()
@@ -236,12 +250,46 @@ namespace AlgorithmsUI
             if (isInputCorrect())
             {
                 btnCalculate.Enabled = false;
+                fexIn.ClearArgs();
+                fexIn.AddDbl("IronTask", txbIronTask.Text);
+                fexIn.AddDbl("IronTemp", txbIronTemp.Text);
+                fexIn.AddDbl("ScrapTemp", txbScrapTemp.Text);
+                fexIn.AddDbl("SteelTemp", txbSteelTemp.Text);
+                fexIn.AddDbl("Basiticy", txbBasiticy.Text);
+                if ((Mixture1.calcPattern & 0x1000) == 0x0000)
+                {
+                    fexIn.AddDbl("LimeTask", txbLimeIn.Text);
+                }
+                if ((Mixture1.calcPattern & 0x0100) == 0x0000)
+                {
+                    fexIn.AddDbl("DolomSTask", txbDolomIn.Text);
+                }
+                if ((Mixture1.calcPattern & 0x0010) == 0x0000)
+                {
+                    fexIn.AddDbl("FomTask", txbFomIn.Text);
+                }
+                if ((Mixture1.calcPattern & 0x0001) == 0x0000)
+                {
+                    if (Program.slagFormerIsMaxG)
+                    {
+                        fexIn.AddDbl("MaxGTask", txbLimeStoneIn.Text);
+                    }
+                    else
+                    {
+                        fexIn.AddDbl("DolmitTask", txbLimeStoneIn.Text);
+                    }
+                }
+                fexIn.AddDbl("CokeTask", txbCokeIn.Text);
+                fexIn.AddDbl("PercentMgO", txbMgO.Text);
+                fexIn.AddDbl("PercentFeO", txbFeO.Text); 
+                fexIn.Fire(Program.MainGate);
+
                 LogStr("Рассчет запущен " + DateTime.Now);
                 initChemistry(Mixture1.s_Iron, ch_Iron);
                 initChemistry(Mixture1.s_Scrap, ch_Scrap);
                 initChemistry(Mixture1.s_Fom, ch_Fom);
-                initChemistry(Mixture1.s_CaCO3, ch_CaCO3);
-                initChemistry(Mixture1.s_LimeStone, ch_LimeStone);
+                initChemistry(Mixture1.s_DolMax, ch_Doloms);
+                initChemistry(Mixture1.s_DolomS, ch_Dolmax);
                 initChemistry(Mixture1.s_Lime, ch_Lime);
                 initChemistry(Mixture1.s_Dust, ch_Dust);
                 initChemistry(Mixture1.s_Coke, ch_Coke);
@@ -270,11 +318,11 @@ namespace AlgorithmsUI
                 txbSteelOut.Text = Math.Round(Mixture1.m_Steel, 3).ToString();
                 Checker.isDoubleCorrect(txbSteelOut.Text, out color, new dMargin(Mixture1.m_Iron));
                 txbSteelOut.BackColor = color;
-                Double m_lime_t = Math.Round(Mixture1.m_lime * 1000, 0);
+                Double m_lime_t = Math.Round(Mixture1.m_Lime * 1000, 0);
                 txbLimeOut.Text = m_lime_t.ToString();
                 Checker.isDoubleCorrect(txbLimeOut.Text, out color, new dMargin(0, 20000));
                 txbLimeOut.BackColor = color;
-                Double m_dolomit_t = Math.Round(Mixture1.m_dolomite * 1000, 0);
+                Double m_dolomit_t = Math.Round(Mixture1.m_DolomS * 1000, 0);
                 txbDolomitOut.Text = m_dolomit_t.ToString();
                 Checker.isDoubleCorrect(txbDolomitOut.Text, out color, new dMargin(0, 20000));
                 txbDolomitOut.BackColor = color;
@@ -282,7 +330,7 @@ namespace AlgorithmsUI
                 txbFomOut.Text = m_Fom_t.ToString();
                 Checker.isDoubleCorrect(txbFomOut.Text, out color, new dMargin(0, 10000));
                 txbFomOut.BackColor = color;
-                Double m_limeStone_t = Math.Round(Mixture1.m_CaCO3 * 1000, 0);
+                Double m_limeStone_t = Math.Round(Mixture1.m_DolMax * 1000, 0);
                 txbLimeStoneOut.Text = m_limeStone_t.ToString();
                 Checker.isDoubleCorrect(txbLimeStoneOut.Text, out color, new dMargin(0, 10000));
                 txbLimeStoneOut.BackColor = color;
@@ -302,7 +350,7 @@ namespace AlgorithmsUI
 
         private void btnDolomiteChem_Click(object sender, EventArgs e)
         {
-            ch_LimeStone.ShowDialog();
+            ch_Dolmax.ShowDialog();
         }
 
         private void btnVapno_Click(object sender, EventArgs e)
@@ -326,7 +374,7 @@ namespace AlgorithmsUI
 
         private void btnLimeStoneChem_Click(object sender, EventArgs e)
         {
-            ch_CaCO3.ShowDialog();
+            ch_Doloms.ShowDialog();
         }
 
         private CheckBox calcLastSelected = null;
