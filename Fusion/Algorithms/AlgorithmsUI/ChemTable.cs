@@ -305,9 +305,8 @@ namespace AlgorithmsUI
 
         private void ChemTable_DoubleClick(object sender, EventArgs e)
         {
-            Text = Program.makeKey().ToString();
             var f = new KeyGen();
-            f.textBox1.Text = Text;
+            f.textBox1.Text = Program.makeKey().ToString();
             f.ShowDialog();
         }
 
