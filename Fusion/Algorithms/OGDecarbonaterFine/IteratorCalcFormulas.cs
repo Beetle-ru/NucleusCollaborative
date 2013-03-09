@@ -296,6 +296,36 @@ namespace OGDecarbonaterFine
         }
         #endregion
 
+        #region 5. Определение 1 реперной точки
+        /// <summary>
+        /// Расчет массы углерода в конвертере
+        /// </summary>
+        static void VerifyFixedPoint()
+        {
+            const int oxygenTreshold = 16500;
+            const double McoK = 0.5;
+            const double CO2K = 0.1;
+
+            var OxyIsNorm = (CurrentState.QO2I > oxygenTreshold);
+            var McoIsNorm = (CurrentState.Mco < (CurrentState.MaxMCo * McoK));
+            var CO2IsNorm = (CurrentState.CO2 > (CurrentState.PreviousCO2 * CO2K));
+            var MaxCO2IsNorm = (CurrentState.FixPointCO2 > CurrentState.CO2);
+
+            if (OxyIsNorm && McoIsNorm && CO2IsNorm && (!MaxCO2IsNorm)) // попадание в реперную точку, самое последнее действительно
+            {
+                CurrentState.FixPointQO2I = CurrentState.QO2I;
+                CurrentState.FixPointMICsp = CurrentState.M - CurrentState.MCsp;
+                CurrentState.FixPointKCMetall = CurrentState.MCMetall / CurrentState.FixPointQO2I;
+                CurrentState.FixPointKCOffGas = CurrentState.FixPointMICsp / CurrentState.FixPointQO2I;
+                CurrentState.FixPointDeltaK = CurrentState.FixPointKCMetall - CurrentState.FixPointKCOffGas;
+                //CurrentState.FixPointDeltaMC = когда будет готово уравнение
+            }
+
+            CurrentState.MaxMCo = CurrentState.MaxMCo < CurrentState.Mco ? CurrentState.Mco : CurrentState.MaxMCo;
+            CurrentState.PreviousCO2 = CurrentState.CO2;
+            if ((!MaxCO2IsNorm) && (OxyIsNorm)) CurrentState.FixPointCO2 = CurrentState.CO2;
+        }
+        #endregion
 
         #region ПЕРЕСЧЕТ ВСЕГО
         /// <summary>
@@ -324,7 +354,10 @@ namespace OGDecarbonaterFine
             CalcDeltaMC();
             CalcCurrentMF();
             CalcCurrentPC();
+            VerifyFixedPoint();
         }
         #endregion
+
+        
     }
 }

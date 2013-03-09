@@ -165,6 +165,51 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double CurrentPC;
 
+        /// <summary>
+        /// Максимальное значение уноса углерода по CO
+        /// </summary>
+        public double MaxMCo;
+
+        /// <summary>
+        /// Значение CO2 за предыдущую секунду для анализа скорости роста концентрации CO2
+        /// </summary>
+        public double PreviousCO2;
+
+        /// <summary>
+        /// Значение CO2 в реперной точке
+        /// </summary>
+        public double FixPointCO2;
+
+        /// <summary>
+        /// Значение накопленного кислорода в реперной точке
+        /// </summary>
+        public double FixPointQO2I;
+
+        /// <summary>
+        /// Значение унесенного углерода с учетом сыпучих в реперной точке
+        /// </summary>
+        public double FixPointMICsp;
+
+        /// <summary>
+        /// Условная удельная масса углерода не 1 м3 O2 в реперной точке
+        /// </summary>
+        public double FixPointKCMetall;
+
+        /// <summary>
+        /// Условная удельная масса углерода унесенная отходящими газами в реперной точке
+        /// </summary>
+        public double FixPointKCOffGas;
+
+        /// <summary>
+        /// Поправка к массе углерода в реперной точке в реперной точке
+        /// </summary>
+        public double FixPointDeltaMC;
+
+        /// <summary>
+        /// Дельта K в реперной точке
+        /// </summary>
+        public double FixPointDeltaK;
+
         public RecalculateData()
         {
             HeatNumber = 0;
@@ -200,6 +245,15 @@ namespace OGDecarbonaterFine
             CurrentMF = 0.0;
             CurrentMC = 0.0;
             CurrentPC = 0.0;
+            MaxMCo = 0.0;
+            PreviousCO2 = 0.0;
+            FixPointCO2 = 0.0;
+            FixPointQO2I = 0.0;
+            FixPointMICsp = 0.0;
+            FixPointKCMetall = 0.0;
+            FixPointKCOffGas = 0.0;
+            FixPointDeltaMC = 0.0;
+            FixPointDeltaK = 0.0;
         }
 
         public string GetDataLine()
@@ -251,6 +305,16 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, CurrentMC);
             str += String.Format("{0}{1}", sep, CurrentMF);
             str += String.Format("{0}{1}", sep, CurrentPC);
+            // реперная точка
+            str += String.Format("{0}{1}", sep, MaxMCo);
+            str += String.Format("{0}{1}", sep, PreviousCO2);
+            str += String.Format("{0}{1}", sep, FixPointCO2);
+            str += String.Format("{0}{1}", sep, FixPointQO2I);
+            str += String.Format("{0}{1}", sep, FixPointMICsp);
+            str += String.Format("{0}{1}", sep, FixPointKCMetall);
+            str += String.Format("{0}{1}", sep, FixPointKCOffGas);
+            str += String.Format("{0}{1}", sep, FixPointDeltaMC);
+            str += String.Format("{0}{1}", sep, FixPointDeltaK);
 
             return str;
         }
@@ -304,6 +368,16 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, "CurrentMC");
             str += String.Format("{0}{1}", sep, "CurrentMF");
             str += String.Format("{0}{1}", sep, "CurrentPC");
+            // реперная точка
+            str += String.Format("{0}{1}", sep, "PreviousMCo");
+            str += String.Format("{0}{1}", sep, "PreviousCO2");
+            str += String.Format("{0}{1}", sep, "FixPointCO2");
+            str += String.Format("{0}{1}", sep, "FixPointQO2I");
+            str += String.Format("{0}{1}", sep, "FixPointMICsp");
+            str += String.Format("{0}{1}", sep, "FixPointKCMetall");
+            str += String.Format("{0}{1}", sep, "FixPointKCOffGas");
+            str += String.Format("{0}{1}", sep, "FixPointDeltaMC");
+            str += String.Format("{0}{1}", sep, "FixPointDeltaK");
 
             return str;
         }

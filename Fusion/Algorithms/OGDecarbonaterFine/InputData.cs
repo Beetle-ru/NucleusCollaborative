@@ -17,6 +17,8 @@ namespace OGDecarbonaterFine
         public double OffGasV;
         public double OffGasDecompression;
         public int LanceHeight;
+        public double QO2;
+        public int QO2I;
 
         public InputData()
         {
@@ -30,6 +32,8 @@ namespace OGDecarbonaterFine
             OffGasV = 0.0;
             OffGasDecompression = 0.0;
             LanceHeight = 0;
+            QO2 = 0.0;
+            QO2I = 0;
         }
     }
 }

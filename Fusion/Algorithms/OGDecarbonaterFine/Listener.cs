@@ -77,21 +77,15 @@ namespace OGDecarbonaterFine
                 {
                     var le = evt as LanceEvent;
                     Iterator.Receiver.LanceHeight = le.LanceHeight;
+                    Iterator.Receiver.QO2 = le.O2Flow;
+                    Iterator.Receiver.QO2I = le.O2TotalVol;
                 }
                 if (evt is BlowingEvent)
                 {
                     var be = evt as BlowingEvent;
                     Iterator.Receiver.HeatIsStarted = be.BlowingFlag == 1;
                 }
-                //if (evt is OffGasAnalysisEvent)
-                //{
-                //    var ogae = evt as OffGasAnalysisEvent;
-                //    Iterator.Receiver.CO.Add(ogae.CO);
-                //    Iterator.Receiver.CO2.Add(ogae.CO2);
-                //    Iterator.Receiver.N2.Add(ogae.N2);
-                //    Iterator.Receiver.O2.Add(ogae.O2);
-                //    Iterator.Receiver.H2.Add(ogae.H2);
-                //}
+
                 if (evt is OffGasEvent)
                 {
                     var oge = evt as OffGasEvent;
@@ -175,15 +169,15 @@ namespace OGDecarbonaterFine
                     WeightMaterials.Add(vate.RB12TotalWeight);
 
 
-                    //BoundMaterials = new List<string>(); // на время отладки на эмуляторе
-                    //BoundMaterials.Add("ДОЛОМС");
-                    //BoundMaterials.Add("ALKонц");
-                    //BoundMaterials.Add("KOKS  ");
-                    //BoundMaterials.Add("ИЗВЕСТ");
-                    //BoundMaterials.Add("ИЗВЕСТ");
-                    //BoundMaterials.Add("ДОЛМИТ");
-                    //BoundMaterials.Add("ДОЛОМС");
-                    //BoundMaterials.Add("ФОМ   ");
+                    BoundMaterials = new List<string>(); // на время отладки на эмуляторе
+                    BoundMaterials.Add("ДОЛОМС");
+                    BoundMaterials.Add("ALKонц");
+                    BoundMaterials.Add("KOKS  ");
+                    BoundMaterials.Add("ИЗВЕСТ");
+                    BoundMaterials.Add("ИЗВЕСТ");
+                    BoundMaterials.Add("ДОЛМИТ");
+                    BoundMaterials.Add("ДОЛОМС");
+                    BoundMaterials.Add("ФОМ   ");
 
 
                     var bunkerCnt = BoundMaterials.Count;
@@ -216,8 +210,8 @@ namespace OGDecarbonaterFine
                         //    Iterator.CurrentState.Materials.SetTotalWeight(name, wghZlevel - wgh, false); // временно для отладки
                         //}
 
-                        Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh, false);
-                        //Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
+                        //Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh, false);
+                        Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
                     }
                 }
 
