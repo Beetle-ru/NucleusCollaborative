@@ -37,6 +37,9 @@
     <ApplicationIcon>Pulse3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="alglibnet2">
+      <HintPath>..\..\..\libs\alglib-3.4.0.csharp\alglibnet2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -49,6 +52,7 @@
   <ItemGroup>
     <Compile Include="InputData.cs" />
     <Compile Include="MaterialData.cs" />
+    <Compile Include="MFOGDFData.cs" />
     <Compile Include="RecalculateData.cs" />
     <Compile Include="HeatDataReceiver.cs" />
     <Compile Include="Iterator.cs" />

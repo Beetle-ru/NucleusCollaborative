@@ -26,6 +26,7 @@ namespace OGDecarbonaterFine
 
             ConverterNumber = Convertion.StrToInt32(ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["converterNumber"].Value);
             Iterator.CSVHimFilePath = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["CSVHimFilePath"].Value;
+            Iterator.MatrixFileName = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["MatrixFileName"].Value;
 
             Iterator.Init();
 

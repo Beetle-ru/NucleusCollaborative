@@ -9,6 +9,8 @@ namespace OGDecarbonaterFine
     {
         public Int64 HeatNumber;
         public int OffGasTransportDelay;
+        
+        public bool DataFinishFixed;
 
         /// <summary>
         /// Давление в газоходе
@@ -210,10 +212,23 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double FixPointDeltaK;
 
+        /// <summary>
+        /// Уточненный результатирующих углерод
+        /// </summary>
+        public double FixPointCarbonResult;
+
+        /// <summary>
+        /// Уточненный углерод в процентах ++
+        /// </summary>
+        public double FixPointPC;
+
         public RecalculateData()
         {
             HeatNumber = 0;
             OffGasTransportDelay = 25;
+            
+            DataFinishFixed = false;
+
             PFlue = 0.0;
             Pa1 = 0.0;
             Pa2 = 0.0;
@@ -254,6 +269,8 @@ namespace OGDecarbonaterFine
             FixPointKCOffGas = 0.0;
             FixPointDeltaMC = 0.0;
             FixPointDeltaK = 0.0;
+            FixPointCarbonResult = 0.0;
+            FixPointPC = 0.0;
         }
 
         public string GetDataLine()
@@ -315,6 +332,8 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, FixPointKCOffGas);
             str += String.Format("{0}{1}", sep, FixPointDeltaMC);
             str += String.Format("{0}{1}", sep, FixPointDeltaK);
+            str += String.Format("{0}{1}", sep, FixPointCarbonResult);
+            str += String.Format("{0}{1}", sep, FixPointPC);
 
             return str;
         }
@@ -378,6 +397,8 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, "FixPointKCOffGas");
             str += String.Format("{0}{1}", sep, "FixPointDeltaMC");
             str += String.Format("{0}{1}", sep, "FixPointDeltaK");
+            str += String.Format("{0}{1}", sep, "FixPointCarbonResult");
+            str += String.Format("{0}{1}", sep, "FixPointPC");
 
             return str;
         }

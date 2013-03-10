@@ -24,6 +24,9 @@ namespace OGDecarbonaterFine
 
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
+
+            LoadMatrix(MatrixFileName);
+            QueueWaitCarbon = new List<MFOGDFData>();
         }
 
         public static void Reset()
@@ -129,6 +132,121 @@ namespace OGDecarbonaterFine
             timeLine = timeLine.Replace('.', '_');
             timeLine = timeLine + "_" + subname + ".csv";
             return timeLine;
+        }
+
+        public static void LoadMatrix(string fileName)
+        {
+            using (Logger l = new Logger("LoadMatrix"))
+            {
+                Matrix = new List<MFOGDFData>();
+                string[] strings;
+                try
+                {
+                    strings = File.ReadAllLines(fileName);
+                }
+                catch
+                {
+                    strings = new string[0];
+                    l.err("Cannot read the file: {0}", fileName);
+                    return;
+                }
+
+                try
+                {
+                    for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
+                    {
+                        string[] values = strings[strCnt].Split(Separator);
+                        Matrix.Add(new MFOGDFData()
+                        {
+                            HeatNumber = Convertion.StrToInt64(values[0]),
+                            CarbonCalc = Convertion.StrToDouble(values[1]),
+                            DeltaK = Convertion.StrToDouble(values[2]),
+                            CarbonReal = Convertion.StrToDouble(values[1]),
+                            DeltaCarbon = Convertion.StrToDouble(values[1]),
+                        });
+                    }
+                }
+                catch (Exception e)
+                {
+                    l.err("Cannot read the file: {0}, bad format call exeption: {1}", fileName, e.ToString());
+                    //return;
+                    throw e;
+                }
+            }
+        }
+
+        public static void SaveMatrix(string fileName)
+        {
+            using (Logger l = new Logger("SaveMatrix"))
+            {
+                string[] strings = new string[Matrix.Count];
+                for (int dataCnt = 0; dataCnt < Matrix.Count; dataCnt++)
+                {
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
+                                                     Separator,
+                                                     Matrix[dataCnt].HeatNumber,
+                                                     Matrix[dataCnt].CarbonCalc,
+                                                     Matrix[dataCnt].DeltaK,
+                                                     Matrix[dataCnt].CarbonReal,
+                                                     Matrix[dataCnt].DeltaCarbon
+                                                    );
+                }
+                try
+                {
+                    File.WriteAllLines(fileName, strings);
+                }
+                catch (Exception e)
+                {
+                    l.err("Cannot write the file: {0}, call exeption: {1}", fileName, e.ToString());
+                    return;
+                    //throw;
+                }
+            }
+        }
+
+        public static void VerifyFixAndEnqueue()
+        {
+            const int lanceFixPositionTreshold = 330;
+            const int oxigenTreshold = 16500;
+
+            var fix = (!CurrentState.DataFinishFixed) &&
+                      (CurrentState.QO2I > oxigenTreshold) &&
+                      (CurrentState.LanceHeight >= lanceFixPositionTreshold);
+
+            if (fix)
+            {
+                CurrentState.DataFinishFixed = true;
+                
+                var item = new MFOGDFData();
+                item.HeatNumber = CurrentState.HeatNumber;
+                item.CarbonCalc = CurrentState.FixPointCarbonResult;
+                item.DeltaK = CurrentState.FixPointDeltaK;
+                
+                QueueWaitCarbon.Add(item);
+            }
+        }
+
+        public static void FindAndDequeue(double carbonReal, Int64 HeatNumber)
+        {
+            for (int i = 0; i < QueueWaitCarbon.Count; i++)
+            {
+                if (QueueWaitCarbon[i].HeatNumber == HeatNumber)
+                {
+                    QueueWaitCarbon[i].CarbonReal = carbonReal;
+                    QueueWaitCarbon[i].DeltaCarbon = QueueWaitCarbon[i].CarbonCalc - carbonReal;
+
+                    VerifyAndAddItemMatrix(QueueWaitCarbon[i]);
+                    QueueWaitCarbon.RemoveAt(i);
+                }
+            }
+            if (QueueWaitCarbon.Count > 1000) QueueWaitCarbon.Clear(); // на всякиц случай защита от переполнения
+        }
+
+        public static void VerifyAndAddItemMatrix(MFOGDFData item)
+        {
+            if (Matrix.Count > MatrixLength) Matrix.RemoveAt(0);
+            Matrix.Add(item);
+            SaveMatrix(MatrixFileName);
         }
 
     }

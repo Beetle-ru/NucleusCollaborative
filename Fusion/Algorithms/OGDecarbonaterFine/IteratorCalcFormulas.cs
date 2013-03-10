@@ -296,7 +296,7 @@ namespace OGDecarbonaterFine
         }
         #endregion
 
-        #region 5. Определение 1 реперной точки
+        #region 1 реперная точка
         /// <summary>
         /// Расчет массы углерода в конвертере
         /// </summary>
@@ -325,6 +325,61 @@ namespace OGDecarbonaterFine
             CurrentState.PreviousCO2 = CurrentState.CO2;
             if ((!MaxCO2IsNorm) && (OxyIsNorm)) CurrentState.FixPointCO2 = CurrentState.CO2;
         }
+
+        /// <summary>
+        /// Расчет уточненного по 1 реперной точке углерода
+        /// </summary>
+        static void CalcFixPointCarbonResult()
+        {
+            CurrentState.FixPointCarbonResult = CurrentState.CurrentMC - CurrentState.FixPointDeltaMC;
+        }
+
+        /// <summary>
+        /// Расчет поправки
+        /// </summary>
+        static void CalcFixPoinFixPointDeltaMC()
+        {
+            if (CurrentState.FixPointDeltaK != 0)
+            {
+                const int nFeatures = 1;
+                int nFeaturesCoefficcients;
+                int info = 0;
+                var inVector = new double[Matrix.Count, nFeatures + 1];
+                double[] coefficcients;
+                var lm = new alglib.linearmodel();
+                var lr = new alglib.lrreport();
+
+                int lenghtData = Matrix.Count;
+                for (int item = 0; item < lenghtData; item++)
+                {
+                    inVector[item, 0] = Matrix[item].DeltaK;                   // X1
+                    inVector[item, 1] = Matrix[item].DeltaCarbon;              // Y
+                }
+
+                alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
+                if (info != 1)
+                {
+                    return;
+                }
+                alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
+                if (nFeaturesCoefficcients != nFeatures)
+                {
+                    return;
+                }
+                CurrentState.FixPointDeltaMC = coefficcients[1];
+                CurrentState.FixPointDeltaMC += coefficcients[0] * CurrentState.FixPointDeltaK;
+
+            }
+        }
+
+        /// <summary>
+        /// Расчет уточненного в реперной точке процента углерода в конвертере
+        /// </summary>
+        static void CalcFixPointPC()
+        {
+            CurrentState.FixPointPC = CurrentState.FixPointCarbonResult / CurrentState.CurrentMF * 100;
+        }
+        
         #endregion
 
         #region ПЕРЕСЧЕТ ВСЕГО
@@ -355,6 +410,9 @@ namespace OGDecarbonaterFine
             CalcCurrentMF();
             CalcCurrentPC();
             VerifyFixedPoint();
+            CalcFixPointCarbonResult();
+            CalcFixPoinFixPointDeltaMC();
+            CalcFixPointPC();
         }
         #endregion
 

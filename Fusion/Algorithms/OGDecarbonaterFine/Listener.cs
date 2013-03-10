@@ -130,6 +130,7 @@ namespace OGDecarbonaterFine
                 if (evt is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = evt as visSpectrluksEvent;
+                    Iterator.FindAndDequeue(vse.C, HeatNumberToShort(vse.HeatNumber));
                 }
 
                 if (evt is ScrapEvent)
