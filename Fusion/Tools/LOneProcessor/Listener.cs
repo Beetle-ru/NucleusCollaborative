@@ -25,11 +25,8 @@ namespace LOneProcessor
         {
             using (var l = new Logger("Listener"))
             {
-                if (evt is BlowingEvent)
-                {
-                    var be = evt as BlowingEvent;
-                    Keeper.SetBlowingStatus(be.BlowingFlag == 1);
-                }
+                Keeper.EventsHandler(evt, l);
+                
             }
         }
     }
