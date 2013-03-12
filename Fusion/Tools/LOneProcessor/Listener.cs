@@ -11,23 +11,15 @@ using ConnectionProvider.MainGate;
 using Implements;
 using LOneProcessor.SubSystems;
 
-namespace LOneProcessor
-{
-    class Listener : IEventListener
-    {
-
-        public Listener()
-        {
+namespace LOneProcessor {
+    internal class Listener : IEventListener {
+        public Listener() {
             InstantLogger.log("Listener", "Started\n", InstantLogger.TypeMessage.important);
         }
 
-        public void OnEvent(BaseEvent evt)
-        {
+        public void OnEvent(BaseEvent evt) {
             using (var l = new Logger("Listener"))
-            {
                 Keeper.EventsHandler(evt, l);
-                
-            }
         }
     }
 }

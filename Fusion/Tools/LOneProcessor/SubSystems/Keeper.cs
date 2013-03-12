@@ -8,19 +8,18 @@ using ConnectionProvider;
 using Converter;
 using Implements;
 
-namespace LOneProcessor.SubSystems
-{
+namespace LOneProcessor.SubSystems {
     /// <summary>
     /// Следить за состоянием Watchdogs, нарушениями во входящих данных
     /// уведомлять приложения о чрезвычайной ситуации
     /// </summary>
-    static class Keeper
-    {
+    internal static class Keeper {
         #region ConstRegion
 
-        private const int MaxSecondDelayOffGasEvent = 10; // Если за это время не пришло ни одно событие по газанализу выдается ошибка
+        private const int MaxSecondDelayOffGasEvent = 10;
+        // Если за это время не пришло ни одно событие по газанализу выдается ошибка
+
         private const int WatchdogSendPeriodMs = 5000;
-        
 
         #endregion
 
@@ -42,20 +41,18 @@ namespace LOneProcessor.SubSystems
 
         #region MainHandlerRegion
 
-        public static void MainHandler()
-        {
+        public static void MainHandler() {
             var allRight = true;
             var offgasOkay = !m_offgasEventAbsent;
             var description = new List<string>();
-            
-            if (m_offgasEventAbsent)
-            {
+
+            if (m_offgasEventAbsent) {
                 allRight = false;
                 description.Add(String.Format("OffgasEvent absent more than {0} second", MaxSecondDelayOffGasEvent));
             }
-            
+
             var fex = new FlexHelper("L1.Keeper");
-            
+
             fex.AddArg("AllRight", allRight);
             fex.AddArg("OffgasOkay", offgasOkay);
             fex.AddComplexArg("Description", description);
@@ -68,30 +65,25 @@ namespace LOneProcessor.SubSystems
 
         #region VeryfiRegion
 
-        private static void VeryfiGasAnalysis()
-        {
-
-        }
+        private static void VeryfiGasAnalysis() {}
 
         #endregion
 
         #region SetRegion
 
-        static public void SetMainGate(Client mainGate)
-        {
+        public static void SetMainGate(Client mainGate) {
             m_mainGate = mainGate;
         }
-        public static void SetGasAnalysis(double co, double co2)
-        {
+
+        public static void SetGasAnalysis(double co, double co2) {
             m_co = co;
             m_co2 = co2;
 
-            OffgasTimeout.Change(MaxSecondDelayOffGasEvent * 1000, 0);
+            OffgasTimeout.Change(MaxSecondDelayOffGasEvent*1000, 0);
             VeryfiGasAnalysis();
         }
-        
-        public static void SetBlowingStatus(bool heatIsStarted)
-        {
+
+        public static void SetBlowingStatus(bool heatIsStarted) {
             m_heatIsStarted = heatIsStarted;
         }
 
@@ -99,13 +91,11 @@ namespace LOneProcessor.SubSystems
 
         #region TimerRegion
 
-        private static void OffgasTimeoutHandler(object state)
-        {
+        private static void OffgasTimeoutHandler(object state) {
             m_offgasEventAbsent = ((!m_offgasEventAbsent) && m_heatIsStarted);
         }
 
-        private static void WatchDogSendTimeoutHandler(object state)
-        {
+        private static void WatchDogSendTimeoutHandler(object state) {
             var fex = new FlexHelper("OPC.WatchdogsForL1");
 
             fex.AddArg("WDPLC1", m_watchdogSendValue);
@@ -121,32 +111,28 @@ namespace LOneProcessor.SubSystems
         #endregion
 
         #region EventsHandler
-        public static void EventsHandler(BaseEvent evt, Logger l)
-        {
-            if (evt is BlowingEvent)
-            {
+
+        public static void EventsHandler(BaseEvent evt, Logger l) {
+            if (evt is BlowingEvent) {
                 var be = evt as BlowingEvent;
                 Keeper.SetBlowingStatus(be.BlowingFlag == 1);
             }
-            if (evt is FlexEvent)
-            {
+            if (evt is FlexEvent) {
                 var fxe = evt as FlexEvent;
-                if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent"))
-                {
+                if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent")) {
                     var fxh = new FlexHelper(fxe);
 
                     var co = fxh.GetDbl("CO");
                     var co2 = fxh.GetDbl("CO2");
 
                     SetGasAnalysis(co, co2);
-
                 }
             }
         }
+
         #endregion
 
-        static Keeper()
-        {
+        static Keeper() {
             OffgasTimeout = new Timer(OffgasTimeoutHandler);
             WatchDogSendTimeout = new Timer(WatchDogSendTimeoutHandler);
             WatchDogSendTimeout.Change(WatchdogSendPeriodMs, WatchdogSendPeriodMs);

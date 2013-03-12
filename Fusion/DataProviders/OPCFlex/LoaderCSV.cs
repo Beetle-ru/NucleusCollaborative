@@ -6,147 +6,111 @@ using System.Text;
 using Converter;
 using Implements;
 
-namespace OPCFlex
-{
-    class LoaderCSV
-    {
+namespace OPCFlex {
+    internal class LoaderCSV {
         public List<FlexEvent> DescriptionFlexList;
         public string Path;
         private readonly List<string> m_files;
         public const char Separator = ';';
         public string Destination;
 
-        enum ConfigSections
-        {
+        private enum ConfigSections {
             Undefined = 0,
             ConfigSection = 1,
             ArgumentsSection = 2
         }
 
-        public LoaderCSV(string destination)
-        {
+        public LoaderCSV(string destination) {
             DescriptionFlexList = new List<FlexEvent>();
             m_files = new List<string>();
             Destination = destination;
         }
 
-        public void Load(string path)
-        {
+        public void Load(string path) {
             Path = path;
             FilesAdd(Path);
             RecurseAdds(Path);
             foreach (var file in m_files)
-            {
                 ParseFile(file);
-            }
         }
 
-        public List<FlexEvent> LoadAndGet(string path)
-        {
+        public List<FlexEvent> LoadAndGet(string path) {
             Load(path);
             return DescriptionFlexList;
         }
 
-        private void FilesAdd(string path)
-        {
+        private void FilesAdd(string path) {
             var files = Directory.GetFiles(path);
-            foreach (var file in files)
-            {
+            foreach (var file in files) {
                 if (!file.Contains("\\-"))
-                {
-                    m_files.Add(file);    
-                }
+                    m_files.Add(file);
             }
         }
 
-        private void RecurseAdds(string path)
-        {
+        private void RecurseAdds(string path) {
             var dirs = Directory.GetDirectories(path);
 
-            foreach (var dir in dirs)
-            {
+            foreach (var dir in dirs) {
                 FilesAdd(dir);
                 RecurseAdds(dir);
             }
         }
 
-        private void ParseFile(string path)
-        {
+        private void ParseFile(string path) {
             string[] strings;
-            try
-            {
+            try {
                 strings = File.ReadAllLines(path);
             }
-            catch
-            {
+            catch {
                 strings = new string[0];
                 InstantLogger.err("Cannot read the file: {0}", path);
                 return;
             }
 
-            try
-            {
+            try {
                 ConfigSections mode = ConfigSections.Undefined;
                 var description = new FlexEvent();
-                for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
-                {
+                for (int strCnt = 0; strCnt < strings.Count(); strCnt++) {
                     string[] values = strings[strCnt].Split(Separator);
-                    if (values.Any())
-                    {
-                        if (values[0] != "")
-                        {
+                    if (values.Any()) {
+                        if (values[0] != "") {
                             if (values[0] == ParseKeys.ConfFields) mode = ConfigSections.ConfigSection;
                             else if (values[0] == ParseKeys.ArgFields) mode = ConfigSections.ArgumentsSection;
-                            else
-                            {
-                                switch (mode)
-                                {
+                            else {
+                                switch (mode) {
                                     case ConfigSections.ConfigSection:
-                                        if (values.Count() >= 2)
-                                        {
+                                        if (values.Count() >= 2) {
                                             if (values[0] == ParseKeys.FlagsKey)
-                                            {
                                                 description.Flags = (FlexEventFlag) Convertion.StrToInt32(values[1]);
-                                            }
                                             if (values[0] == ParseKeys.OperationKey)
-                                            {
                                                 description.Operation = values[1];
-                                            }
                                         }
-                                    break;
+                                        break;
                                     case ConfigSections.ArgumentsSection:
-                                        if (values[0] == Destination)
-                                        {
+                                        if (values[0] == Destination) {
                                             if (values.Count() >= 3)
-                                            {
                                                 description.Arguments.Add(values[1], new Element(values[2]));
-                                            }
                                         }
-                                    break;
+                                        break;
                                 }
                             }
                         }
                     }
                 }
-                if (description.Arguments.Any())
-                {
+                if (description.Arguments.Any()) {
                     description.Id = Guid.NewGuid();
                     description.Time = DateTime.Now;
                     DescriptionFlexList.Add(description);
                 }
-                
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", path, e.ToString());
                 return;
             }
         }
 
-        
 
-        static class ParseKeys
-        {
+        private static class ParseKeys {
             // fields
             public const string ConfFields = "<Event>";
             public const string ArgFields = "<Arguments>";

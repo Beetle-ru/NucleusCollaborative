@@ -8,10 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SimpleRuner
-{
-    public partial class Runer : Form
-    {
+namespace SimpleRuner {
+    public partial class Runer : Form {
         public const string DataFilePath = "order.csv";
         public const char Separator = ';';
         public List<string> Order = new List<string>();
@@ -19,38 +17,32 @@ namespace SimpleRuner
         public Dictionary<int, MsgLoop> MsgDic = new Dictionary<int, MsgLoop>();
         public const int MainLog = 0;
         public int CurrentLog = MainLog;
-        public Runer()
-        {
+
+        public Runer() {
             InitializeComponent();
             cb_appNames.Items.Add("SimpleRunner log");
             cb_appNames.SelectedIndex = MainLog;
             MsgDic.Add(MainLog, new MsgLoop());
         }
 
-        private void t_startApp_Tick(object sender, EventArgs e)
-        {
+        private void t_startApp_Tick(object sender, EventArgs e) {
             t_startApp.Enabled = false;
             LoadOrder();
         }
 
-        private void LoadOrder()
-        {
+        private void LoadOrder() {
             string[] strings;
-            try
-            {
+            try {
                 strings = File.ReadAllLines(DataFilePath);
             }
-            catch
-            {
+            catch {
                 strings = new string[0];
                 MessageBox.Show("Cannot read the file: " + DataFilePath, "ERROR");
                 return;
             }
 
-            try
-            {
-                for (int strCnt = 0; strCnt < strings.Count(); strCnt++)
-                {
+            try {
+                for (int strCnt = 0; strCnt < strings.Count(); strCnt++) {
                     Order.Add(strings[strCnt]);
                     //string[] values = strings[strCnt].Split(Separator);
                     //if (values.Count() == 2)
@@ -63,100 +55,80 @@ namespace SimpleRuner
                     //}
                 }
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(String.Format("Cannot read the file: {0}, bad format call exeption: {1}", DataFilePath, e.ToString()), "ERROR");
+            catch (Exception e) {
+                MessageBox.Show(
+                    String.Format("Cannot read the file: {0}, bad format call exeption: {1}", DataFilePath, e.ToString()),
+                    "ERROR");
                 //return;
                 throw e;
             }
 
             int index = 0;
-            for (int i = 0; i < Order.Count; i++)
-            {
-                if (!Order[i].StartsWith("_"))
-                {
+            for (int i = 0; i < Order.Count; i++) {
+                if (!Order[i].StartsWith("_")) {
                     cb_appNames.Items.Add(Order[i].Replace(Separator, ' '));
-                    ProgrammDic.Add(i,Order[i]);
-                    MsgDic.Add(cb_appNames.Items.Count - 1,new MsgLoop());
+                    ProgrammDic.Add(i, Order[i]);
+                    MsgDic.Add(cb_appNames.Items.Count - 1, new MsgLoop());
 
                     Log(String.Format("i = {0}, cb.item = {1}", i, cb_appNames.Items.Count - 1));
                     ShowLog();
                 }
                 else
-                {
                     CmdExecutor(Order[i]);
-                }
             }
         }
-        public void OrderExecutor()
-        {
-            
-        }
-        public void CmdExecutor(string cmd)
-        {
+
+        public void OrderExecutor() {}
+
+        public void CmdExecutor(string cmd) {
             string[] values = cmd.Split(Separator);
-            if (values.Count() == 2)
-            {
-                if (values[0] == "_sleep")
-                {
-                    try
-                    {
+            if (values.Count() == 2) {
+                if (values[0] == "_sleep") {
+                    try {
                         System.Threading.Thread.Sleep(Int32.Parse(values[1]));
                         Log(String.Format("Sleeping {0} ms", values[1]));
                         ShowLog();
                     }
-                    catch (Exception)
-                    {
+                    catch (Exception) {
                         Log(String.Format("ERROR: bad parameter - {0}", values[1]));
                         ShowLog();
                     }
                 }
             }
-            else
-            {
+            else {
                 Log(String.Format("ERROR: bad command - {0}", cmd));
                 ShowLog();
             }
         }
 
-        public void Log(string msg, int logNumber = MainLog)
-        {
+        public void Log(string msg, int logNumber = MainLog) {
             if (logNumber < MsgDic.Count)
-            {
                 MsgDic[logNumber].Add(msg);
-            }
-            else
-            {
+            else {
                 if (MsgDic.Count > MainLog)
-                {
-                    MsgDic[MainLog].Add(String.Format("ERROR: logNumber({0}) > MsgDic.Count({2})", logNumber, MsgDic.Count));
-                }
+                    MsgDic[MainLog].Add(String.Format("ERROR: logNumber({0}) > MsgDic.Count({2})", logNumber,
+                                                      MsgDic.Count));
             }
         }
 
-        public void ShowLog(int logNumber)
-        {
-            if (logNumber < MsgDic.Count)
-            {
+        public void ShowLog(int logNumber) {
+            if (logNumber < MsgDic.Count) {
                 tb_log.Text = MsgDic[logNumber].ToString();
                 tb_log.Select(tb_log.TextLength, 0);
                 tb_log.ScrollToCaret();
             }
-            else
-            {
+            else {
                 if (MsgDic.Count > MainLog)
-                {
-                    MsgDic[MainLog].Add(String.Format("ERROR: logNumber({0}) > MsgDic.Count({2})", logNumber, MsgDic.Count));
-                }
+                    MsgDic[MainLog].Add(String.Format("ERROR: logNumber({0}) > MsgDic.Count({2})", logNumber,
+                                                      MsgDic.Count));
             }
         }
-        public void ShowLog()
-        {
+
+        public void ShowLog() {
             ShowLog(CurrentLog);
         }
 
-        private void cb_appNames_SelectedIndexChanged(object sender, EventArgs e)
-        {
+        private void cb_appNames_SelectedIndexChanged(object sender, EventArgs e) {
             CurrentLog = ((System.Windows.Forms.ComboBox) sender).SelectedIndex;
             Log(String.Format("Selected: {0}", CurrentLog));
             ShowLog();

@@ -9,10 +9,8 @@ using System.Threading;
 using CommonTypes;
 using Implements;
 
-namespace ConnectionProvider
-{
-    public class Client : IMainGate
-    {
+namespace ConnectionProvider {
+    public class Client : IMainGate {
         public static bool protectedMode = true;
         public const int THREAD_SLEEP = 50;
         private MainGateClient m_MainGateClient;
@@ -29,8 +27,7 @@ namespace ConnectionProvider
         private volatile bool m_Initialized = false;
 
 
-        private void InnerDuplexChannel_Faulted(object obj1, object obj2)
-        {
+        private void InnerDuplexChannel_Faulted(object obj1, object obj2) {
             //Console.WriteLine("Connection faulted");
             //Thread.Sleep(500);
             m_MainGateClient = m_ConnectionName == null
@@ -42,37 +39,30 @@ namespace ConnectionProvider
             if (m_IsSubscribed &&
                 (m_MainGateClient.State == CommunicationState.Opened ||
                  m_MainGateClient.State == CommunicationState.Created))
-            {
                 m_MainGateClient.Subscribe();
-            }
         }
 
-        public Client()
-        {
+        public Client() {
             m_Start();
         }
 
-        public Client(string ConnectionName)
-        {
+        public Client(string ConnectionName) {
             m_ConnectionName = ConnectionName;
             m_Start();
         }
 
-        public Client(IEventListener listener)
-        {
+        public Client(IEventListener listener) {
             m_EventListener = listener;
             m_Start();
         }
 
-        public Client(string ConnectionName, IEventListener listener)
-        {
+        public Client(string ConnectionName, IEventListener listener) {
             m_ConnectionName = ConnectionName;
             m_EventListener = listener;
             m_Start();
         }
 
-        private void m_Start()
-        {
+        private void m_Start() {
             m_SyncContext = SynchronizationContext.Current;
 
             Thread thread = new Thread(new ThreadStart(ReceivingThread));
@@ -80,13 +70,10 @@ namespace ConnectionProvider
             thread.Start();
 
             while (!m_Initialized)
-            {
                 Thread.Sleep(100);
-            }
         }
 
-        private void ReceivingThread()
-        {
+        private void ReceivingThread() {
             m_MainGateClient = m_ConnectionName == null
                                    ? new MainGateClient(new InstanceContext(new PrimaryListener(m_EventListener)))
                                    : new MainGateClient(new InstanceContext(new PrimaryListener(m_EventListener)),
@@ -96,51 +83,40 @@ namespace ConnectionProvider
             if (m_IsSubscribed &&
                 (m_MainGateClient.State == CommunicationState.Opened ||
                  m_MainGateClient.State == CommunicationState.Created))
-            {
                 m_MainGateClient.Subscribe();
-            }
 
             m_Initialized = true;
-            do
-            {
+            do {
                 Thread.Sleep(100);
             } while (true);
         }
 
-        private void SendingThread()
-        {
-            using (var l = new Logger("ConnectionProvider.SendingThread"))
-            {
+        private void SendingThread() {
+            using (var l = new Logger("ConnectionProvider.SendingThread")) {
                 BaseEvent evt = null;
                 var prevState = m_MainGateClient.State;
                 var currState = prevState;
-                while (true)
-                {
+                while (true) {
                     bool doSleep = true;
-                    if (prevState != currState)
-                    {
+                    if (prevState != currState) {
                         l.msg("Connection state is \"{0}\"", currState);
                         prevState = currState;
                         doSleep = false;
                     }
 
-                    if (currState <= CommunicationState.Opened)
-                    {
-                        try
-                        {
-                            lock (eventsQueue)
-                            {
+                    if (currState <= CommunicationState.Opened) {
+                        try {
+                            lock (eventsQueue) {
                                 evt = eventsQueue.Count > 0 ? eventsQueue.Dequeue() : null;
                             }
-                            if (evt != null)
-                            {
+                            if (evt != null) {
                                 m_MainGateClient.PushEvent(evt);
                                 doSleep = false;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            l.err("proc {2} event fail\n{0}\n while processing event\n{1}", e.Message, evt, e.TargetSite.Name);
+                        catch (Exception e) {
+                            l.err("proc {2} event fail\n{0}\n while processing event\n{1}", e.Message, evt,
+                                  e.TargetSite.Name);
                         }
                     }
                     if (doSleep) Thread.Sleep(THREAD_SLEEP);
@@ -152,22 +128,17 @@ namespace ConnectionProvider
         #region IMainGate Members
 
         public
-            bool Autentificate(string login, string password)
-        {
+            bool Autentificate(string login, string password) {
             return
                 m_MainGateClient.Autentificate(login, password);
         }
 
         public
-            void PushEvent(BaseEvent baseEvent)
-        {
-            lock (eventsQueue)
-            {
+            void PushEvent(BaseEvent baseEvent) {
+            lock (eventsQueue) {
                 eventsQueue.Enqueue(baseEvent);
-                if (!m_SendingThreadWork)
-                {
-                    lock (m_PushEventThreadLocker)
-                    {
+                if (!m_SendingThreadWork) {
+                    lock (m_PushEventThreadLocker) {
                         Thread thread = new Thread(SendingThread);
                         thread.IsBackground = true;
                         thread.Start();
@@ -177,17 +148,14 @@ namespace ConnectionProvider
             }
         }
 
-        public bool Subscribe()
-        {
-            lock (m_PushEventThreadLocker)
-            {
+        public bool Subscribe() {
+            lock (m_PushEventThreadLocker) {
                 m_IsSubscribed = true;
                 return m_MainGateClient.Subscribe();
             }
         }
 
-        public bool Unsubscribe()
-        {
+        public bool Unsubscribe() {
             m_IsSubscribed = false;
             return m_MainGateClient.Unsubscribe();
         }

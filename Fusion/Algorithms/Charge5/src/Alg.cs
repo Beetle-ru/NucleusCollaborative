@@ -7,39 +7,34 @@ using Implements;
 using System.IO;
 using Charge5Classes;
 
-namespace Charge5
-{
-    internal partial class Program
-    {
-        static public void Alg(CSVTableParser table, InData inData, out OutData outData)
-        {
+namespace Charge5 {
+    internal partial class Program {
+        public static void Alg(CSVTableParser table, InData inData, out OutData outData) {
             outData = new OutData();
             //const double maxSiHi = 0.8; // максимальный кремний после которого считаем не по таблице
 
-            foreach (var row in table.Rows)
-            {
+            foreach (var row in table.Rows) {
                 var hitDownSiHiRange = (double) (row.Cell["MinSiHotIron"]) <= inData.SiHi;
-                var hitUpSiHiRange = (double)(row.Cell["MaxSiHotIron"]) >= inData.SiHi;
-                var hitDownTHiRange = (double)(row.Cell["MinTHotIron"]) <= inData.THi;
-                var hitUpTHiRange = (double)(row.Cell["MaxTHotIron"]) >= inData.THi;
+                var hitUpSiHiRange = (double) (row.Cell["MaxSiHotIron"]) >= inData.SiHi;
+                var hitDownTHiRange = (double) (row.Cell["MinTHotIron"]) <= inData.THi;
+                var hitUpTHiRange = (double) (row.Cell["MaxTHotIron"]) >= inData.THi;
                 outData.IsFound = false;
 
-                if (hitDownSiHiRange && hitUpSiHiRange && hitDownTHiRange && hitUpTHiRange)
-                {
+                if (hitDownSiHiRange && hitUpSiHiRange && hitDownTHiRange && hitUpTHiRange) {
                     outData.IsFound = true;
 
                     #region новый расчет
 
-                    outData.MHi = (int)Math.Round((double)row.Cell["MassHotIron"]);
-                    outData.MSc = (int)Math.Round((double)row.Cell["MassScrap"]);
-                    outData.MLi = (int)Math.Round((double)row.Cell["MassLime"]);
-                    outData.MDlms = (int)Math.Round((double)row.Cell["MassDolomS"]);
+                    outData.MHi = (int) Math.Round((double) row.Cell["MassHotIron"]);
+                    outData.MSc = (int) Math.Round((double) row.Cell["MassScrap"]);
+                    outData.MLi = (int) Math.Round((double) row.Cell["MassLime"]);
+                    outData.MDlms = (int) Math.Round((double) row.Cell["MassDolomS"]);
                     outData.MDlm = inData.IsProcessingUVS
-                                       ? (int)Math.Round((double)row.Cell["UVSMassDolom"])
-                                       : (int)Math.Round((double)row.Cell["MassDolom"]);
+                                       ? (int) Math.Round((double) row.Cell["UVSMassDolom"])
+                                       : (int) Math.Round((double) row.Cell["MassDolom"]);
                     outData.MFom = inData.IsProcessingUVS
-                                       ? (int)Math.Round((double)row.Cell["UVSMassFOM"])
-                                       : (int)Math.Round((double)row.Cell["MassFOM"]);
+                                       ? (int) Math.Round((double) row.Cell["UVSMassFOM"])
+                                       : (int) Math.Round((double) row.Cell["MassFOM"]);
 
                     #endregion
 
@@ -99,20 +94,16 @@ namespace Charge5
                     //######################################################################
                     //Если, при шихтовке, металлолома берётся больше заданного значения, 
                     //то убирается «долом С», из расчёта на 1т металлолома – 0,5 т «долом С»
-                    if ((inData.MSc > 0) && (inData.MHi > 0))
-                    {
-                        var knownTableVal = (double)row.Cell["MassHotIron"];
-                        var unknownTableVal = (double)row.Cell["MassScrap"];
-                        var calcScrap = (int)Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
+                    if ((inData.MSc > 0) && (inData.MHi > 0)) {
+                        var knownTableVal = (double) row.Cell["MassHotIron"];
+                        var unknownTableVal = (double) row.Cell["MassScrap"];
+                        var calcScrap = (int) Math.Round(CalcUnknownVal(inData.MHi, knownTableVal, unknownTableVal));
                         var scrapDifference = inData.MSc - calcScrap;
-                        if (scrapDifference > 0)
-                        {
+                        if (scrapDifference > 0) {
                             var k = 0.5;
-                            outData.MDlms -= (int)Math.Round(scrapDifference*k);
+                            outData.MDlms -= (int) Math.Round(scrapDifference*k);
                             if (outData.MDlms < 0)
-                            {
                                 outData.MDlms = 0;
-                            }
                         }
                     }
                     //######################################################################
@@ -123,12 +114,9 @@ namespace Charge5
             }
         }
 
-        static public double CalcUnknownVal(double knownVal, double knownTableVal, double unknownTableVal)
-        {
+        public static double CalcUnknownVal(double knownVal, double knownTableVal, double unknownTableVal) {
             if (knownTableVal != 0)
-            {
                 return (unknownTableVal/knownTableVal)*knownVal;
-            }
             return 0.0;
         }
     }

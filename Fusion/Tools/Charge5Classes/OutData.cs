@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Charge5Classes
-{
-    public class OutData
-    {
+namespace Charge5Classes {
+    public class OutData {
         /// <summary>
         /// Масса чугуна
         /// </summary>

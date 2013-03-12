@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ConverterHeatProcessorEngine
-{
+namespace ConverterHeatProcessorEngine {
     /// <summary>
     /// Класс описывает состояние весов.
     /// Пустые -   WeigherLoadFree = True,  WeigherUnLoadFree = False, WeigherEmpty = True;
@@ -12,19 +11,17 @@ namespace ConverterHeatProcessorEngine
     /// Загрузка - WeigherLoadFree = False, WeigherUnLoadFree = False, WeigherEmpty = False;
     /// Выгрузка - WeigherLoadFree = False, WeigherUnLoadFree = False, WeigherEmpty = True;
     /// </summary>
-    class WeigherState
-    {
-        
+    internal class WeigherState {
         /// <summary>
         /// Свободны для загрузки - True
         /// </summary>
         public bool WeigherLoadFree { set; get; }
-        
+
         /// <summary>
         /// Свободны для выгрузки - True
         /// </summary>
         public bool WeigherUnLoadFree { set; get; }
-        
+
         /// <summary>
         /// Пустые - True
         /// </summary>
@@ -35,40 +32,35 @@ namespace ConverterHeatProcessorEngine
         /// </summary>
         public bool Actual { set; get; }
 
-        public enum State { NoActual, Empty, Load, Unload, Full };
+        public enum State {
+            NoActual,
+            Empty,
+            Load,
+            Unload,
+            Full
+        };
 
-        public State GetState()
-        {
+        public State GetState() {
             State s = State.NoActual;
             if (Actual && WeigherLoadFree && (!WeigherUnLoadFree) && WeigherEmpty)
-            {
                 s = State.Empty;
-            }
             if (Actual && (!WeigherLoadFree) && (!WeigherUnLoadFree) && (!WeigherEmpty))
-            {
                 s = State.Load;
-            }
             if (Actual && WeigherLoadFree && WeigherUnLoadFree && (!WeigherEmpty))
-            {
                 s = State.Full;
-            }
             if (Actual && (!WeigherLoadFree) && (!WeigherUnLoadFree) && WeigherEmpty)
-            {
                 s = State.Unload;
-            }
             return s;
         }
 
-        public WeigherState()
-        {
+        public WeigherState() {
             WeigherLoadFree = false;
             WeigherUnLoadFree = false;
             WeigherEmpty = false;
             Actual = false;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string str = base.ToString() + "<";
             str += WeigherLoadFree.ToString() + ";";
             str += WeigherUnLoadFree.ToString() + ";";
@@ -76,6 +68,5 @@ namespace ConverterHeatProcessorEngine
             str += Actual.ToString() + ";";
             return str + ">";
         }
-
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Runtime.InteropServices;
 using OPC.Data;
 using OPC.Common;
@@ -16,27 +15,23 @@ using Core;
 using System.Collections.Generic;
 using Converter;
 
-namespace OPCFledged
-{
-    public class FledgedItemDef
-    {
-        public FledgedItemDef(int _eventId, int _eventPropId, int _eventPlcpId)
-        {
+namespace OPCFledged {
+    public class FledgedItemDef {
+        public FledgedItemDef(int _eventId, int _eventPropId, int _eventPlcpId) {
             eventId = _eventId;
             eventPropId = _eventPropId;
             eventPlcpId = _eventPlcpId;
         }
+
         public int eventId;
         public int eventPropId;
         public int eventPlcpId;
     }
-    public partial class OpcConnector
-    {
-        public static string cnv(string arg, int opcConvSchema = 0)
-        {
+
+    public partial class OpcConnector {
+        public static string cnv(string arg, int opcConvSchema = 0) {
             var s = arg;
-            switch (opcConvSchema)
-            {
+            switch (opcConvSchema) {
                 case 1:
                     s = arg.Replace(',', '.');
                     var ix = s.LastIndexOf('.');
@@ -60,12 +55,11 @@ namespace OPCFledged
         public static int[] m_Handles_srv;
         public static Type[] EventsList;
         private static List<CommonTypes.BaseEvent> EventStore = new List<CommonTypes.BaseEvent>();
-        public static Dictionary<string, byte> FlagStore = new Dictionary<string, byte>(); 
+        public static Dictionary<string, byte> FlagStore = new Dictionary<string, byte>();
 
-        public OpcConnector(string progId, string opcDestination, string opcAddressFmt, int opcConvSchema = 0, int reqUpdateRate_ms = 500)
-        {
-            using (Logger l = new Logger("OpcConnector"))
-            {
+        public OpcConnector(string progId, string opcDestination, string opcAddressFmt, int opcConvSchema = 0,
+                            int reqUpdateRate_ms = 500) {
+            using (Logger l = new Logger("OpcConnector")) {
                 string plcName = "NO-PLC";
                 m_The_srv = new OpcServer();
                 m_The_srv.Connect(progId);
@@ -78,22 +72,18 @@ namespace OPCFledged
                 int itemCounter = 0;
 
                 EventsList = BaseEvent.GetEvents();
-                for (int eventCounter = 0; eventCounter < EventsList.Length; eventCounter++)
-                {
+                for (int eventCounter = 0; eventCounter < EventsList.Length; eventCounter++) {
                     var heatEvent = EventsList[eventCounter];
                     l.msg(heatEvent.Name); // название события
                     EventStore.Add((CommonTypes.BaseEvent) Activator.CreateInstance(heatEvent));
-                        // создаем экземпляр события
+                    // создаем экземпляр события
                     int plcpIndex = -1;
                     bool opcRelated = false;
-                    for (int i = 0; i < heatEvent.GetCustomAttributes(false).Length; i++)
-                    {
+                    for (int i = 0; i < heatEvent.GetCustomAttributes(false).Length; i++) {
                         object x = heatEvent.GetCustomAttributes(false)[i];
-                        if (x.GetType().Name == "PLCGroup")
-                        {
+                        if (x.GetType().Name == "PLCGroup") {
                             PLCGroup p = (PLCGroup) x;
-                            if (p.Destination == opcDestination)
-                            {
+                            if (p.Destination == opcDestination) {
                                 plcName = p.Location;
                                 l.msg("     {0} ==>> {1}", p.Location, p.Destination);
                                 opcRelated = true;
@@ -102,15 +92,12 @@ namespace OPCFledged
                         }
                     }
                     if (!opcRelated) continue;
-                    for (int propertyCounter = 0; propertyCounter < heatEvent.GetProperties().Length; propertyCounter++)
-                    {
+                    for (int propertyCounter = 0; propertyCounter < heatEvent.GetProperties().Length; propertyCounter++) {
                         var prop = heatEvent.GetProperties()[propertyCounter];
                         object first = null;
-                        for (int index = 0; index < prop.GetCustomAttributes(false).Length; index++)
-                        {
+                        for (int index = 0; index < prop.GetCustomAttributes(false).Length; index++) {
                             object x = prop.GetCustomAttributes(false)[index];
-                            if (x.GetType().Name == "PLCPoint")
-                            {
+                            if (x.GetType().Name == "PLCPoint") {
                                 plcpIndex = index;
                                 first = x;
                                 break;
@@ -128,16 +115,14 @@ namespace OPCFledged
                     if (itemCounter >= maxItemCount) break;
                 }
                 l.msg("Counter is {0}", itemCounter);
-                if (itemCounter == 0) throw new  Exception("No items found");
+                if (itemCounter == 0) throw new Exception("No items found");
                 // Validate Items (ignoring BLOBs
                 OPCItemResult[] rItm;
                 m_The_grp.ValidateItems(m_Item_defs.ToArray(), false, out rItm);
-                if (rItm == null) throw new  Exception("OPC ValidateItems: -- system error: arrRes is null");
+                if (rItm == null) throw new Exception("OPC ValidateItems: -- system error: arrRes is null");
                 List<int> itemExclude = new List<int>();
-                for (int i = 0; i < itemCounter; i++)
-                {
-                    if (HRESULTS.Failed(rItm[i].Error))
-                    {
+                for (int i = 0; i < itemCounter; i++) {
+                    if (HRESULTS.Failed(rItm[i].Error)) {
                         l.err(
                             "Error 0x{1:x} while adding item {0} -- item EXCLUDED from monitoring",
                             i, rItm[i].Error);
@@ -149,20 +134,14 @@ namespace OPCFledged
                 // Add Items
                 m_The_grp.AddItems(m_Item_defs.ToArray(), out rItm);
                 if (rItm == null) return;
-                for (int i = 0; i < itemCounter; i++)
-                {
+                for (int i = 0; i < itemCounter; i++) {
                     if (HRESULTS.Failed(rItm[i].Error))
-                    {
                         rItm[i].HandleServer = -1;
-                        
-                    }
                 }
 
                 m_Handles_srv = new int[itemCounter];
                 for (int i = 0; i < itemCounter; i++)
-                {
                     m_Handles_srv[i] = rItm[i].HandleServer;
-                }
                 //m_The_grp.WriteCompleted += TheGrpWriteComplete;
 
 
@@ -173,28 +152,26 @@ namespace OPCFledged
                 m_The_grp.Active = true;
                 m_The_grp.DataChanged += new DataChangeEventHandler(this.TheGrpDataChange);
                 m_The_grp.ReadCompleted += new ReadCompleteEventHandler(this.TheGrpReadComplete);
-                  //m_The_grp.Read(m_Handles_srv, 55667788, out cancelId, out aE);
-
+                //m_The_grp.Read(m_Handles_srv, 55667788, out cancelId, out aE);
 
 
                 //Thread.Sleep(500);
                 // l.msg("end read");
             }
         }
-        private object conv(string str)
-        {
-            var res = new byte[6] { 0x20, 0x20, 0x20, 0x20, 0x20, 0x20 };
 
-            for (int i = 0; i < Math.Min(str.Length, 6); i++)
-            {
-                int code = (int)str.ElementAt(i);
+        private object conv(string str) {
+            var res = new byte[6] {0x20, 0x20, 0x20, 0x20, 0x20, 0x20};
+
+            for (int i = 0; i < Math.Min(str.Length, 6); i++) {
+                int code = (int) str.ElementAt(i);
                 if (code > 900) code -= 848;
-                res[i] = (byte)code;
+                res[i] = (byte) code;
             }
             return res;
         }
-        public void CloseConnection()
-        {
+
+        public void CloseConnection() {
             int[] aE;
             m_The_grp.WriteCompleted -= TheGrpWriteComplete;
             m_The_grp.RemoveItems(m_Handles_srv, out aE);
@@ -203,62 +180,50 @@ namespace OPCFledged
         }
 
         // ------------------------------ events -----------------------------
-        public static object conv(object obj, int buflen = 6)
-        {
+        public static object conv(object obj, int buflen = 6) {
             var res = new char[buflen];
 
             for (int i = 0; i < buflen; i++)
-            {
                 res[i] = ' ';
-            }
-            byte[] barr = (byte[])obj;
-            for (int i = 0; i < Math.Min(barr.Length, buflen); i++)
-            {
-                int code = (int)barr[i];
+            byte[] barr = (byte[]) obj;
+            for (int i = 0; i < Math.Min(barr.Length, buflen); i++) {
+                int code = (int) barr[i];
                 if (code > 900) code -= 848;
-                res[i] = (char)code;
+                res[i] = (char) code;
             }
             return res;
         }
-        public string convBack(byte[] barr)
-        {
+
+        public string convBack(byte[] barr) {
             string str = "";
-            if (barr[0] == barr.Length)
-            {
+            if (barr[0] == barr.Length) {
                 for (int i = 0; i < Math.Min(barr[1], barr[0] - 2); i++)
-                {
-                    str += (char)barr[i + 2];
-                }
+                    str += (char) barr[i + 2];
                 return str;
             }
-            else
-            {
+            else {
                 for (int i = 0; i < barr.Length; i++)
-                {
-                    str += (char)barr[i];
-                }
+                    str += (char) barr[i];
                 return str;
             }
         }
-        public void CoreEventGenerator(object sender, EventArgs oEvent)
-        {
-            using (Logger l = new Logger("OnDataChange", ref locker))
-            {
-                int	transactionID;
-	            int	groupHandleClient;
-	            int	masterQuality;
-	            int	masterError;
+
+        public void CoreEventGenerator(object sender, EventArgs oEvent) {
+            using (Logger l = new Logger("OnDataChange", ref locker)) {
+                int transactionID;
+                int groupHandleClient;
+                int masterQuality;
+                int masterError;
                 OPCItemState[] sts;
-                if (oEvent is DataChangeEventArgs)
-                {
+                if (oEvent is DataChangeEventArgs) {
                     var dataE = oEvent as DataChangeEventArgs;
                     transactionID = dataE.transactionID;
                     groupHandleClient = dataE.groupHandleClient;
                     masterQuality = dataE.masterQuality;
                     masterError = dataE.masterError;
                     sts = dataE.sts;
-                } else if (oEvent is ReadCompleteEventArgs)
-                {
+                }
+                else if (oEvent is ReadCompleteEventArgs) {
                     var dataE = oEvent as ReadCompleteEventArgs;
                     transactionID = dataE.transactionID;
                     groupHandleClient = dataE.groupHandleClient;
@@ -266,164 +231,133 @@ namespace OPCFledged
                     masterError = dataE.masterError;
                     sts = dataE.sts;
                 }
-                else
-                {
+                else {
                     l.err("oEvent is neither DataChangeEventArgs nor ReadCompleteEventArgs");
                     return;
                 }
                 l.msg("gh={0} id={1} me={2} mq={3}", groupHandleClient, transactionID, masterError, masterQuality);
                 List<int> relatedEventsIdList = new List<int>();
-                foreach (OPCItemState s in sts)
-                {
-                    if (HRESULTS.Succeeded(s.Error))
-                    {
-                        l.msg(" ih={0} ItemID={2} >> value={1}", s.HandleClient, s.DataValue, m_Item_defs.ElementAt(s.HandleClient).ItemID);
+                foreach (OPCItemState s in sts) {
+                    if (HRESULTS.Succeeded(s.Error)) {
+                        l.msg(" ih={0} ItemID={2} >> value={1}", s.HandleClient, s.DataValue,
+                              m_Item_defs.ElementAt(s.HandleClient).ItemID);
                         var _p_ = EventsList[m_Item_props[s.HandleClient].eventId].GetProperties()[
                             m_Item_props[s.HandleClient].eventPropId];
                         bool presenceFlag = false;
-                        foreach (int evid in relatedEventsIdList)
-                        {
+                        foreach (int evid in relatedEventsIdList) {
                             if (evid == m_Item_props[s.HandleClient].eventId)
                                 presenceFlag = true;
                         }
                         if (!presenceFlag)
                             relatedEventsIdList.Add(m_Item_props[s.HandleClient].eventId);
                         //l.msg(_p_.PropertyType.ToString() + " --- " + s.DataValue.GetType().ToString());
-                        if (_p_.PropertyType == (typeof(System.Boolean)))
-                        {
+                        if (_p_.PropertyType == (typeof (System.Boolean))) {
                             l.msg("boolean type");
-                            var _nb_ = ((PLCPoint)_p_.GetCustomAttributes(false)[m_Item_props[s.HandleClient].eventPlcpId]).BitNumber;
-                            _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], BoolExpressions.GetBit(Convert.ToByte(s.DataValue), _nb_), null);
+                            var _nb_ =
+                                ((PLCPoint) _p_.GetCustomAttributes(false)[m_Item_props[s.HandleClient].eventPlcpId]).
+                                    BitNumber;
+                            _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId],
+                                         BoolExpressions.GetBit(Convert.ToByte(s.DataValue), _nb_), null);
                             var itemID = m_Item_defs.ElementAt(s.HandleClient).ItemID;
                             if (FlagStore.ContainsKey(itemID)) FlagStore[itemID] = Convert.ToByte(s.DataValue);
                             else FlagStore.Add(itemID, Convert.ToByte(s.DataValue));
-                            
                         }
-                        else if (_p_.PropertyType == (typeof(System.Int32)))
-                        {
+                        else if (_p_.PropertyType == (typeof (System.Int32))) {
                             l.msg("int32 type {0}", s.DataValue.GetType().ToString());
-                            if (s.DataValue.GetType() == (typeof(System.Int16)))
-                            {
-                                _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], Convert.ToInt32(s.DataValue), null);
-                            }
-                            else
-                            {
+                            if (s.DataValue.GetType() == (typeof (System.Int16)))
+                                _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId],
+                                             Convert.ToInt32(s.DataValue), null);
+                            else {
                                 Int64 itmp = Convert.ToInt64(s.DataValue);
-                                UInt64 tmp = (UInt64)itmp;
-                                if (itmp != -1)
-                                {
+                                UInt64 tmp = (UInt64) itmp;
+                                if (itmp != -1) {
                                     if (tmp > 0xffffffff)
-                                    {
                                         tmp = 32000;
-                                    }
                                     if (tmp >= 0x7ffffff)
-                                    {
                                         tmp = 31999;
-                                    }
-                                    _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], Convert.ToInt32(tmp), null);
+                                    _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], Convert.ToInt32(tmp),
+                                                 null);
                                 }
                                 else
                                     _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], -1, null);
                             }
                         }
-                        else if (_p_.PropertyType == (typeof(System.Double)))
-                        {
+                        else if (_p_.PropertyType == (typeof (System.Double))) {
                             l.msg("double type");
-                            _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], Convert.ToDouble(s.DataValue), null);
+                            _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], Convert.ToDouble(s.DataValue),
+                                         null);
                         }
-                        else if (_p_.PropertyType == (typeof(System.Char[])))
-                        {
+                        else if (_p_.PropertyType == (typeof (System.Char[]))) {
                             l.msg("char[]");
                             _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], conv(s.DataValue), null);
                         }
-                        else if (_p_.PropertyType == (typeof(System.String)))
-                        {
+                        else if (_p_.PropertyType == (typeof (System.String))) {
                             l.msg("string");
-                            try
-                            {
-                                _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], convBack((byte[])s.DataValue), null);
+                            try {
+                                _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId],
+                                             convBack((byte[]) s.DataValue), null);
                             }
-                            catch (Exception)
-                            {
+                            catch (Exception) {
                                 _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], "err", null);
                                 //throw;
                             }
-
                         }
-                        else
-                        {
+                        else {
                             l.msg("any type");
-                            try
-                            {
+                            try {
                                 _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], s.DataValue, null);
                             }
-                            catch (Exception)
-                            {
-                                l.msg("receive data type not support", "OPCConnector function TheGrpDataChange", InstantLogger.TypeMessage.death);
+                            catch (Exception) {
+                                l.msg("receive data type not support", "OPCConnector function TheGrpDataChange",
+                                      InstantLogger.TypeMessage.death);
                                 _p_.SetValue(EventStore[m_Item_props[s.HandleClient].eventId], 0, null);
                                 throw;
                             }
-
                         }
-
                     }
                     else
                         l.msg(String.Format(" ih={0}    ERROR=0x{1:x} !", s.HandleClient, s.Error));
                 }
-                foreach (var idReceiveEvent in relatedEventsIdList)
-                {
+                foreach (var idReceiveEvent in relatedEventsIdList) {
                     bool isWriteble = false;
-                    foreach (var prop in EventStore[idReceiveEvent].GetType().GetProperties())
-                    {
-                        foreach (object x in prop.GetCustomAttributes(false))
-                        {
-                            if (x.GetType().Name == "PLCPoint")
-                            {
+                    foreach (var prop in EventStore[idReceiveEvent].GetType().GetProperties()) {
+                        foreach (object x in prop.GetCustomAttributes(false)) {
+                            if (x.GetType().Name == "PLCPoint") {
                                 // InstantLogger.log(prop.GetCustomAttributesData()[1].ToString());
                                 if (((PLCPoint) x).IsWritable)
-                                {
                                     isWriteble = true;
-                                }
                             }
                         }
                     }
 
-                    if (isWriteble)
-                    {
+                    if (isWriteble) {
                         l.msg("Event: " + EventStore[idReceiveEvent].GetType().Name + "isWriteble",
-                                          "OPCConnectore function TheGrpDataChange",
-                                          InstantLogger.TypeMessage.unimportant);
+                              "OPCConnectore function TheGrpDataChange",
+                              InstantLogger.TypeMessage.unimportant);
                     }
-                    else
-                    {
+                    else {
                         l.msg(EventStore[idReceiveEvent].ToString(),
-                                          "OPCConnectore function TheGrpDataChange",
-                                          InstantLogger.TypeMessage.unimportant);
+                              "OPCConnectore function TheGrpDataChange",
+                              InstantLogger.TypeMessage.unimportant);
                         Program.m_pushGate.PushEvent(EventStore[idReceiveEvent]);
                     }
-                    
                 }
-
             }
         }
-        public void TheGrpDataChange(object sender, DataChangeEventArgs e)
-        {
+
+        public void TheGrpDataChange(object sender, DataChangeEventArgs e) {
             CoreEventGenerator(sender, e);
         }
 
-        public void TheGrpReadComplete(object sender, ReadCompleteEventArgs e)
-        {
+        public void TheGrpReadComplete(object sender, ReadCompleteEventArgs e) {
             CoreEventGenerator(sender, e);
         }
 
-        public void TheGrpWriteComplete(object sender, WriteCompleteEventArgs e)
-        {
-            using (Logger l = new Logger("OnWriteComplete", ref locker))
-            {
+        public void TheGrpWriteComplete(object sender, WriteCompleteEventArgs e) {
+            using (Logger l = new Logger("OnWriteComplete", ref locker)) {
                 l.msg("WriteComplete event: gh={0} id={1} me={2}", e.groupHandleClient, e.transactionID,
-                           e.masterError);
-                foreach (OPCWriteResult r in e.res)
-                {
+                      e.masterError);
+                foreach (OPCWriteResult r in e.res) {
                     if (HRESULTS.Succeeded(r.Error))
                         l.msg(" ih={0} e={1}", r.HandleClient, r.Error);
                     else

@@ -8,12 +8,9 @@ using Converter;
 using Implements;
 using System.IO;
 
-namespace Charge5
-{
-    internal partial class Program
-    {
-        static void Init()
-        {
+namespace Charge5 {
+    internal partial class Program {
+        private static void Init() {
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
             var o = new HeatChangeEvent();
             MainGate = new Client(new Listener());
@@ -28,17 +25,15 @@ namespace Charge5
             InitTbl = new CSVTableParser();
 
             TablePaths = ScanStore(StorePath);
-            try
-            {
+            try {
                 Tables = LoadTables(DefaultPattern, ref InitTbl);
                 InstantLogger.msg("default pattern \"{0}\" loaded", DefaultPattern);
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 InstantLogger.err("can't load pattern \"{0}\",\nTry load pattern \"default\"", DefaultPattern);
                 Tables = LoadTables("default", ref InitTbl);
             }
-            
+
             if (Tables == null) InstantLogger.err("default pattern not loaded");
 
             CalcModeIsAutomatic = false;
@@ -59,15 +54,13 @@ namespace Charge5
             //CSVTP_FlexEventConverter.UnpackFromFlex(tableFlex, ref InitTbl, ref Tables, ref name);
             //Console.WriteLine("Pare: {0}", name);
             //SaveTables("newFromFlex", InitTbl, Tables);
-
         }
 
-        public static void Reset()
-        {
+        public static void Reset() {
             AutoInData = new InData();
             AutoInData.SiHi = 0;
             AutoInData.THi = 0;
-           
+
             //m_autoInDataPrevious = new InData();
             //m_autoInDataPrevious.SteelType = -1;
             //m_autoInDataPrevious.THi = -1;
@@ -78,7 +71,6 @@ namespace Charge5
             Saver.Reset();
 
             IsRefrashData = false;
-
         }
     }
 }

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OGDecarbonaterFine
-{
-    public class InputData
-    {
+namespace OGDecarbonaterFine {
+    public class InputData {
         public double CO;
         public double CO2;
         public double H2;
@@ -20,8 +18,7 @@ namespace OGDecarbonaterFine
         public double QO2;
         public int QO2I;
 
-        public InputData()
-        {
+        public InputData() {
             CO = 0.0;
             CO = 0.02;
             H2 = 0.0;

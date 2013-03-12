@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace HeatDataVisualizer
-{
-    static class Program
-    {
+namespace HeatDataVisualizer {
+    internal static class Program {
         public static VisMain MainForm;
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
+        private static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MainForm = new VisMain();

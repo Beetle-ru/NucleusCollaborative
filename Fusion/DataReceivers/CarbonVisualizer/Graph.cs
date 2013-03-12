@@ -11,18 +11,16 @@ using System.Windows.Forms;
 using Converter;
 using Implements;
 
-namespace CarbonVisualizer
-{
-    public partial class Graph : Form
-    {
+namespace CarbonVisualizer {
+    public partial class Graph : Form {
         private System.Threading.Timer m_onLoad;
         public List<Implements.Curve> Curves;
         public double CarbonCurrent, LancePos, CarbonMonoxideVolumePercent, CarbonOxideVolumePercent;
         public SimpleGrp PaintGraphs;
-        private bool bpIsCreated ;
+        private bool bpIsCreated;
         private ConnectionProvider.Client m_listenGate;
-        public void Init()
-        {
+
+        public void Init() {
             Curves = new List<Implements.Curve>();
             Curves.Add(new Implements.Curve());
             Curves.Add(new Implements.Curve());
@@ -50,51 +48,46 @@ namespace CarbonVisualizer
             //    Curves[0].AddPoint(i, 100-i);
             //}
         }
-        public Graph()
-        {
+
+        public Graph() {
             InitializeComponent();
             bpIsCreated = false;
             Init();
             m_onLoad = new System.Threading.Timer(new TimerCallback(TimerOnload));
             m_onLoad.Change(500, 0);
             PaintGraphs = new SimpleGrp(pbGraph.Font);
-            
+
             var o = new HeatChangeEvent();
             m_listenGate = new ConnectionProvider.Client(new Listener());
             m_listenGate.Subscribe();
         }
 
 
-        private void TimerOnload(object obj)
-        {
+        private void TimerOnload(object obj) {
             Size size = splitMain.Panel1.Size;
             pbGraph.Image = PaintGraphs.Redraw(size.Width, size.Height, Curves);
             bpIsCreated = true;
         }
 
 
-        private void splitMain_Panel1_Resize(object sender, EventArgs e)
-        {
-            if (bpIsCreated)
-            {
+        private void splitMain_Panel1_Resize(object sender, EventArgs e) {
+            if (bpIsCreated) {
                 Size size = splitMain.Panel1.Size;
                 pbGraph.Image = PaintGraphs.Redraw(size.Width, size.Height, Curves);
                 pbGraph.Size = size;
             }
         }
 
-        public void Redraw()
-        {
-            if (bpIsCreated)
-            {
+        public void Redraw() {
+            if (bpIsCreated) {
                 Size size = splitMain.Panel1.Size;
                 pbGraph.Image = PaintGraphs.Redraw(size.Width, size.Height, Curves);
                 pbGraph.Size = size;
-                
+
                 lblCarbon.Text = Math.Round(CarbonCurrent, 5).ToString();
                 lblCarbon.ForeColor = Curves[0].ColorCurve;
                 lblCarbonText.ForeColor = Curves[0].ColorCurve;
-                
+
                 lblLancePosition.Text = Math.Round(LancePos, 5).ToString();
                 lblLancePosition.ForeColor = Curves[1].ColorCurve;
                 lblLancePositionText.ForeColor = Curves[1].ColorCurve;
@@ -106,14 +99,9 @@ namespace CarbonVisualizer
                 lblCO2.Text = Math.Round(CarbonOxideVolumePercent, 5).ToString();
                 lblCO2.ForeColor = Curves[5].ColorCurve;
                 lblCO2Text.ForeColor = Curves[5].ColorCurve;
-                
-
             }
         }
 
-        private void lblSubLanceStartText_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void lblSubLanceStartText_Click(object sender, EventArgs e) {}
     }
 }

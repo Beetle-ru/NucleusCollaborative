@@ -5,10 +5,8 @@ using System.Text;
 using System.Timers;
 using Implements;
 
-namespace OGDecarbonaterFine
-{
-    internal static partial class Iterator
-    {
+namespace OGDecarbonaterFine {
+    internal static partial class Iterator {
         // Consts
         public const int PeriodSec = 3; // время сглаживания
         public const int IntervalSec = 1; // интервал расчетов
@@ -24,7 +22,7 @@ namespace OGDecarbonaterFine
         public static XimTable HimMaterials;
         public static string ArchFileName;
         public static SupportMaterials MaterialsZeroLevel;
-        public static string CSVHimFilePath;// = "HimMaterials.csv"; // файл с химиями
+        public static string CSVHimFilePath; // = "HimMaterials.csv"; // файл с химиями
         public static List<MFOGDFData> Matrix; // матрикс для расчета коэффицентов для поправки
         public static List<MFOGDFData> QueueWaitCarbon; // очередь ожидания углерода
         public static string MatrixFileName; //файл матрикса

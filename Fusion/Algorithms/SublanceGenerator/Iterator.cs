@@ -5,11 +5,8 @@ using System.Text;
 using Converter;
 using Implements;
 
-namespace SublanceGenerator
-{
-    
-    static class Iterator
-    {
+namespace SublanceGenerator {
+    internal static class Iterator {
         public static RollingAverage Oxigen;
         public static RollingAverage CarbonMonoxide;
         public static double HotMetallMass;
@@ -19,7 +16,7 @@ namespace SublanceGenerator
         public static double Ck; // углерод куркина
         public static bool ZondIsAccepted; // замер подтвержден
         private const int SmoothInterval = 15;
-        private static double m_oxygenStartValue ;
+        private static double m_oxygenStartValue;
         private static bool m_isNotfiredB; // бубноский не стреляли
         private static bool m_isNotfiredK; // куркинский не стреляли
         private static bool m_isNotfiredPrognosis; // по прогнозу не стреля не стреляли
@@ -31,16 +28,21 @@ namespace SublanceGenerator
         public static bool EndMeteringAlow; // конец замера разрешен
         public static int SublanceHeigth; // высота зонда
         public const int SublanceTreshold = 2000; // порог при котором зонд считается поднятым
-        public static int PeriodNumber; // период углерода 1 - грубая однофакторная модель, 2 - многофакторная, 3 - дофук(не реализован)
+
+        public static int PeriodNumber;
+                          // период углерода 1 - грубая однофакторная модель, 2 - многофакторная, 3 - дофук(не реализован)
+
         public static DateTime LastIterateTime; // последнее время - нужно для прогноза замера
-        public static int SecondFromBeginMFM; // количество секунд от старта многофакторной модели, нужно для прогноза замера 
+
+        public static int SecondFromBeginMFM;
+                          // количество секунд от старта многофакторной модели, нужно для прогноза замера 
+
         public static double X1, Y1, Xn, Yn; // вхоные данные для предсказывающего уравнения
         public const double ReactionTime = 25.0 + 20; // время реакции системы
         public static double PrognosisMeterTime; //прогнозируемое время замера
         public static bool Item1IsFixed; // зафиксированы значения X1, Y1
-        
-        public static void Init()
-        {
+
+        public static void Init() {
             Oxigen = new RollingAverage();
             CarbonMonoxide = new RollingAverage();
             HotMetallMass = 0;
@@ -68,16 +70,15 @@ namespace SublanceGenerator
             PrognosisMeterTime = 0.0;
             Item1IsFixed = false;
         }
-        public static void Renit()
-        {
+
+        public static void Renit() {
             StopBlowFlagRelease();
             EndMetering();
             Init();
         }
-        public static void Iterate()
-        {
-            using (var l = new Logger("Iterate"))
-            {
+
+        public static void Iterate() {
+            using (var l = new Logger("Iterate")) {
                 var oxy = Oxigen.Average(SmoothInterval);
                 var co = CarbonMonoxide.Average(SmoothInterval);
                 if (VerificateB(oxy, co, HotMetallMass) && m_isNotfiredB) // рекомендация кислорода на продувку
@@ -92,7 +93,8 @@ namespace SublanceGenerator
                     l.msg(msg);
                     m_isNotfiredB = false;
                 }
-                if (VerificateK(TargetCk, TargetCku, Ck) && (PeriodNumber == 2) && m_isNotfiredK) // команда на старт зонда по углероду и предуставке
+                if (VerificateK(TargetCk, TargetCku, Ck) && (PeriodNumber == 2) && m_isNotfiredK)
+                    // команда на старт зонда по углероду и предуставке
                 {
                     var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.RecommendMetering.K");
                     fex.AddArg("TargetCk", TargetCk);
@@ -120,8 +122,7 @@ namespace SublanceGenerator
                         m_isNotfiredPrognosis = false;
                     }
                 }
-                if(EndMeteringAccept && EndMeteringAlow)
-                {
+                if (EndMeteringAccept && EndMeteringAlow) {
                     EndMetering();
                     EndMeteringAccept = false;
                     EndMeteringAlow = false;
@@ -129,7 +130,9 @@ namespace SublanceGenerator
                 }
             }
         }
-        private static bool VerificateB(double oxigen, double carbonMonoxide, double hotMetallMass) // проверка по бубнову
+
+        private static bool VerificateB(double oxigen, double carbonMonoxide, double hotMetallMass)
+            // проверка по бубнову
         {
             const int transformValue = 64;
             const int coTreshold = 15;
@@ -138,13 +141,12 @@ namespace SublanceGenerator
             //return (m_oxygenStartValue < oxigen) && (carbonMonoxide < coTreshold) && (hotMetallMass != 0);
             return (hotMetallMass != 0);
         }
-        private static bool VerificateK(double targetCk, double targetCku, double ck)
-        {
+
+        private static bool VerificateK(double targetCk, double targetCku, double ck) {
             return ((targetCk <= ck) && (ck <= (targetCk + targetCku))); // recommend metering
         }
 
-        private static bool VerificatePrognosis(double targetCk, double reactionTime, double cNow)
-        {
+        private static bool VerificatePrognosis(double targetCk, double reactionTime, double cNow) {
             const int item1SecFix = 3;
             const int startCalcSec = 10;
             if (targetCk < 0) return false;
@@ -158,18 +160,23 @@ namespace SublanceGenerator
                 {
                     SecondFromBeginMFM += deltaSec;
 
-                    if (!Item1IsFixed && SecondFromBeginMFM >= item1SecFix) // секунда на которой фиксируем первые значения
+                    if (!Item1IsFixed && SecondFromBeginMFM >= item1SecFix)
+                        // секунда на которой фиксируем первые значения
                     {
                         X1 = SecondFromBeginMFM;
                         Y1 = cNow;
                         Item1IsFixed = true;
                     }
-                    if (SecondFromBeginMFM < startCalcSec) return false; // если текущая секунда меньше заданной, то не считаем, воизбежание ложных срабатываний
+                    if (SecondFromBeginMFM < startCalcSec)
+                        return false;
+                            // если текущая секунда меньше заданной, то не считаем, воизбежание ложных срабатываний
 
                     Xn = SecondFromBeginMFM;
                     Yn = cNow;
-                    var X = (((Y1 + ((Y1 - Yn) / (Xn - X1)) * X1) - targetCk) * (Xn - X1)) / (Y1 - Yn); // время когда углерод попадет в цель
-                    var Xrt = X - reactionTime; // время с учетом времени реакции, может быть и отрицательным если опоздали с замером
+                    var X = (((Y1 + ((Y1 - Yn)/(Xn - X1))*X1) - targetCk)*(Xn - X1))/(Y1 - Yn);
+                        // время когда углерод попадет в цель
+                    var Xrt = X - reactionTime;
+                        // время с учетом времени реакции, может быть и отрицательным если опоздали с замером
 
                     InstantLogger.msg("CurrentSecond = {0}; StartZondSecond = {1}", SecondFromBeginMFM, Xrt);
                     //var epsilon = 3;
@@ -178,9 +185,7 @@ namespace SublanceGenerator
                     //    return true;
                     //}
                     if (SecondFromBeginMFM >= Xrt)
-                    {
                         return true;
-                    }
                 }
             }
             else // 0 секунда
@@ -192,18 +197,17 @@ namespace SublanceGenerator
             return false; // recommend metering
         }
 
-        private static double OxygenStartValue(double hotMetallMass, int transformValue)
-        {
+        private static double OxygenStartValue(double hotMetallMass, int transformValue) {
             return hotMetallMass*transformValue;
         }
-        private static Guid SIdGen()
-        {
+
+        private static Guid SIdGen() {
             //return Guid.NewGuid();
             return new Guid();
         }
-        public static void BeginMetering()
-        {
-            Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 1});
+
+        public static void BeginMetering() {
+            Program.MainGate.PushEvent(new comO2FlowRateEvent() {SublanceStartO2Vol = 1});
             IsBeganMetering = true;
             //if (LanceMod == 3)
             //{
@@ -212,9 +216,9 @@ namespace SublanceGenerator
             //    IsBeganMetering = true;
             //}
         }
-        public static void EndMetering()
-        {
-            Program.MainGate.PushEvent(new comO2FlowRateEvent() { SublanceStartO2Vol = 0 });
+
+        public static void EndMetering() {
+            Program.MainGate.PushEvent(new comO2FlowRateEvent() {SublanceStartO2Vol = 0});
             IsBeganMetering = false;
             //if (LanceMod == 3)
             //{
@@ -223,28 +227,28 @@ namespace SublanceGenerator
             //    IsBeganMetering = false;
             //}
         }
+
         //public static void BlowingEndRequest()
         //{
         //    var fex = new ConnectionProvider.FlexHelper("SublanceGenerator.BlowingEndRequest");
         //    fex.AddArg("SId", SIdK);
         //    fex.Fire(Program.MainGate);
         //}
-        public static void DoStopBlow()
-        {
+        public static void DoStopBlow() {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 1);
             fex.Fire(Program.MainGate);
             InstantLogger.log(fex.evt.ToString());
         }
-        public static void StopBlowFlagRelease()
-        {
+
+        public static void StopBlowFlagRelease() {
             var fex = new ConnectionProvider.FlexHelper("OPC.ComEndBlowing");
             fex.AddArg("EndBlowingSignal", 0);
             fex.Fire(Program.MainGate);
             InstantLogger.log(fex.evt.ToString());
         }
-        public static bool SublanceRaised(double derivative, int heigth, int treshold)
-        {
+
+        public static bool SublanceRaised(double derivative, int heigth, int treshold) {
             return (derivative > 0) && (heigth >= treshold);
         }
     }

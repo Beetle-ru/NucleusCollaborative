@@ -8,12 +8,9 @@ using System.Diagnostics;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace AppNode
-{
-    partial class Program
-    {
-        static void Main(string[] args)
-        {
+namespace AppNode {
+    internal partial class Program {
+        private static void Main(string[] args) {
             ConsolePrepare();
             LoadCfg(CfgPath);
             ExecuteAll();

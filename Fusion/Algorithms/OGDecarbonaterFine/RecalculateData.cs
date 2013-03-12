@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OGDecarbonaterFine
-{
-    public class RecalculateData : InputData
-    {
+namespace OGDecarbonaterFine {
+    public class RecalculateData : InputData {
         public Int64 HeatNumber;
         public int OffGasTransportDelay;
-        
+
         public bool DataFinishFixed;
 
         /// <summary>
@@ -91,7 +89,7 @@ namespace OGDecarbonaterFine
         /// Суммарный текущий унос углерода
         /// </summary>
         public double M;
-       
+
         /// <summary>
         /// Суммарный накопленный унос углерода
         /// </summary>
@@ -222,11 +220,10 @@ namespace OGDecarbonaterFine
         /// </summary>
         public double FixPointPC;
 
-        public RecalculateData()
-        {
+        public RecalculateData() {
             HeatNumber = 0;
             OffGasTransportDelay = 25;
-            
+
             DataFinishFixed = false;
 
             PFlue = 0.0;
@@ -273,8 +270,7 @@ namespace OGDecarbonaterFine
             FixPointPC = 0.0;
         }
 
-        public string GetDataLine()
-        {
+        public string GetDataLine() {
             const char sep = ';';
             var str = "";
             str += String.Format("{0}", DateTime.Now);
@@ -314,7 +310,9 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, MCSc);
             str += String.Format("{0}{1}", sep, MCMetall);
 
-            str = Materials.MaterialList.Aggregate(str, (current, materialData) => current + String.Format("{0}{1}", sep, materialData.TotalWeight));
+            str = Materials.MaterialList.Aggregate(str,
+                                                   (current, materialData) =>
+                                                   current + String.Format("{0}{1}", sep, materialData.TotalWeight));
 
             str += String.Format("{0}{1}", sep, MCsp);
             str += String.Format("{0}{1}", sep, DeltaMC);
@@ -338,8 +336,7 @@ namespace OGDecarbonaterFine
             return str;
         }
 
-        public string GetHeaderLine()
-        {
+        public string GetHeaderLine() {
             const char sep = ';';
             var str = "";
             str += String.Format("{0}", DateTime.Now);
@@ -379,7 +376,9 @@ namespace OGDecarbonaterFine
             str += String.Format("{0}{1}", sep, "MCSc");
             str += String.Format("{0}{1}", sep, "MCMetall");
 
-            str = Materials.MaterialList.Aggregate(str, (current, materialData) => current + String.Format("{0}{1}", sep, materialData.CodeName));
+            str = Materials.MaterialList.Aggregate(str,
+                                                   (current, materialData) =>
+                                                   current + String.Format("{0}{1}", sep, materialData.CodeName));
 
             str += String.Format("{0}{1}", sep, "MCsp");
             str += String.Format("{0}{1}", sep, "DeltaMC");

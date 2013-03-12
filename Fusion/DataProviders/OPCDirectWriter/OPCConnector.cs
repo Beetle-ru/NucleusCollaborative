@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using System.Runtime.InteropServices;
 using OPC.Data;
 using OPC.Common;
@@ -13,10 +12,8 @@ using System.Reflection;
 using CommonTypes;
 using Implements;
 
-namespace OPCDirectWriter
-{
-    class OpcConnector
-    {
+namespace OPCDirectWriter {
+    internal class OpcConnector {
         private const int StrCount = 10;
         private static object locker = new object();
         private readonly OpcServer m_The_srv;
@@ -24,8 +21,7 @@ namespace OPCDirectWriter
         private readonly OPCItemDef[] m_Item_defs = new OPCItemDef[StrCount];
         private readonly int[] m_Handles_srv = new int[StrCount];
 
-        public OpcConnector(string progId, string plcName, string opcAddressFmt)
-        {
+        public OpcConnector(string progId, string plcName, string opcAddressFmt) {
             m_The_srv = new OpcServer();
             m_The_srv.Connect(progId);
             Thread.Sleep(500); // we are faster then some servers!
@@ -35,43 +31,36 @@ namespace OPCDirectWriter
 
             // add two items and save server handles
             for (int i = 0; i < StrCount; i++)
-            {
-                m_Item_defs[i] = new OPCItemDef(string.Format(opcAddressFmt, plcName, 272 + i * 6), true, i + 1, VarEnum.VT_EMPTY);
-            }
+                m_Item_defs[i] = new OPCItemDef(string.Format(opcAddressFmt, plcName, 272 + i*6), true, i + 1,
+                                                VarEnum.VT_EMPTY);
             OPCItemResult[] rItm;
             m_The_grp.AddItems(m_Item_defs, out rItm);
             if (rItm == null) return;
-            if (HRESULTS.Failed(rItm[0].Error) || HRESULTS.Failed(rItm[1].Error))
-            {
+            if (HRESULTS.Failed(rItm[0].Error) || HRESULTS.Failed(rItm[1].Error)) {
                 InstantLogger.msg("OPCDirectWriter: {0} -- AddItems - some failed", plcName);
                 m_The_grp.Remove(true);
                 m_The_srv.Disconnect();
                 return;
             }
             for (int i = 0; i < StrCount; i++)
-            {
                 m_Handles_srv[i] = rItm[i].HandleServer;
-            }
             m_The_grp.WriteCompleted += TheGrpWriteComplete;
         }
-        private object conv(string str, int buflen = 6)
-        {
+
+        private object conv(string str, int buflen = 6) {
             var res = new byte[buflen];
 
             for (int i = 0; i < buflen; i++)
-            {
                 res[i] = 0x20;
-            }
-            for (int i = 0; i < Math.Min(str.Length, buflen); i++)
-            {
-                int code = (int)str.ElementAt(i);
+            for (int i = 0; i < Math.Min(str.Length, buflen); i++) {
+                int code = (int) str.ElementAt(i);
                 if (code > 900) code -= 848;
-                res[i] = (byte)code;
+                res[i] = (byte) code;
             }
             return res;
         }
-        public void Send(Converter.comAdditionsEvent matEvent)
-        {
+
+        public void Send(Converter.comAdditionsEvent matEvent) {
             // asynch write
             int cancelId;
             int[] aE;
@@ -91,16 +80,16 @@ namespace OPCDirectWriter
             // some delay for asynch write-complete callback (simplification)
             Thread.Sleep(500);
         }
-        public void CloseConnection()
-        {
+
+        public void CloseConnection() {
             int[] aE;
             m_The_grp.WriteCompleted -= TheGrpWriteComplete;
             m_The_grp.RemoveItems(m_Handles_srv, out aE);
             m_The_grp.Remove(false);
             m_The_srv.Disconnect();
         }
-        public void Work()
-        {
+
+        public void Work() {
             /*	try						// disabled for debugging
                 {	
 
@@ -177,52 +166,43 @@ namespace OPCDirectWriter
         }
 
 
-
-
-
         // ------------------------------ events -----------------------------
 
-        public void TheGrpDataChange(object sender, DataChangeEventArgs e)
-        {
-            lock (locker)
-            {
+        public void TheGrpDataChange(object sender, DataChangeEventArgs e) {
+            lock (locker) {
                 InstantLogger.msg("DataChange event: gh={0} id={1} me={2} mq={3}", e.groupHandleClient, e.transactionID,
                                   e.masterError, e.masterQuality);
-                foreach (OPCItemState s in e.sts)
-                {
+                foreach (OPCItemState s in e.sts) {
                     if (HRESULTS.Succeeded(s.Error))
-                        InstantLogger.msg(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality, s.TimeStamp);
+                        InstantLogger.msg(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality,
+                                          s.TimeStamp);
                     else
                         InstantLogger.msg(" ih={0}    ERROR=0x{1:x} !", s.HandleClient, s.Error);
                 }
             }
         }
 
-        public void TheGrpReadComplete(object sender, ReadCompleteEventArgs e)
-        {
-            lock (locker)
-            {
+        public void TheGrpReadComplete(object sender, ReadCompleteEventArgs e) {
+            lock (locker) {
                 InstantLogger.msg("after read");
-                InstantLogger.msg("ReadComplete event: gh={0} id={1} me={2} mq={3}", e.groupHandleClient, e.transactionID,
-                           e.masterError, e.masterQuality);
-                foreach (OPCItemState s in e.sts)
-                {
+                InstantLogger.msg("ReadComplete event: gh={0} id={1} me={2} mq={3}", e.groupHandleClient,
+                                  e.transactionID,
+                                  e.masterError, e.masterQuality);
+                foreach (OPCItemState s in e.sts) {
                     if (HRESULTS.Succeeded(s.Error))
-                        InstantLogger.msg(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality, s.TimeStamp);
+                        InstantLogger.msg(" ih={0} v={1} q={2} t={3}", s.HandleClient, s.DataValue, s.Quality,
+                                          s.TimeStamp);
                     else
                         InstantLogger.msg(" ih={0}    ERROR=0x{1:x} !", s.HandleClient, s.Error);
                 }
             }
         }
 
-        public void TheGrpWriteComplete(object sender, WriteCompleteEventArgs e)
-        {
-            lock (locker)
-            {
+        public void TheGrpWriteComplete(object sender, WriteCompleteEventArgs e) {
+            lock (locker) {
                 InstantLogger.msg("WriteComplete event: gh={0} id={1} me={2}", e.groupHandleClient, e.transactionID,
-                           e.masterError);
-                foreach (OPCWriteResult r in e.res)
-                {
+                                  e.masterError);
+                foreach (OPCWriteResult r in e.res) {
                     if (HRESULTS.Succeeded(r.Error))
                         InstantLogger.msg(" ih={0} e={1}", r.HandleClient, r.Error);
                     else

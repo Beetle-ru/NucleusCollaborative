@@ -8,21 +8,19 @@ using ConnectionProvider;
 using Converter;
 using Implements;
 
-namespace CoreMeter
-{
-    class Program
-    {
+namespace CoreMeter {
+    internal class Program {
         public static Client MainGate;
         public const char Separator = ';';
         public static Timer FireTimer = new Timer(1000);
-        public static Timer HourTimer = new Timer(1000 * 60 * 60);
+        public static Timer HourTimer = new Timer(1000*60*60);
         //public static Timer HourTimer = new Timer(1000);
         public static List<FlexEvent> FlexList;
         public static List<HourResult> ResultList;
         public static string Dir = "CoreMeterArch\\";
         public static string ArchPath = Dir + ArchNameGenerate("res");
-        static void Main(string[] args)
-        {
+
+        private static void Main(string[] args) {
             var o = new HeatChangeEvent();
             MainGate = new Client(new Listener());
             MainGate.Subscribe();
@@ -45,11 +43,9 @@ namespace CoreMeter
             Console.ReadLine();
         }
 
-        public static void HourTimerHandler(object source, ElapsedEventArgs e)
-        {
+        public static void HourTimerHandler(object source, ElapsedEventArgs e) {
             FireTimer.Enabled = false;
-            lock (ResultList)
-            {
+            lock (ResultList) {
                 System.Threading.Thread.Sleep(1000);
                 var last = ResultList.Count - 1;
                 ResultList[last].LostEvents = ResultList[last].FieredEvents - ResultList[last].ReceivedEvents;
@@ -61,8 +57,7 @@ namespace CoreMeter
             FireTimer.Enabled = true;
         }
 
-        public static void FireTimerHandler(object source, ElapsedEventArgs e)
-        {
+        public static void FireTimerHandler(object source, ElapsedEventArgs e) {
             var fex = new FlexHelper("CoreMeteringEvent");
             fex.AddArg("SendTime", DateTime.Now);
             FlexList.Add(fex.evt);
@@ -73,57 +68,52 @@ namespace CoreMeter
             //SaveMatrix(ArchPath);
         }
 
-        public static Int64 GetMs(DateTime time)
-        {
-            return time.Millisecond + time.Second * 1000 + time.Minute * 1000 * 60 * time.Hour * 1000 * 60 * 60;
+        public static Int64 GetMs(DateTime time) {
+            return time.Millisecond + time.Second*1000 + time.Minute*1000*60*time.Hour*1000*60*60;
         }
 
-        public static void SaveMatrix(string path)
-        {
-            using (var l = new Logger("SaveMatrix"))
-            {
+        public static void SaveMatrix(string path) {
+            using (var l = new Logger("SaveMatrix")) {
                 string[] strings = new string[ResultList.Count + 1];
 
                 strings[0] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
-                                                     Separator,
-                                                     "BeginTime",
-                                                     "FieredEvents",
-                                                     "ReceivedEvents",
-                                                     "LostEvents",
-                                                     "MaxDelayMs",
-                                                     "AverageDelayMs",
-                                                     "TotalDelayMs"
-                        );
+                                           Separator,
+                                           "BeginTime",
+                                           "FieredEvents",
+                                           "ReceivedEvents",
+                                           "LostEvents",
+                                           "MaxDelayMs",
+                                           "AverageDelayMs",
+                                           "TotalDelayMs"
+                    );
 
-                for (int dataCnt = 0; dataCnt < ResultList.Count; dataCnt++)
-                {
+                for (int dataCnt = 0; dataCnt < ResultList.Count; dataCnt++) {
                     strings[dataCnt + 1] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
-                                                     Separator,
-                                                     ResultList[dataCnt].Time,
-                                                     ResultList[dataCnt].FieredEvents,
-                                                     ResultList[dataCnt].ReceivedEvents,
-                                                     ResultList[dataCnt].LostEvents,
-                                                     ResultList[dataCnt].MaxDelayMs,
-                                                     ResultList[dataCnt].AverageDelayMs,
-                                                     ResultList[dataCnt].TotalDelayMs
+                                                         Separator,
+                                                         ResultList[dataCnt].Time,
+                                                         ResultList[dataCnt].FieredEvents,
+                                                         ResultList[dataCnt].ReceivedEvents,
+                                                         ResultList[dataCnt].LostEvents,
+                                                         ResultList[dataCnt].MaxDelayMs,
+                                                         ResultList[dataCnt].AverageDelayMs,
+                                                         ResultList[dataCnt].TotalDelayMs
                         );
                 }
-                try
-                {
+                try {
                     File.WriteAllLines(path, strings);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     l.err("Cannot write the file: {0}, call exeption: {1}", path, e.ToString());
                     return;
                     //throw;
                 }
             }
         }
-        public static string ArchNameGenerate(string subname)
-        {
+
+        public static string ArchNameGenerate(string subname) {
             var dt = DateTime.Now;
-            string timeLine = String.Format("Y{0}M{1}D{2}H{3}m{4}S{5}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
+            string timeLine = String.Format("Y{0}M{1}D{2}H{3}m{4}S{5}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute,
+                                            dt.Second);
             timeLine = timeLine + subname + ".csv";
             return timeLine;
         }

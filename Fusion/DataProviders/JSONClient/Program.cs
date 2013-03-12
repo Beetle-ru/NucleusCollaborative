@@ -9,17 +9,15 @@ using CommonTypes;
 using Converter;
 using ConnectionProvider;
 
-namespace JSONClient
-{
-    class Program
-    {
+namespace JSONClient {
+    internal class Program {
         public static ConnectionProvider.Client m_pushGate;
         public static ConnectionProvider.Client m_listenGate;
-        static void Main(string[] args)
-        {
+
+        private static void Main(string[] args) {
             m_pushGate = new Client();
-           // m_pushGate.PushEvent(new BlowingEvent());
-           /* MemoryStream stream = new MemoryStream();
+            // m_pushGate.PushEvent(new BlowingEvent());
+            /* MemoryStream stream = new MemoryStream();
             BlowingEvent be = new BlowingEvent() {BlowingFlag = 1,O2TotalVol = 333};
 
             DataContractJsonSerializer jsonSerializer = new DataContractJsonSerializer(be.GetType());
@@ -54,8 +52,7 @@ namespace JSONClient
             m_listenGate.Subscribe();
 
             UDPDataProvider.Init();
-            while (true)
-            {
+            while (true) {
                 Thread.Sleep(1000);
                 UDPDataProvider.SendMessage(o);
             }
@@ -68,5 +65,4 @@ namespace JSONClient
             Console.ReadLine();
         }
     }
-    
 }
