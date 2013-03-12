@@ -158,11 +158,14 @@ namespace OGDecarbonaterFine
                         string[] values = strings[strCnt].Split(Separator);
                         Matrix.Add(new MFOGDFData()
                         {
-                            HeatNumber = Convertion.StrToInt64(values[0]),
-                            CarbonCalc = Convertion.StrToDouble(values[1]),
-                            DeltaK = Convertion.StrToDouble(values[2]),
-                            CarbonReal = Convertion.StrToDouble(values[1]),
-                            DeltaCarbon = Convertion.StrToDouble(values[1]),
+                            HeatNumber =  Convertion.StrToInt64(values[0]),
+                            DeltaK =      Convertion.StrToDouble(values[1]),
+                            DeltaCarbon = Convertion.StrToDouble(values[2]),
+                            MFe =         Convertion.StrToDouble(values[3]),
+                            MCarbonCalc = Convertion.StrToDouble(values[4]),
+                            MCarbonReal = Convertion.StrToDouble(values[5]),
+                            PCarbonCalc = Convertion.StrToDouble(values[6]),
+                            PCarbonReal = Convertion.StrToDouble(values[7]),
                         });
                     }
                 }
@@ -182,13 +185,16 @@ namespace OGDecarbonaterFine
                 string[] strings = new string[Matrix.Count];
                 for (int dataCnt = 0; dataCnt < Matrix.Count; dataCnt++)
                 {
-                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}",
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
                                                      Separator,
                                                      Matrix[dataCnt].HeatNumber,
-                                                     Matrix[dataCnt].CarbonCalc,
                                                      Matrix[dataCnt].DeltaK,
-                                                     Matrix[dataCnt].CarbonReal,
-                                                     Matrix[dataCnt].DeltaCarbon
+                                                     Matrix[dataCnt].DeltaCarbon,
+                                                     Matrix[dataCnt].MFe,
+                                                     Matrix[dataCnt].MCarbonCalc,
+                                                     Matrix[dataCnt].MCarbonReal,
+                                                     Matrix[dataCnt].PCarbonCalc,
+                                                     Matrix[dataCnt].PCarbonReal
                                                     );
                 }
                 try
@@ -219,7 +225,9 @@ namespace OGDecarbonaterFine
                 
                 var item = new MFOGDFData();
                 item.HeatNumber = CurrentState.HeatNumber;
-                item.CarbonCalc = CurrentState.FixPointCarbonResult;
+                item.MCarbonCalc = CurrentState.FixPointCarbonResult;
+                item.PCarbonCalc = CurrentState.FixPointPC;
+                item.MFe = CurrentState.CurrentMF;
                 item.DeltaK = CurrentState.FixPointDeltaK;
                 
                 QueueWaitCarbon.Add(item);
@@ -232,8 +240,9 @@ namespace OGDecarbonaterFine
             {
                 if (QueueWaitCarbon[i].HeatNumber == HeatNumber)
                 {
-                    QueueWaitCarbon[i].CarbonReal = carbonReal;
-                    QueueWaitCarbon[i].DeltaCarbon = QueueWaitCarbon[i].CarbonCalc - carbonReal;
+                    QueueWaitCarbon[i].PCarbonReal = carbonReal;
+                    QueueWaitCarbon[i].MCarbonReal = (carbonReal * QueueWaitCarbon[i].MFe)/100;
+                    QueueWaitCarbon[i].DeltaCarbon = QueueWaitCarbon[i].MCarbonCalc - QueueWaitCarbon[i].MCarbonReal;
 
                     VerifyAndAddItemMatrix(QueueWaitCarbon[i]);
                     QueueWaitCarbon.RemoveAt(i);

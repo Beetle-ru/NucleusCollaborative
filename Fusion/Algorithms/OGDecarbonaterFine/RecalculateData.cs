@@ -213,7 +213,7 @@ namespace OGDecarbonaterFine
         public double FixPointDeltaK;
 
         /// <summary>
-        /// Уточненный результатирующих углерод
+        /// Уточненный результатирующих углерод в кг
         /// </summary>
         public double FixPointCarbonResult;
 
