@@ -1,0 +1,3 @@
+ModelRunner.Main exception System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
+   в ModelRunner.DynPrepare.Main(String[] args) в C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:строка 106
+
