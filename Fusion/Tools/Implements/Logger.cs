@@ -303,7 +303,7 @@ namespace Implements {
 
         private static string logNameGenerate() {
             var dt = DateTime.Now;
-            string timeLine = String.Format("Y{0}M{1}D{2}H{3}m{4}S{5}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute,
+            string timeLine = String.Format("{0:0000}_{1:00}_{2:00}_{3:00}_{4:00}_{5:00}", dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute,
                                             dt.Second);
             timeLine = timeLine + ".log";
             return String.Format("{0}_{1}", Process.GetCurrentProcess().ProcessName, timeLine);
