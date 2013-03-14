@@ -29,7 +29,7 @@ namespace Implements {
                 m_buffer[i] = new RA_Item();
         }
 
-        public RollingAverage(double defval = Double.NaN, int bufsize = 50) {
+        public RollingAverage(int bufsize = 50, double defval = Double.NaN) {
             _N_ = bufsize;
             _DEFVAL_ = defval;
             m_buffer = new RA_Item[_N_];
