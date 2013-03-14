@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9D47E38D-8FDE-4071-96F0-68F4400AABFC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HeatControl</RootNamespace>
+    <AssemblyName>HeatControl</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Pulse.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonTypes">
+      <HintPath>..\..\ConnectionProvider\bin\Debug\CommonTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="ConnectionProvider">
+      <HintPath>..\..\ConnectionProvider\bin\Debug\ConnectionProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Converter">
+      <HintPath>..\..\ConnectionProvider\bin\Debug\Converter.dll</HintPath>
+    </Reference>
+    <Reference Include="Implements">
+      <HintPath>..\..\ConnectionProvider\bin\Debug\Implements.dll</HintPath>
+    </Reference>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChemistryDataSet.cs">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChemistryDataSet.designer.cs">
+      <DependentUpon>ChemistryDataSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChemistryDataSet1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ChemTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChemTable.designer.cs">
+      <DependentUpon>ChemTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CoreListener.cs" />
+    <Compile Include="FPCarrier.cs" />
+    <Compile Include="HeatInfoDataSet.cs">
+      <DependentUpon>HeatInfoDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="HeatInfoDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HeatInfoDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="IronTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IronTable.designer.cs">
+      <DependentUpon>IronTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="KeyGen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KeyGen.designer.cs">
+      <DependentUpon>KeyGen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MixCalc.cs" />
+    <Compile Include="MixCalculator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MixCalculator.Designer.cs">
+      <DependentUpon>MixCalculator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ScrapDataSet.Designer.cs" />
+    <Compile Include="ScrapTable.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScrapTable.designer.cs">
+      <DependentUpon>ScrapTable.cs</DependentUpon>
+    </Compile>
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ChemTable.resx">
+      <DependentUpon>ChemTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IronTable.resx">
+      <DependentUpon>IronTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KeyGen.resx">
+      <DependentUpon>KeyGen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MixCalculator.resx">
+      <DependentUpon>MixCalculator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScrapTable.resx">
+      <DependentUpon>ScrapTable.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Chemistry.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="HeatInfo.sdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Pulse.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="ChemistryDataSet.xsc">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ChemistryDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ChemistryDataSet1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ChemistryDataSet.xss">
+      <DependentUpon>ChemistryDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="HeatInfoDataSet.xsc">
+      <DependentUpon>HeatInfoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="HeatInfoDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>HeatInfoDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="HeatInfoDataSet.xss">
+      <DependentUpon>HeatInfoDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="ScrapDataSet.xsc">
+      <DependentUpon>ScrapDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="ScrapDataSet.xsd" />
+    <None Include="ScrapDataSet.xss">
+      <DependentUpon>ScrapDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5 SP2</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
