@@ -13,11 +13,16 @@ using Common;
 using Implements;
 using Models;
 using System.Linq;
+using Oracle.DataAccess.Client;
 
 namespace ModelRunner
 {
     partial class DynPrepare
     {
+        public const string QAddElsByName = "SELECT "
+            + "ELEMENT.NAME AS N, ELEMENT.\"VALUE\" AS V "
+            + "FROM ADDITION, ELEMENT "
+            + "WHERE ADDITION.ID = ELEMENT.SID AND (ADDITION.NAME = :A)";
         public static int CurrentTemp = 0; /* Celsius */
         public static FlexHelper matRegEvent = null;
         public static DTO.MINP_MatAddDTO AddIron(int weight)
@@ -125,6 +130,40 @@ namespace ModelRunner
             matCaO.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCaO.MINP_GD_Material.ShortCode = matCaO.ShortCode;
             matCaO.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ИЗВЕСТЬ протокол №72
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "LIME.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "LIME";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Tbl.Clear();
             Adapter.Fill(Tbl, "LIME.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
@@ -137,6 +176,7 @@ namespace ModelRunner
             {
                 matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matCaO.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matCaO;
         }
@@ -148,6 +188,40 @@ namespace ModelRunner
             matMaxG.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matMaxG.MINP_GD_Material.ShortCode = matMaxG.ShortCode;
             matMaxG.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "MAXG.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "MAXG";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Adapter.Fill(Tbl, "MAXG.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
             {
@@ -158,6 +232,7 @@ namespace ModelRunner
             {
                 matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matMaxG.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matMaxG;
         }
@@ -170,6 +245,40 @@ namespace ModelRunner
             matDolom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolom.MINP_GD_Material.ShortCode = matDolom.ShortCode;
             matDolom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "DOLMIT.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "DOLMIT";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Adapter.Fill(Tbl, "DOLMIT.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
             {
@@ -180,6 +289,7 @@ namespace ModelRunner
             {
                 matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matDolom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matDolom;
         }
@@ -192,6 +302,40 @@ namespace ModelRunner
             matDolomS.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matDolomS.MINP_GD_Material.ShortCode = matDolomS.ShortCode;
             matDolomS.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ДОЛОМС протокол №1867
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "DOLOMS.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "DOLOMS";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Adapter.Fill(Tbl, "DOLOMS.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
             {
@@ -202,6 +346,7 @@ namespace ModelRunner
             {
                 matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matDolomS.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matDolomS;
         }
@@ -214,6 +359,40 @@ namespace ModelRunner
             matFom.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matFom.MINP_GD_Material.ShortCode = matFom.ShortCode;
             matFom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ФОМ протокол№48
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "FOM.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "FOM";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Adapter.Fill(Tbl, "FOM.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
             {
@@ -224,6 +403,7 @@ namespace ModelRunner
             {
                 matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matFom.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matFom;
         }
@@ -236,6 +416,40 @@ namespace ModelRunner
             matCoke.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matCoke.MINP_GD_Material.ShortCode = matCoke.ShortCode;
             matCoke.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
+#if DB_IS_ORACLE
+            OraCmd.Parameters["A"].Value = "COKE.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "COKE";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
             Tbl.Clear();
             Adapter.Fill(Tbl, "COKE.props");
             for (int j = 0; j < Tbl.Rows.Count; j++)
@@ -248,6 +462,7 @@ namespace ModelRunner
             {
                 matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
             }
+#endif
             matCoke.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matCoke;
         }

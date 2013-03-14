@@ -22,7 +22,6 @@ namespace ModelRunner
 {
     internal class Listener : IEventListener
     {
-        public static ChemistryDataSet dataset;
         public static ScrapChemistryTableAdapter Adapter = new ScrapChemistryTableAdapter();
         public static ChemistryDataSet.ScrapChemistryDataTable Tbl = new ChemistryDataSet.ScrapChemistryDataTable();
         public static RollingAverage avox = new RollingAverage(1200.1133);

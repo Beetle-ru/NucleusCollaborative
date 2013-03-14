@@ -15,6 +15,7 @@ using Ecofer.ModelRunner.ChemistryDataSetTableAdapters;
 using Implements;
 using Models;
 using System.Linq;
+using Oracle.DataAccess.Client;
 
 namespace ModelRunner
 {
@@ -31,8 +32,14 @@ namespace ModelRunner
 
     partial class DynPrepare
     {
+#if DB_IS_ORACLE
+        public static OracleConnection OraConn;
+        public static OracleCommand OraCmd;
+        public static OracleDataReader OraReader;
+#else
         public static AdditionChemistryTableAdapter Adapter = new AdditionChemistryTableAdapter();
         public static ChemistryDataSet.AdditionChemistryDataTable Tbl = new ChemistryDataSet.AdditionChemistryDataTable();
+#endif
         public static FlexHelper visTargetVal = null;
         static DynPrepare()
         {
@@ -95,7 +102,15 @@ namespace ModelRunner
             {
                 try
                 {
-                    
+#if DB_IS_ORACLE
+                    var str = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["ConnectionString"].Value;
+                    OraConn = new OracleConnection(str);
+                    OraCmd = OraConn.CreateCommand();
+                    OraCmd.CommandText = QAddElsByName;
+                    OraCmd.CommandType = System.Data.CommandType.Text;
+                    OraCmd.Parameters.Clear();
+                    OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
+#endif
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
                     CoreGate.Subscribe();
