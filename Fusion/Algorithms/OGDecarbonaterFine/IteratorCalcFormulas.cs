@@ -258,7 +258,7 @@ namespace OGDecarbonaterFine {
         /// </summary>
         private static void CalcDeltaMC() {
             CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI - CurrentState.MCsp;
-            CurrentState.DeltaMC1 = CurrentState.MCMetall - CurrentState.MI;
+            CurrentState.DeltaM1C = CurrentState.MCMetall - CurrentState.MI;
             CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
         }
 
