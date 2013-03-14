@@ -298,8 +298,9 @@ namespace OGDecarbonaterFine {
             {
                 CurrentState.FixPointQO2I = CurrentState.QO2I;
                 CurrentState.FixPointMICsp = CurrentState.M - CurrentState.MCsp;
-                CurrentState.FixPointKCMetall = CurrentState.MCMetall/CurrentState.FixPointQO2I;
-                CurrentState.FixPointKCOffGas = CurrentState.FixPointMICsp/CurrentState.FixPointQO2I;
+                CurrentState.FixPointKCMetall = (CurrentState.MCMetall + CurrentState.MCsp) / CurrentState.FixPointQO2I;
+                //CurrentState.FixPointKCOffGas = CurrentState.FixPointMICsp/CurrentState.FixPointQO2I;
+                CurrentState.FixPointKCOffGas = CurrentState.MI / CurrentState.FixPointQO2I;
                 CurrentState.FixPointDeltaK = CurrentState.FixPointKCMetall - CurrentState.FixPointKCOffGas;
                 //CurrentState.FixPointDeltaMC = когда будет готово уравнение
             }
@@ -347,6 +348,18 @@ namespace OGDecarbonaterFine {
         }
 
         /// <summary>
+        /// Расчет поправки
+        /// </summary>
+        private static void CalcFixPoinFixPointDeltaMCSimple()
+        {
+            if (CurrentState.FixPointDeltaK != 0)
+            {
+
+                CurrentState.FixPointDeltaMC = CurrentState.FixPointDeltaK * 18561.27 - 470;
+            }
+        }
+
+        /// <summary>
         /// Расчет уточненного в реперной точке процента углерода в конвертере
         /// </summary>
         private static void CalcFixPointPC() {
@@ -384,7 +397,8 @@ namespace OGDecarbonaterFine {
             CalcCurrentPC();
             VerifyFixedPoint();
             CalcFixPointCarbonResult();
-            CalcFixPoinFixPointDeltaMC();
+            //CalcFixPoinFixPointDeltaMC();
+            CalcFixPoinFixPointDeltaMCSimple();
             CalcFixPointPC();
         }
 
