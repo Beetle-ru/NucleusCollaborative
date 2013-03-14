@@ -1,0 +1,33 @@
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (12.03.2013 12:18:52) 
+Event FlexEvent:
+Id=f1cd286f-1cf4-4b15-9daf-9f26966602cc;
+Operation=OPC.ScrapEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	Takeover	:2972
+	BucketNumber	:18
+	ConverterNumber	:3
+	ScrapType1	:3
+	ScrapType2	:42
+	ScrapType3	:1
+	ScrapType4	:57
+	ScrapType5	:8
+	ScrapType6	:0
+	ScrapType7	:0
+	ScrapType8	:0
+	Weight1	:38000
+	Weight2	:4600
+	Weight3	:41800
+	Weight4	:15000
+	Weight5	:15000
+	Weight6	:0
+	Weight7	:0
+	Weight8	:0
+	TotalWeight	:114400
+</dictionary>;
+Time=12.03.2013 12:18:51; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   -==   ***TRACE ::ConnectionProvider.SendingThread   ==- (12.03.2013 12:19:05) 
+Connection state is "Opened"
+.......   -==   ***TRACE ::ConnectionProvider.SendingThread   ==- (12.03.2013 12:29:05) 
+Connection state is "Created"

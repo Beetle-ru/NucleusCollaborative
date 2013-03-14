@@ -12,29 +12,24 @@ using System.Configuration;
 using HeatCharge;
 using Implements;
 
-namespace OffGasDecarbonater
-{
-    class Program
-    {
+namespace OffGasDecarbonater {
+    internal class Program {
         public static Client PushGate;
         private static Client m_listenGate;
         public static int ConverterNumber;
-        
-        static void Main(string[] args)
-        {
-            try
-            {
+
+        private static void Main(string[] args) {
+            try {
                 ConverterNumber = Convertion.StrToInt32(
-                        (string)ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["converterNumber"].Value);
+                    (string) ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["converterNumber"].Value);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("Bad config called error: {0}", e.ToString());
                 throw e;
             }
 
             CIterator.Init();
-            
+
 
             var o = new HeatChangeEvent();
             PushGate = new Client();
@@ -46,7 +41,6 @@ namespace OffGasDecarbonater
 
             Console.WriteLine("Carbone processor is running, press enter to exit");
             Console.ReadLine();
-
         }
     }
 }

@@ -5,13 +5,11 @@ using System.Text;
 using ConnectionProvider;
 using Converter;
 
-namespace SublanceGenerator
-{
-    class Program
-    {
+namespace SublanceGenerator {
+    internal class Program {
         public static Client MainGate;
-        static void Main(string[] args)
-        {
+
+        private static void Main(string[] args) {
             var o = new HeatChangeEvent();
             MainGate = new Client(new Listener());
             MainGate.Subscribe();

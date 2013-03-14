@@ -7,10 +7,8 @@ using Converter;
 using HeatCharge;
 using Implements;
 
-namespace NeuralProcessorC
-{
-    internal static class CIterator
-    {
+namespace NeuralProcessorC {
+    internal static class CIterator {
         public const int PeriodSec = 5; // время сглаживания
         private static Stopwatch m_sw;
         public static Timer IterateTimer;
@@ -30,8 +28,7 @@ namespace NeuralProcessorC
         public static HeatDataSmoother DataSmoothCurrent { set; get; }
         public static bool ModelIsStarted;
 
-        public static void Init()
-        {
+        public static void Init() {
             m_sw = new Stopwatch();
             CurrentHeatResult = new MFCMDataFull();
             DataCurrentHeat = new HeatData();
@@ -50,33 +47,30 @@ namespace NeuralProcessorC
             ModelIsStarted = false;
         }
 
-        public static void Reset()
-        {
+        public static void Reset() {
             Init();
             FirstHeating = false;
         }
 
-        public static void Iterate(HeatData heatData)
-        {
-            using (var l = new Logger("Iterate"))
-            {
+        public static void Iterate(HeatData heatData) {
+            using (var l = new Logger("Iterate")) {
                 var calculatedCarboneEvent = new CalculatedCarboneEvent();
 
-                var currentStateData = new MFCMData
-                                           {
-                                               CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent,
-                                               CarbonOxideVolumePercent = heatData.CarbonOxideVolumePercent,
-                                               HeightLanceCentimeters = heatData.HeightLanceCentimeters,
-                                               OxygenVolumeRate = heatData.OxygenVolumeRate
-                                           };
+                var currentStateData = new MFCMData {
+                                                        CarbonMonoxideVolumePercent =
+                                                            heatData.CarbonMonoxideVolumePercent,
+                                                        CarbonOxideVolumePercent = heatData.CarbonOxideVolumePercent,
+                                                        HeightLanceCentimeters = heatData.HeightLanceCentimeters,
+                                                        OxygenVolumeRate = heatData.OxygenVolumeRate
+                                                    };
                 //RemainCarbonPercent = Decarbonater.ComplexNMCProcess(heatData.MatrixStateData, currentStateData);
                 RemainCarbonPercent = Decarbonater.ComplexNMCProcess(currentStateData);
 
-                if (MomentFixDataForMFactorModel(heatData.OxygenVolumeCurrent,heatData.OxygenVolumeTotal, heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent))
+                if (MomentFixDataForMFactorModel(heatData.OxygenVolumeCurrent, heatData.OxygenVolumeTotal,
+                                                 heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent))
                     // фиксируем для обучения
                 {
-                    if (m_noFixData)
-                    {
+                    if (m_noFixData) {
                         CurrentHeatResult.OxygenVolumeRate = heatData.OxygenVolumeRate;
                         CurrentHeatResult.SteelCarbonCalculationPercent = RemainCarbonPercent;
                         CurrentHeatResult.CarbonMonoxideVolumePercent = heatData.CarbonMonoxideVolumePercent;
@@ -89,7 +83,8 @@ namespace NeuralProcessorC
                     }
                 }
 
-                ModelIsStarted = ModelVerifiForStart(heatData.OxygenVolumeCurrent, heatData.CarbonMonoxideVolumePercent, heatData.CarbonOxideVolumePercent);
+                ModelIsStarted = ModelVerifiForStart(heatData.OxygenVolumeCurrent, heatData.CarbonMonoxideVolumePercent,
+                                                     heatData.CarbonOxideVolumePercent);
                 if (ModelIsStarted) FireStartEvent();
                 calculatedCarboneEvent.model = "Complex neural Model";
                 calculatedCarboneEvent.CarbonePercent = RemainCarbonPercent;
@@ -106,39 +101,36 @@ namespace NeuralProcessorC
                 //Program.PushGate.PushEvent(new CalculatedCarboneEvent());
             }
         }
-        static public void FireResultCarbonEvent()
-        {
+
+        public static void FireResultCarbonEvent() {
             var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.Result");
             fex.AddArg("C", RemainCarbonPercent);
             fex.Fire(Program.PushGate);
             Console.WriteLine(fex.evt + "\n");
         }
-        static public void FireStartEvent()
-        {
+
+        public static void FireStartEvent() {
             var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.ModelIsStarted");
             fex.Fire(Program.PushGate);
             Console.WriteLine(fex.evt + "\n");
         }
-        static public void FireFixEvent(double carbon)
-        {
+
+        public static void FireFixEvent(double carbon) {
             var fex = new ConnectionProvider.FlexHelper("NeuralProcessorC.DataFix");
             fex.AddArg("C", carbon);
             fex.Fire(Program.PushGate);
             Console.WriteLine(fex.evt + "\n");
         }
 
-        private static bool ModelVerifiForStart(double oxygen, double co, double co2)
-        {
+        private static bool ModelVerifiForStart(double oxygen, double co, double co2) {
             const double oxygenTreshol = 16000;
             return (!ModelIsStarted) &&
                    (oxygen >= oxygenTreshol) &&
                    (co2 >= co);
         }
 
-        public static void HardFixData(MFCMDataFull currentHeatResult)
-        {
-            if (VerificateDataHF(currentHeatResult))
-            {
+        public static void HardFixData(MFCMDataFull currentHeatResult) {
+            if (VerificateDataHF(currentHeatResult)) {
                 Program.MatrixStateDataFull.RemoveAt(0);
                 Program.MatrixStateDataFull.Add(currentHeatResult);
                 DataCurrentHeat.MatrixStateData = Program.MFCMDataGenerate(Program.MatrixStateDataFull);
@@ -147,15 +139,13 @@ namespace NeuralProcessorC
             Program.MatrixStateDataFullTotal.Add(currentHeatResult);
 
             for (int iD = 0; iD < Program.MatrixStateDataFull.Count; iD++)
-            {
                 Program.MatrixStateDataFull[iD].IdHeat = iD;
-            }
             Program.SaveMatrix(Program.Path, Program.Separator, Program.MatrixStateDataFull);
             Program.SaveMatrix(Program.ArchFileName, Program.Separator, Program.MatrixStateDataFullTotal);
             //StartHeating();
         }
-        static public bool VerificateDataHF(MFCMDataFull currentHeatResult)
-        {
+
+        public static bool VerificateDataHF(MFCMDataFull currentHeatResult) {
             var result = false;
             const double minCarbonPercent = 0.03;
             const double maxCarbonPercent = 0.1;
@@ -174,47 +164,37 @@ namespace NeuralProcessorC
                      (currentHeatResult.CarbonOxideVolumePercent <= maxCarbonOxideVolumePercent);
             return result;
         }
-        public static void EnqueueWaitC(MFCMDataFull currentHeatResult)
-        {
+
+        public static void EnqueueWaitC(MFCMDataFull currentHeatResult) {
             long numberHeat = currentHeatResult.NumberHeat;
             if (numberHeat <= 0) return;
 
-            if (!Program.WaitCarbonDic.ContainsKey(numberHeat))
-            {
+            if (!Program.WaitCarbonDic.ContainsKey(numberHeat)) {
                 currentHeatResult.SteelCarbonPercent = 0; // на всякий обнуляем
                 Program.WaitCarbonDic.Add(numberHeat, currentHeatResult);
             }
             else return;
         }
 
-        public static void AddCarbonToQueue(Int64 heatNumber, Double carbonValue)
-        {
-            if (Program.WaitCarbonDic.ContainsKey(heatNumber))
-            {
+        public static void AddCarbonToQueue(Int64 heatNumber, Double carbonValue) {
+            if (Program.WaitCarbonDic.ContainsKey(heatNumber)) {
                 Program.WaitCarbonDic[heatNumber].SteelCarbonPercent = carbonValue;
                 CompleteQueueWC();
             }
             else
-            {
                 InstantLogger.log("HeatNumber {0} in the WaitCarbonDic dictionary not found", heatNumber.ToString());
-            }
         }
 
-        public static void CompleteQueueWC()
-        {
+        public static void CompleteQueueWC() {
             int i = 0;
-            while (i < Program.WaitCarbonDic.Count)
-            {
-                if (Program.WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0)
-                {
+            while (i < Program.WaitCarbonDic.Count) {
+                if (Program.WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0) {
                     long key = Program.WaitCarbonDic.ElementAt(i).Key;
                     HardFixData(Program.WaitCarbonDic[key]);
                     Program.WaitCarbonDic.Remove(key);
                 }
                 else
-                {
                     i++;
-                }
             }
             const int maxLength = 1000;
             if (Program.WaitCarbonDic.Count > maxLength)
@@ -225,19 +205,14 @@ namespace NeuralProcessorC
             }
         }
 
-        private static void SetMaxDownLancePosition(int currenLancePosition)
-        {
-            if (currenLancePosition > 0)
-            {
+        private static void SetMaxDownLancePosition(int currenLancePosition) {
+            if (currenLancePosition > 0) {
                 if (m_maxDownLancePosition > currenLancePosition)
-                {
                     m_maxDownLancePosition = currenLancePosition;
-                }
             }
         }
 
-        public static void CalculateLanceSpeed(int lancePosition)
-        {
+        public static void CalculateLanceSpeed(int lancePosition) {
             SetMaxDownLancePosition(lancePosition);
             m_smoothSecondLancePosition.Add(lancePosition);
             double smoothSecondLancePosition = m_smoothSecondLancePosition.Average(1);
@@ -247,8 +222,8 @@ namespace NeuralProcessorC
             m_lanceSpeed = speed; // + up , - down
         }
 
-        public static bool MomentFixDataForMFactorModel(double oxygenVolumeCurrent, double oxygenVolumeTotal, double carbonMonoxide, double carbonOxide)
-        {
+        public static bool MomentFixDataForMFactorModel(double oxygenVolumeCurrent, double oxygenVolumeTotal,
+                                                        double carbonMonoxide, double carbonOxide) {
             const int maxDownPosition = 255;
             const int minDownPosition = 190;
             const int lanceSpeed = 5; // + up , - down
@@ -260,9 +235,7 @@ namespace NeuralProcessorC
                 (carbonMonoxideTreshol > carbonMonoxide) &&
                 (carbonOxideTreshol < carbonOxide)
                 ) // && (m_maxDownLancePosition > minDownPosition))
-            {
                 return (m_lanceSpeed > lanceSpeed);
-            }
             return false;
         }
 
@@ -272,18 +245,13 @@ namespace NeuralProcessorC
             double ironCarbonPercent,
             double scrapMass,
             double scrapCarbonPercent
-            )
-        {
+            ) {
             double ferumMass = (ironMass - (ironMass*ironCarbonPercent*0.01)) +
                                (scrapMass - (scrapMass*scrapCarbonPercent*0.01));
             if (ferumMass > 0.0)
-            {
                 return carbonMass/ferumMass*100;
-            }
             else
-            {
                 return -1.01;
-            }
         }
 
         private static bool VerifyGasCarbonFinished(
@@ -295,17 +263,12 @@ namespace NeuralProcessorC
             double carbonMonoxideVolumePercentPrevious,
             double carbonOxideVolumePercent,
             double carbonOxideVolumePercentPrevious
-            )
-        {
+            ) {
             if (oxygenVolumeTotal <= 0)
-            {
                 return false;
-            }
 
             if (totalCarbonMass <= 0)
-            {
                 return false;
-            }
 
             return (
                        ((oxygenVolumeCurrent/oxygenVolumeTotal*100) > 80) &&
@@ -316,10 +279,8 @@ namespace NeuralProcessorC
         }
     }
 
-    internal class HeatData
-    {
-        public HeatData()
-        {
+    internal class HeatData {
+        public HeatData() {
             IronMass = 300000.1133; //!!!!!!!!!!!!!!!!!
             IronCarbonPercent = 4.1133; //!!!!!!!!!!!!!!!!!!!!!!!
             ScrapMass = 150000.0; //!!!!!!!!!!!!!!!!!!!!!                     
@@ -357,10 +318,8 @@ namespace NeuralProcessorC
         public List<MFCMData> MatrixStateData { set; get; }
     }
 
-    internal class HeatDataSmoother
-    {
-        public HeatDataSmoother(int lengthBuff = 50)
-        {
+    internal class HeatDataSmoother {
+        public HeatDataSmoother(int lengthBuff = 50) {
             CarbonMonoxideVolumePercent = new RollingAverage(lengthBuff);
             CarbonMonoxideVolumePercentPrevious = new RollingAverage(lengthBuff);
             CarbonOxideVolumePercent = new RollingAverage(lengthBuff);
@@ -380,8 +339,7 @@ namespace NeuralProcessorC
         public RollingAverage OxygenVolumeRate { set; get; }
         public RollingAverage OxygenVolumeCurrent { set; get; }
 
-        public HeatData GetHeatData(HeatData hd, int intervalSec)
-        {
+        public HeatData GetHeatData(HeatData hd, int intervalSec) {
             if (hd == null) throw new ArgumentNullException("hd");
             hd.CarbonMonoxideVolumePercent = CarbonMonoxideVolumePercent.Average(intervalSec);
             hd.CarbonMonoxideVolumePercentPrevious = CarbonMonoxideVolumePercentPrevious.Average(intervalSec);

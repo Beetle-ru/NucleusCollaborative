@@ -4,187 +4,137 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Implements
-{
-    public class CSVTableParser
-    {
+namespace Implements {
+    public class CSVTableParser {
         public List<ColumnPath> Description = new List<ColumnPath>();
         public String FileName;
         public List<Row> Rows = new List<Row>();
         public char Separator = ';';
         //private Row m_row = new Row();
 
-        public Row ColumnCreator()
-        {
+        public Row ColumnCreator() {
             var row = new Row();
-            foreach (ColumnPath columnPath in Description)
-            {
-                if (!row.Cell.ContainsKey(columnPath.ColumnName))
-                {
+            foreach (ColumnPath columnPath in Description) {
+                if (!row.Cell.ContainsKey(columnPath.ColumnName)) {
                     //m_row.Cell.Add(columnPath.ColumnName, Activator.CreateInstance(columnPath.ColumnType));
-                    if (columnPath.ColumnType == typeof(int))
-                    {
+                    if (columnPath.ColumnType == typeof (int))
                         row.Cell.Add(columnPath.ColumnName, 0);
-                    }
-                    
-                    if (columnPath.ColumnType == typeof(double))
-                    {
-                        row.Cell.Add(columnPath.ColumnName, 0.0);
-                    }
 
-                    if (columnPath.ColumnType == typeof(string))
-                    {
+                    if (columnPath.ColumnType == typeof (double))
+                        row.Cell.Add(columnPath.ColumnName, 0.0);
+
+                    if (columnPath.ColumnType == typeof (string))
                         row.Cell.Add(columnPath.ColumnName, "");
-                    }
                 }
             }
             return row;
         }
 
-        public void Load()
-        {
+        public void Load() {
             string[] strings;
-            try
-            {
+            try {
                 strings = File.ReadAllLines(FileName);
             }
-            catch(Exception e)
-            {
+            catch (Exception e) {
                 strings = new string[0];
                 InstantLogger.err("Cannot read the file: {0}\n {1}", FileName, e.Message);
                 //Console.WriteLine("Cannot read the file: {0}", FileName);
                 return;
             }
 
-            try
-            {
-                if (strings.Any())
-                {
+            try {
+                if (strings.Any()) {
                     Rows = new List<Row>();
                     string[] headers = strings[0].Split(Separator);
-                    for (int strCnt = 1; strCnt < strings.Count(); strCnt++)
-                    {
+                    for (int strCnt = 1; strCnt < strings.Count(); strCnt++) {
                         string[] values = strings[strCnt].Split(Separator);
-                        if (values.Any())
-                        {
+                        if (values.Any()) {
                             Rows.Add(ColumnCreator());
                             var currentRow = Rows.Count - 1;
-                            for (int colNumber = 0; colNumber < headers.Count(); colNumber++)
-                            {
-                                if (colNumber < values.Count())
-                                {
+                            for (int colNumber = 0; colNumber < headers.Count(); colNumber++) {
+                                if (colNumber < values.Count()) {
                                     var colName = headers[colNumber];
-                                    if (Rows[currentRow].Cell.ContainsKey(colName))
-                                    {
+                                    if (Rows[currentRow].Cell.ContainsKey(colName)) {
                                         var currentType = Rows[currentRow].Cell[colName].GetType();
-                                        Rows[currentRow].Cell[colName] = UniverConv(values[colNumber],currentType);
+                                        Rows[currentRow].Cell[colName] = UniverConv(values[colNumber], currentType);
                                     }
                                 }
                             }
                         }
                     }
                 }
-                else
-                {
+                else {
                     Console.WriteLine("File: {0}\nis empty", FileName);
                     return;
                 }
-
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
                 //Console.WriteLine("Cannot parce the file: {0}, bad format call exeption: {1}", FileName, e.ToString());
                 return;
             }
         }
 
-        public void Save()
-        {
-            if(Description.Any() && Rows.Any())
-            {
+        public void Save() {
+            if (Description.Any() && Rows.Any()) {
                 var fileContent = new List<string>();
                 var str = "";
                 foreach (var columnPath in Description)
-                {
                     str += columnPath.ColumnName + Separator;
-                }
                 fileContent.Add(str); //headers
-                foreach (var row in Rows)
-                {
+                foreach (var row in Rows) {
                     str = "";
                     foreach (var columnPath in Description)
-                    {
                         str += row.Cell[columnPath.ColumnName].ToString() + Separator;
-                    }
                     fileContent.Add(str);
                 }
-                try
-                {
+                try {
                     Directory.CreateDirectory(GetDirByName(FileName));
                     File.WriteAllLines(FileName, fileContent);
                     InstantLogger.msg("Save file : {0}", FileName);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     InstantLogger.err("File () not save \n{1}", FileName, e.ToString());
                 }
-                
             }
             else
-            {
                 InstantLogger.err("Description empty is {0} ; Rows empty is {1}", Description.Any(), Rows.Any());
-            }
         }
 
-        private string GetDirByName(string fn)
-        {
+        private string GetDirByName(string fn) {
             var spltPath = fn.Split('\\');
             fn = "";
             for (int i = 0; i < spltPath.Count() - 1; i++)
-            {
                 fn += spltPath[i] + "\\";
-            }
             return fn;
         }
-        private object UniverConv(string str, Type type)
-        {
-            
-            if (type == typeof(int))
-            {
-                try
-                {
+
+        private object UniverConv(string str, Type type) {
+            if (type == typeof (int)) {
+                try {
                     return Int32.Parse(str);
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     return 0;
                 }
             }
-            if (type == typeof(double))
-            {
-                try
-                {
+            if (type == typeof (double)) {
+                try {
                     return Double.Parse(str);
                 }
-                catch (Exception)
-                {
+                catch (Exception) {
                     return 0;
                 }
             }
-            if (type == typeof(string))
-            {
+            if (type == typeof (string))
                 return str;
-            }
             return new object();
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             var str = String.Format("{0}\n", base.ToString());
             string strTypes = "", strColNames = "", strParsedValues = "";
-            foreach (var columnPath in Description)
-            {
+            foreach (var columnPath in Description) {
                 strTypes += String.Format("{0} | ", columnPath.ColumnType);
                 strColNames += String.Format("{0} | ", columnPath.ColumnName);
             }
@@ -192,18 +142,13 @@ namespace Implements
 
             strColNames = "";
 
-            if (Rows.Any())
-            {
+            if (Rows.Any()) {
                 for (int i = 0; i < Rows[0].Cell.Count; i++)
-                {
                     strColNames += String.Format("{0} | ", Rows[0].Cell.ElementAt(i).Key);
-                }
             }
 
-            foreach (var row in Rows)
-            {
-                for (int i = 0; i < row.Cell.Count; i++)
-                {
+            foreach (var row in Rows) {
+                for (int i = 0; i < row.Cell.Count; i++) {
                     var cKey = row.Cell.ElementAt(i).Key;
                     strParsedValues += String.Format("{0} | ", row.Cell[cKey]);
                 }
@@ -214,15 +159,13 @@ namespace Implements
         }
     }
 
-    public class ColumnPath
-    {
+    public class ColumnPath {
         //public int ColumnNumber;
         public string ColumnName;
         public Type ColumnType;
     }
 
-    public class Row
-    {
+    public class Row {
         public Dictionary<string, object> Cell = new Dictionary<string, object>();
     }
 }

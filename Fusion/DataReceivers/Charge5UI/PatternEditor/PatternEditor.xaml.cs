@@ -14,20 +14,18 @@ using Charge5Classes;
 using ConnectionProvider;
 using Implements;
 
-namespace Charge5UI.PatternEditor
-{
+namespace Charge5UI.PatternEditor {
     /// <summary>
     /// Логика взаимодействия для PatternEditor.xaml
     /// </summary>
-    public partial class PatternEditor : Window
-    {
+    public partial class PatternEditor : Window {
         public List<TableData> DGTables;
         public const int CountTables = 7;
         public CSVTableParser InitTbl;
         public List<CSVTableParser> Tables;
         public string PatternLoadedName = "";
-        public PatternEditor()
-        {
+
+        public PatternEditor() {
             InitializeComponent();
             Pointer.PPatternEditor = this;
 
@@ -35,33 +33,27 @@ namespace Charge5UI.PatternEditor
             StatusChange("Редактор паттернов загружен");
         }
 
-        public void Init()
-        {
+        public void Init() {
             Requester.ReqPatternNames(Requester.MainGate);
             ResetTables();
             InitTbl = new CSVTableParser();
             Charge5Classes.Descriptions.SetDescriptionPI(ref InitTbl);
             Tables = new List<CSVTableParser>();
-            for (int i = 0; i < CountTables; i++)
-            {
+            for (int i = 0; i < CountTables; i++) {
                 var t = new CSVTableParser();
                 Charge5Classes.Descriptions.SetDescriptionTBL(ref t);
                 Tables.Add(t);
             }
         }
 
-        public void ResetTables()
-        {
+        public void ResetTables() {
             DGTables = new List<TableData>();
             for (int i = 0; i < CountTables; i++)
-            {
-               DGTables.Add(new TableData());
-            }
+                DGTables.Add(new TableData());
             SetGridsData();
         }
 
-        public void SetGridsData()
-        {
+        public void SetGridsData() {
             dgTable1.ItemsSource = DGTables[0].Rows;
             dgTable2.ItemsSource = DGTables[1].Rows;
             dgTable3.ItemsSource = DGTables[2].Rows;
@@ -71,80 +63,62 @@ namespace Charge5UI.PatternEditor
             dgTable7.ItemsSource = DGTables[6].Rows;
         }
 
-        private void btnLoad_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstPatterns.SelectedIndex >= 0)
-            {
-                Requester.ReqGetPattern(Requester.MainGate, (string)lstPatterns.SelectedValue);
-                StatusChange("Запрошен паттерн " + (string)lstPatterns.SelectedValue);
+        private void btnLoad_Click(object sender, RoutedEventArgs e) {
+            if (lstPatterns.SelectedIndex >= 0) {
+                Requester.ReqGetPattern(Requester.MainGate, (string) lstPatterns.SelectedValue);
+                StatusChange("Запрошен паттерн " + (string) lstPatterns.SelectedValue);
             }
             else
-            {
                 StatusChange("Ошибка: \"не выбран паттерн\"");
-            }
         }
 
-        public void ConsolePush(string message)
-        {
+        public void ConsolePush(string message) {
             tbConsole.AppendText(message + "\n");
             tbConsole.ScrollToVerticalOffset(tbConsole.VerticalOffset + Double.MaxValue);
         }
 
-        public void StatusChange(string message)
-        {
+        public void StatusChange(string message) {
             lblStatus.Content = message;
             ConsolePush(message);
         }
 
-        public void DisplayPattern()
-        {
+        public void DisplayPattern() {
             for (int index = 0; index < Tables.Count; index++)
-            {
                 DGTables[index] = CsvtpToTD(Tables[index]);
-            }
             SetGridsData();
         }
 
-        private TableData CsvtpToTD(CSVTableParser table)
-        {
+        private TableData CsvtpToTD(CSVTableParser table) {
             var tableOut = new TableData();
-            foreach (var row in table.Rows)
-            {
-                tableOut.Rows.Add(new TableRow()
-                {
-                    MassDolom = (double)row.Cell["MassDolom"],
-                    MassDolomS = (double)row.Cell["MassDolomS"],
-                    MassFOM = (double)row.Cell["MassFOM"],
-                    MassHotIron = (double)row.Cell["MassHotIron"],
-                    MassLime = (double)row.Cell["MassLime"],
-                    MassScrap = (double)row.Cell["MassScrap"],
-                    MaxSiHotIron = (double)row.Cell["MaxSiHotIron"],
-                    MaxTHotIron = (double)row.Cell["MaxTHotIron"],
-                    MinSiHotIron = (double)row.Cell["MinSiHotIron"],
-                    MinTHotIron = (double)row.Cell["MinTHotIron"],
-                    UVSMassDolom = (double)row.Cell["UVSMassDolom"],
-                    UVSMassFOM = (double)row.Cell["UVSMassFOM"]
-                });
+            foreach (var row in table.Rows) {
+                tableOut.Rows.Add(new TableRow() {
+                                                     MassDolom = (double) row.Cell["MassDolom"],
+                                                     MassDolomS = (double) row.Cell["MassDolomS"],
+                                                     MassFOM = (double) row.Cell["MassFOM"],
+                                                     MassHotIron = (double) row.Cell["MassHotIron"],
+                                                     MassLime = (double) row.Cell["MassLime"],
+                                                     MassScrap = (double) row.Cell["MassScrap"],
+                                                     MaxSiHotIron = (double) row.Cell["MaxSiHotIron"],
+                                                     MaxTHotIron = (double) row.Cell["MaxTHotIron"],
+                                                     MinSiHotIron = (double) row.Cell["MinSiHotIron"],
+                                                     MinTHotIron = (double) row.Cell["MinTHotIron"],
+                                                     UVSMassDolom = (double) row.Cell["UVSMassDolom"],
+                                                     UVSMassFOM = (double) row.Cell["UVSMassFOM"]
+                                                 });
             }
             return tableOut;
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnSave_Click(object sender, RoutedEventArgs e) {
             string msg = String.Format("Сохранить изменения в паттерне \"{0}\"?", PatternLoadedName);
             var res = MessageBox.Show(msg, "Подтверждение сохранения", MessageBoxButton.YesNo);
             if (res == MessageBoxResult.Yes)
-            {
                 PatternSave();
-            }
         }
 
-        private void PatternSave()
-        {
+        private void PatternSave() {
             for (int i = 0; i < CountTables; i++)
-            {
                 Tables[i] = UpdateCsvtpFromTd(DGTables[i], Tables[i]);
-            }
 
             CSVTP_FlexEventConverter.AppName = "UI";
             var flex = CSVTP_FlexEventConverter.PackToFlex(PatternLoadedName, InitTbl, Tables);
@@ -155,11 +129,9 @@ namespace Charge5UI.PatternEditor
             StatusChange("Паттерн отправлен на сохранение...");
         }
 
-        private CSVTableParser UpdateCsvtpFromTd(TableData tableData, CSVTableParser tableParser)
-        {
+        private CSVTableParser UpdateCsvtpFromTd(TableData tableData, CSVTableParser tableParser) {
             tableParser.Rows.RemoveRange(0, tableParser.Rows.Count);
-            for (int index = 0; index < tableData.Rows.Count; index++)
-            {
+            for (int index = 0; index < tableData.Rows.Count; index++) {
                 var row = tableData.Rows[index];
                 tableParser.Rows.Add(new Row());
                 tableParser.Rows[index].Cell["MassDolom"] = row.MassDolom;
@@ -178,39 +150,31 @@ namespace Charge5UI.PatternEditor
             return tableParser;
         }
 
-        private void btnCreatePattern_Click(object sender, RoutedEventArgs e)
-        {
-            if (PatternLoadedName == "")
-            {
+        private void btnCreatePattern_Click(object sender, RoutedEventArgs e) {
+            if (PatternLoadedName == "") {
                 MessageBox.Show("Необходимо загрузить паттерн на основе которого будет создан новый паттерн.",
                                 "Предупреждение");
             }
-            else
-            {
+            else {
                 var createPatterDialog = new CreatePattern();
                 createPatterDialog.ShowDialog();
             }
         }
 
-        private void btnRemuvePattern_Click(object sender, RoutedEventArgs e)
-        {
-            if (lstPatterns.SelectedIndex >= 0)
-            {
+        private void btnRemuvePattern_Click(object sender, RoutedEventArgs e) {
+            if (lstPatterns.SelectedIndex >= 0) {
                 var name = (string) lstPatterns.SelectedValue;
                 var msg = String.Format("Удалить паттерн \"{0}\"?", name);
                 var res = MessageBox.Show(msg, "Подтверждение удаления", MessageBoxButton.YesNo);
-                if (res == MessageBoxResult.Yes)
-                {
+                if (res == MessageBoxResult.Yes) {
                     Requester.ReqRemoovePattern(Requester.MainGate, name);
                     StatusChange("Удаление паттерна...");
                 }
             }
-            else
-            {
+            else {
                 MessageBox.Show("Необходимо выбрать паттерн для удаления.",
                                 "Предупреждение");
             }
-            
         }
     }
 }

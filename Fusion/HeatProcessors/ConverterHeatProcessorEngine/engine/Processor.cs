@@ -8,51 +8,43 @@ using Converter;
 using ConnectionProvider;
 using Implements;
 
-namespace ConverterHeatProcessorEngine
-{
-    public static partial class HeatEngine
-    {
-        public static int Processor(BaseEvent newEvent)
-        {
-            if (newEvent is HeatChangeEvent)
-            {
+namespace ConverterHeatProcessorEngine {
+    public static partial class HeatEngine {
+        public static int Processor(BaseEvent newEvent) {
+            if (newEvent is HeatChangeEvent) {
                 var hce = newEvent as HeatChangeEvent;
-                if (m_heatNumber != hce.HeatNumber)
-                {
+                if (m_heatNumber != hce.HeatNumber) {
                     SafeInit();
                     m_heatNumber = hce.HeatNumber;
                 }
             }
 
-            if (newEvent is LanceEvent)
-            {
+            if (newEvent is LanceEvent) {
                 var le = newEvent as LanceEvent;
                 m_lanceHeight = le.LanceHeight;
             }
 
-            if (newEvent is BlowingEvent)
-            {
+            if (newEvent is BlowingEvent) {
                 var newBE = newEvent as BlowingEvent;
 
-                if (m_oxigenCurrent != newBE.O2TotalVol && HeatOn && m_dataAvailable)
-                {
+                if (m_oxigenCurrent != newBE.O2TotalVol && HeatOn && m_dataAvailable) {
                     m_oxigenCurrent = newBE.O2TotalVol;
 
-                   // Logger.log(String.Format("current oxygen = {0}", m_oxigenCurrent),"receive current oxygen", Logger.TypeMessage.unimportant);
-                    
-                    
+                    // Logger.log(String.Format("current oxygen = {0}", m_oxigenCurrent),"receive current oxygen", Logger.TypeMessage.unimportant);
+
+
                     JobAllowToAddRefrash(); // проверяем задания на добавку для весов
-                    
+
 
                     int cs = LanceCurrentStep();
 
                     var messag = String.Format("steep-{0} frame-{1} O2Current-{2} O2-{3} heigth-{4} flow-{5}",
-                        m_oxigenCurrentStep,
-                        m_lanceCurrentFrame,
-                        m_oxigenCurrent,
-                        SmPattern.steps[m_oxigenCurrentStep].O2Volume,
-                        SmPattern.steps[m_oxigenCurrentStep].lance.LancePositin,
-                        SmPattern.steps[m_oxigenCurrentStep].lance.O2Flow
+                                               m_oxigenCurrentStep,
+                                               m_lanceCurrentFrame,
+                                               m_oxigenCurrent,
+                                               SmPattern.steps[m_oxigenCurrentStep].O2Volume,
+                                               SmPattern.steps[m_oxigenCurrentStep].lance.LancePositin,
+                                               SmPattern.steps[m_oxigenCurrentStep].lance.O2Flow
                         );
                     InstantLogger.log(messag, "Processing", InstantLogger.TypeMessage.unimportant);
                     //InstantLogger.log(
@@ -62,16 +54,14 @@ namespace ConverterHeatProcessorEngine
                     //            SmPattern.steps[m_oxigenCurrentStep].O2Volume.ToString(), "Processing",
                     //            InstantLogger.TypeMessage.unimportant);
 
-                    if (m_oxigenCurrentStep != cs)
-                    {
+                    if (m_oxigenCurrentStep != cs) {
                         m_oxigenCurrentStep = cs;
                         SenderCurrentStep(m_oxigenCurrentStep);
 
                         //  m_oxigenCurrentStep = LanceCurrentStep();
                         //  SenderCurrentStep(m_oxigenCurrentStep);
 
-                        if (m_oxigenCurrentStep != -1)
-                        {
+                        if (m_oxigenCurrentStep != -1) {
                             InstantLogger.log(
                                 "step - " + m_oxigenCurrentStep.ToString() + " frame - " +
                                 m_lanceCurrentFrame.ToString() +
@@ -79,8 +69,7 @@ namespace ConverterHeatProcessorEngine
                                 SmPattern.steps[m_oxigenCurrentStep].O2Volume.ToString(), "Processing",
                                 InstantLogger.TypeMessage.important);
                         }
-                        else
-                        {
+                        else {
                             InstantLogger.log(
                                 "step - " + m_oxigenCurrentStep.ToString() + " frame - " +
                                 m_lanceCurrentFrame.ToString() +
@@ -90,9 +79,8 @@ namespace ConverterHeatProcessorEngine
                             m_dataAvailable = false;
                         }
 
-                        if (m_lanceCurrentFrame != LanceGetFrameNumber() && m_oxigenCurrentStep != -1)
-                        {
-                           ComSender(LanceQuantizer()); // посылаем новое задание для фурмы
+                        if (m_lanceCurrentFrame != LanceGetFrameNumber() && m_oxigenCurrentStep != -1) {
+                            ComSender(LanceQuantizer()); // посылаем новое задание для фурмы
                             // LanceQuantizer();
                         }
                     }
@@ -101,38 +89,31 @@ namespace ConverterHeatProcessorEngine
                     {
                         //SafeInit(); // может перетирать задание окончания продувки
                     }
-                    
                 }
             }
-            if (newEvent is SteelMakingPatternEvent)
-            {
+            if (newEvent is SteelMakingPatternEvent) {
                 var newSMPE = newEvent as SteelMakingPatternEvent;
                 // сделать блок проверки корректности данных
                 // здесь должен быть блок сравнения SmPattern с newSMPE 
                 SmPattern = newSMPE;
-                m_dataAvailable = true;                                               // данные пришли, начинем плавку
-                if (HeatOn)
-                {
-                    ComSender(LanceQuantizer());                                      // шлем задание для фурмы
-                   // LanceQuantizer();
+                m_dataAvailable = true; // данные пришли, начинем плавку
+                if (HeatOn) {
+                    ComSender(LanceQuantizer()); // шлем задание для фурмы
+                    // LanceQuantizer();
                     //ComSenderMaterialNames(SmPattern);                                // шлем названия материалов
                     //ComSender(AdditionsQuantizerFr());                                // шлем задание для вертикального тракта --- отменено
 
-                    SenderWeigherLoadMaterial(WeigherQuantizer());   // задание для вертикального тракта
+                    SenderWeigherLoadMaterial(WeigherQuantizer()); // задание для вертикального тракта
                     //SenderWeigherLoadMaterial(WeigherQuantizerWE());   // задание для вертикального тракта с учетом пустых весов
                     SetControlMode(true); // отпираем визуху
-
-
                 }
             }
-            
+
             if (newEvent is WeighersStateEvent) // увеличение шага по освобождению весов
             {
                 var newWSE = newEvent as WeighersStateEvent;
-                for (int weigher = 0; weigher < m_weighersState.Count; weigher++)
-                {
-                    if (m_weighersState[weigher].GetState() != m_weighersStatePrevious[weigher].GetState())
-                    {
+                for (int weigher = 0; weigher < m_weighersState.Count; weigher++) {
+                    if (m_weighersState[weigher].GetState() != m_weighersStatePrevious[weigher].GetState()) {
                         m_weighersStatePrevious[weigher].WeigherEmpty = m_weighersState[weigher].WeigherEmpty;
                         m_weighersStatePrevious[weigher].WeigherLoadFree = m_weighersState[weigher].WeigherLoadFree;
                         m_weighersStatePrevious[weigher].WeigherUnLoadFree = m_weighersState[weigher].WeigherUnLoadFree;
@@ -170,17 +151,16 @@ namespace ConverterHeatProcessorEngine
                 m_weighersState[weigherCnt].WeigherUnLoadFree = ConvertIntToBool(newWSE.Weigher7UnLoadFree);
                 m_weighersState[weigherCnt].Actual = true;
 
-                if (m_dataAvailable)
-                {
-                    for (int weigher = 0; weigher < WeightCounter; weigher++)
-                    {
-                        if ((m_weighersState[weigher].GetState() == WeigherState.State.Empty) && (m_weighersState[weigher].GetState() != m_weighersStatePrevious[weigher].GetState())) // весы пусты и состояние изменилось
+                if (m_dataAvailable) {
+                    for (int weigher = 0; weigher < WeightCounter; weigher++) {
+                        if ((m_weighersState[weigher].GetState() == WeigherState.State.Empty) &&
+                            (m_weighersState[weigher].GetState() != m_weighersStatePrevious[weigher].GetState()))
+                            // весы пусты и состояние изменилось
                         {
                             m_weightCurrentSteps[weigher].Increase();
                             InstantLogger.msg("Weigher{0} empty", weigher);
                         }
-                        if (m_weighersState[weigher].GetState() == WeigherState.State.Unload)
-                        {
+                        if (m_weighersState[weigher].GetState() == WeigherState.State.Unload) {
                             if (m_releaseWeighersState[weigher]) // выгрузка пошла из-за нажатия кнопки
                             {
                                 m_releaseWeighersState[weigher] = false;
@@ -201,41 +181,33 @@ namespace ConverterHeatProcessorEngine
             {
                 // m_releaseWeigherState
                 var rw = newEvent as ReleaseWeigherEvent;
-               for (int weigher = 0; weigher < WeightCounter; weigher++)
-               {
-                   if ((rw.WeigherId == weigher) && ((m_weighersState[weigher].GetState() == WeigherState.State.Full) || (m_weighersState[weigher].GetState() == WeigherState.State.Load)))
-                   {
-                       m_releaseWeighersState[weigher] = true;
-                       ComSendOxygenMode(weigher, true); // переключиться на виртуальный кислород пока он 32767
-                       // при переходе на виртуальный кислород здесь нужно будет запоминать текущиее значение виртуального кислорода
-                       // подсовывать новое значение после 30 000 и потом где нужно возвращать значение предыдущее
-                       InstantLogger.msg("Release Weigher{0} Event", weigher);
-                   }
-               }
+                for (int weigher = 0; weigher < WeightCounter; weigher++) {
+                    if ((rw.WeigherId == weigher) &&
+                        ((m_weighersState[weigher].GetState() == WeigherState.State.Full) ||
+                         (m_weighersState[weigher].GetState() == WeigherState.State.Load))) {
+                        m_releaseWeighersState[weigher] = true;
+                        ComSendOxygenMode(weigher, true); // переключиться на виртуальный кислород пока он 32767
+                        // при переходе на виртуальный кислород здесь нужно будет запоминать текущиее значение виртуального кислорода
+                        // подсовывать новое значение после 30 000 и потом где нужно возвращать значение предыдущее
+                        InstantLogger.msg("Release Weigher{0} Event", weigher);
+                    }
+                }
             }
 
-            if (newEvent is FlexEvent)
-            {
+            if (newEvent is FlexEvent) {
                 var fxe = newEvent as FlexEvent;
-                if (fxe.Operation.StartsWith("OPC.ComEndBlowing"))
-                {
+                if (fxe.Operation.StartsWith("OPC.ComEndBlowing")) {
                     var key = "SId";
                     InstantLogger.msg(fxe.ToString());
-                    try
-                    {
+                    try {
                         key = "EndBlowingSignal";
-                        if (((int)fxe.Arguments[key]) == 1)
-                        {
+                        if (((int) fxe.Arguments[key]) == 1)
                             HeatOn = false;
-                        }
-
                     }
-                    catch (Exception e)
-                    {
+                    catch (Exception e) {
                         InstantLogger.err("OPC.ComEndBlowing - {1} : \n{0}", e.ToString(), key);
                     }
                 }
-                
             }
             return 0;
         }

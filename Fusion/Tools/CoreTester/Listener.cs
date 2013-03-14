@@ -8,22 +8,16 @@ using Converter;
 using CommonTypes;
 using Implements;
 
-namespace CoreTester
-{
-    class Listener : IEventListener
-    {
-        public Listener()
-        {
+namespace CoreTester {
+    internal class Listener : IEventListener {
+        public Listener() {
             //MessageBox.Show("qqq", "ww");
         }
-        public void OnEvent(BaseEvent newEvent)
-        {
-            if (newEvent is TestEvent)
-            {
+
+        public void OnEvent(BaseEvent newEvent) {
+            if (newEvent is TestEvent) {
                 var te = newEvent as TestEvent;
-                Program.MainForm.Invoke(new MethodInvoker(delegate() {
-                    Program.MainForm.ListenerReceive(te);
-                }));
+                Program.MainForm.Invoke(new MethodInvoker(delegate() { Program.MainForm.ListenerReceive(te); }));
             }
         }
     }

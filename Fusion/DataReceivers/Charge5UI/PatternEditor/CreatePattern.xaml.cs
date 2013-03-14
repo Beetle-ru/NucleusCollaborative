@@ -11,28 +11,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Charge5UI.PatternEditor
-{
+namespace Charge5UI.PatternEditor {
     /// <summary>
     /// Логика взаимодействия для CreatePattern.xaml
     /// </summary>
-    public partial class CreatePattern : Window
-    {
-        public CreatePattern()
-        {
+    public partial class CreatePattern : Window {
+        public CreatePattern() {
             InitializeComponent();
             lblOldPatternName.Content = String.Format("\"{0}\"", Pointer.PPatternEditor.PatternLoadedName);
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnCreate_Click(object sender, RoutedEventArgs e) {
             Pointer.PPatternEditor.PatternLoadedName = tbName.Text;
             Pointer.PPatternEditor.StatusChange(String.Format("Паттерн \"{0}\" создан", tbName.Text));
             Close();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
+        private void btnCancel_Click(object sender, RoutedEventArgs e) {
             Close();
         }
     }

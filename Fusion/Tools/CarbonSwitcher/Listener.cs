@@ -10,37 +10,28 @@ using CommonTypes;
 using ConnectionProvider.MainGate;
 using Implements;
 
-namespace CarbonSwitcher
-{
-    class Listener : IEventListener
-    {
+namespace CarbonSwitcher {
+    internal class Listener : IEventListener {
         public long HeatNumber;
-        public Listener()
-        {
+
+        public Listener() {
             InstantLogger.log("Listener", "Started\n", InstantLogger.TypeMessage.important);
         }
-        public void OnEvent(BaseEvent evt)
-        {
-            using (var l = new Logger("SublanceGenerator Listener"))
-            {
-                if (evt is HeatChangeEvent)
-                {
+
+        public void OnEvent(BaseEvent evt) {
+            using (var l = new Logger("SublanceGenerator Listener")) {
+                if (evt is HeatChangeEvent) {
                     var hce = evt as HeatChangeEvent;
-                    if (HeatNumber != hce.HeatNumber)
-                    {
+                    if (HeatNumber != hce.HeatNumber) {
                         l.msg("Heat Changed. New Heat ID: {0}\n", hce.HeatNumber);
                         HeatNumber = hce.HeatNumber;
                         Program.Reset();
                     }
                     else
-                    {
                         l.msg("Heat No Changed. Heat ID: {0}\n", hce.HeatNumber);
-                    }
-
                 }
 
-                if (evt is FlexEvent)
-                {
+                if (evt is FlexEvent) {
                     var fxe = evt as FlexEvent;
 
                     CarbonEventHandler(fxe, 0, "OffGasDecarbonater");
@@ -52,41 +43,33 @@ namespace CarbonSwitcher
             }
         }
 
-        public void CarbonEventHandler(FlexEvent felexE, int id, string prefix)
-        {
+        public void CarbonEventHandler(FlexEvent felexE, int id, string prefix) {
             var evtName = String.Format("{0}.Result", prefix);
-            if (felexE.Operation.StartsWith(evtName))
-            {
+            if (felexE.Operation.StartsWith(evtName)) {
                 var key = "C";
-                try
-                {
-                    Program.ModelList[id].C = (double)felexE.Arguments[key];
+                try {
+                    Program.ModelList[id].C = (double) felexE.Arguments[key];
                     Program.Iterate();
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     InstantLogger.err("{2} - {1} : \n{0}", e.ToString(), key, evtName);
                 }
             }
 
             evtName = String.Format("{0}.ModelIsStarted", prefix);
-            if (felexE.Operation.StartsWith(evtName))
-            {
+            if (felexE.Operation.StartsWith(evtName)) {
                 Program.ModelList[id].IsStarted = true;
                 Program.Iterate();
             }
 
             evtName = String.Format("{0}.DataFix", prefix);
-            if (felexE.Operation.StartsWith(evtName))
-            {
+            if (felexE.Operation.StartsWith(evtName)) {
                 var key = "C";
-                try
-                {
-                    Program.ModelList[id].C = (double)felexE.Arguments[key];
+                try {
+                    Program.ModelList[id].C = (double) felexE.Arguments[key];
                     Program.Iterate();
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     InstantLogger.err("{2} - {1} : \n{0}", e.ToString(), key, evtName);
                 }
                 Program.ModelList[id].IsFixed = true;

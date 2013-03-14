@@ -5,18 +5,16 @@ using System.Linq;
 using System.Text;
 using PingLib;
 using System.IO;
-namespace Pinger
-{
-    class Program
-    {
-        public static List<NetMonitor> NetMonitorList; 
+
+namespace Pinger {
+    internal class Program {
+        public static List<NetMonitor> NetMonitorList;
         public static string OutFileName;
         public const char Separator = ';';
         public static Configuration MainConf;
         public static object StreamFileLocker = new object();
 
-        static void Main(string[] args)
-        {
+        private static void Main(string[] args) {
             var dir = "PingerArch";
             OutFileName = dir + "\\PingerOut.csv";
             Directory.CreateDirectory(dir);
@@ -29,10 +27,8 @@ namespace Pinger
             var timeOut = Int32.Parse(MainConf.AppSettings.Settings["TimeOut"].Value);
 
             var ipAddresses = MainConf.AppSettings.Settings["Address"].Value.Split(Separator);
-            if (ipAddresses.Any())
-            {
-                foreach (var ipAddress in ipAddresses)
-                {
+            if (ipAddresses.Any()) {
+                foreach (var ipAddress in ipAddresses) {
                     var nm = new NetMonitor();
                     nm.IPAddress = ipAddress;
                     nm.NetStatusChange = NetStatusChange;
@@ -41,41 +37,31 @@ namespace Pinger
                 }
             }
             else
-            {
                 return;
-            }
             Console.WriteLine("Press Enter for exit");
             Console.ReadLine();
             WriteFile(TableFormatter(DateTime.Now.ToString(), "", "Pinger stopped"));
         }
-        static public void NetStatusChange(bool netOnline, string ipAddress)
-        {
+
+        public static void NetStatusChange(bool netOnline, string ipAddress) {
             var date = DateTime.Now.ToString();
-            if (netOnline)
-            {
+            if (netOnline) {
                 Console.WriteLine("***  NetOnline  *** => {0}", ipAddress);
                 WriteFile(TableFormatter(date, ipAddress, "+++ NetOnline"));
             }
-            else
-            {
+            else {
                 Console.WriteLine("###  NetOffline ### => {0}", ipAddress);
                 WriteFile(TableFormatter(date, ipAddress, "--- NetOffline"));
             }
         }
 
-        static public void WriteFile(string msg)
-        {
-            try
-            {
-                lock (StreamFileLocker)
-                {
+        public static void WriteFile(string msg) {
+            try {
+                lock (StreamFileLocker) {
                     StreamWriter oStreamWriterutFile;
                     if (File.Exists(OutFileName))
-                    {
                         oStreamWriterutFile = File.AppendText(OutFileName);
-                    }
-                    else
-                    {
+                    else {
                         oStreamWriterutFile = File.CreateText(OutFileName);
                         var header = TableFormatter("Time", "Address", "Status");
                         oStreamWriterutFile.WriteLine(header);
@@ -85,14 +71,12 @@ namespace Pinger
                     oStreamWriterutFile.Close();
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 Console.WriteLine(e);
             }
         }
 
-        static public string TableFormatter(string collumn1, string collumn2, string collumn3)
-        {
+        public static string TableFormatter(string collumn1, string collumn2, string collumn3) {
             return String.Format("{1}{0}{2}{0}{3}", Separator, collumn1, collumn2, collumn3);
         }
     }

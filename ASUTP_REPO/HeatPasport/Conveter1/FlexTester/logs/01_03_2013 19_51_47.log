@@ -1,0 +1,23 @@
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 19:51:47) 
+Event FlexEvent:
+Id=d1ee106e-685a-42ee-aeb6-c56daf85a423;
+Operation=OPC.Read-OPC.HeatChangeEvent;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+</dictionary>;
+Time=01.03.2013 19:51:46; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Object reference not set to an instance of an object. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 19:51:47) 
+Event FlexEvent:
+Id=193f284b-5d52-490c-91f2-17cf7a5db03c;
+Operation=OPC.HeatChangeEvent;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	HeatNumber	:131518
+</dictionary>;
+Time=01.03.2013 19:51:46; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Object reference not set to an instance of an object. 
+.......   -==   ***TRACE ::ConnectionProvider.SendingThread   ==- (01.03.2013 19:51:49) 
+Connection state is "Opened"
+.......   -==   ***TRACE ::ConnectionProvider.SendingThread   ==- (01.03.2013 20:04:01) 
+Connection state is "Created"

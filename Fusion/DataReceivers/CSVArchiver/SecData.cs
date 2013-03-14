@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using Implements;
 
-namespace CSVArchiver
-{
-    class SecData
-    {
+namespace CSVArchiver {
+    internal class SecData {
         public string CurrentTime { get; set; }
         public int LanceHeigth { get; set; }
         public double OxygenRate { get; set; }
@@ -41,8 +39,7 @@ namespace CSVArchiver
 
         public char Separator;
 
-        public SecData()
-        {
+        public SecData() {
             Separator = ';';
 
             CurrentTime = DateTime.Now.ToString();
@@ -77,89 +74,91 @@ namespace CSVArchiver
             RB12 = -1.0;
             NeuralC = -1.0;
         }
-        public string GetHeader()
-        {
+
+        public string GetHeader() {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
-                "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
-                Separator,
-                "Time",
-                "Heigth lance",
-                "Rate O2",
-                "H2",
-                "O2",
-                "CO",
-                "CO2",
-                "N2",
-                "Ar",
-                "V gas",
-                "T gas",
-                "C calculated",
-                "C sublance",
-                "Ignition",
-                "DecompressionOffGasEvent",
-                "QOxygen",
-                "POxygen",
-                "TOxygen",
-                "DeltaPOxygen",
-                "QNitrogenLanceWindow",
-                "QNitrogenBoiler",
-                "RB5",
-                "RB6",
-                "RB7",
-                "RB8",
-                "RB9",
-                "RB10",
-                "RB11",
-                "RB12",
-                "NeuralC"
-                );
+            str +=
+                String.Format(
+                    "{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
+                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
+                    Separator,
+                    "Time",
+                    "Heigth lance",
+                    "Rate O2",
+                    "H2",
+                    "O2",
+                    "CO",
+                    "CO2",
+                    "N2",
+                    "Ar",
+                    "V gas",
+                    "T gas",
+                    "C calculated",
+                    "C sublance",
+                    "Ignition",
+                    "DecompressionOffGasEvent",
+                    "QOxygen",
+                    "POxygen",
+                    "TOxygen",
+                    "DeltaPOxygen",
+                    "QNitrogenLanceWindow",
+                    "QNitrogenBoiler",
+                    "RB5",
+                    "RB6",
+                    "RB7",
+                    "RB8",
+                    "RB9",
+                    "RB10",
+                    "RB11",
+                    "RB12",
+                    "NeuralC"
+                    );
             return str;
         }
 
-        public override string ToString()
-        {
+        public override string ToString() {
             string str = "";
-            str += String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
-                "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
-                Separator,
-                CurrentTime,
-                LanceHeigth,
-                OxygenRate,
-                H2Perc,
-                O2Perc,
-                COPerc,
-                CO2Perc,
-                N2Perc,
-                ArPerc,
-                VGas,
-                TGas,
-                CCalc,
-                CSubLance,
-                Ignition,
-                Decompression,
-                QOxygenCL,
-                POxygenCL,
-                TOxygenCL,
-                DPOxygenCL,
-                QNitrogenLanceWindow,
-                QNitrogenBoiler,
-                RB5,
-                RB6,
-                RB7,
-                RB8,
-                RB9,
-                RB10,
-                RB11,
-                RB12,
-                NeuralC
-                );
+            str +=
+                String.Format(
+                    "{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
+                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
+                    Separator,
+                    CurrentTime,
+                    LanceHeigth,
+                    OxygenRate,
+                    H2Perc,
+                    O2Perc,
+                    COPerc,
+                    CO2Perc,
+                    N2Perc,
+                    ArPerc,
+                    VGas,
+                    TGas,
+                    CCalc,
+                    CSubLance,
+                    Ignition,
+                    Decompression,
+                    QOxygenCL,
+                    POxygenCL,
+                    TOxygenCL,
+                    DPOxygenCL,
+                    QNitrogenLanceWindow,
+                    QNitrogenBoiler,
+                    RB5,
+                    RB6,
+                    RB7,
+                    RB8,
+                    RB9,
+                    RB10,
+                    RB11,
+                    RB12,
+                    NeuralC
+                    );
             return str;
         }
     }
 
-    internal class SecDataSmooth
-    {
+    internal class SecDataSmooth {
         public RollingAverage LanceHeigth { get; set; }
         public RollingAverage OxygenRate { get; set; }
         public RollingAverage H2Perc { get; set; }
@@ -189,9 +188,8 @@ namespace CSVArchiver
         public double RB11 { get; set; }
         public double RB12 { get; set; }
         public RollingAverage NeuralC { get; set; }
-        
-        public SecDataSmooth()
-        {
+
+        public SecDataSmooth() {
             LanceHeigth = new RollingAverage();
             OxygenRate = new RollingAverage();
             H2Perc = new RollingAverage();
@@ -222,10 +220,10 @@ namespace CSVArchiver
             RB12 = -1.0;
             NeuralC = new RollingAverage();
         }
-        public SecData GetSecData(int sec)
-        {
+
+        public SecData GetSecData(int sec) {
             var sd = new SecData();
-            sd.LanceHeigth = (int)LanceHeigth.Average(sec);
+            sd.LanceHeigth = (int) LanceHeigth.Average(sec);
             sd.OxygenRate = OxygenRate.Average(sec);
             sd.H2Perc = H2Perc.Average(sec);
             sd.O2Perc = O2Perc.Average(sec);
@@ -238,13 +236,13 @@ namespace CSVArchiver
             sd.CCalc = CCalc.Average(sec);
             sd.CSubLance = CSubLance;
             sd.Ignition = Ignition;
-            sd.Decompression = (int)Decompression.Average(sec);
+            sd.Decompression = (int) Decompression.Average(sec);
             sd.QOxygenCL = QOxygenCL.Average(sec);
             sd.POxygenCL = POxygenCL.Average(sec);
             sd.TOxygenCL = TOxygenCL.Average(sec);
             sd.DPOxygenCL = DPOxygenCL.Average(sec);
-            sd.QNitrogenLanceWindow = (int)QNitrogenLanceWindow.Average(sec);
-            sd.QNitrogenBoiler = (int)QNitrogenBoiler.Average(sec);
+            sd.QNitrogenLanceWindow = (int) QNitrogenLanceWindow.Average(sec);
+            sd.QNitrogenBoiler = (int) QNitrogenBoiler.Average(sec);
             sd.RB5 = RB5;
             sd.RB6 = RB6;
             sd.RB7 = RB7;

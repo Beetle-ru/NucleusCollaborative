@@ -10,16 +10,13 @@ using CommonTypes;
 using ConnectionProvider.MainGate;
 using Implements;
 
-namespace EventsRedirector
-{
-    class Listener : IEventListener
-    {
-        public Listener()
-        {
+namespace EventsRedirector {
+    internal class Listener : IEventListener {
+        public Listener() {
             InstantLogger.log("Listener", "Started\n", InstantLogger.TypeMessage.important);
         }
-        public void OnEvent(BaseEvent evt)
-        {
+
+        public void OnEvent(BaseEvent evt) {
             Program.MainGateProvider.PushEvent(evt);
         }
     }

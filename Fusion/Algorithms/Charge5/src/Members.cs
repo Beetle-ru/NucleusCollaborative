@@ -9,10 +9,8 @@ using Converter;
 using Implements;
 using System.IO;
 
-namespace Charge5
-{
-    internal partial class Program
-    {
+namespace Charge5 {
+    internal partial class Program {
         public static Client MainGate;
         public static Configuration MainConf;
         public static char Separator;
@@ -26,7 +24,7 @@ namespace Charge5
         public static bool CalcModeIsAutomatic;
 
         public const int IntervalSec = 1; // интервал расчетов
-        public static Timer IterateTimer = new Timer(IntervalSec * 1000);
+        public static Timer IterateTimer = new Timer(IntervalSec*1000);
 
         public static InData AutoInData;
         private static InData m_autoInDataPrevious; // для отслеживания изменений

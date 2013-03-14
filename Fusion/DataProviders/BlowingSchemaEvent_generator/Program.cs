@@ -12,17 +12,12 @@ using Converter;
 using Implements;
 
 
-
-
-namespace BlowingSchemaEvent_generator
-{
-    class Program
-    {
-        static ConnectionProvider.Client mainGate;
+namespace BlowingSchemaEvent_generator {
+    internal class Program {
+        private static ConnectionProvider.Client mainGate;
         public static object consoleLock = new object();
 
-        static void Main(string[] args)
-        {
+        private static void Main(string[] args) {
             Thread transmitter_thread = new Thread(transmitter);
             Thread receiver_thread = new Thread(receiver);
             transmitter_thread.Start();
@@ -35,7 +30,7 @@ namespace BlowingSchemaEvent_generator
             Console.WriteLine("\n Нажмите <ENTER> для выхода.");*/
             InstantLogger.log("BlowingSchemaEvent_generator", "Started", InstantLogger.TypeMessage.important);
             InstantLogger.log("Нажмите <ENTER> для выхода.");
-           /* int qq = 10;
+            /* int qq = 10;
             Type tt = qq.GetType();
             object oo = Activator.CreateInstance(tt);
             oo = qq;
@@ -44,16 +39,16 @@ namespace BlowingSchemaEvent_generator
             //System.IO.Directory.CreateDirectory("qqq");
             //File.WriteAllText(@"qqq\www", "aaaaa\nbbbbb\nccccc\n");
             //Console.WriteLine("save");
-            
-            
+
+
             Console.ReadLine();
         }
-        static void transmitter(object state)
-        {
+
+        private static void transmitter(object state) {
             //Console.BackgroundColor = ConsoleColor.Red;
             //Console.ForegroundColor = ConsoleColor.White;
             mainGate = new ConnectionProvider.Client();
-            
+
             CultureInfo culture = CultureInfo.InvariantCulture;
             System.Threading.Thread.Sleep(1000);
             //mainGate.PushEvent(new comBlowingSchemaEvent()); // после запуска программы листенер пропускает первое сообщение через раз, как временное решение проблемы сообщение с -1 
@@ -61,7 +56,7 @@ namespace BlowingSchemaEvent_generator
             //mainGate.PushEvent(new BoundNameMaterialsEvent() {Bunker1MaterialName = "m1", Bunker2MaterialName = "m2", Bunker3MaterialName = "m3"});
             //mainGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(BoundNameMaterialsEvent).Name });
             //mainGate.PushEvent(new OPCDirectReadEvent() {EventName = typeof(WeighersStateEvent).Name});
-            
+
             //mainGate.PushEvent(new comAdditionsSchemaEvent());
             //mainGate.PushEvent(new cntWeigher3JobReadyEvent() {Counter = 1137});
             //mainGate.PushEvent(new cntWeigher4JobReadyEvent() { Counter = 1137 });
@@ -95,7 +90,7 @@ namespace BlowingSchemaEvent_generator
             }*/
 
 
-            var dimm = new int[] { 1, 2, 3 };
+            var dimm = new int[] {1, 2, 3};
 
             var fxe = new FlexHelper("TestComplex");
 
@@ -109,19 +104,17 @@ namespace BlowingSchemaEvent_generator
             //fex.AddArg("val-r4", -11.33);
             //fex.AddArg("val-s", "Zalupa");
             //fex.Fire(mainGate);
-           //mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
+            //mainGate.PushEvent(new HeatChangeEvent() { HeatNumber = 221111 });
 
             //mainGate.PushEvent(new visSpectrluksEvent() { HeatNumber = 2201111, C = 0.05 });
-            
+
             InstantLogger.log("transmitter", "Started", InstantLogger.TypeMessage.important);
             string[] strings;
-            
-            try
-            {
+
+            try {
                 strings = File.ReadAllLines("BlowData.csv");
             }
-            catch 
-            {
+            catch {
                 strings = new string[0];
                 //Console.Write("cannot read the file");
                 InstantLogger.log("Cannot read the file", "Error", InstantLogger.TypeMessage.error);
@@ -135,9 +128,9 @@ namespace BlowingSchemaEvent_generator
             List<int> LancePosition = new List<int>();
             List<double> O2Flow = new List<double>();
             int O2SchemaNumber = 0;
-            O2Vol.Add(-1);          // выравнивание чтобы совпадали номера
-            LancePosition.Add(-1);  // выравнивание чтобы совпадали номера    
-            O2Flow.Add(-1);         // выравнивание чтобы совпадали номера    
+            O2Vol.Add(-1); // выравнивание чтобы совпадали номера
+            LancePosition.Add(-1); // выравнивание чтобы совпадали номера    
+            O2Flow.Add(-1); // выравнивание чтобы совпадали номера    
 
             for (int i = 1; i < strings.Count(); i++) // в нулевой строке заголовки
             {
@@ -148,7 +141,7 @@ namespace BlowingSchemaEvent_generator
                 LancePosition.Add(int.Parse(values[2], culture));
                 O2Flow.Add(double.Parse(values[3], culture));
             }
-           /* lock (consoleLock)
+            /* lock (consoleLock)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -235,18 +228,18 @@ namespace BlowingSchemaEvent_generator
             steelMakingPatternEvent.steps[0].lance.O2Flow = 450;
             steelMakingPatternEvent.steps[0].O2Volume = 0;
 
-       /*     for (int i = 0; i < 10; i++)
+            /*     for (int i = 0; i < 10; i++)
             {
                 steelMakingPatternEvent.steps[0].additions.addition[i].MaterialPortionWeight = 0;
             }
-         */   
+         */
 
             Random rnd1 = new Random();
             int qq = 0;
-            for (int step = 1; step <= 25; step++)
-            {
+            for (int step = 1; step <= 25; step++) {
                 steelMakingPatternEvent.steps.Add(new Converter.SteelMakingClasses.Step());
-                steelMakingPatternEvent.steps[step].lance.LancePositin = steelMakingPatternEvent.steps[step-1].lance.LancePositin - 25;
+                steelMakingPatternEvent.steps[step].lance.LancePositin =
+                    steelMakingPatternEvent.steps[step - 1].lance.LancePositin - 25;
                 steelMakingPatternEvent.steps[step].lance.O2Flow = 1000;
                 steelMakingPatternEvent.steps[step].O2Volume = steelMakingPatternEvent.steps[step - 1].O2Volume + 100;
                 //qq = rnd1.Next(10);
@@ -274,13 +267,13 @@ namespace BlowingSchemaEvent_generator
                 steelMakingPatternEvent.steps[step].additions.addition[0].O2VolPortionMateria =
                     steelMakingPatternEvent.steps[step].lance.O2Volume;*/
             }
-           /* steelMakingPatternEvent.steps[5].additions.addition[0].MaterialPortionWeight = 50;
+            /* steelMakingPatternEvent.steps[5].additions.addition[0].MaterialPortionWeight = 50;
             steelMakingPatternEvent.steps[10].additions.addition[0].MaterialPortionWeight = 100;
 
             steelMakingPatternEvent.steps[7].additions.addition[1].MaterialPortionWeight = 71;
             steelMakingPatternEvent.steps[15].additions.addition[1].MaterialPortionWeight = 151;*/
 
-           /* steelMakingPatternEvent.steps[0].additions.addition[0].MaterialPortionWeight = 100;
+            /* steelMakingPatternEvent.steps[0].additions.addition[0].MaterialPortionWeight = 100;
             steelMakingPatternEvent.steps[0].additions.addition[0].O2VolPortionMateria = 200;
 
             steelMakingPatternEvent.steps[0].additions.addition[1].MaterialPortionWeight = 100;
@@ -295,12 +288,12 @@ namespace BlowingSchemaEvent_generator
             //steelMakingPatternEvent.steps[0].additions.
             BlowingEvent blowingEvent = new BlowingEvent();
             blowingEvent.O2TotalVol = 0;
-        //    mainGate.PushEvent(blowingEvent);
-           
-         //   mainGate.PushEvent(steelMakingPatternEvent);
-            
+            //    mainGate.PushEvent(blowingEvent);
+
+            //   mainGate.PushEvent(steelMakingPatternEvent);
+
             //blowingEvent.O2TotalVol = 200;
-       /*     ComName1MatEvent ssss =new ComName1MatEvent();
+            /*     ComName1MatEvent ssss =new ComName1MatEvent();
             ssss.Name = "TEST";
            
             ComName2MatEvent cccc = new ComName2MatEvent();
@@ -323,10 +316,10 @@ namespace BlowingSchemaEvent_generator
             WSE.Weigher7Empty = 1;
             WSE.Weigher7LoadFree = 1;
             WSE.Weigher7UnLoadFree = 1;
-            
-       //!!!!!     mainGate.PushEvent(steelMakingPatternEvent);
-            
-            
+
+            //!!!!!     mainGate.PushEvent(steelMakingPatternEvent);
+
+
             //mainGate.PushEvent(new OPCDirectReadEvent() { EventName = "comAdditionsEvent" });
             //int currentStep = 0;
             //while (true)
@@ -346,7 +339,7 @@ namespace BlowingSchemaEvent_generator
             int cnt = 0;
             int step2 = 0;
             bool stepChange = false;
-         /*   while (true)
+            /*   while (true)
             {
                          blowingEvent.O2TotalVol +=10;
                 mainGate.PushEvent(blowingEvent);
@@ -459,12 +452,11 @@ namespace BlowingSchemaEvent_generator
             }*/
         }
 
-        static void receiver(object state)
-        {
+        private static void receiver(object state) {
             var o = new HeatChangeEvent();
             mainGate = new ConnectionProvider.Client(new Listener());
             mainGate.Subscribe();
-            
+
             //Thread.Sleep(5000);
             //mainGate.Unsubscribe();
             //Console.BackgroundColor = ConsoleColor.Black;

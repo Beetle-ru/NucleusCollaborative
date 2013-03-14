@@ -1,0 +1,44 @@
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:44:35) 
+Event FlexEvent:
+Id=b2207367-8afc-47f2-87a6-2f8ff8a92f16;
+Operation=OPC.HotMetalLadleEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	Takeover	:2105
+	LadleNumber	:12
+	MixerNumberPortion1	:13
+	MixerNumberPortion2	:3
+	MixerNumberPortion3	:0
+	WeightPortion1	:45000
+	WeightPortion2	:260000
+	WeightPortion3	:0
+	HotMetalTotalWeight	:305000
+	TakeoverTemperature	:2105
+	HotMetalTemperature	:1365
+	ConverterNumber	:2
+</dictionary>;
+Time=01.03.2013 18:44:33; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Object reference not set to an instance of an object. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:44:35) 
+Event FlexEvent:
+Id=d51eeaff-21cb-43c7-9bd9-37f0b5c41b33;
+Operation=OPC.HotMetalLadleEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	Takeover	:2106
+	LadleNumber	:12
+	MixerNumberPortion1	:13
+	MixerNumberPortion2	:3
+	MixerNumberPortion3	:0
+	WeightPortion1	:45000
+	WeightPortion2	:260000
+	WeightPortion3	:0
+	HotMetalTotalWeight	:305000
+	TakeoverTemperature	:2106
+	HotMetalTemperature	:1365
+	ConverterNumber	:2
+</dictionary>;
+Time=01.03.2013 18:44:34; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Object reference not set to an instance of an object. 
+.......   -==   ***TRACE ::ConnectionProvider.SendingThread   ==- (01.03.2013 18:46:18) 
+Connection state is "Opened"

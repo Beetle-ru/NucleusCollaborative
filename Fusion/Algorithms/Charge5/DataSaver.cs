@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using Charge5Classes;
 
-namespace Charge5
-{
-    class DataSaver : OutData
-    {
+namespace Charge5 {
+    internal class DataSaver : OutData {
         /// <summary>
         /// разделитель данных в файле
         /// </summary>
@@ -41,59 +39,53 @@ namespace Charge5
         /// </summary>
         public int SteelType;
 
-        public DataSaver()
-        {
+        public DataSaver() {
             Directory.CreateDirectory(ArchDir);
             ArchPath = String.Format("{1}\\{0}", ArchNameGenerate("c5a"), ArchDir);
         }
 
-        public void SaveArch()
-        {
+        public void SaveArch() {
             var line = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}",
-                                        Separator,
-                                        DateTime.Now.ToString(),
-                                        HeatNumber,
-                                        SiHi,
-                                        THi,
-                                        MHi,
-                                        MSc,
-                                        MLi,
-                                        MDlm,
-                                        MFom,
-                                        MDlms,
-                                        IsFound,
-                                        SteelType
-                                    );
+                                     Separator,
+                                     DateTime.Now.ToString(),
+                                     HeatNumber,
+                                     SiHi,
+                                     THi,
+                                     MHi,
+                                     MSc,
+                                     MLi,
+                                     MDlm,
+                                     MFom,
+                                     MDlms,
+                                     IsFound,
+                                     SteelType
+                );
 
             var header = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}",
-                                        Separator,
-                                        "DateTime",
-                                        "HeatNumber",
-                                        "SiHi",
-                                        "THi",
-                                        "MHi",
-                                        "MSc",
-                                        "MLi",
-                                        "MDlm",
-                                        "MFom",
-                                        "MDlms",
-                                        "IsFound",
-                                        "SteelType"
-                                    );
+                                       Separator,
+                                       "DateTime",
+                                       "HeatNumber",
+                                       "SiHi",
+                                       "THi",
+                                       "MHi",
+                                       "MSc",
+                                       "MLi",
+                                       "MDlm",
+                                       "MFom",
+                                       "MDlms",
+                                       "IsFound",
+                                       "SteelType"
+                );
 
             var exists = File.Exists(ArchPath);
-            using (var outfile = new StreamWriter(ArchPath, true))
-            {
+            using (var outfile = new StreamWriter(ArchPath, true)) {
                 if (!exists)
-                {
                     outfile.WriteLine(header);
-                }
                 outfile.WriteLine(line);
             }
         }
 
-        public void GetData(OutData od)
-        {
+        public void GetData(OutData od) {
             MHi = od.MHi;
             MSc = od.MSc;
             MLi = od.MLi;
@@ -103,8 +95,7 @@ namespace Charge5
             IsFound = od.IsFound;
         }
 
-        public string ArchNameGenerate(string subname)
-        {
+        public string ArchNameGenerate(string subname) {
             string timeLine = DateTime.Now.ToString();
             timeLine = timeLine.Replace(':', '_');
             timeLine = timeLine.Replace('.', '_');
@@ -112,8 +103,7 @@ namespace Charge5
             return timeLine;
         }
 
-        public void Reset()
-        {
+        public void Reset() {
             THi = 0.0;
             SiHi = 0.0;
             MSc = 0;

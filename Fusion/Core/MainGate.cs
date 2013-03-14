@@ -10,26 +10,21 @@ using CommonTypes;
 using System.Threading;
 using Implements;
 
-namespace Core
-{
+namespace Core {
     //[ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     [ServiceBehavior(
         ConcurrencyMode = ConcurrencyMode.Multiple,
         InstanceContextMode = InstanceContextMode.PerSession)]
-    public class MainGateService : IMainGate
-    {
-        public bool Autentificate(string login, string password)
-        {
+    public class MainGateService : IMainGate {
+        public bool Autentificate(string login, string password) {
             return true;
         }
 
         private Implements.Clock clk = new Clock();
-        public void PushEvent(BaseEvent baseEvent)
-        {
-            try
-            {
-                if (clk.nextDay())
-                {
+
+        public void PushEvent(BaseEvent baseEvent) {
+            try {
+                if (clk.nextDay()) {
                     InstantLogger.log("", "To be continued...", InstantLogger.TypeMessage.important);
                     InstantLogger.LogFileInit();
                     InstantLogger.log("", "...Continuing", InstantLogger.TypeMessage.important);
@@ -45,17 +40,13 @@ namespace Core
                 //                      InstantLogger.TypeMessage.error);
                 //}
                 if (PushEventToClients(baseEvent))
-                {
                     InstantLogger.log("", "Done processing", InstantLogger.TypeMessage.normal);
-                }
-                else
-                {
+                else {
                     InstantLogger.log(baseEvent.ToString(), "No listeners for admission",
                                       InstantLogger.TypeMessage.error);
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.log(string.Format("Exception:\n{0}\nProcessing:\n{1}", e, baseEvent.ToString()),
                                   "Exception caught while processing", InstantLogger.TypeMessage.death);
             }
@@ -65,73 +56,62 @@ namespace Core
         #region Callback
 
         private static readonly List<IMainGateCallback> subscribers = new List<IMainGateCallback>();
-        private class TaskInfo
-        {
+
+        private class TaskInfo {
             public BaseEvent baseEvent;
             public IMainGateCallback callback;
-            public TaskInfo(BaseEvent _baseEvent, IMainGateCallback _callback)
-            {
+
+            public TaskInfo(BaseEvent _baseEvent, IMainGateCallback _callback) {
                 baseEvent = _baseEvent;
                 callback = _callback;
             }
         }
-        private static void OnEventTask(Object stateInfo)
-        {
-            try
-            {
-                TaskInfo ti = (TaskInfo) stateInfo;
-                if (((ICommunicationObject)ti.callback).State == CommunicationState.Opened) ti.callback.OnEvent(ti.baseEvent);
 
+        private static void OnEventTask(Object stateInfo) {
+            try {
+                TaskInfo ti = (TaskInfo) stateInfo;
+                if (((ICommunicationObject) ti.callback).State == CommunicationState.Opened)
+                    ti.callback.OnEvent(ti.baseEvent);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("pool exception:\n{0}", e.ToString());
             }
         }
 
-        public bool PushEventToClients(BaseEvent baseEvent)
-        {
+        public bool PushEventToClients(BaseEvent baseEvent) {
             bool result = false;
-            subscribers.ForEach(delegate(IMainGateCallback callback)
-            {
-                if (((ICommunicationObject)callback).State != CommunicationState.Opened)
-                {
-                    InstantLogger.log(
-                        callback.ToString() + " is \"" +
-                        ((ICommunicationObject)callback).State.ToString() + "\"",
-                        "Dead callback is removed", InstantLogger.TypeMessage.warning);
-                    subscribers.Remove(callback);
-                }
-            });
-            try
-            {
+            subscribers.ForEach(delegate(IMainGateCallback callback) {
+                                    if (((ICommunicationObject) callback).State != CommunicationState.Opened) {
+                                        InstantLogger.log(
+                                            callback.ToString() + " is \"" +
+                                            ((ICommunicationObject) callback).State.ToString() + "\"",
+                                            "Dead callback is removed", InstantLogger.TypeMessage.warning);
+                                        subscribers.Remove(callback);
+                                    }
+                                });
+            try {
                 bool firstLoop = true;
-                foreach (var callback in subscribers)
-                {
-                    if (((ICommunicationObject) callback).State == CommunicationState.Opened)
-                    {
+                foreach (var callback in subscribers) {
+                    if (((ICommunicationObject) callback).State == CommunicationState.Opened) {
                         TaskInfo ti = new TaskInfo(baseEvent, callback);
                         result = System.Threading.ThreadPool.QueueUserWorkItem(new WaitCallback(OnEventTask), ti);
-                        if (firstLoop)
-                        {
-                            InstantLogger.log(baseEvent.ToString(), "message is delivered -- OnEvent processing initiated",
+                        if (firstLoop) {
+                            InstantLogger.log(baseEvent.ToString(),
+                                              "message is delivered -- OnEvent processing initiated",
                                               InstantLogger.TypeMessage.unimportant);
                             firstLoop = false;
-
                         }
                         //callback.OnEvent(baseEvent);
                         result = true;
                     }
-                    else
-                    {
+                    else {
                         InstantLogger.log(baseEvent.ToString(), "message is not delivered",
                                           InstantLogger.TypeMessage.important);
                         //subscribers.Remove(callback);
                     }
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("source exception:\n{0}", e.ToString());
                 result = false;
             }
@@ -150,60 +130,47 @@ namespace Core
             //    }
 
             //});
-            
+
             return result;
         }
 
-        public bool Subscribe()
-        {
-            try
-            {
+        public bool Subscribe() {
+            try {
                 var context = OperationContext.Current;
                 IMainGateCallback chGate = context.GetCallbackChannel<IMainGateCallback>();
                 var clientIp =
                     (context.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as
                      RemoteEndpointMessageProperty).Address;
 
-                
+
                 bool isFound = false;
-                foreach (var callback in subscribers)
-                {
+                foreach (var callback in subscribers) {
                     if (callback == chGate)
-                    {
                         isFound = true;
-                    }
                 }
-                if (!isFound)
-                {
+                if (!isFound) {
                     var isAllow = false;
                     foreach (var allowIP in Program.AllowIPs)
-                    {
                         if ((clientIp == allowIP) || (allowIP == "*")) isAllow = true;
-                    }
                     var msg = String.Format("request subscrib from ip = {0}  ", clientIp);
-                    
-                    if (isAllow)
-                    {
+
+                    if (isAllow) {
                         subscribers.Add(chGate);
                         msg += "==> listener is subscribed";
                     }
                     else
-                    {
                         msg += "client ip is not allow";
-                    }
                     InstantLogger.msg(msg);
                 }
                 return true;
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("subscribe exception:\n{0}", e.ToString());
                 return false;
             }
         }
 
-        public bool Unsubscribe()
-        {
+        public bool Unsubscribe() {
             //try
             //{
             //    IMainGateCallback chGate = OperationContext.Current.GetCallbackChannel<IMainGateCallback>();

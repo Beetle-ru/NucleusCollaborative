@@ -7,40 +7,28 @@ using System.Text;
 using CommonTypes;
 using Implements;
 
-namespace JSONClient
-{
-    class SerializeTools
-    {
-        public object RestoreFromString(string data, Type restoreClassType)
-        {
+namespace JSONClient {
+    internal class SerializeTools {
+        public object RestoreFromString(string data, Type restoreClassType) {
             DataContractJsonSerializer JSONSerializer = new DataContractJsonSerializer(restoreClassType);
             byte[] byteData = new byte[data.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                try
-                {
+            for (int i = 0; i < data.Length; i++) {
+                try {
                     byteData[i] = Convert.ToByte(data.ToCharArray()[i]);
                 }
-                catch (Exception e)
-                {
-                   InstantLogger.err("error convert: {0} ", e.ToString()); 
-                    
+                catch (Exception e) {
+                    InstantLogger.err("error convert: {0} ", e.ToString());
                 }
-                
             }
 
             var stream = new MemoryStream(byteData);
-            try
-            {
+            try {
                 return JSONSerializer.ReadObject(stream);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("error serialize: {0} ", e.ToString());
                 return null;
             }
-            
-            
         }
     }
 }

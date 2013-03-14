@@ -5,45 +5,38 @@ using System.Text;
 using System.Timers;
 using System.Threading;
 
-namespace LOneProcessor
-{
+namespace LOneProcessor {
     internal delegate void Handler();
-    static class EventLoop
-    {
+
+    internal static class EventLoop {
         public static int Period = 1; // sec
-        public static List<Handler> HandlerList; 
+        public static List<Handler> HandlerList;
         private static System.Timers.Timer m_iterateTimer;
         private static bool m_isRuned;
 
-        public static void Init()
-        {
+        public static void Init() {
             m_iterateTimer = new System.Timers.Timer();
             m_iterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             HandlerList = new List<Handler>();
             m_isRuned = false;
         }
 
-        public static void RunLoop()
-        {
+        public static void RunLoop() {
             m_iterateTimer.Interval = Period;
             m_iterateTimer.Enabled = true;
             m_isRuned = true;
         }
 
-        public static void StopLoop()
-        {
+        public static void StopLoop() {
             m_isRuned = false;
         }
 
-        private static void IterateTimeOut(object source, ElapsedEventArgs e)
-        {
+        private static void IterateTimeOut(object source, ElapsedEventArgs e) {
             m_iterateTimer.Enabled = false;
 
-            if (HandlerList.Any())
-            {
-                var delayTime = 1000 / HandlerList.Count;
-                foreach (var handler in HandlerList)
-                {
+            if (HandlerList.Any()) {
+                var delayTime = 1000/HandlerList.Count;
+                foreach (var handler in HandlerList) {
                     Thread.Sleep(delayTime);
                     handler();
                 }

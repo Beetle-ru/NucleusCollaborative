@@ -7,10 +7,8 @@ using System.Diagnostics;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace AppNode
-{
-    internal partial class Program
-    {
+namespace AppNode {
+    internal partial class Program {
         public static List<Process> PrecessList;
         public const string WorkingDirectory = "AppsData";
         public static List<Application> AppList = new List<Application>();

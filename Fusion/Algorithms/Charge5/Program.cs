@@ -8,20 +8,12 @@ using Converter;
 using Implements;
 using System.IO;
 
-namespace Charge5
-{
-    partial class Program
-    {
-        
-
-        static void Main(string[] args)
-        {
+namespace Charge5 {
+    internal partial class Program {
+        private static void Main(string[] args) {
             Init();
             Console.WriteLine("Charge5 is running, press enter to exit");
             Console.ReadLine();
         }
-        
-
-
     }
 }

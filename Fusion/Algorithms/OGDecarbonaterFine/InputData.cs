@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OGDecarbonaterFine
-{
-    public class InputData
-    {
+namespace OGDecarbonaterFine {
+    public class InputData {
         public double CO;
         public double CO2;
         public double H2;
@@ -17,9 +15,10 @@ namespace OGDecarbonaterFine
         public double OffGasV;
         public double OffGasDecompression;
         public int LanceHeight;
+        public double QO2;
+        public int QO2I;
 
-        public InputData()
-        {
+        public InputData() {
             CO = 0.0;
             CO = 0.02;
             H2 = 0.0;
@@ -30,6 +29,8 @@ namespace OGDecarbonaterFine
             OffGasV = 0.0;
             OffGasDecompression = 0.0;
             LanceHeight = 0;
+            QO2 = 0.0;
+            QO2I = 0;
         }
     }
 }

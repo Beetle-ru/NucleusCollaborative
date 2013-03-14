@@ -7,15 +7,13 @@ using System.Text;
 using CommonTypes;
 using Converter;
 
-namespace JSONClient
-{
+namespace JSONClient {
     [Serializable]
-    class UDPMessage
-    {
+    internal class UDPMessage {
         private string m_eventClassName;
         private string m_eventClassJSONData;
-        public void PackEventClass(BaseEvent classEvent)
-        {
+
+        public void PackEventClass(BaseEvent classEvent) {
             var eventType = classEvent.GetType();
             m_eventClassName = eventType.Name;
 
@@ -29,15 +27,12 @@ namespace JSONClient
 
             //Console.WriteLine(m_eventClassJSONData);
         }
-        
-        public BaseEvent RestoreEventClass(Type[] assembleTypes)
-        {
+
+        public BaseEvent RestoreEventClass(Type[] assembleTypes) {
             BaseEvent be = new BlowingEvent();
-            for (int at = 0; at < assembleTypes.Length; at++)
-            {
-                if (assembleTypes[at].Name == m_eventClassName)
-                {
-                    be = (BaseEvent)new SerializeTools().RestoreFromString(m_eventClassJSONData, assembleTypes[at]);
+            for (int at = 0; at < assembleTypes.Length; at++) {
+                if (assembleTypes[at].Name == m_eventClassName) {
+                    be = (BaseEvent) new SerializeTools().RestoreFromString(m_eventClassJSONData, assembleTypes[at]);
                     break;
                 }
             }

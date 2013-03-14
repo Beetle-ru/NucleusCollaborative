@@ -8,22 +8,17 @@ using System.Diagnostics;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace AppNode
-{
-    internal partial class Program
-    {
-        public static void LoadCfg(string path)
-        {
+namespace AppNode {
+    internal partial class Program {
+        public static void LoadCfg(string path) {
             ClearInfo();
             Directory.CreateDirectory(WorkingDirectory);
             //AppList = new List<Application>();
             string[] strings;
-            try
-            {
+            try {
                 strings = File.ReadAllLines(path);
             }
-            catch
-            {
+            catch {
                 strings = new string[0];
                 WriteInfo(String.Format("Cannot read the file: {0}", path));
                 RefrashConsoleNow();
@@ -31,18 +26,15 @@ namespace AppNode
             }
 
             var existAppsIndex = 0;
-            try
-            {
-                for (int i = 0; i < strings.Count(); i++)
-                {
+            try {
+                for (int i = 0; i < strings.Count(); i++) {
                     const char separator = ';';
                     var splt = strings[i].Split(separator);
-                    
+
                     var execPatch = splt.Any() ? splt[0] : strings[i];
                     var delay = splt.Count() > 1 ? Int32.Parse(splt[1]) : 0;
 
-                    if (File.Exists(execPatch))
-                    {
+                    if (File.Exists(execPatch)) {
                         //AppList.Add(new Application());
                         //AppList[AppList.Count - 1].FileName = execPatch;
                         //AppList[AppList.Count - 1].WorkingDirectory = WorkingDirectory;
@@ -55,15 +47,13 @@ namespace AppNode
                         InsertApp(appDescr, existAppsIndex++);
                         WriteInfo(String.Format("Application added, path = {0}", strings[i]));
                     }
-                    else
-                    {
+                    else {
                         WriteInfo(String.Format("###Application not found: {0}", strings[i]));
                         RefrashConsoleNow();
                     }
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 WriteInfo(String.Format("###Cannot read the file: {0}, bad format call exeption: {1}", path,
                                         e.ToString()));
                 RefrashConsoleNow();

@@ -7,10 +7,8 @@ using ConnectionProvider;
 using HeatCharge;
 using Implements;
 
-namespace CPlusProcessor
-{
-    static class Iterator
-    {
+namespace CPlusProcessor {
+    internal static class Iterator {
         private static List<MFCPData> m_matrix;
         private static List<MFCPData> m_matrixTotal;
         public static MFCPData CurrentState;
@@ -21,7 +19,7 @@ namespace CPlusProcessor
         public static HeatDataSmoother HDSmoother;
         public const int PeriodSec = 3; // время сглаживания
         public const int IntervalSec = 1; // интервал расчетов
-        public static Timer IterateTimer = new Timer(IntervalSec * 1000);
+        public static Timer IterateTimer = new Timer(IntervalSec*1000);
         public static Dictionary<long, MFCPData> WaitCarbonDic; // очередь ожидания углерода
 
         public static bool ModelIsStarted;
@@ -34,8 +32,7 @@ namespace CPlusProcessor
         private static double m_lastCarbon;
         private static double m_previousCarbon;
 
-        public static void Init()
-        {
+        public static void Init() {
             m_matrixTotal = new List<MFCPData>();
             Program.LoadMatrix(Program.MatrixPath, out m_matrix);
             Reset();
@@ -46,8 +43,7 @@ namespace CPlusProcessor
             WaitCarbonDic = new Dictionary<long, MFCPData>();
         }
 
-        public static void Reset()
-        {
+        public static void Reset() {
             CurrentState = new MFCPData();
             HDSmoother = new HeatDataSmoother();
 
@@ -64,24 +60,21 @@ namespace CPlusProcessor
             m_previousCarbon = Double.MaxValue;
         }
 
-        public static void Iterate()
-        {
-            if (ModelIsStarted)
-            {
-                if (m_dataIsFixed)
-                {
-                    if (!m_dataIsEnqueue)
-                    {
-                        CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
-                        CurrentState.SteelCarbonPercentCalculated = CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
+        public static void Iterate() {
+            if (ModelIsStarted) {
+                if (m_dataIsFixed) {
+                    if (!m_dataIsEnqueue) {
+                        CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix,
+                                                                                                   CurrentState);
+                        CurrentState.SteelCarbonPercentCalculated =
+                            CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
                         if (VerifyForEnqueueWaitC()) EnqueueWaitC(); // ставим в очередь если плавка нормальная
                         m_dataIsEnqueue = true;
                         FireCurrentCarbon(CurrentState.SteelCarbonPercentCalculated);
                         FireFixEvent(CurrentState.SteelCarbonPercentCalculated);
                     }
                 }
-                else
-                {
+                else {
                     var co2 = HDSmoother.CO2.Average(PeriodSec);
                     var co = HDSmoother.CO.Average(PeriodSec);
                     CurrentState.CarbonOxideIVP += co2;
@@ -98,12 +91,10 @@ namespace CPlusProcessor
                     m_dataIsFixed = ModelVerifiForFix();
                 }
             }
-            else
-            {
+            else {
                 ModelIsStarted = ModelVerifiForStart();
 
-                if (ModelIsStarted)
-                {
+                if (ModelIsStarted) {
                     FireCurrentCarbon(0.095);
                     var fex = new FlexHelper("CPlusProcessor.ModelIsStarted");
                     fex.Fire(Program.MainGate);
@@ -112,37 +103,28 @@ namespace CPlusProcessor
             }
 
             if (HDSmoother.HeatIsStarted)
-            {
                 CurrentState.HightQualityHeat = HightQualityHeatVerify();
-            }
-            
         }
 
-        public static double CarbonClipper(double carbon)
-        {
+        public static double CarbonClipper(double carbon) {
             var res = 0.0;
             if (carbon > m_previousCarbon)
-            {
                 res = m_previousCarbon;
-            }
-            else
-            {
+            else {
                 res = carbon;
                 m_previousCarbon = carbon;
             }
             return res;
         }
 
-        static public void FireFixEvent(double carbon)
-        {
+        public static void FireFixEvent(double carbon) {
             var fex = new FlexHelper("CPlusProcessor.DataFix");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate);
             InstantLogger.msg(fex.evt + "\n");
         }
 
-        static public void FireCurrentCarbon(double carbon)
-        {
+        public static void FireCurrentCarbon(double carbon) {
             const double tresholdCarbon = 0.03;
             carbon = carbon < tresholdCarbon ? tresholdCarbon : carbon; // ограничение на углерод
 
@@ -151,69 +133,56 @@ namespace CPlusProcessor
             fex.Fire(Program.MainGate);
             InstantLogger.msg("carbon = {0}", carbon);
         }
-        static public void EnqueueWaitC()
-        {
+
+        public static void EnqueueWaitC() {
             var numberHeat = CurrentState.HeatNumber;
             if (numberHeat <= 0) return;
 
-            if (!WaitCarbonDic.ContainsKey(numberHeat))
-            {
+            if (!WaitCarbonDic.ContainsKey(numberHeat)) {
                 CurrentState.SteelCarbonPercent = 0; // на всякий обнуляем
                 WaitCarbonDic.Add(numberHeat, CurrentState);
             }
             else return;
         }
 
-        static public void AddCarbonToQueue(Int64 heatNumber, Double carbonValue)
-        {
-            if (WaitCarbonDic.ContainsKey(heatNumber))
-            {
+        public static void AddCarbonToQueue(Int64 heatNumber, Double carbonValue) {
+            if (WaitCarbonDic.ContainsKey(heatNumber)) {
                 WaitCarbonDic[heatNumber].SteelCarbonPercent = carbonValue;
                 CompleteQueueWC();
             }
             else
-            {
                 InstantLogger.log("HeatNumber {0} in the WaitCarbonDic dictionary not found\n", heatNumber.ToString());
-            }
         }
 
-        public static void CompleteQueueWC()
-        {
+        public static void CompleteQueueWC() {
             int i = 0;
-            while (i < WaitCarbonDic.Count)
-            {
-                if (WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0)
-                {
+            while (i < WaitCarbonDic.Count) {
+                if (WaitCarbonDic.ElementAt(i).Value.SteelCarbonPercent > 0) {
                     var key = WaitCarbonDic.ElementAt(i).Key;
                     HardFixData(WaitCarbonDic[key]);
                     WaitCarbonDic.Remove(key);
                 }
                 else
-                {
                     i++;
-                }
             }
             const int maxLength = 10000;
-            if (WaitCarbonDic.Count > maxLength) // если по каким-то причинам очередь слишком разрослась, то безжалостно ее прибиваем
+            if (WaitCarbonDic.Count > maxLength)
+                // если по каким-то причинам очередь слишком разрослась, то безжалостно ее прибиваем
             {
                 WaitCarbonDic.Clear();
                 InstantLogger.err("WaitCarbonDic too grown\n");
             }
         }
 
-        static public void HardFixData(MFCPData hDataResult)
-        {
-            if (VerifiDataForSave(hDataResult))
-            {
+        public static void HardFixData(MFCPData hDataResult) {
+            if (VerifiDataForSave(hDataResult)) {
                 //m_matrix.RemoveAt(0);
                 //m_matrix.Add(hDataResult);
                 //m_matrix.Insert();
                 const double epsilon = 0.005;
                 var isFoundInMatrix = false;
-                for (int i = 0; i < m_matrix.Count; i++)
-                {
-                    if (Math.Abs(m_matrix[i].SteelCarbonPercent - hDataResult.SteelCarbonPercent) < epsilon)
-                    {
+                for (int i = 0; i < m_matrix.Count; i++) {
+                    if (Math.Abs(m_matrix[i].SteelCarbonPercent - hDataResult.SteelCarbonPercent) < epsilon) {
                         m_matrix.RemoveAt(i);
                         m_matrix.Insert(i, hDataResult);
                         isFoundInMatrix = true;
@@ -221,18 +190,13 @@ namespace CPlusProcessor
                     }
                 }
                 if (isFoundInMatrix)
-                {
                     InstantLogger.log("hDataResult.SteelCarbonPercent is found in m_matrix and replased");
-                }
                 else
-                {
-                    InstantLogger.err("hDataResult.SteelCarbonPercent = {0} not found in m_matrix", hDataResult.SteelCarbonPercent);
-                }
+                    InstantLogger.err("hDataResult.SteelCarbonPercent = {0} not found in m_matrix",
+                                      hDataResult.SteelCarbonPercent);
             }
             else
-            {
                 hDataResult.HightQualityHeat = false;
-            }
 
             m_matrixTotal.Add(hDataResult);
 
@@ -240,59 +204,58 @@ namespace CPlusProcessor
             Program.SaveMatrix(Program.MatrixTotalPath, m_matrixTotal);
         }
 
-        static public bool VerifiDataForSave(MFCPData currentHeatResult)
-        {
+        public static bool VerifiDataForSave(MFCPData currentHeatResult) {
             const double minCarbonPercent = 0.03;
             const double maxCarbonPercent = 0.12;
 
-            return   (currentHeatResult.SteelCarbonPercentCalculated != 0) &&
-                     (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
-                     (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
-                     (currentHeatResult.HightQualityHeat); 
+            return (currentHeatResult.SteelCarbonPercentCalculated != 0) &&
+                   (currentHeatResult.SteelCarbonPercent > minCarbonPercent) &&
+                   (currentHeatResult.SteelCarbonPercent < maxCarbonPercent) &&
+                   (currentHeatResult.HightQualityHeat);
         }
 
-        static private bool VerifyForEnqueueWaitC()
-        {
+        private static bool VerifyForEnqueueWaitC() {
             const double minIcoIco2Ratio = 1.6;
 
-            var it4 = (!((IntegralCO / IntegralCO2) < minIcoIco2Ratio)); // 4. Плавки, выполненные с полным дожиганием «СО»
-            if (!it4) Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2, minIcoIco2Ratio);
+            var it4 = (!((IntegralCO/IntegralCO2) < minIcoIco2Ratio));
+                // 4. Плавки, выполненные с полным дожиганием «СО»
+            if (!it4)
+                Console.WriteLine("Bad blowing item 4.: (!(({0} / {1}) < {2}))\n", IntegralCO, IntegralCO2,
+                                  minIcoIco2Ratio);
             //InstantLogger.msg("(!((IntegralCO[{0}] / IntegralCO2[{1}])[{2}] < minIcoIco2Ratio[{3}])) = {4}\n(IntegralCO[{0}] > Program.COMin[{5}]) = {6}\n (IntegralCO[{0}] < Program.COMax[{7}]) = {8}",
-                             //IntegralCO, 
-                             //IntegralCO2, 
-                             //(IntegralCO / IntegralCO2),
-                             //minIcoIco2Ratio, 
-                             //it4, 
-                             //Program.COMin, 
-                             //(IntegralCO > Program.COMin), 
-                             //Program.COMax, 
-                             //(IntegralCO < Program.COMax)
-                             //);
+            //IntegralCO, 
+            //IntegralCO2, 
+            //(IntegralCO / IntegralCO2),
+            //minIcoIco2Ratio, 
+            //it4, 
+            //Program.COMin, 
+            //(IntegralCO > Program.COMin), 
+            //Program.COMax, 
+            //(IntegralCO < Program.COMax)
+            //);
             return it4 &&
                    (IntegralCO > Program.COMin) && // проверка на интегральный CO
                    (IntegralCO < Program.COMax);
         }
-        
-        private static bool ModelVerifiForStart()
-        {
+
+        private static bool ModelVerifiForStart() {
             const double oxygenTreshol = 16000;
-            return (!ModelIsStarted) && 
+            return (!ModelIsStarted) &&
                    (HDSmoother.Oxygen >= oxygenTreshol) &&
                    (HDSmoother.CO2.Average(PeriodSec) >= HDSmoother.CO.Average(PeriodSec));
         }
 
-        static public bool ModelVerifiForFix()
-        {
+        public static bool ModelVerifiForFix() {
             const int lanceFixPositionTreshold = 330;
             const int oxigenTreshold = 16000;
 
-                return (!m_dataIsFixed) &&
+            return (!m_dataIsFixed) &&
                    (HDSmoother.Oxygen > oxigenTreshold) &&
-                   (HDSmoother.LanceHeigth >= lanceFixPositionTreshold); // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
+                   (HDSmoother.LanceHeigth >= lanceFixPositionTreshold);
+                // 6.	 Технологические данные плавок “matrix” приведены в таблице 1. 
         }
 
-        static public bool HightQualityHeatVerify()
-        {
+        public static bool HightQualityHeatVerify() {
             const double initCOTreshold = 1;
             const double minOffGasV = 320000;
             const double maxOffGasV = 420000;
@@ -302,12 +265,13 @@ namespace CPlusProcessor
             const double minOxiLanceDown = 2000; // начало периода нижнего положения фурмы
             const double maxOxiLanceDown = 16000; // конец периода нижнего положения фурмы
             const double maxLanceHeigth = 500;
-            if (HDSmoother.Oxygen > minOxiIgnition && HDSmoother.Oxygen < maxOxiIgnition) // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
+            if (HDSmoother.Oxygen > minOxiIgnition && HDSmoother.Oxygen < maxOxiIgnition)
+                // 2. Содержание «СО» в отходящих газах по данным газоанализатора (зажигание плавки).
             {
-                if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold)
-                {
+                if (HDSmoother.CO.Average(PeriodSec) < initCOTreshold) {
                     m_isBadInitBlowinByCO = true;
-                    InstantLogger.err("Bad blowing item 2.: {0} < {1}\n CurrentOxygen -- {2}\n", HDSmoother.CO.Average(PeriodSec), initCOTreshold, HDSmoother.Oxygen);
+                    InstantLogger.err("Bad blowing item 2.: {0} < {1}\n CurrentOxygen -- {2}\n",
+                                      HDSmoother.CO.Average(PeriodSec), initCOTreshold, HDSmoother.Oxygen);
                 }
             }
 
@@ -319,34 +283,31 @@ namespace CPlusProcessor
 
             if (HDSmoother.Oxygen > minOxiLanceDown && HDSmoother.Oxygen < maxOxiLanceDown) // проверка на слив шлака
             {
-                if (HDSmoother.LanceHeigth >= maxLanceHeigth)
-                {
+                if (HDSmoother.LanceHeigth >= maxLanceHeigth) {
                     m_isBlowingUpliftLance = true;
-                    InstantLogger.err("Bad blowing Lance heigth {0} > {1}\n CurrentOxygen -- {2}\n", HDSmoother.LanceHeigth, maxLanceHeigth, HDSmoother.Oxygen);
+                    InstantLogger.err("Bad blowing Lance heigth {0} > {1}\n CurrentOxygen -- {2}\n",
+                                      HDSmoother.LanceHeigth, maxLanceHeigth, HDSmoother.Oxygen);
                 }
             }
             return !m_isBadInitBlowinByCO && !m_isBlowingUpliftLance;
         }
 
-        public static void IterateTimeOut(object source, ElapsedEventArgs e)
-        {
+        public static void IterateTimeOut(object source, ElapsedEventArgs e) {
             Iterate();
             Console.Write(".");
         }
     }
 
-    class HeatDataSmoother
-    {
+    internal class HeatDataSmoother {
         public RollingAverage CO;
         public RollingAverage CO2;
-        
+
         public double LanceHeigth;
         public double LanceHeigthPrevious;
         public double Oxygen;
         public bool HeatIsStarted;
 
-        public HeatDataSmoother(int lengthBuff = 50)
-        {
+        public HeatDataSmoother(int lengthBuff = 50) {
             CO = new RollingAverage(lengthBuff);
             CO2 = new RollingAverage(lengthBuff);
 

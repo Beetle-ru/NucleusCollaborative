@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Charge5UI.PatternEditor
-{
-    public class TableRow
-    {
+namespace Charge5UI.PatternEditor {
+    public class TableRow {
         public double MinSiHotIron { set; get; }
         public double MaxSiHotIron { set; get; }
         public double MinTHotIron { set; get; }
@@ -21,8 +19,7 @@ namespace Charge5UI.PatternEditor
         public double MassDolomS { set; get; }
     }
 
-    public class TableData
-    {
+    public class TableData {
         public List<TableRow> Rows = new List<TableRow>();
     }
 }

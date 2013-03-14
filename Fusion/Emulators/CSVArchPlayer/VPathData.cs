@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CSVArchPlayer
-{
-    class VPathData
-    {
+namespace CSVArchPlayer {
+    internal class VPathData {
         public double RB5 { get; set; }
         public double RB6 { get; set; }
         public double RB7 { get; set; }

@@ -2,28 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using ConnectionProvider;
 using Converter;
 using CommonTypes;
 using Implements;
 
-namespace CSVArchiver
-{
-    class Listener : IEventListener
-    {
+namespace CSVArchiver {
+    internal class Listener : IEventListener {
         private long m_lasIdHeat;
-        public Listener()
-        {
+
+        public Listener() {
             m_lasIdHeat = 0;
             // InstantLogger.log("Listener started");
         }
-        public void OnEvent(BaseEvent newEvent)
-        {
-            using (var l = new Logger("FlexEventSaver"))
-            {
-                if (newEvent is LanceEvent)
-                {
+
+        public void OnEvent(BaseEvent newEvent) {
+            using (var l = new Logger("FlexEventSaver")) {
+                if (newEvent is LanceEvent) {
                     var lanceEvent = newEvent as LanceEvent;
                     Program.SDS.LanceHeigth.Add(lanceEvent.LanceHeight);
                     Program.SDS.OxygenRate.Add(lanceEvent.O2Flow);
@@ -39,58 +34,48 @@ namespace CSVArchiver
                 //    Program.SDS.N2Perc.Add(offGasAnalysisEvent.N2);
                 //    Program.SDS.ArPerc.Add(offGasAnalysisEvent.Ar);
                 //}
-                if (newEvent is OffGasEvent)
-                {
+                if (newEvent is OffGasEvent) {
                     var offGasEvent = newEvent as OffGasEvent;
                     Program.SDS.VGas.Add(offGasEvent.OffGasFlow);
                     Program.SDS.TGas.Add(offGasEvent.OffGasTemp);
                 }
-                if (newEvent is CalculatedCarboneEvent)
-                {
+                if (newEvent is CalculatedCarboneEvent) {
                     var cCarbon = newEvent as CalculatedCarboneEvent;
                     //Program.SDS.CCalc.Add(cCarbon.CarbonePercent);
                 }
-                if (newEvent is SublanceCEvent)
-                {
+                if (newEvent is SublanceCEvent) {
                     var sublanceCEvent = newEvent as SublanceCEvent;
                     Program.SDS.CSubLance = sublanceCEvent.C;
                 }
-                if (newEvent is IgnitionEvent)
-                {
+                if (newEvent is IgnitionEvent) {
                     var ign = newEvent as IgnitionEvent;
                     Program.SDS.Ignition = ign.FusionIgnition;
                 }
-                if (newEvent is DecompressionOffGasEvent)
-                {
+                if (newEvent is DecompressionOffGasEvent) {
                     var doge = newEvent as DecompressionOffGasEvent;
                     Program.SDS.Decompression.Add(doge.Decompression);
                 }
-                if (newEvent is O2Event)
-                {
+                if (newEvent is O2Event) {
                     var o2e = newEvent as O2Event;
-                    if (o2e.RightLanceIsSelected && !o2e.LeftLanceIsSelected)
-                    {
+                    if (o2e.RightLanceIsSelected && !o2e.LeftLanceIsSelected) {
                         Program.SDS.QOxygenCL.Add(o2e.QOxygenRight);
                         Program.SDS.POxygenCL.Add(o2e.POxygenRight);
                         Program.SDS.TOxygenCL.Add(o2e.TOxygenRight);
                         Program.SDS.DPOxygenCL.Add(o2e.DPOxygenRight);
                     }
-                    else
-                    {
+                    else {
                         Program.SDS.QOxygenCL.Add(o2e.QOxygenLeft);
                         Program.SDS.POxygenCL.Add(o2e.POxygenLeft);
                         Program.SDS.TOxygenCL.Add(o2e.TOxygenLeft);
                         Program.SDS.DPOxygenCL.Add(o2e.DPOxygenLeft);
                     }
                 }
-                if (newEvent is N2Event)
-                {
+                if (newEvent is N2Event) {
                     var n2e = newEvent as N2Event;
                     Program.SDS.QNitrogenLanceWindow.Add(n2e.QNitrogenLanceWindow);
                     Program.SDS.QNitrogenBoiler.Add(n2e.QNitrogenBoiler);
                 }
-                if (newEvent is visAdditionTotalEvent)
-                {
+                if (newEvent is visAdditionTotalEvent) {
                     var vate = newEvent as visAdditionTotalEvent;
                     Program.SDS.RB5 = vate.RB5TotalWeight;
                     Program.SDS.RB6 = vate.RB6TotalWeight;
@@ -101,71 +86,58 @@ namespace CSVArchiver
                     Program.SDS.RB11 = vate.RB11TotalWeight;
                     Program.SDS.RB12 = vate.RB12TotalWeight;
                 }
-                if (newEvent is HeatChangeEvent)
-                {
+                if (newEvent is HeatChangeEvent) {
                     var heatChangeEvent = newEvent as HeatChangeEvent;
-                    if (m_lasIdHeat != heatChangeEvent.HeatNumber)
-                    {
+                    if (m_lasIdHeat != heatChangeEvent.HeatNumber) {
                         Program.SaverData(Program.SDList, m_lasIdHeat);
                         m_lasIdHeat = heatChangeEvent.HeatNumber;
                         Program.Init();
                     }
                 }
-                if (newEvent is FlexEvent)
-                {
+                if (newEvent is FlexEvent) {
                     var fxe = newEvent as FlexEvent;
-                    if (fxe.Operation.StartsWith("NeuralProcessorC.Calc"))
-                    {
+                    if (fxe.Operation.StartsWith("NeuralProcessorC.Calc")) {
                         var key = "C";
                         //l.msg(fxe.ToString());
-                        if (fxe.Arguments.ContainsKey(key))
-                        {
-                            try
-                            {
+                        if (fxe.Arguments.ContainsKey(key)) {
+                            try {
                                 Program.SDS.NeuralC.Add((double) fxe.Arguments[key]);
                             }
-                            catch (Exception e)
-                            {
+                            catch (Exception e) {
                                 l.err("NeuralProcessorC.Calc - {1} : \n{0}", e.ToString(), key);
                             }
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result"))
-                    {
+                    if (fxe.Operation.StartsWith("CarbonSwitcher.Result")) {
                         var key = "C";
                         //InstantLogger.msg(fxe.ToString());
-                        try
-                        {
+                        try {
                             //Carbon = (double)fxe.Arguments[key];
                             //Program.CurrentCalcCarbone = (double)fxe.Arguments[key];
-                            Program.SDS.CCalc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.CCalc.Add((double) fxe.Arguments[key]);
                         }
-                        catch (Exception e)
-                        {
+                        catch (Exception e) {
                             InstantLogger.err("CarbonSwitcher.Result - {1} : \n{0}", e.ToString(), key);
                         }
                     }
 
-                    if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent"))
-                    {
+                    if (fxe.Operation.StartsWith("UDP.OffGasAnalysisEvent")) {
                         var key = "H2";
-                        try
-                        {
-                            Program.SDS.H2Perc.Add((double)fxe.Arguments[key]);
+                        try {
+                            Program.SDS.H2Perc.Add((double) fxe.Arguments[key]);
                             key = "O2";
-                            Program.SDS.O2Perc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.O2Perc.Add((double) fxe.Arguments[key]);
                             key = "CO";
-                            Program.SDS.COPerc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.COPerc.Add((double) fxe.Arguments[key]);
                             key = "CO2";
-                            Program.SDS.CO2Perc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.CO2Perc.Add((double) fxe.Arguments[key]);
                             key = "N2";
-                            Program.SDS.N2Perc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.N2Perc.Add((double) fxe.Arguments[key]);
                             key = "Ar";
-                            Program.SDS.ArPerc.Add((double)fxe.Arguments[key]);
+                            Program.SDS.ArPerc.Add((double) fxe.Arguments[key]);
                         }
-                        catch (Exception e)
-                        {
+                        catch (Exception e) {
                             InstantLogger.err("UDP.OffGasAnalysisEvent - {1} : \n{0}", e.ToString(), key);
                         }
                     }

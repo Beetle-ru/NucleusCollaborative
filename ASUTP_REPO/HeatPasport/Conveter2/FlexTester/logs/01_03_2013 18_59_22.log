@@ -1,0 +1,462 @@
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=16ba5257-6015-4a01-910b-5b336eb0165b;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7656
+</dictionary>;
+Time=01.03.2013 18:59:21; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=b534d6f5-2ae4-4f45-a623-9ff8d3c2326d;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7656
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:21; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=4d4f63c3-1fb9-41dc-8010-9a89735c9629;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7656
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:21; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=72b8b8d4-676e-4f52-9808-62a8d616d2e3;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7665
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=95ed8e07-14d6-4e21-82b8-45232005ae0f;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7665
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=cdc6ad68-b42a-4991-9760-ec47313ed2fc;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7665
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=f24794de-188a-4efd-b840-92aa16545849;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7675
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=f33df492-6a98-47bd-a8c5-9a405b20d701;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7675
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:22) 
+Event FlexEvent:
+Id=dd936eb3-1ecb-48ef-8e63-a5ccbda078b4;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7675
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:22; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=ee2bb9e2-ccda-4e2f-9e01-ddec8d1c52aa;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7681
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=42672d37-b37a-45ff-ae52-e51ac81d48e2;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7681
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=d79b9ed8-ddc9-4dd3-8086-4b281d019c75;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7681
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=cbdb9bac-49ed-40d2-b090-7f088ae00eda;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7697
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=9ef1f823-fa5e-4461-8329-a399736fe74d;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7697
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:23) 
+Event FlexEvent:
+Id=1d4993a1-9778-49c1-bd69-d9183e20154f;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7697
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:23; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=a95dc08d-3d83-477b-acdc-8826656e1bfa;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7707
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=e2cd2263-dea8-442d-b8e7-678aa6d776a8;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7707
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=caf07f1d-a8b9-4428-9488-8ec3405e13e8;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7707
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=0941d080-ac52-4e89-9050-67c60b794813;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7717
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=4d4ad8ae-2053-44a0-b4e4-61dc740eb762;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7717
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:24) 
+Event FlexEvent:
+Id=d0d11eb7-0c07-495a-9063-7d1eadc275a2;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7717
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:24; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=0425a682-8899-420b-8e4b-d5a1843c7361;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7728
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=32db4f00-f4f2-4b0b-8fba-2125235983f1;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7728
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=07c19adc-c6ff-4992-a4c6-5c914aed46e9;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7728
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=15749783-cc80-466f-b616-589ccc77d7e0;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7738
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=b7af9413-8f7d-434c-8b2f-660d2ae69027;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7738
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:25) 
+Event FlexEvent:
+Id=51e45b88-8968-4279-89dd-68474e48166e;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7738
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:25; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=67ab08c3-e17b-426b-b3da-34b6c5f8221d;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7747
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=d79946c0-23f7-4212-a007-05f86369a5a6;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7747
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=fc47e85f-de42-41c6-8481-be6c90f44e93;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7747
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=f92a2603-5e7d-4d15-814d-cdce80001b17;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7757
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=58825c7f-5791-4a9d-a5be-052d6708c7ca;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7757
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:26) 
+Event FlexEvent:
+Id=a2f08846-ecfd-4711-abfb-d6b6aff5482a;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7757
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:26; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=d4be0f0d-0c85-4b71-98b0-a22cde25d2a7;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7767
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=0d0b259e-cf00-4794-ad6e-96c957ce25f0;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7767
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=86717591-3f30-470c-a450-d1e251db9195;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7767
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=66438c33-d5a2-459f-a498-e27be3ff3562;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7777
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=5f38f640-1711-4c27-b679-e8dfd44f5939;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7777
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:27) 
+Event FlexEvent:
+Id=373f43a8-359b-400b-ab37-cf44eb27bd34;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7777
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:27; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:28) 
+Event FlexEvent:
+Id=dac52669-1459-4fc9-befe-2d602629a8ea;
+Operation=OPC.BlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	BlowingFlag	:1
+	O2TotalVol	:7787
+</dictionary>;
+Time=01.03.2013 18:59:28; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:28) 
+Event FlexEvent:
+Id=853faeba-4090-4564-89eb-8fb9bfd9552e;
+Operation=OPC.LanceEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7787
+	LanceHeight	:268
+</dictionary>;
+Time=01.03.2013 18:59:28; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 
+.......   +++   ***ERROR ::ConnectionProvider.PrimaryListener.EventProc   +++ (01.03.2013 18:59:28) 
+Event FlexEvent:
+Id=b633b2a2-a4d2-483f-baac-2cd631863e3d;
+Operation=OPC.ReBlowingEvent;
+Flags=FlexEventCreated, FlexEventOpcNotification;
+Arguments=<dictionary>
+	O2TotalVol	:7787
+	BlowingFlag	:0
+</dictionary>;
+Time=01.03.2013 18:59:28; exception FlexTester::Void OnEvent(CommonTypes.BaseEvent) returned:
+Ссылка на объект не указывает на экземпляр объекта. 

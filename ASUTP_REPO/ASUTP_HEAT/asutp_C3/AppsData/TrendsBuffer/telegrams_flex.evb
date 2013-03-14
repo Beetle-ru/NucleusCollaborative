@@ -1,0 +1,26 @@
+Имя события;Тип;Коментарии
+<EVENTSECTION>;;
+OPC.HotMetalLadleEvent;FLEX;
+OPC.LanceBathLevelEvent;FLEX;
+OPC.BlowingAlarmEvent;FLEX;
+OPC.ScrapEvent;FLEX;
+OPC.BulkSolids;FLEX;
+OPC.BlowingEvent;FLEX;
+OPC.DeslaggingEvent;FLEX;
+OPC.HeatChangeEvent;FLEX;
+OPC.HeatingScrapEvent;FLEX;
+OPC.HotMetalPouringEvent;FLEX;
+OPC.IgnitionEvent;FLEX;
+OPC.LanceEvent;FLEX;
+OPC.O2Event;FLEX;
+OPC.ReBlowingEvent;FLEX;
+OPC.ResetO2TotalVolEvent;FLEX;
+OPC.ScrapChargingEvent;FLEX;
+OPC.SlagBlowingEvent;FLEX;
+OPC.SublanceCEvent;FLEX;
+OPC.SublanceOxidationEvent;FLEX;
+OPC.SublanceStartEvent;FLEX;
+OPC.SublanceTemperatureEvent;FLEX;
+OPC.TappingEvent;FLEX;
+
+

@@ -7,10 +7,8 @@ using System.Net.Sockets;
 using System.Threading;
 using Implements;
 
-namespace JSONClient
-{
-    class UDPTools
-    {
+namespace JSONClient {
+    internal class UDPTools {
         private int m_recv;
         private byte[] m_data;
         private readonly IPEndPoint m_ipep;
@@ -27,30 +25,26 @@ namespace JSONClient
         private ListenerDelegate m_ld;
         private SubscribeDelegate m_sd;
 
-        public UDPTools(int port)
-        {
+        public UDPTools(int port) {
             m_data = new byte[1024];
             m_ipep = new IPEndPoint(IPAddress.Any, port);
             m_newsock = new Socket(AddressFamily.InterNetwork,
-                           SocketType.Dgram, ProtocolType.Udp);
+                                   SocketType.Dgram, ProtocolType.Udp);
             m_newsock.Bind(m_ipep);
             m_sender = new IPEndPoint(IPAddress.Any, 0);
-            m_remote = (EndPoint)(m_sender);
+            m_remote = (EndPoint) (m_sender);
 
             m_udpServerThread = new Thread(UDPServer);
 
             m_ld = OnData;
-
         }
-        public void StartUDPServer()
-        {
+
+        public void StartUDPServer() {
             m_udpServerThread.Start();
         }
 
-        private void UDPServer()
-        {
-
-           /* Console.WriteLine("Waiting for a client...");
+        private void UDPServer() {
+            /* Console.WriteLine("Waiting for a client...");
 
             m_recv = m_newsock.ReceiveFrom(m_data, ref m_remote);
 
@@ -60,69 +54,57 @@ namespace JSONClient
             string welcome = "Welcome to my test server";
             m_data = Encoding.ASCII.GetBytes(welcome);
             m_newsock.SendTo(m_data, m_data.Length, SocketFlags.None, m_remote);*/
-            while (true)
-            {
+            while (true) {
                 m_data = new byte[1024];
-                try
-                {
+                try {
                     m_recv = m_newsock.ReceiveFrom(m_data, ref m_remote);
                     m_ld.Invoke(m_data, m_recv);
                 }
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     InstantLogger.err("udp receive error");
-                    m_remote = (EndPoint)(m_sender);
+                    m_remote = (EndPoint) (m_sender);
                     //Logger.err("udp receive return err code: {0}", e.ToString());
                     //throw;
                 }
-                
+
                 //Console.WriteLine(Encoding.ASCII.GetString(m_data, 0, m_recv));
                 //m_newsock.SendTo(m_data, m_recv, SocketFlags.None, m_remote);
             }
-         }
-        public int Subscribe(SubscribeDelegate sd)
-        {
+        }
+
+        public int Subscribe(SubscribeDelegate sd) {
             m_sd = sd;
             return 0;
         }
-        public int OnData(byte[] data, int receiveBytes)
-        {
-           // Console.WriteLine("UDP receive - {0}", Encoding.ASCII.GetString(data,0,receiveBytes));
-            try
-            {
+
+        public int OnData(byte[] data, int receiveBytes) {
+            // Console.WriteLine("UDP receive - {0}", Encoding.ASCII.GetString(data,0,receiveBytes));
+            try {
                 m_sd.Invoke(Encoding.ASCII.GetString(data, 0, receiveBytes));
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 InstantLogger.err("udp receive not subscribe listener");
                 //throw;
             }
-            
+
             return 0;
         }
-        
-        public int Send(string message)
-        {
+
+        public int Send(string message) {
             m_data = new byte[1024];
-            for (int i = 0; i < message.Length; i++)
-            {
+            for (int i = 0; i < message.Length; i++) {
                 if (m_data.Length > message.Length)
-                {
-                    m_data[i] = (byte)message[i];
-                }
-                
+                    m_data[i] = (byte) message[i];
             }
-            try
-            {
+            try {
                 m_newsock.SendTo(m_data, message.Length, SocketFlags.None, m_remote);
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 InstantLogger.err("udp send err");
                 //Logger.err("udp send return err code: {0}", e.ToString());
                 //throw;
             }
-            
+
             return 0;
         }
     }

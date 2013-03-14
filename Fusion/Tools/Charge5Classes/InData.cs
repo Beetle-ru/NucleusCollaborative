@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Charge5Classes
-{
-    public class InData
-    {
+namespace Charge5Classes {
+    public class InData {
         /// <summary>
         /// Тип стали 0 -- 7
         /// </summary>

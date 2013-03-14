@@ -8,67 +8,48 @@ using System.Text;
 using System.Windows.Forms;
 using Converter;
 
-namespace WeigherReleaseEventSender
-{
-    public partial class WeigherReleaseSender : Form
-    {
-        static private ConnectionProvider.Client m_pushGate;
-        public WeigherReleaseSender()
-        {
+namespace WeigherReleaseEventSender {
+    public partial class WeigherReleaseSender : Form {
+        private static ConnectionProvider.Client m_pushGate;
+
+        public WeigherReleaseSender() {
             m_pushGate = new ConnectionProvider.Client();
             InitializeComponent();
         }
 
-        private void btnReleaseW3_Click(object sender, EventArgs e)
-        {
+        private void btnReleaseW3_Click(object sender, EventArgs e) {
             m_pushGate.PushEvent(new ReleaseWeigherEvent() {WeigherId = 0});
             if (cbEmul.Checked)
-            {
                 WeigherEmpty(0);
-            }
         }
 
-        private void btnReleaseW4_Click(object sender, EventArgs e)
-        {
-            m_pushGate.PushEvent(new ReleaseWeigherEvent() { WeigherId = 1 });
+        private void btnReleaseW4_Click(object sender, EventArgs e) {
+            m_pushGate.PushEvent(new ReleaseWeigherEvent() {WeigherId = 1});
             if (cbEmul.Checked)
-            {
                 WeigherEmpty(1);
-            }
         }
 
-        private void btnReleaseW5_Click(object sender, EventArgs e)
-        {
-            m_pushGate.PushEvent(new ReleaseWeigherEvent() { WeigherId = 2 });
+        private void btnReleaseW5_Click(object sender, EventArgs e) {
+            m_pushGate.PushEvent(new ReleaseWeigherEvent() {WeigherId = 2});
             if (cbEmul.Checked)
-            {
                 WeigherEmpty(2);
-            }
         }
 
-        private void btnReleaseW6_Click(object sender, EventArgs e)
-        {
-            m_pushGate.PushEvent(new ReleaseWeigherEvent() { WeigherId = 3 });
+        private void btnReleaseW6_Click(object sender, EventArgs e) {
+            m_pushGate.PushEvent(new ReleaseWeigherEvent() {WeigherId = 3});
             if (cbEmul.Checked)
-            {
                 WeigherEmpty(3);
-            }
         }
 
-        private void btnReleaseW7_Click(object sender, EventArgs e)
-        {
-            m_pushGate.PushEvent(new ReleaseWeigherEvent() { WeigherId = 4 });
+        private void btnReleaseW7_Click(object sender, EventArgs e) {
+            m_pushGate.PushEvent(new ReleaseWeigherEvent() {WeigherId = 4});
             if (cbEmul.Checked)
-            {
                 WeigherEmpty(4);
-            }
         }
 
-        private void WeigherEmpty(int weigherId)
-        {
+        private void WeigherEmpty(int weigherId) {
             var wse = new WeighersStateEvent();
-            switch (weigherId)
-            {
+            switch (weigherId) {
                 case 0:
                     wse.Weigher3Empty = 1;
                     wse.Weigher3LoadFree = 1;
@@ -98,7 +79,5 @@ namespace WeigherReleaseEventSender
             m_pushGate.PushEvent(wse);
             //WeighersStateEvent;
         }
-
-
     }
 }

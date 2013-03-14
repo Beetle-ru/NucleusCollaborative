@@ -1,0 +1,8 @@
+.......   ~~~   ***TRACE ::ConnectionProvider.SendingThread   ~~~ (01.03.2013 16:58:25) 
+Connection state is "Opened"
+.......   ~~~   ***TRACE ::ConnectionProvider.SendingThread   ~~~ (01.03.2013 17:09:39) 
+Connection state is "Faulted"
+.......   ~~~   ***TRACE ::ConnectionProvider.SendingThread   ~~~ (01.03.2013 17:09:39) 
+Connection state is "Created"
+.......   ~~~   ***TRACE ::ConnectionProvider.SendingThread   ~~~ (01.03.2013 17:12:35) 
+Connection state is "Opened"

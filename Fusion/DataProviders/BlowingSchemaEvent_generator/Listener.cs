@@ -3,73 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-
 using ConnectionProvider;
 using Core;
 using Converter;
 using CommonTypes;
 using ConnectionProvider.MainGate;
 using Implements;
+
 //using System.ServiceModel;
 //using System.Windows.Forms;
 
-namespace BlowingSchemaEvent_generator
-{
-    class Listener : IEventListener
-    {
+namespace BlowingSchemaEvent_generator {
+    internal class Listener : IEventListener {
         //private StreamWriter logFile;
         //string timeLine;
-        public Listener()
-        {
-
+        public Listener() {
             //DateTime.Now;
             //timeLine = DateTime.Now.ToString();
             //timeLine = timeLine.Replace(':', '_');
             //timeLine = timeLine.Replace('.', '_');
             //logFile = File.CreateText(@"logs\" + timeLine + "_listen.log");
             //logFile.AutoFlush = true;
-           
+
             /*Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Listener......................................................................................[started]\n");
             Console.Write(timeLine);
             Console.ForegroundColor = ConsoleColor.White;*/
             InstantLogger.log("Listener", "Started", InstantLogger.TypeMessage.important);
         }
-        ~Listener()
-        {
-           // logFile.Close();
+
+        ~Listener() {
+            // logFile.Close();
         }
-        public void OnEvent(BaseEvent newEvent)
-        {
-           // System.Threading.Thread.Sleep(3000);
-           // InstantLogger.log(newEvent.GetType().GetCustomAttributesData()[5].ToString());
+
+        public void OnEvent(BaseEvent newEvent) {
+            // System.Threading.Thread.Sleep(3000);
+            // InstantLogger.log(newEvent.GetType().GetCustomAttributesData()[5].ToString());
             //if (!(newEvent is SteelMakingPatternEvent))
             if ((newEvent is visAdditionTotalEvent))
-            {
                 InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.error);
-            }
             if (newEvent is visSpectrluksEvent)
-            {
                 InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.error);
-            }
 
-            if (newEvent is FlexEvent)
-            {
+            if (newEvent is FlexEvent) {
                 var flx = newEvent as FlexEvent;
-                if (flx.Operation.StartsWith("TestComplex"))
-                {
+                if (flx.Operation.StartsWith("TestComplex")) {
                     var fxe = new FlexHelper(flx);
-                    var dimm = (int[])fxe.GetComplexArg("dimm", typeof(int[]));
+                    var dimm = (int[]) fxe.GetComplexArg("dimm", typeof (int[]));
                     Console.WriteLine("Receive:");
                     foreach (var i in dimm)
-                    {
                         Console.Write((i + ", "));
-                    }
                 }
             }
             //var v = (PLCGroup)newEvent.GetType().GetCustomAttributes(false).Where(x => x.GetType().Name == "PLCGroup").FirstOrDefault();
             //object first = null;
-   /*         InstantLogger.log(newEvent.GetType().FullName);
+            /*         InstantLogger.log(newEvent.GetType().FullName);
             var plcg = new PLCGroup();
             foreach (object x in newEvent.GetType().GetCustomAttributes(false))
             {
@@ -102,7 +90,7 @@ namespace BlowingSchemaEvent_generator
                     }
                 }
             }
-     */       
+     */
 
             //if (
             //    (newEvent is cntBlowingSchemaEvent) ||
@@ -126,7 +114,7 @@ namespace BlowingSchemaEvent_generator
             //{
             //    InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.terror);
             //}
-          
+
             //if (newEvent is HeatSchemaStepEvent)
             //{
             //    InstantLogger.log("step = " + newEvent.ToString(), "Received", InstantLogger.TypeMessage.caution);
@@ -145,9 +133,9 @@ namespace BlowingSchemaEvent_generator
                 SteelMakingPatternEvent steelMakingPatternEvent = newEvent as SteelMakingPatternEvent;
                 InstantLogger.log(steelMakingPatternEvent.steps[0].Period.ToString(), "Received", InstantLogger.TypeMessage.important);
             }*/
-           // lock (Program.consoleLock)
+            // lock (Program.consoleLock)
             //{
-              /* Console.BackgroundColor = ConsoleColor.Blue;
+            /* Console.BackgroundColor = ConsoleColor.Blue;
                Console.ForegroundColor = ConsoleColor.White;
                Console.WriteLine(" " + newEvent.ToString() + "\n");
                Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -155,11 +143,11 @@ namespace BlowingSchemaEvent_generator
 
                
                logFile.Write(newEvent.ToString() + "\n");*/
-               // InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.unimportant);
-               
-               //logFile.Close();
+            // InstantLogger.log(newEvent.ToString(), "Received", InstantLogger.TypeMessage.unimportant);
+
+            //logFile.Close();
             //}
-            
+
             //MessageBox.Show("ll", "ll");
         }
     }
