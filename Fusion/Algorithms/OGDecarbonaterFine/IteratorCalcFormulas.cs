@@ -317,35 +317,35 @@ namespace OGDecarbonaterFine {
             CurrentState.FixPointCarbonResult = CurrentState.CurrentMC - CurrentState.FixPointDeltaMC;
         }
 
-        /// <summary>
-        /// Расчет поправки
-        /// </summary>
-        private static void CalcFixPoinFixPointDeltaMC() {
-            if (CurrentState.FixPointDeltaK != 0) {
-                const int nFeatures = 1;
-                int nFeaturesCoefficcients;
-                int info = 0;
-                var inVector = new double[Matrix.Count,nFeatures + 1];
-                double[] coefficcients;
-                var lm = new alglib.linearmodel();
-                var lr = new alglib.lrreport();
+        ///// <summary>
+        ///// Расчет поправки
+        ///// </summary>
+        //private static void CalcFixPoinFixPointDeltaMC() {
+        //    if (CurrentState.FixPointDeltaK != 0) {
+        //        const int nFeatures = 1;
+        //        int nFeaturesCoefficcients;
+        //        int info = 0;
+        //        var inVector = new double[Matrix.Count,nFeatures + 1];
+        //        double[] coefficcients;
+        //        var lm = new alglib.linearmodel();
+        //        var lr = new alglib.lrreport();
 
-                int lenghtData = Matrix.Count;
-                for (int item = 0; item < lenghtData; item++) {
-                    inVector[item, 0] = Matrix[item].DeltaK; // X1
-                    inVector[item, 1] = Matrix[item].DeltaCarbon; // Y
-                }
+        //        int lenghtData = Matrix.Count;
+        //        for (int item = 0; item < lenghtData; item++) {
+        //            inVector[item, 0] = Matrix[item].DeltaK; // X1
+        //            inVector[item, 1] = Matrix[item].DeltaCarbon; // Y
+        //        }
 
-                alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
-                if (info != 1)
-                    return;
-                alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
-                if (nFeaturesCoefficcients != nFeatures)
-                    return;
-                CurrentState.FixPointDeltaMC = coefficcients[1];
-                CurrentState.FixPointDeltaMC += coefficcients[0]*CurrentState.FixPointDeltaK;
-            }
-        }
+        //        alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
+        //        if (info != 1)
+        //            return;
+        //        alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
+        //        if (nFeaturesCoefficcients != nFeatures)
+        //            return;
+        //        CurrentState.FixPointDeltaMC = coefficcients[1];
+        //        CurrentState.FixPointDeltaMC += coefficcients[0]*CurrentState.FixPointDeltaK;
+        //    }
+        //}
 
         /// <summary>
         /// Расчет поправки

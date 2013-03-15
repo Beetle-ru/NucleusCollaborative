@@ -10,7 +10,7 @@ namespace OGDecarbonaterFine {
         public static void Iterate() {
             SyncPushInputData(); // синхронизируя проталкиваем последние данные
             CalcAll(); // пересчитываем все параметры
-            VerifyFixAndEnqueue(); // фиксируем данные вконце продувки и помещаем в очередь ожидания спектролюкса
+            //VerifyFixAndEnqueue(); // фиксируем данные вконце продувки и помещаем в очередь ожидания спектролюкса
             WriteFile(CurrentState.GetDataLine(), ArchFileName); // пишем текущий расчет в файл
         }
 

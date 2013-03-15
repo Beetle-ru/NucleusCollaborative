@@ -23,8 +23,8 @@ namespace OGDecarbonaterFine {
         public static string ArchFileName;
         public static SupportMaterials MaterialsZeroLevel;
         public static string CSVHimFilePath; // = "HimMaterials.csv"; // файл с химиями
-        public static List<MFOGDFData> Matrix; // матрикс для расчета коэффицентов для поправки
-        public static List<MFOGDFData> QueueWaitCarbon; // очередь ожидания углерода
-        public static string MatrixFileName; //файл матрикса
+        //public static List<MFOGDFData> Matrix; // матрикс для расчета коэффицентов для поправки
+        //public static List<MFOGDFData> QueueWaitCarbon; // очередь ожидания углерода
+        //public static string MatrixFileName; //файл матрикса
     }
 }
