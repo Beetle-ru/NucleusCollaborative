@@ -41,8 +41,9 @@ namespace HeatControl {
             Checker.cErr = Color.LightSalmon;
         }
 
-        public void FireChemistry(Client gate) {
+        public void FireChemistry(Client gate, string hn) {
             fex.ClearArgs();
+            fex.AddStr("HEATNO", hn);
             fex.AddStr("Substance", m_configKey);
             foreach (var wp in m_inFP) {
                 fex.AddDbl(wp.Key, wp.Value);

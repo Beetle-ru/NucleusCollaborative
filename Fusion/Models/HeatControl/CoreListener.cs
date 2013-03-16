@@ -20,6 +20,7 @@ namespace HeatControl {
         }
 
         public long HeatNumber = -1;
+        public string WhatToFind = "YYYYYYY";
         public long mixerCount;
         public Queue<FlexHelper> mixers = new Queue<FlexHelper>();
         public System.Timers.Timer mixerTimer = new System.Timers.Timer();
@@ -43,31 +44,29 @@ namespace HeatControl {
             lock (mixers) {
                 var cnt = mixers.Count;
                 if (cnt == 0) return;
-                ClientFace.Invoke(new MethodInvoker(delegate()
-                {
-                    ClientFace.ironTable.dgw.Rows.Add(cnt);
-                    for (var i = 0; i < cnt; i++)
-                    {
-                        var fex = mixers.Dequeue();
-                        ClientFace.ironTable.dgw.Rows[i].Cells[1].Value
-                            = fex.GetInt("Mixer");
-                        ClientFace.ironTable.dgw.Rows[i].Cells[2].Value
-                            = Math.Round(fex.GetDbl("HM-C"), 2);
-                        ClientFace.ironTable.dgw.Rows[i].Cells[3].Value
-                            = Math.Round(fex.GetDbl("HM-Si"), 2);
-                        ClientFace.ironTable.dgw.Rows[i].Cells[4].Value
-                            = Math.Round(fex.GetDbl("HM-Mn"), 2);
-                        ClientFace.ironTable.dgw.Rows[i].Cells[5].Value
-                            = Math.Round(fex.GetDbl("HM-P"), 2);
-                        ClientFace.ironTable.dgw.Rows[i].Cells[6].Value
-                            = Math.Round(fex.GetDbl("HM-S"), 2);
-                    }
-                }));
+                ClientFace.Invoke(new MethodInvoker(delegate() {
+                                                        ClientFace.ironTable.dgw.Rows.Add(cnt);
+                                                        for (var i = 0; i < cnt; i++) {
+                                                            var fex = mixers.Dequeue();
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[1].Value
+                                                                = fex.GetInt("Mixer");
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[2].Value
+                                                                = Math.Round(fex.GetDbl("HM-C"), 2);
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[3].Value
+                                                                = Math.Round(fex.GetDbl("HM-Si"), 2);
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[4].Value
+                                                                = Math.Round(fex.GetDbl("HM-Mn"), 2);
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[5].Value
+                                                                = Math.Round(fex.GetDbl("HM-P"), 2);
+                                                            ClientFace.ironTable.dgw.Rows[i].Cells[6].Value
+                                                                = Math.Round(fex.GetDbl("HM-S"), 2);
+                                                        }
+                                                    }));
             }
         }
 
         public void OnEvent(BaseEvent evt) {
-            using (Logger l = new Logger("OnEvent")) {
+            using (Logger l = new Logger("Corelistener.OnEvent")) {
                 if (evt is FlexEvent) {
                     var fex = new FlexHelper(evt as FlexEvent);
                     if (fex.evt.Operation.StartsWith("OPC.HM-Chemistry.Event.")) {
@@ -86,13 +85,23 @@ namespace HeatControl {
                     Int64 rem;
                     Int64 res = Math.DivRem(hce.HeatNumber, 10000, out rem);
                     var newHeatNumber = res*100000 + rem;
-                    HeatNumber = newHeatNumber + 1;
+                    HeatNumber = newHeatNumber;
                     ClientFace.Invoke(new MethodInvoker(delegate() {
-                        ClientFace.txbHeatNum.Text = Convert.ToString(HeatNumber);
-                        if (ClientFace.m_cn != ClientFace.txbHeatNum.Text.Substring(0, 1)) {
-                            ClientFace.m_cn = ClientFace.txbHeatNum.Text.Substring(0, 1);
-                            ClientFace.lblTitleHeading.Text += ClientFace.m_cn;
+                        ClientFace.txbHeatNum.Text = Convert.ToString(HeatNumber + 1);
+                        if (ClientFace.m_cn !=
+                            ClientFace.txbHeatNum.Text.Substring(0, 1)) {
+                            ClientFace.m_cn = ClientFace.txbHeatNum.Text.Substring(
+                                0, 1);
+                            ClientFace.lblTitleHeading.Text =
+                                ClientFace.lblTitleHeading.Text.Replace("X",
+                                                                        ClientFace.
+                                                                            m_cn);
                         }
+                        ClientFace.lblTitleHeading.Text =
+                            ClientFace.lblTitleHeading.Text.Replace(WhatToFind,
+                                                                    Convert.ToString
+                                                                        (HeatNumber));
+                        WhatToFind = Convert.ToString(HeatNumber);
                     }));
                 }
             }

@@ -34,50 +34,59 @@ namespace HeatControl {
             = new HeatInfoDataSet.HEATFACTPARAMDataTable();
 
         public System.Timers.Timer dbTimer = new System.Timers.Timer();
+        private Color stripc = Color.Silver;
+
         private void OnTimedEvent(object source, ElapsedEventArgs e) {
-            switch (m_cn)
-            {
-                case "1":
-                    adaC.FillByHN1(tblC, m_lbound_hn.ToString());
-                    adaF.FillByHN1(tblF, m_lbound_hn.ToString());
-                    break;
-                case "2":
-                    adaC.FillByHN2(tblC, m_lbound_hn.ToString());
-                    adaF.FillByHN2(tblF, m_lbound_hn.ToString());
-                    break;
-                case "3":
-                    adaC.FillByHN3(tblC, m_lbound_hn.ToString());
-                    adaF.FillByHN3(tblF, m_lbound_hn.ToString());
-                    break;
-            }
-            if (tblC.Count != tblF.Count) throw new Exception("рассогласование таблиц");
-            Invoke(new MethodInvoker(delegate()
-            {
-                heats.RowCount = tblC.Count + tblF.Count;
-                for (var i = 0; i < tblC.Count; i++)
-                {
-                    var calc = i << 1;
-                    var fact = calc + 1;
-                    heats.Rows[calc].Cells[0].Value = tblC[i].HEATNO;
-                    heats.Rows[calc].Cells[1].Value = "расчет";
-                    heats.Rows[calc].Cells[3].Value = tblC[i].HMWEIGHT;
-                    heats.Rows[calc].Cells[4].Value = tblC[i].HMTEMP;
-                    safeAssign(calc, 5, tblC[i].HMPSI);
-                    heats.Rows[calc].Cells[6].Value = tblC[i].SCWEIGHT;
-                    heats.Rows[calc].Cells[7].Value = tblC[i].STWEIGHT;
-                    heats.Rows[calc].Cells[8].Value = tblC[i].STATUS;
-
-                    heats.Rows[fact].Cells[0].Value = tblF[i].HEATNO;
-                    heats.Rows[fact].Cells[1].Value = "факт";
-                    heats.Rows[fact].Cells[3].Value = tblF[i].HMWEIGHT;
-                    heats.Rows[fact].Cells[4].Value = tblF[i].HMTEMP;
-                    heats.Rows[fact].Cells[5].Value = tblF[i].HMPSI;
-                    heats.Rows[fact].Cells[6].Value = tblF[i].SCWEIGHT;
-                    heats.Rows[fact].Cells[7].Value = tblF[i].STWEIGHT;
-                    heats.Rows[fact].Cells[8].Value = tblF[i].STATUS;
-
+            lock (dbTimer.SynchronizingObject) {
+                switch (m_cn) {
+                    case "1":
+                        adaC.FillByHN1(tblC, m_lbound_hn.ToString());
+                        adaF.FillByHN1(tblF, m_lbound_hn.ToString());
+                        break;
+                    case "2":
+                        adaC.FillByHN2(tblC, m_lbound_hn.ToString());
+                        adaF.FillByHN2(tblF, m_lbound_hn.ToString());
+                        break;
+                    case "3":
+                        adaC.FillByHN3(tblC, m_lbound_hn.ToString());
+                        adaF.FillByHN3(tblF, m_lbound_hn.ToString());
+                        break;
                 }
-            })); 
+                if (tblC.Count != tblF.Count) throw new Exception("рассогласование таблиц");
+                Invoke(new MethodInvoker(delegate() {
+                                             heats.RowCount = tblC.Count + tblF.Count;
+                                             for (var i = 0; i < tblC.Count; i++) {
+                                                 var calc = i << 1;
+                                                 var fact = calc + 1;
+                                                 heats.Rows[calc].Cells[0].Value = tblC[i].HEATNO;
+                                                 heats.Rows[calc].Cells[1].Value = "расчет";
+                                                 heats.Rows[calc].Cells[3].Value = tblC[i].HMWEIGHT;
+                                                 heats.Rows[calc].Cells[4].Value = tblC[i].HMTEMP;
+                                                 safeAssign(calc, 5, tblC[i].HMPSI);
+                                                 heats.Rows[calc].Cells[6].Value = tblC[i].SCWEIGHT;
+                                                 heats.Rows[calc].Cells[7].Value = tblC[i].STWEIGHT;
+                                                 heats.Rows[calc].Cells[8].Value = tblC[i].STATUS;
+
+                                                 heats.Rows[fact].Cells[0].Value = tblF[i].HEATNO;
+                                                 heats.Rows[fact].Cells[0].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[1].Value = "факт";
+                                                 heats.Rows[fact].Cells[1].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[2].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[3].Value = tblF[i].HMWEIGHT;
+                                                 heats.Rows[fact].Cells[3].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[4].Value = tblF[i].HMTEMP;
+                                                 heats.Rows[fact].Cells[4].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[5].Value = tblF[i].HMPSI;
+                                                 heats.Rows[fact].Cells[5].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[6].Value = tblF[i].SCWEIGHT;
+                                                 heats.Rows[fact].Cells[6].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[7].Value = tblF[i].STWEIGHT;
+                                                 heats.Rows[fact].Cells[7].Style.BackColor = stripc;
+                                                 heats.Rows[fact].Cells[8].Value = tblF[i].STATUS;
+                                                 heats.Rows[fact].Cells[8].Style.BackColor = stripc;
+                                             }
+                                         }));
+            }
             dbTimer.Interval = 5000;
         }
 
@@ -87,7 +96,8 @@ namespace HeatControl {
             }
             catch (Exception e) {
                 heats.Rows[r].Cells[c].Value = "";
-            };
+            }
+            ;
         }
 
         public class WordPool<X> : Dictionary<string, X> {
@@ -114,7 +124,7 @@ namespace HeatControl {
         }
 
         public string m_cn = "4";
-        public int m_lbound_hn;
+        public int m_lbound_hn = -1;
         public CoreListener listener;
         public FlexHelper fex = new FlexHelper("Model.Shixta-I.Result");
 
@@ -156,7 +166,11 @@ namespace HeatControl {
         }
 
         public void Init() {
+            ada.Connection.ConnectionString = "Data Source=HeatInfo.sdf";
+            adaC.Connection.ConnectionString = "Data Source=HeatInfo.sdf";
+            adaF.Connection.ConnectionString = "Data Source=HeatInfo.sdf";
             if (listener == null) listener = new CoreListener(Tag.ToString(), this);
+            dbTimer.SynchronizingObject = heats;
             dbTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
             //listener.Init();
             Checker.cEmpty = Color.Yellow;
@@ -290,6 +304,7 @@ namespace HeatControl {
 
         private void RenewEventAndDB(String StatusString) {
             fex.ClearArgs();
+            fex.AddStr("HEATNO", txbHeatNum.Text);
             fex.AddDbl("IronCalc", txbIronCalc.Text);
             fex.AddDbl("IronTemp", txbIronTemp.Text);
             fex.AddDbl("ScrapTemp", txbScrapTemp.Text);
@@ -304,14 +319,14 @@ namespace HeatControl {
             fex.AddDbl("SteelCalc", MixCalc.m_Steel);
             if (StatusString.Contains("твержд")) {
                 fex.Fire(listener.MainGate);
-                ch_Iron.FireChemistry(listener.MainGate);
-                ch_Scrap.FireChemistry(listener.MainGate);
-                ch_Lime.FireChemistry(listener.MainGate);
-                ch_Doloms.FireChemistry(listener.MainGate);
-                ch_Fom.FireChemistry(listener.MainGate);
-                ch_Dolmax.FireChemistry(listener.MainGate);
-                ch_Coke.FireChemistry(listener.MainGate);
-                ch_Dust.FireChemistry(listener.MainGate);
+                ch_Iron.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Scrap.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Lime.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Doloms.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Fom.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Dolmax.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Coke.FireChemistry(listener.MainGate, txbHeatNum.Text);
+                ch_Dust.FireChemistry(listener.MainGate, txbHeatNum.Text);
             }
             int rc = ada.UpdateFromV(
                 (float?) fex.GetDbl("SteelTemp"),
@@ -323,7 +338,7 @@ namespace HeatControl {
             if (rc != 0) {
                 rc = adaC.UpdateHeatCalc(
                     (float?) fex.GetDbl("IronTemp"),
-                    (float?)fex.GetDbl("IronCalc"),
+                    (float?) fex.GetDbl("IronCalc"),
                     (float?) fex.GetDbl("ScrapCalc"),
                     (float?) fex.GetDbl("SteelCalc"),
                     (float?) ch_Iron.m_inFP["Si"],
@@ -342,7 +357,7 @@ namespace HeatControl {
                 rc = adaC.InsertHeatCalc(
                     txbHeatNum.Text,
                     (float?) fex.GetDbl("IronTemp"),
-                    (float?)fex.GetDbl("IronCalc"),
+                    (float?) fex.GetDbl("IronCalc"),
                     (float?) fex.GetDbl("ScrapCalc"),
                     (float?) fex.GetDbl("SteelCalc"),
                     (float?) ch_Iron.m_inFP["Si"],
@@ -357,10 +372,17 @@ namespace HeatControl {
         }
 
         private void btnApprove_Click(object sender, EventArgs e) {
-            btnApprove.Enabled = false;
-            RenewEventAndDB("расчет подтвержден");
-            listener.MainGate.PushEvent(new OPCDirectReadEvent() { EventName = typeof(HeatChangeEvent).Name });
-            btnApprove.Enabled = true;
+            using (Logger l = new Logger("MixCalculator.btnAprove")) {
+                btnApprove.Enabled = false;
+                try {
+                    RenewEventAndDB("расчет подтвержден");
+                }
+                catch (Exception exc) {
+                    l.err(exc.ToString());
+                }
+                listener.MainGate.PushEvent(new OPCDirectReadEvent() {EventName = typeof (HeatChangeEvent).Name});
+                btnApprove.Enabled = true;
+            }
         }
 
         private void btnScrapChem_Click(object sender, EventArgs e) {
@@ -401,71 +423,67 @@ namespace HeatControl {
         }
 
         public const int DIGS = 2;
+
         private void btnCalculate_Click(object sender, EventArgs e) {
-            if (isInputCorrect()) {
+            using (Logger l = new Logger("MixCalculate.btnCalculate")) {
                 btnCalculate.Enabled = false;
-                LogStr("Рассчет запущен " + DateTime.Now);
-                initChemistry(MixCalc.s_Iron, ch_Iron);
-                initChemistry(MixCalc.s_Scrap, ch_Scrap);
-                initChemistry(MixCalc.s_Fom, ch_Fom);
-                initChemistry(MixCalc.s_DolMax, ch_Doloms);
-                initChemistry(MixCalc.s_DolomS, ch_Dolmax);
-                initChemistry(MixCalc.s_Lime, ch_Lime);
-                initChemistry(MixCalc.s_Dust, ch_Dust);
-                initChemistry(MixCalc.s_Coke, ch_Coke);
-                MixCalc.Initialize();
-                MixCalc.calcPattern = 0x1001;
-                MixCalc.m_Fom = 2;
-                ClearOutputs();
-                while (true) {
-                    MixCalc.Calculate();
-                    System.Threading.Thread.Sleep(0);
-                    MixCalc.e_Curr = MixCalc.e_Curr;
-                    NextStep();
-                    if (MixCalc.Ready()) break;
+                try {
+                    if (isInputCorrect())
+                    {
+                        LogStr("Рассчет запущен " + DateTime.Now);
+                        initChemistry(MixCalc.s_Iron, ch_Iron);
+                        initChemistry(MixCalc.s_Scrap, ch_Scrap);
+                        initChemistry(MixCalc.s_Fom, ch_Fom);
+                        initChemistry(MixCalc.s_DolMax, ch_Doloms);
+                        initChemistry(MixCalc.s_DolomS, ch_Dolmax);
+                        initChemistry(MixCalc.s_Lime, ch_Lime);
+                        initChemistry(MixCalc.s_Dust, ch_Dust);
+                        initChemistry(MixCalc.s_Coke, ch_Coke);
+                        MixCalc.Initialize();
+                        MixCalc.calcPattern = 0x1010;
+                        MixCalc.m_DolMax = 2;
+                        MixCalc.m_DolomS = 0;
+                        ClearOutputs();
+                        while (true)
+                        {
+                            MixCalc.Calculate();
+                            System.Threading.Thread.Sleep(0);
+                            MixCalc.e_Curr = MixCalc.e_Curr;
+                            NextStep();
+                            if (MixCalc.Ready()) break;
+                        }
+                        MixCalc.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
+                        switch (MixCalc.s_CalcTask)
+                        {
+                            case MixCalc.CalcTask.CalcTaskIron:
+                                MixCalc.scaleFactor = MixCalc.m_IronTask / MixCalc.m_Iron;
+                                break;
+                            case MixCalc.CalcTask.CalcTaskSteel:
+                                MixCalc.scaleFactor = MixCalc.m_SteelTask / MixCalc.m_Steel;
+                                break;
+                            default:
+                                MixCalc.scaleFactor = 1;
+                                break;
+                        }
+                        MixCalc.PostCalc();
+                        ShowResults();
+                        LogStr("Рассчет окончен " + DateTime.Now);
+                        Color color;
+                        txbIronCalc.Text = Math.Round(MixCalc.m_Iron, DIGS).ToString();
+                        Checker.isDoubleCorrect(txbIronCalc.Text, out color);
+                        txbIronCalc.BackColor = color;
+                        txbScrapOut.Text = Math.Round(MixCalc.m_Scrap, DIGS).ToString();
+                        Checker.isDoubleCorrect(txbScrapOut.Text, out color);
+                        txbScrapOut.BackColor = color;
+                        txbSteelOut.Text = Math.Round(MixCalc.m_Steel, DIGS).ToString();
+                        Checker.isDoubleCorrect(txbSteelOut.Text, out color, new dMargin(MixCalc.m_Iron));
+                        txbSteelOut.BackColor = color;
+                        RenewEventAndDB("расчет выполнен");
+                    }
                 }
-                MixCalc.m_IronTask = SetDoubleByKey("IronTask", txbIronTask);
-                switch (MixCalc.s_CalcTask) {
-                    case MixCalc.CalcTask.CalcTaskIron:
-                        MixCalc.scaleFactor = MixCalc.m_IronTask / MixCalc.m_Iron;
-                        break;
-                    case MixCalc.CalcTask.CalcTaskSteel:
-                        MixCalc.scaleFactor = MixCalc.m_SteelTask / MixCalc.m_Steel;
-                        break;
-                    default:
-                        MixCalc.scaleFactor = 1;
-                        break;
+                catch(Exception exc) {
+                    l.err(exc.ToString());
                 }
-                MixCalc.PostCalc();
-                ShowResults();
-                LogStr("Рассчет окончен " + DateTime.Now);
-                Color color;
-                txbIronCalc.Text = Math.Round(MixCalc.m_Iron, DIGS).ToString();
-                Checker.isDoubleCorrect(txbIronCalc.Text, out color);
-                txbIronCalc.BackColor = color;
-                txbScrapOut.Text = Math.Round(MixCalc.m_Scrap, DIGS).ToString();
-                Checker.isDoubleCorrect(txbScrapOut.Text, out color);
-                txbScrapOut.BackColor = color;
-                txbSteelOut.Text = Math.Round(MixCalc.m_Steel, DIGS).ToString();
-                Checker.isDoubleCorrect(txbSteelOut.Text, out color, new dMargin(MixCalc.m_Iron));
-                txbSteelOut.BackColor = color;
-                //Double m_lime_t = Math.Round(MixCalc.m_Lime * 1000, 0);
-                //txbLimeOut.Text = m_lime_t.ToString();
-                //Checker.isDoubleCorrect(txbLimeOut.Text, out color, new dMargin(0, 20000));
-                //txbLimeOut.BackColor = color;
-                //Double m_dolomit_t = Math.Round(MixCalc.m_DolomS * 1000, 0);
-                //txbDolomitOut.Text = m_dolomit_t.ToString();
-                //Checker.isDoubleCorrect(txbDolomitOut.Text, out color, new dMargin(0, 20000));
-                //txbDolomitOut.BackColor = color;
-                //Double m_Fom_t = Math.Round(MixCalc.m_Fom * 1000, 0);
-                //txbFomOut.Text = m_Fom_t.ToString();
-                //Checker.isDoubleCorrect(txbFomOut.Text, out color, new dMargin(0, 10000));
-                //txbFomOut.BackColor = color;
-                //Double m_limeStone_t = Math.Round(MixCalc.m_DolMax * 1000, 0);
-                //txbLimeStoneOut.Text = m_limeStone_t.ToString();
-                //Checker.isDoubleCorrect(txbLimeStoneOut.Text, out color, new dMargin(0, 10000));
-                //txbLimeStoneOut.BackColor = color;
-                RenewEventAndDB("расчет выполнен");
                 btnCalculate.Enabled = true;
             }
         }
@@ -491,27 +509,32 @@ namespace HeatControl {
         }
 
         private void txbHeatNum_TextChanged(object sender, EventArgs e) {
-            m_lbound_hn = Convert.ToInt32(txbHeatNum.Text) - 3;
+            ClearOutputs();
+            if (m_lbound_hn == -1) m_lbound_hn = Convert.ToInt32(txbHeatNum.Text) - 3;
             for (var i = 0; i < 10; i++) {
-                if (1 != (int)ada.SelectCount(Convert.ToString(m_lbound_hn + i))) {
-                    ada.InsertFromV(
-                        Convert.ToString(m_lbound_hn + i),
-                        1650, 27, 10, 2.7f);
-                }
-                if (1 != (int)adaC.SelectCount(Convert.ToString(m_lbound_hn + i))) {
-                    adaC.InsertHeatCalc(
-                        Convert.ToString(m_lbound_hn + i),
-                        1380, 300, 0, 0, 0,
-                        "не расчитана");
-                }
-                if (1 != (int)adaF.SelectCount(Convert.ToString(m_lbound_hn + i))) {
-                    adaF.InsertQuery(
-                        Convert.ToString(m_lbound_hn + i),
-                        0, 0, 0, 0, 0,
-                        "не зашихтована");
+                lock (dbTimer.SynchronizingObject) {
+                    if (1 != (int) ada.SelectCount(Convert.ToString(m_lbound_hn + i))) {
+                        ada.InsertFromV(
+                            Convert.ToString(m_lbound_hn + i),
+                            1650, 27, 10, 2.7f);
+                    }
+                    if (1 != (int) adaC.SelectCount(Convert.ToString(m_lbound_hn + i))) {
+                        adaC.InsertHeatCalc(
+                            Convert.ToString(m_lbound_hn + i),
+                            0, 0, 0, 0, 0,
+                            "не расчитана");
+                    }
+                    if (1 != (int) adaF.SelectCount(Convert.ToString(m_lbound_hn + i))) {
+                        adaF.InsertQuery(
+                            Convert.ToString(m_lbound_hn + i),
+                            0, 0, 0, 0, 0,
+                            "не зашихтована");
+                    }
                 }
             }
-            ada.FillTargets(tbl, txbHeatNum.Text);
+            lock (dbTimer.SynchronizingObject) {
+                ada.FillTargets(tbl, txbHeatNum.Text);
+            }
             txbSteelTemp.Text = tbl[0].STTEMP.ToString();
             txbMgO.Text = tbl[0].PMGO.ToString();
             txbFeO.Text = tbl[0].PFEO.ToString();
@@ -523,17 +546,17 @@ namespace HeatControl {
             dbTimer.Interval = 500;
         }
 
-        private void heats_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
+        private void heats_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
 
-        }
-
-        private void btnUpd_Click(object sender, EventArgs e)
-        {
-        }
+        private void btnUpd_Click(object sender, EventArgs e) {}
 
         private void txbSteelTask_TextChanged(object sender, EventArgs e) {
             panIronTask.Visible = (txbSteelTask.Text == "");
+            ClearOutputs();
+        }
+
+        private void txbIronTask_TextChanged(object sender, EventArgs e) {
+            ClearOutputs();
         }
     }
 }

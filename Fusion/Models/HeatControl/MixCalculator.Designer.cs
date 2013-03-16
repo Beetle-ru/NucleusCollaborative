@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.heading = new System.Windows.Forms.FlowLayoutPanel();
             this.panTitleHeading = new System.Windows.Forms.Panel();
             this.lblTitleHeading = new System.Windows.Forms.Label();
@@ -78,9 +81,6 @@
             this.panel5 = new System.Windows.Forms.Panel();
             this.txbSteelOut = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnUpd = new System.Windows.Forms.Button();
-            this.bottom = new System.Windows.Forms.SplitContainer();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnApprove = new System.Windows.Forms.Button();
             this.btnCalculate = new System.Windows.Forms.Button();
             this.rtbConvState = new System.Windows.Forms.RichTextBox();
@@ -95,9 +95,13 @@
             this.scrapWait = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.steelWeight = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel6 = new System.Windows.Forms.Panel();
+            this.panSteelTask = new System.Windows.Forms.Panel();
             this.txbSteelTask = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panUNRS = new System.Windows.Forms.Panel();
+            this.cmbUNRS = new System.Windows.Forms.ComboBox();
+            this.lblUNRS = new System.Windows.Forms.Label();
             this.heading.SuspendLayout();
             this.panTitleHeading.SuspendLayout();
             this.panHeatNum.SuspendLayout();
@@ -114,20 +118,14 @@
             this.panIronTemp.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bottom)).BeginInit();
-            this.bottom.Panel1.SuspendLayout();
-            this.bottom.Panel2.SuspendLayout();
-            this.bottom.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.central)).BeginInit();
             this.central.Panel1.SuspendLayout();
             this.central.Panel2.SuspendLayout();
             this.central.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.heats)).BeginInit();
-            this.panel6.SuspendLayout();
+            this.panSteelTask.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panUNRS.SuspendLayout();
             this.SuspendLayout();
             // 
             // heading
@@ -136,8 +134,9 @@
             this.heading.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.heading.Controls.Add(this.panTitleHeading);
             this.heading.Controls.Add(this.panHeatNum);
-            this.heading.Controls.Add(this.panSteelBrand);
+            this.heading.Controls.Add(this.panUNRS);
             this.heading.Controls.Add(this.panelSteelGroup);
+            this.heading.Controls.Add(this.panSteelBrand);
             this.heading.Controls.Add(this.panSteelTemp);
             this.heading.Controls.Add(this.panel1);
             this.heading.Controls.Add(this.panel2);
@@ -145,7 +144,7 @@
             this.heading.Dock = System.Windows.Forms.DockStyle.Top;
             this.heading.Location = new System.Drawing.Point(0, 0);
             this.heading.Name = "heading";
-            this.heading.Size = new System.Drawing.Size(732, 108);
+            this.heading.Size = new System.Drawing.Size(732, 158);
             this.heading.TabIndex = 1;
             // 
             // panTitleHeading
@@ -153,7 +152,7 @@
             this.panTitleHeading.Controls.Add(this.lblTitleHeading);
             this.panTitleHeading.Location = new System.Drawing.Point(3, 3);
             this.panTitleHeading.Name = "panTitleHeading";
-            this.panTitleHeading.Size = new System.Drawing.Size(205, 43);
+            this.panTitleHeading.Size = new System.Drawing.Size(365, 43);
             this.panTitleHeading.TabIndex = 29;
             // 
             // lblTitleHeading
@@ -162,24 +161,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitleHeading.AutoSize = true;
-            this.lblTitleHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblTitleHeading.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblTitleHeading.Location = new System.Drawing.Point(14, 11);
             this.lblTitleHeading.Name = "lblTitleHeading";
-            this.lblTitleHeading.Size = new System.Drawing.Size(160, 26);
+            this.lblTitleHeading.Size = new System.Drawing.Size(330, 24);
             this.lblTitleHeading.TabIndex = 28;
-            this.lblTitleHeading.Text = "Конвертер №";
+            this.lblTitleHeading.Text = "Конвертер №X плавка YYYYYYY";
             // 
             // panHeatNum
             // 
             this.panHeatNum.Controls.Add(this.txbHeatNum);
             this.panHeatNum.Controls.Add(this.lblHeatNum);
-            this.panHeatNum.Location = new System.Drawing.Point(214, 3);
+            this.panHeatNum.Location = new System.Drawing.Point(374, 3);
             this.panHeatNum.Name = "panHeatNum";
             this.panHeatNum.Size = new System.Drawing.Size(161, 43);
             this.panHeatNum.TabIndex = 24;
             // 
             // txbHeatNum
             // 
+            this.txbHeatNum.Enabled = false;
             this.txbHeatNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txbHeatNum.Location = new System.Drawing.Point(4, 18);
             this.txbHeatNum.Name = "txbHeatNum";
@@ -194,15 +194,15 @@
             this.lblHeatNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblHeatNum.Location = new System.Drawing.Point(1, 3);
             this.lblHeatNum.Name = "lblHeatNum";
-            this.lblHeatNum.Size = new System.Drawing.Size(92, 13);
+            this.lblHeatNum.Size = new System.Drawing.Size(110, 13);
             this.lblHeatNum.TabIndex = 18;
-            this.lblHeatNum.Text = "Номер плавки";
+            this.lblHeatNum.Text = "Расчет плавки №";
             // 
             // panSteelBrand
             // 
             this.panSteelBrand.Controls.Add(this.cmbSteelBrand);
             this.panSteelBrand.Controls.Add(this.lblSteelBrand);
-            this.panSteelBrand.Location = new System.Drawing.Point(381, 3);
+            this.panSteelBrand.Location = new System.Drawing.Point(123, 52);
             this.panSteelBrand.Name = "panSteelBrand";
             this.panSteelBrand.Size = new System.Drawing.Size(114, 43);
             this.panSteelBrand.TabIndex = 23;
@@ -237,7 +237,7 @@
             // 
             this.panelSteelGroup.Controls.Add(this.cmbSteelGroup);
             this.panelSteelGroup.Controls.Add(this.lblSteelGroup);
-            this.panelSteelGroup.Location = new System.Drawing.Point(501, 3);
+            this.panelSteelGroup.Location = new System.Drawing.Point(3, 52);
             this.panelSteelGroup.Name = "panelSteelGroup";
             this.panelSteelGroup.Size = new System.Drawing.Size(114, 43);
             this.panelSteelGroup.TabIndex = 31;
@@ -272,7 +272,7 @@
             // 
             this.panSteelTemp.Controls.Add(this.txbSteelTemp);
             this.panSteelTemp.Controls.Add(this.lblSteelTemp);
-            this.panSteelTemp.Location = new System.Drawing.Point(3, 52);
+            this.panSteelTemp.Location = new System.Drawing.Point(243, 52);
             this.panSteelTemp.Name = "panSteelTemp";
             this.panSteelTemp.Size = new System.Drawing.Size(119, 43);
             this.panSteelTemp.TabIndex = 26;
@@ -299,7 +299,7 @@
             // 
             this.panel1.Controls.Add(this.lblTgtMgO);
             this.panel1.Controls.Add(this.txbMgO);
-            this.panel1.Location = new System.Drawing.Point(128, 52);
+            this.panel1.Location = new System.Drawing.Point(368, 52);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(120, 43);
             this.panel1.TabIndex = 28;
@@ -326,7 +326,7 @@
             // 
             this.panel2.Controls.Add(this.lblTgtFeO);
             this.panel2.Controls.Add(this.txbFeO);
-            this.panel2.Location = new System.Drawing.Point(254, 52);
+            this.panel2.Location = new System.Drawing.Point(494, 52);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(120, 43);
             this.panel2.TabIndex = 30;
@@ -353,7 +353,7 @@
             // 
             this.panBasiticy.Controls.Add(this.label2);
             this.panBasiticy.Controls.Add(this.txbBasiticy);
-            this.panBasiticy.Location = new System.Drawing.Point(380, 52);
+            this.panBasiticy.Location = new System.Drawing.Point(3, 101);
             this.panBasiticy.Name = "panBasiticy";
             this.panBasiticy.Size = new System.Drawing.Size(161, 43);
             this.panBasiticy.TabIndex = 28;
@@ -386,29 +386,31 @@
             this.panInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.11536F));
             this.panInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.11536F));
             this.panInput.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 23.11536F));
-            this.panInput.Controls.Add(this.panel6, 0, 2);
+            this.panInput.Controls.Add(this.lblIron, 0, 0);
+            this.panInput.Controls.Add(this.btnCalculate, 4, 3);
+            this.panInput.Controls.Add(this.btnApprove, 5, 3);
+            this.panInput.Controls.Add(this.panSteelTask, 1, 2);
             this.panInput.Controls.Add(this.panIronTask, 1, 0);
             this.panInput.Controls.Add(this.panIronMass, 2, 0);
             this.panInput.Controls.Add(this.panScrapTemp, 3, 1);
             this.panInput.Controls.Add(this.btnIronChem, 4, 0);
             this.panInput.Controls.Add(this.btnScrapChem, 4, 1);
             this.panInput.Controls.Add(this.lblScrap, 0, 1);
-            this.panInput.Controls.Add(this.lblIron, 0, 0);
             this.panInput.Controls.Add(this.panIronTemp, 3, 0);
             this.panInput.Controls.Add(this.btnIronSel, 5, 0);
             this.panInput.Controls.Add(this.btnScrapSel, 5, 1);
-            this.panInput.Controls.Add(this.lblSteel, 0, 2);
             this.panInput.Controls.Add(this.panel4, 2, 1);
             this.panInput.Controls.Add(this.panel5, 2, 2);
-            this.panInput.Controls.Add(this.btnUpd, 5, 2);
+            this.panInput.Controls.Add(this.lblSteel, 0, 2);
             this.panInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panInput.Location = new System.Drawing.Point(0, 0);
             this.panInput.Name = "panInput";
-            this.panInput.RowCount = 3;
-            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.panInput.Size = new System.Drawing.Size(732, 150);
+            this.panInput.RowCount = 4;
+            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.00062F));
+            this.panInput.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.99813F));
+            this.panInput.Size = new System.Drawing.Size(732, 186);
             this.panInput.TabIndex = 31;
             // 
             // panIronTask
@@ -418,7 +420,7 @@
             this.panIronTask.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panIronTask.Location = new System.Drawing.Point(90, 4);
             this.panIronTask.Name = "panIronTask";
-            this.panIronTask.Size = new System.Drawing.Size(93, 42);
+            this.panIronTask.Size = new System.Drawing.Size(93, 39);
             this.panIronTask.TabIndex = 63;
             // 
             // txbIronTask
@@ -428,6 +430,7 @@
             this.txbIronTask.Name = "txbIronTask";
             this.txbIronTask.Size = new System.Drawing.Size(54, 21);
             this.txbIronTask.TabIndex = 11;
+            this.txbIronTask.TextChanged += new System.EventHandler(this.txbIronTask_TextChanged);
             // 
             // label1
             // 
@@ -445,7 +448,7 @@
             this.panIronMass.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panIronMass.Location = new System.Drawing.Point(190, 4);
             this.panIronMass.Name = "panIronMass";
-            this.panIronMass.Size = new System.Drawing.Size(90, 42);
+            this.panIronMass.Size = new System.Drawing.Size(90, 39);
             this.panIronMass.TabIndex = 62;
             // 
             // txbIronCalc
@@ -471,9 +474,9 @@
             this.panScrapTemp.Controls.Add(this.lblScrapTemp);
             this.panScrapTemp.Controls.Add(this.txbScrapTemp);
             this.panScrapTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panScrapTemp.Location = new System.Drawing.Point(287, 53);
+            this.panScrapTemp.Location = new System.Drawing.Point(287, 50);
             this.panScrapTemp.Name = "panScrapTemp";
-            this.panScrapTemp.Size = new System.Drawing.Size(141, 42);
+            this.panScrapTemp.Size = new System.Drawing.Size(141, 39);
             this.panScrapTemp.TabIndex = 28;
             // 
             // lblScrapTemp
@@ -489,7 +492,7 @@
             // txbScrapTemp
             // 
             this.txbScrapTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbScrapTemp.Location = new System.Drawing.Point(0, 15);
+            this.txbScrapTemp.Location = new System.Drawing.Point(2, 15);
             this.txbScrapTemp.Name = "txbScrapTemp";
             this.txbScrapTemp.Size = new System.Drawing.Size(100, 21);
             this.txbScrapTemp.TabIndex = 13;
@@ -500,7 +503,7 @@
             this.btnIronChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnIronChem.Location = new System.Drawing.Point(435, 4);
             this.btnIronChem.Name = "btnIronChem";
-            this.btnIronChem.Size = new System.Drawing.Size(141, 42);
+            this.btnIronChem.Size = new System.Drawing.Size(141, 39);
             this.btnIronChem.TabIndex = 30;
             this.btnIronChem.TabStop = false;
             this.btnIronChem.Text = "Хим.состав\r\n";
@@ -511,9 +514,9 @@
             // 
             this.btnScrapChem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnScrapChem.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScrapChem.Location = new System.Drawing.Point(435, 53);
+            this.btnScrapChem.Location = new System.Drawing.Point(435, 50);
             this.btnScrapChem.Name = "btnScrapChem";
-            this.btnScrapChem.Size = new System.Drawing.Size(141, 42);
+            this.btnScrapChem.Size = new System.Drawing.Size(141, 39);
             this.btnScrapChem.TabIndex = 28;
             this.btnScrapChem.TabStop = false;
             this.btnScrapChem.Text = "Хим.состав\r\n";
@@ -525,7 +528,7 @@
             this.lblScrap.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblScrap.AutoSize = true;
             this.lblScrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblScrap.Location = new System.Drawing.Point(4, 64);
+            this.lblScrap.Location = new System.Drawing.Point(4, 59);
             this.lblScrap.Name = "lblScrap";
             this.lblScrap.Size = new System.Drawing.Size(44, 20);
             this.lblScrap.TabIndex = 0;
@@ -536,7 +539,7 @@
             this.lblIron.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblIron.AutoSize = true;
             this.lblIron.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblIron.Location = new System.Drawing.Point(4, 15);
+            this.lblIron.Location = new System.Drawing.Point(4, 13);
             this.lblIron.Name = "lblIron";
             this.lblIron.Size = new System.Drawing.Size(56, 20);
             this.lblIron.TabIndex = 0;
@@ -549,7 +552,7 @@
             this.panIronTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panIronTemp.Location = new System.Drawing.Point(287, 4);
             this.panIronTemp.Name = "panIronTemp";
-            this.panIronTemp.Size = new System.Drawing.Size(141, 42);
+            this.panIronTemp.Size = new System.Drawing.Size(141, 39);
             this.panIronTemp.TabIndex = 27;
             // 
             // lblIronTemp
@@ -565,7 +568,7 @@
             // txbIronTemp
             // 
             this.txbIronTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txbIronTemp.Location = new System.Drawing.Point(0, 13);
+            this.txbIronTemp.Location = new System.Drawing.Point(4, 13);
             this.txbIronTemp.Name = "txbIronTemp";
             this.txbIronTemp.Size = new System.Drawing.Size(100, 21);
             this.txbIronTemp.TabIndex = 12;
@@ -576,7 +579,7 @@
             this.btnIronSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnIronSel.Location = new System.Drawing.Point(583, 4);
             this.btnIronSel.Name = "btnIronSel";
-            this.btnIronSel.Size = new System.Drawing.Size(145, 42);
+            this.btnIronSel.Size = new System.Drawing.Size(145, 39);
             this.btnIronSel.TabIndex = 58;
             this.btnIronSel.Text = "Выбрать...";
             this.btnIronSel.UseVisualStyleBackColor = true;
@@ -586,9 +589,9 @@
             // 
             this.btnScrapSel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnScrapSel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnScrapSel.Location = new System.Drawing.Point(583, 53);
+            this.btnScrapSel.Location = new System.Drawing.Point(583, 50);
             this.btnScrapSel.Name = "btnScrapSel";
-            this.btnScrapSel.Size = new System.Drawing.Size(145, 42);
+            this.btnScrapSel.Size = new System.Drawing.Size(145, 39);
             this.btnScrapSel.TabIndex = 59;
             this.btnScrapSel.Text = "Выбрать...";
             this.btnScrapSel.UseVisualStyleBackColor = true;
@@ -599,7 +602,7 @@
             this.lblSteel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblSteel.AutoSize = true;
             this.lblSteel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.lblSteel.Location = new System.Drawing.Point(4, 114);
+            this.lblSteel.Location = new System.Drawing.Point(4, 105);
             this.lblSteel.Name = "lblSteel";
             this.lblSteel.Size = new System.Drawing.Size(62, 20);
             this.lblSteel.TabIndex = 60;
@@ -610,9 +613,9 @@
             this.panel4.Controls.Add(this.txbScrapOut);
             this.panel4.Controls.Add(this.label3);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel4.Location = new System.Drawing.Point(190, 53);
+            this.panel4.Location = new System.Drawing.Point(190, 50);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(90, 42);
+            this.panel4.Size = new System.Drawing.Size(90, 39);
             this.panel4.TabIndex = 64;
             // 
             // txbScrapOut
@@ -638,9 +641,9 @@
             this.panel5.Controls.Add(this.txbSteelOut);
             this.panel5.Controls.Add(this.label4);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel5.Location = new System.Drawing.Point(190, 102);
+            this.panel5.Location = new System.Drawing.Point(190, 96);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(90, 44);
+            this.panel5.Size = new System.Drawing.Size(90, 39);
             this.panel5.TabIndex = 65;
             // 
             // txbSteelOut
@@ -661,86 +664,31 @@
             this.label4.TabIndex = 22;
             this.label4.Text = "Расчет, т";
             // 
-            // btnUpd
-            // 
-            this.btnUpd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnUpd.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnUpd.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnUpd.Location = new System.Drawing.Point(583, 102);
-            this.btnUpd.Name = "btnUpd";
-            this.btnUpd.Size = new System.Drawing.Size(145, 44);
-            this.btnUpd.TabIndex = 66;
-            this.btnUpd.Text = "Обновить";
-            this.btnUpd.UseVisualStyleBackColor = true;
-            this.btnUpd.Visible = false;
-            this.btnUpd.Click += new System.EventHandler(this.btnUpd_Click);
-            // 
-            // bottom
-            // 
-            this.bottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bottom.Location = new System.Drawing.Point(0, 546);
-            this.bottom.Name = "bottom";
-            this.bottom.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // bottom.Panel1
-            // 
-            this.bottom.Panel1.BackColor = System.Drawing.Color.CadetBlue;
-            this.bottom.Panel1.Controls.Add(this.splitContainer1);
-            // 
-            // bottom.Panel2
-            // 
-            this.bottom.Panel2.BackColor = System.Drawing.Color.CadetBlue;
-            this.bottom.Panel2.Controls.Add(this.rtbConvState);
-            this.bottom.Size = new System.Drawing.Size(732, 158);
-            this.bottom.SplitterDistance = 62;
-            this.bottom.TabIndex = 32;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.btnApprove);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.btnCalculate);
-            this.splitContainer1.Size = new System.Drawing.Size(732, 62);
-            this.splitContainer1.SplitterDistance = 364;
-            this.splitContainer1.TabIndex = 0;
-            // 
             // btnApprove
             // 
-            this.btnApprove.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApprove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnApprove.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnApprove.ForeColor = System.Drawing.Color.Black;
-            this.btnApprove.Location = new System.Drawing.Point(50, 6);
+            this.btnApprove.Location = new System.Drawing.Point(583, 142);
             this.btnApprove.Name = "btnApprove";
             this.btnApprove.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnApprove.Size = new System.Drawing.Size(261, 44);
+            this.btnApprove.Size = new System.Drawing.Size(145, 40);
             this.btnApprove.TabIndex = 101;
-            this.btnApprove.Text = "Подтвердить";
+            this.btnApprove.Text = "Подтв.\r\n";
+            this.btnApprove.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnApprove.UseVisualStyleBackColor = true;
             this.btnApprove.Click += new System.EventHandler(this.btnApprove_Click);
             // 
             // btnCalculate
             // 
-            this.btnCalculate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.btnCalculate.ForeColor = System.Drawing.Color.Black;
-            this.btnCalculate.Location = new System.Drawing.Point(52, 6);
+            this.btnCalculate.Location = new System.Drawing.Point(435, 142);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-            this.btnCalculate.Size = new System.Drawing.Size(264, 44);
+            this.btnCalculate.Size = new System.Drawing.Size(141, 40);
             this.btnCalculate.TabIndex = 102;
-            this.btnCalculate.Text = "(Пере)считать";
+            this.btnCalculate.Text = "Расчёт";
+            this.btnCalculate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCalculate.UseVisualStyleBackColor = true;
             this.btnCalculate.Click += new System.EventHandler(this.btnCalculate_Click);
             // 
@@ -749,17 +697,17 @@
             this.rtbConvState.BackColor = System.Drawing.Color.DimGray;
             this.rtbConvState.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbConvState.Font = new System.Drawing.Font("Comic Sans MS", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rtbConvState.ForeColor = System.Drawing.Color.LawnGreen;
+            this.rtbConvState.ForeColor = System.Drawing.Color.GreenYellow;
             this.rtbConvState.Location = new System.Drawing.Point(0, 0);
             this.rtbConvState.Name = "rtbConvState";
-            this.rtbConvState.Size = new System.Drawing.Size(732, 92);
+            this.rtbConvState.Size = new System.Drawing.Size(732, 100);
             this.rtbConvState.TabIndex = 0;
             this.rtbConvState.Text = "Welcome!";
             // 
             // central
             // 
             this.central.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.central.Location = new System.Drawing.Point(0, 108);
+            this.central.Location = new System.Drawing.Point(0, 158);
             this.central.Name = "central";
             this.central.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -772,14 +720,23 @@
             // central.Panel2
             // 
             this.central.Panel2.Controls.Add(this.heats);
-            this.central.Size = new System.Drawing.Size(732, 438);
-            this.central.SplitterDistance = 150;
+            this.central.Panel2.Controls.Add(this.panel3);
+            this.central.Size = new System.Drawing.Size(732, 546);
+            this.central.SplitterDistance = 186;
             this.central.TabIndex = 33;
             // 
             // heats
             // 
             this.heats.AllowUserToAddRows = false;
             this.heats.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.heats.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.heats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.heats.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.heatNum,
@@ -791,11 +748,27 @@
             this.scrapWait,
             this.steelWeight,
             this.status});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.heats.DefaultCellStyle = dataGridViewCellStyle2;
             this.heats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.heats.Location = new System.Drawing.Point(0, 0);
             this.heats.Name = "heats";
             this.heats.ReadOnly = true;
-            this.heats.Size = new System.Drawing.Size(732, 284);
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.heats.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.heats.Size = new System.Drawing.Size(732, 256);
             this.heats.TabIndex = 0;
             this.heats.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.heats_CellContentClick);
             this.heats.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.heats_CellDoubleClick);
@@ -862,15 +835,15 @@
             this.status.ReadOnly = true;
             this.status.Width = 110;
             // 
-            // panel6
+            // panSteelTask
             // 
-            this.panel6.Controls.Add(this.txbSteelTask);
-            this.panel6.Controls.Add(this.label5);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(90, 102);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(93, 44);
-            this.panel6.TabIndex = 67;
+            this.panSteelTask.Controls.Add(this.txbSteelTask);
+            this.panSteelTask.Controls.Add(this.label5);
+            this.panSteelTask.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panSteelTask.Location = new System.Drawing.Point(90, 96);
+            this.panSteelTask.Name = "panSteelTask";
+            this.panSteelTask.Size = new System.Drawing.Size(93, 39);
+            this.panSteelTask.TabIndex = 67;
             // 
             // txbSteelTask
             // 
@@ -890,12 +863,55 @@
             this.label5.TabIndex = 22;
             this.label5.Text = "Заказ, т";
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.rtbConvState);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel3.Location = new System.Drawing.Point(0, 256);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(732, 100);
+            this.panel3.TabIndex = 1;
+            // 
+            // panUNRS
+            // 
+            this.panUNRS.Controls.Add(this.cmbUNRS);
+            this.panUNRS.Controls.Add(this.lblUNRS);
+            this.panUNRS.Location = new System.Drawing.Point(541, 3);
+            this.panUNRS.Name = "panUNRS";
+            this.panUNRS.Size = new System.Drawing.Size(114, 43);
+            this.panUNRS.TabIndex = 32;
+            // 
+            // cmbUNRS
+            // 
+            this.cmbUNRS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.cmbUNRS.FormattingEnabled = true;
+            this.cmbUNRS.Items.AddRange(new object[] {
+            "УНРС-1",
+            "УНРС-2",
+            "УНРС-3",
+            "УНРС-4",
+            "УНРС-5"});
+            this.cmbUNRS.Location = new System.Drawing.Point(3, 17);
+            this.cmbUNRS.Name = "cmbUNRS";
+            this.cmbUNRS.Size = new System.Drawing.Size(92, 23);
+            this.cmbUNRS.TabIndex = 3;
+            this.cmbUNRS.TabStop = false;
+            // 
+            // lblUNRS
+            // 
+            this.lblUNRS.AutoSize = true;
+            this.lblUNRS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblUNRS.Location = new System.Drawing.Point(1, 1);
+            this.lblUNRS.Name = "lblUNRS";
+            this.lblUNRS.Size = new System.Drawing.Size(83, 13);
+            this.lblUNRS.TabIndex = 14;
+            this.lblUNRS.Text = "Выбор УНРС";
+            // 
             // MixCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.central);
-            this.Controls.Add(this.bottom);
             this.Controls.Add(this.heading);
             this.Name = "MixCalculator";
             this.Size = new System.Drawing.Size(732, 704);
@@ -931,21 +947,16 @@
             this.panel4.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            this.bottom.Panel1.ResumeLayout(false);
-            this.bottom.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bottom)).EndInit();
-            this.bottom.ResumeLayout(false);
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
             this.central.Panel1.ResumeLayout(false);
             this.central.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.central)).EndInit();
             this.central.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.heats)).EndInit();
-            this.panel6.ResumeLayout(false);
-            this.panel6.PerformLayout();
+            this.panSteelTask.ResumeLayout(false);
+            this.panSteelTask.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panUNRS.ResumeLayout(false);
+            this.panUNRS.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -988,7 +999,6 @@
         private System.Windows.Forms.Button btnIronSel;
         private System.Windows.Forms.Button btnScrapSel;
         private System.Windows.Forms.Label lblSteel;
-        private System.Windows.Forms.SplitContainer bottom;
         private System.Windows.Forms.SplitContainer central;
         private System.Windows.Forms.DataGridView heats;
         private System.Windows.Forms.RichTextBox rtbConvState;
@@ -1009,7 +1019,6 @@
         private System.Windows.Forms.Label lblSteelGroup;
         private System.Windows.Forms.Button btnApprove;
         private System.Windows.Forms.Button btnCalculate;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataGridViewTextBoxColumn heatNum;
         private System.Windows.Forms.DataGridViewTextBoxColumn heatKind;
         private System.Windows.Forms.DataGridViewTextBoxColumn heatMark;
@@ -1019,9 +1028,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn scrapWait;
         private System.Windows.Forms.DataGridViewTextBoxColumn steelWeight;
         private System.Windows.Forms.DataGridViewTextBoxColumn status;
-        private System.Windows.Forms.Button btnUpd;
-        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Panel panSteelTask;
         public System.Windows.Forms.TextBox txbSteelTask;
         public System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panUNRS;
+        private System.Windows.Forms.ComboBox cmbUNRS;
+        private System.Windows.Forms.Label lblUNRS;
     }
 }
