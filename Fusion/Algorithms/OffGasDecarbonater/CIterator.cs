@@ -29,6 +29,7 @@ namespace OffGasDecarbonater {
         public static bool FirstHeating = true;
         private static int m_currentMatrix;
         private static bool m_noFixData;
+        public static bool HeatIsStarted;
 
         public const double DefHotIronCarbonPercent = 4.65;
         public const double DefScrapCarbonPercent = 0.2;
@@ -50,6 +51,7 @@ namespace OffGasDecarbonater {
             TotalCarbonMassCalculated = false;
             GasCarbonMassFinished = false;
             m_noFixData = true;
+            HeatIsStarted = false;
         }
 
         public static void StartHeating() {
@@ -79,7 +81,7 @@ namespace OffGasDecarbonater {
                         RemainCarbonPercent = GetCarbonPercent(RemainCarbonMass, heatData.IronMass,
                                                                heatData.IronCarbonPercent,
                                                                heatData.ScrapMass, heatData.ScrapCarbonPercent);
-                        if (TotalCarbonMass > 0 && heatData.OxygenVolumeRate > 0) {
+                        if ((TotalCarbonMass > 0) && (heatData.OxygenVolumeRate > 0) && HeatIsStarted) { // start heat
                             TotalCarbonMassCalculated = true;
                             l.msg("##### [TotalCarbonMassCalculated: {0}][RemainCarbonPercent]", TotalCarbonMass,
                                   RemainCarbonPercent);
