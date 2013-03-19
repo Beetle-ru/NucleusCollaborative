@@ -418,7 +418,7 @@ namespace ModelRunner
                     m_bunkersNames[6] = bnme.Bunker11MaterialName;
                     m_bunkersNames[7] = bnme.Bunker12MaterialName;
                 }
-                else if (evt is visAdditionTotalEvent)
+                else if (evt is visAdditionTotalEvent) //!!! почему используется два варианта добавления сыпучих по "OPC.BulkSolids" и по visAdditionTotalEvent?
                 {
                     var vate = evt as visAdditionTotalEvent;
                     l.msg("visAdditionTotalEvent: {0}", vate);
