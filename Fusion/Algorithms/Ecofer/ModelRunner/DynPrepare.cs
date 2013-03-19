@@ -94,6 +94,7 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
+            //!!!
             //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
             //                                                  {
             //                                                      InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
