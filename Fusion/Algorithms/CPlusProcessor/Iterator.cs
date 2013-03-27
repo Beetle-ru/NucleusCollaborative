@@ -237,6 +237,7 @@ namespace CPlusProcessor {
             //(IntegralCO < Program.COMax)
             //);
             return it4 &&
+                   false && // выключено
                    (IntegralCO > Program.COMin) && // проверка на интегральный CO
                    (IntegralCO < Program.COMax);
         }
