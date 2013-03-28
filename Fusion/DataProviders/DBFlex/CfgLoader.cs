@@ -156,36 +156,58 @@ namespace DBFlex
 
             #endregion
 
-            res.SQLStr = sqlFileData;
+            #region template
+
+            var patterns = new Dictionary<string, string>();
+
+            foreach (var argument in flx.Arguments) {
+                if ((argument.Key != ArgEventName) && (argument.Key != ArgCommand)) {
+                    patterns.Add(argument.Key, argument.Value.ToString());
+                }
+            }
+
+            res.SQLStr = ApplyTemplate(sqlFileData, patterns);
+
+            #endregion
+
+            //res.SQLStr = sqlFileData;
 
             return res;
         }
 
-        private string ApplyTemplate(string sqlStr, Dictionary<string, string> pattern) {
-            const char startEscpe = ':';
-            const char endEscpe = ' ';
+        private string ApplyTemplate(string sqlStr, Dictionary<string, string> patterns) {
+            const char startEscpe = '<';
+            const char endEscpe = '>';
+
 
             var sqlArray = sqlStr.ToCharArray();
             var sqlLength = sqlArray.Count();
             sqlStr = "";
 
             var substr = "";
+            var beginSubstr = false;
 
             for (int i = 0; i < sqlLength; i++) {
-                if (sqlArray[i] == startEscpe) {
-                    if (sqlArray[i] == endEscpe) // еще может быть конец строки !!!
-                    {
-                        if (pattern.ContainsKey(substr)) {
-                            sqlStr += pattern[substr];
+                if ((sqlArray[i] == startEscpe) || beginSubstr)
+                {
+                    beginSubstr = true;
+                }
+                else {
+                    sqlStr += sqlArray[i];
+                }
+                
+                if (beginSubstr) {
+                    if (sqlArray[i] == endEscpe){
+                        if (patterns.ContainsKey(substr)) {
+                            sqlStr += patterns[substr];
+                            substr = "";
+                            beginSubstr = false;
                         }
-                        sqlStr += sqlArray[i]; // not remoove end symbol
+                        //sqlStr += sqlArray[i]; // not remoove end symbol
                     }
                     else {
                         if (sqlArray[i] != startEscpe) substr += sqlArray[i]; // remove start symbol
                     }
-                }
-                else {
-                    sqlStr += sqlArray[i];
                 }
             }
 
