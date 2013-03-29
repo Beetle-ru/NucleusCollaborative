@@ -53,7 +53,7 @@ namespace DBFlex
             }
 
             catch (Exception e) {
-                res.ErrorCode = Result.Es.S_Error;
+                res.ErrorCode = Result.Es.S_ERROR;
                 res.ErrorStr += String.Format("{0}\n", e.Message);
                 return res;
             }
@@ -140,13 +140,13 @@ namespace DBFlex
             {
                 ErrorStr = "";
                 ResultData = new Dictionary<string, List<object>>();
-                ErrorCode = Es.S_Ok;
+                ErrorCode = Es.S_OK;
             }
             public enum Es
             {
-                S_Ok,
-                S_Warn,
-                S_Error
+                S_OK,
+                S_WARN,
+                S_ERROR
             }
             public string ErrorStr;
             public Dictionary<string, List<object>> ResultData; 

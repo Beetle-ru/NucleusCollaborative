@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using ConnectionProvider;
 using Converter;
+using Implements;
 using Oracle.DataAccess.Client;
 
 namespace DBFlex
@@ -20,42 +22,30 @@ namespace DBFlex
         public const string IndexFileName = "Index";
 
 
-        public static string ConnectionStr = "DATA SOURCE=192.168.0.53/KPBOF;PASSWORD=bof7jfa4;USER ID=BOF";
-        public static string CfgMainDir = "SQLFlexDescriptions";
+        public static string ConnectionStr;
+        public static string CfgMainDir;
+        public static Configuration MainConf;
+        public static Client MainGate;
         public static CfgLoader Cfg;
         static void Main(string[] args)
         {
+            MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
+            CfgMainDir = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["CfgMainDir"].Value;
+            ConnectionStr = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["ConnectionString"].Value;
+
             Cfg = new CfgLoader(CfgMainDir);
 
-            var flx = new FlexEvent("Req");
-            flx.Arguments.Add(ArgEventName, "SQL.Test");
-            flx.Arguments.Add(ArgCommandName, "TestCommand1");
-            flx.Arguments.Add("material", "'DOLMIT'");
+            var o = new HeatChangeEvent();
+            MainGate = new Client(new Listener());
+            MainGate.Subscribe();
 
-            var flx1 = new FlexEvent("Req");
-            flx1.Arguments.Add(ArgEventName, "SQL.Test");
-            flx1.Arguments.Add(ArgCommandName, "TestCommand1");
-            flx1.Arguments.Add("material", "'LIME'");
-
-            var flx2 = new FlexEvent("Req");
-            flx2.Arguments.Add(ArgEventName, "SQL.Test");
-            flx2.Arguments.Add(ArgCommandName, "TestCommand1");
-            flx2.Arguments.Add("material", "'KOKS'");
-
-
-            Job(flx);
-            Job(flx1);
-            Job(flx2);
-            //for (int i = 0; i < 10; i++) {
-            //    Job(flx);
-            //    Console.WriteLine("### " + i + " ###");
-            //}
+            Console.WriteLine("Press Enter for exit");
             Console.ReadLine();
         }
 
         static public void Job(FlexEvent flx) {
             var cfgResult = Cfg.ReadCfg(flx);
-            if (cfgResult.ErrorCode != CfgLoader.Result.Es.S_Error) {
+            if (cfgResult.ErrorCode != CfgLoader.Result.Es.S_ERROR) {
                 var req = new Requester(ConnectionStr);
                 req.SQLRequestAsync(cfgResult.SQLStr, flx, ResponceGenerator);
             }
@@ -65,7 +55,8 @@ namespace DBFlex
                 fex.AddArg(ArgCommandName, command);
                 fex.AddArg(ArgErrorCodeName, cfgResult.ErrorCode.ToString());
                 fex.AddArg(ArgErrorStringName, cfgResult.ErrorStr);
-                Console.WriteLine(fex.evt);
+                fex.Fire(MainGate);
+                InstantLogger.msg(fex.evt.ToString());
             }
         }
         static public void ResponceGenerator(FlexEvent flx, Requester.Result result) {
@@ -91,7 +82,8 @@ namespace DBFlex
             fex.AddArg(ArgCommandName, command);
             fex.AddArg(ArgErrorCodeName, result.ErrorCode.ToString());
             fex.AddArg(ArgErrorStringName, result.ErrorStr);
-            Console.WriteLine(fex.evt);
+            fex.Fire(MainGate);
+            InstantLogger.msg(fex.evt.ToString());
         }
 
         static public FlexHelper CreateRespFex(FlexEvent flx) {
