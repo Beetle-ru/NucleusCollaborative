@@ -9,9 +9,7 @@ namespace DBFlex
 {
     public class CfgLoader {
         private string m_mainDir;
-        private const string ArgEventName = "@EventName";
-        private const string ArgCommand = "@Command";
-        private const string IndexFileName = "Index";
+        
         private const char Separator = ';';
 
         public CfgLoader(string mainDir) {
@@ -27,31 +25,31 @@ namespace DBFlex
             var subDir = "";
             var command = "";
             
-            if (flx.Arguments.ContainsKey(ArgEventName)) {
-                subDir = (string)flx.Arguments[ArgEventName];
+            if (flx.Arguments.ContainsKey(Program.ArgEventName)) {
+                subDir = (string)flx.Arguments[Program.ArgEventName];
                 if (String.IsNullOrWhiteSpace(subDir)) {
                     res.ErrorCode = Result.Es.S_Error;
-                    res.ErrorStr += ArgEventName + " is not contains value\n";
+                    res.ErrorStr += Program.ArgEventName + " is not contains value\n";
                 }
             }
             else {
                 res.ErrorCode = Result.Es.S_Error;
-                res.ErrorStr += String.Format("Argument {0} is not found\n", ArgEventName);
+                res.ErrorStr += String.Format("Argument {0} is not found\n", Program.ArgEventName);
             }
 
-            if (flx.Arguments.ContainsKey(ArgCommand))
+            if (flx.Arguments.ContainsKey(Program.ArgCommandName))
             {
-                command = (string)flx.Arguments[ArgCommand];
+                command = (string)flx.Arguments[Program.ArgCommandName];
                 if (String.IsNullOrWhiteSpace(command))
                 {
                     res.ErrorCode = Result.Es.S_Error;
-                    res.ErrorStr += ArgCommand + " is not contains value\n";
+                    res.ErrorStr += Program.ArgCommandName + " is not contains value\n";
                 }
             }
             else
             {
                 res.ErrorCode = Result.Es.S_Error;
-                res.ErrorStr += String.Format("Argument {0} is not found\n", ArgCommand);
+                res.ErrorStr += String.Format("Argument {0} is not found\n", Program.ArgCommandName);
             }
 
             if (res.ErrorCode == Result.Es.S_Error) return res;
@@ -64,7 +62,7 @@ namespace DBFlex
                 return res;
             }
 
-            var indexFile = String.Format("{0}\\{1}", currentDir, IndexFileName);
+            var indexFile = String.Format("{0}\\{1}", currentDir, Program.IndexFileName);
 
             if (!File.Exists(indexFile))
             {
@@ -102,7 +100,7 @@ namespace DBFlex
                 {
                     var k = kv[0];
                     var v = kv[1];
-                    if (k == (string)flx.Arguments[ArgCommand]) {
+                    if (k == (string)flx.Arguments[Program.ArgCommandName]) {
                         sqlFileName = String.Format("{0}\\{1}", currentDir, v);
                     }
                     else {
@@ -119,7 +117,7 @@ namespace DBFlex
 
                 if (String.IsNullOrWhiteSpace(sqlFileName)) {
                     res.ErrorCode = Result.Es.S_Error;
-                    res.ErrorStr += String.Format("Command {0} or associated file not found\n", (string)flx.Arguments[ArgCommand]);
+                    res.ErrorStr += String.Format("Command {0} or associated file not found\n", (string)flx.Arguments[Program.ArgCommandName]);
                     return res;
                 }
 
@@ -161,12 +159,16 @@ namespace DBFlex
             var patterns = new Dictionary<string, string>();
 
             foreach (var argument in flx.Arguments) {
-                if ((argument.Key != ArgEventName) && (argument.Key != ArgCommand)) {
+                if ((argument.Key != Program.ArgEventName) && (argument.Key != Program.ArgCommandName)) {
                     patterns.Add(argument.Key, argument.Value.ToString());
                 }
             }
 
-            res.SQLStr = ApplyTemplate(sqlFileData, patterns);
+            var templateRes = ApplyTemplate(sqlFileData, patterns);
+
+            res.ErrorCode = templateRes.ErrorCode;
+            res.ErrorStr += templateRes.ErrorStr;
+            res.SQLStr = templateRes.SQLStr;
 
             #endregion
 
@@ -175,10 +177,12 @@ namespace DBFlex
             return res;
         }
 
-        private string ApplyTemplate(string sqlStr, Dictionary<string, string> patterns) {
-            const char startEscpe = '<';
+        private Result ApplyTemplate(string sqlStr, Dictionary<string, string> patterns)
+        {
+            const char beginEscpe = '<';
             const char endEscpe = '>';
 
+            var res = new Result();
 
             var sqlArray = sqlStr.ToCharArray();
             var sqlLength = sqlArray.Count();
@@ -188,7 +192,7 @@ namespace DBFlex
             var beginSubstr = false;
 
             for (int i = 0; i < sqlLength; i++) {
-                if ((sqlArray[i] == startEscpe) || beginSubstr)
+                if ((sqlArray[i] == beginEscpe) || beginSubstr)
                 {
                     beginSubstr = true;
                 }
@@ -203,15 +207,20 @@ namespace DBFlex
                             substr = "";
                             beginSubstr = false;
                         }
+                        else {
+                            sqlStr += String.Format("{0}{1}{2}", beginEscpe, substr, endEscpe);
+                            res.ErrorCode = Result.Es.S_Error;
+                            res.ErrorStr += String.Format("Parameter \"{1}{0}{2}\" is not specified in the request FlexEvent", substr, beginEscpe, endEscpe);
+                        }
                         //sqlStr += sqlArray[i]; // not remoove end symbol
                     }
                     else {
-                        if (sqlArray[i] != startEscpe) substr += sqlArray[i]; // remove start symbol
+                        if (sqlArray[i] != beginEscpe) substr += sqlArray[i]; // remove start symbol
                     }
                 }
             }
-
-            return sqlStr;
+            res.SQLStr = sqlStr;
+            return res;
         }
 
        
