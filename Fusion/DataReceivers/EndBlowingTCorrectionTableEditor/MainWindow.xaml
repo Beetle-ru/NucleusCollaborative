@@ -1,8 +1,16 @@
 ﻿<Window x:Class="EndBlowingTCorrectionTableEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Редактор таблиц расчета кислорода на додувку" Height="488" Width="731" FontSize="14">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="520*" />
+            <ColumnDefinition Width="189" />
+        </Grid.ColumnDefinitions>
+        <DataGrid AutoGenerateColumns="True" Name="dgScheme" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ColumnWidth="*" />
+        <ComboBox Grid.Column="1" Height="29" Margin="6,42,0,0" Name="cbScheme" VerticalAlignment="Top" FontSize="18" SelectionChanged="cbScheme_SelectionChanged" />
+        <Label Content="Схема" Grid.Column="1" Height="36" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" FontSize="18" Width="189" HorizontalContentAlignment="Center" />
+        <Button Content="Сохранить" Grid.Column="1" Height="43" HorizontalAlignment="Left" Margin="40,87,0,0" Name="btnSave" VerticalAlignment="Top" Width="111" FontSize="18" Click="btnSave_Click" />
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,136,0,0" Name="tbLog" Width="189" />
     </Grid>
 </Window>
