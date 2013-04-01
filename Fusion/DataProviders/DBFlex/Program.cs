@@ -75,7 +75,7 @@ namespace DBFlex
             }
             foreach (var argument in flx.Arguments) {
                 if (!argument.Key.StartsWith("@")) {
-                    fex.AddArg(String.Format("${0}",argument.Key), argument.Value);
+                    fex.AddArg(String.Format("<{0}>",argument.Key), argument.Value);
                 }
             }
             fex.AddArg(ArgCountName,count);
