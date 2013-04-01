@@ -9,9 +9,9 @@ using Implements;
 
 namespace UniversalCPlus {
     internal static class Iterator {
-        private static List<MFCPData> m_matrix;
-        private static List<MFCPData> m_matrixTotal;
-        public static MFCPData CurrentState;
+        private static List<MFUCPData> m_matrix;
+        private static List<MFUCPData> m_matrixTotal;
+        public static MFUCPData CurrentState;
         public static double IntegralCO;
         public static double IntegralCO2;
         public static double OffGasV;
@@ -20,7 +20,7 @@ namespace UniversalCPlus {
         public const int PeriodSec = 3; // время сглаживания
         public const int IntervalSec = 1; // интервал расчетов
         public static Timer IterateTimer = new Timer(IntervalSec*1000);
-        public static Dictionary<long, MFCPData> WaitCarbonDic; // очередь ожидания углерода
+        public static Dictionary<long, MFUCPData> WaitCarbonDic; // очередь ожидания углерода
 
         public static bool ModelIsStarted;
         private static bool m_dataIsFixed;
@@ -35,18 +35,18 @@ namespace UniversalCPlus {
         public static bool HeatIsStarted;
 
         public static void Init() {
-            m_matrixTotal = new List<MFCPData>();
+            m_matrixTotal = new List<MFUCPData>();
             Program.LoadMatrix(Program.MatrixPath, out m_matrix);
             Reset();
 
             IterateTimer.Elapsed += new ElapsedEventHandler(IterateTimeOut);
             IterateTimer.Enabled = true;
 
-            WaitCarbonDic = new Dictionary<long, MFCPData>();
+            WaitCarbonDic = new Dictionary<long, MFUCPData>();
         }
 
         public static void Reset() {
-            CurrentState = new MFCPData();
+            CurrentState = new MFUCPData();
             HDSmoother = new HeatDataSmoother();
 
             ModelIsStarted = false;
@@ -67,7 +67,7 @@ namespace UniversalCPlus {
             if (ModelIsStarted) {
                 if (m_dataIsFixed) {
                     if (!m_dataIsEnqueue) {
-                        CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix,
+                        CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorUniversalCarbonPlus(m_matrix,
                                                                                                    CurrentState);
                         CurrentState.SteelCarbonPercentCalculated =
                             CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
@@ -80,11 +80,10 @@ namespace UniversalCPlus {
                 else {
                     var co2 = HDSmoother.CO2.Average(PeriodSec);
                     var co = HDSmoother.CO.Average(PeriodSec);
-                    CurrentState.CarbonOxideIVP += co2;
-                    CurrentState.CarbonMonoxideVP = co;
-                    CurrentState.CarbonOxideVP = co2;
+                    CurrentState.CarbonVP = co*0.43 + co2 * 0.27;
+                    CurrentState.CarbonIVP += CurrentState.CarbonVP;
                     CurrentState.TimeFromX += IntervalSec;
-                    CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorCarbonPlus(m_matrix, CurrentState);
+                    CurrentState.SteelCarbonPercentCalculated = Decarbonater.MFactorUniversalCarbonPlus(m_matrix, CurrentState);
 
                     //if (!m_dataIsEnqueue) m_lastCarbon = CurrentState.SteelCarbonPercentCalculated;
                     CurrentState.SteelCarbonPercentCalculated = CarbonClipper(CurrentState.SteelCarbonPercentCalculated);
@@ -99,7 +98,7 @@ namespace UniversalCPlus {
 
                 if (ModelIsStarted) {
                     FireCurrentCarbon(0.095);
-                    var fex = new FlexHelper("CPlusProcessor.ModelIsStarted");
+                    var fex = new FlexHelper("UniversalCPlus.ModelIsStarted");
                     fex.Fire(Program.MainGate);
                     InstantLogger.msg(fex.evt + "\n");
                 }
@@ -121,7 +120,7 @@ namespace UniversalCPlus {
         }
 
         public static void FireFixEvent(double carbon) {
-            var fex = new FlexHelper("CPlusProcessor.DataFix");
+            var fex = new FlexHelper("UniversalCPlus.DataFix");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate);
             InstantLogger.msg(fex.evt + "\n");
@@ -131,7 +130,7 @@ namespace UniversalCPlus {
             const double tresholdCarbon = 0.03;
             carbon = carbon < tresholdCarbon ? tresholdCarbon : carbon; // ограничение на углерод
 
-            var fex = new FlexHelper("CPlusProcessor.Result");
+            var fex = new FlexHelper("UniversalCPlus.Result");
             fex.AddArg("C", carbon);
             fex.Fire(Program.MainGate);
             InstantLogger.msg("carbon = {0}", carbon);
@@ -177,7 +176,7 @@ namespace UniversalCPlus {
             }
         }
 
-        public static void HardFixData(MFCPData hDataResult) {
+        public static void HardFixData(MFUCPData hDataResult) {
             if (VerifiDataForSave(hDataResult)) {
                 //m_matrix.RemoveAt(0);
                 //m_matrix.Add(hDataResult);
@@ -207,7 +206,7 @@ namespace UniversalCPlus {
             Program.SaveMatrix(Program.MatrixTotalPath, m_matrixTotal);
         }
 
-        public static bool VerifiDataForSave(MFCPData currentHeatResult) {
+        public static bool VerifiDataForSave(MFUCPData currentHeatResult) {
             const double minCarbonPercent = 0.03;
             const double maxCarbonPercent = 0.12;
 

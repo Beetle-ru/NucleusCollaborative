@@ -40,9 +40,9 @@ namespace UniversalCPlus {
             Console.ReadLine();
         }
 
-        public static void LoadMatrix(string path, out List<MFCPData> matrixStateData) {
+        public static void LoadMatrix(string path, out List<MFUCPData> matrixStateData) {
             using (Logger l = new Logger("LoadMatrix")) {
-                matrixStateData = new List<MFCPData>();
+                matrixStateData = new List<MFUCPData>();
                 string[] strings;
                 try {
                     strings = File.ReadAllLines(path);
@@ -56,16 +56,16 @@ namespace UniversalCPlus {
                 try {
                     for (int strCnt = 0; strCnt < strings.Count(); strCnt++) {
                         string[] values = strings[strCnt].Split(Separator);
-                        matrixStateData.Add(new MFCPData() {
+                        matrixStateData.Add(new MFUCPData()
+                        {
                                                                HeatNumber = Convertion.StrToInt64(values[0]),
                                                                TimeFromX = Convertion.StrToInt32(values[1]),
-                                                               CarbonOxideIVP = Convertion.StrToDouble(values[2]),
-                                                               CarbonMonoxideVP = Convertion.StrToDouble(values[3]),
-                                                               CarbonOxideVP = Convertion.StrToDouble(values[4]),
-                                                               SteelCarbonPercent = Convertion.StrToDouble(values[5]),
+                                                               CarbonVP = Convertion.StrToDouble(values[2]),
+                                                               CarbonIVP = Convertion.StrToDouble(values[3]),
+                                                               SteelCarbonPercent = Convertion.StrToDouble(values[4]),
                                                                SteelCarbonPercentCalculated =
-                                                                   Convertion.StrToDouble(values[6]),
-                                                               HightQualityHeat = Convertion.StrToBool(values[7])
+                                                                   Convertion.StrToDouble(values[5]),
+                                                               HightQualityHeat = Convertion.StrToBool(values[6])
                                                            });
                     }
                 }
@@ -77,17 +77,16 @@ namespace UniversalCPlus {
             }
         }
 
-        public static void SaveMatrix(string path, List<MFCPData> matrixStateDataFull) {
+        public static void SaveMatrix(string path, List<MFUCPData> matrixStateDataFull) {
             using (Logger l = new Logger("SaveMatrix")) {
                 string[] strings = new string[matrixStateDataFull.Count];
                 for (int dataCnt = 0; dataCnt < matrixStateDataFull.Count; dataCnt++) {
-                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}",
+                    strings[dataCnt] = String.Format("{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}",
                                                      Separator,
                                                      matrixStateDataFull[dataCnt].HeatNumber,
                                                      matrixStateDataFull[dataCnt].TimeFromX,
-                                                     matrixStateDataFull[dataCnt].CarbonOxideIVP,
-                                                     matrixStateDataFull[dataCnt].CarbonMonoxideVP,
-                                                     matrixStateDataFull[dataCnt].CarbonOxideVP,
+                                                     matrixStateDataFull[dataCnt].CarbonVP,
+                                                     matrixStateDataFull[dataCnt].CarbonIVP,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercent,
                                                      matrixStateDataFull[dataCnt].SteelCarbonPercentCalculated,
                                                      matrixStateDataFull[dataCnt].HightQualityHeat
