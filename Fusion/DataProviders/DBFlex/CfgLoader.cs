@@ -162,7 +162,11 @@ namespace DBFlex
 
             foreach (var argument in flx.Arguments) {
                 if ((argument.Key != Program.ArgEventName) && (argument.Key != Program.ArgCommandName)) {
-                    patterns.Add(argument.Key, argument.Value.ToString());
+                    var argstr = argument.Value.ToString();
+                    if (argument.Value is double) {
+                        argstr = argstr.Replace(',', '.');
+                    }
+                    patterns.Add(argument.Key, argstr);
                 }
             }
 
