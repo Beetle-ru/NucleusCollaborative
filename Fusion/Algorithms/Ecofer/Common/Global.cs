@@ -107,7 +107,7 @@ namespace Common
         public static double M3_Stat_C_konec_random = 0.01f;
         public static double M3_Stat_OpozdeniKonceFoukani = 50;
 
-        public static bool M3_Stat_T_ON = true;
+        public static bool M3_Stat_T_ON = false;
         public static double M3_Stat_Ztratovy_vykon_lin = 7.92f * 0.0625f; // kWh/min/K
         public static double M3_Stat_Ztratovy_vykon_kvad = 0.0528f * 0.0625f; // kWh/min/K/K
         public static double M3_Stat_Ztratovy_vykon_kub = 0.000634f * 0.0625f; // kWh/min/K/K/K
