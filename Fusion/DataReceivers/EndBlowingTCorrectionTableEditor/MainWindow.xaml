@@ -7,7 +7,7 @@
             <ColumnDefinition Width="520*" />
             <ColumnDefinition Width="189" />
         </Grid.ColumnDefinitions>
-        <DataGrid AutoGenerateColumns="True" Name="dgScheme" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ColumnWidth="*" />
+        <DataGrid AutoGenerateColumns="True" Name="dgScheme" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ColumnWidth="*" FontWeight="Bold" />
         <ComboBox Grid.Column="1" Height="29" Margin="6,42,0,0" Name="cbScheme" VerticalAlignment="Top" FontSize="18" SelectionChanged="cbScheme_SelectionChanged" />
         <Label Content="Схема" Grid.Column="1" Height="36" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" FontSize="18" Width="189" HorizontalContentAlignment="Center" />
         <Button Content="Сохранить" Grid.Column="1" Height="43" HorizontalAlignment="Left" Margin="40,87,0,0" Name="btnSave" VerticalAlignment="Top" Width="111" FontSize="18" Click="btnSave_Click" IsEnabled="False" />
