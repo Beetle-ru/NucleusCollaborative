@@ -11,6 +11,7 @@ using System.Timers;
 namespace CorrectionCT {
     internal class Program {
         public static CSVTableParser MatrixT;
+        public static List<ColumnPath> MatrixTDescription;
         public static CSVTableParser MatrixC;
         public static Configuration MainConf;
         public static char Separator;
@@ -40,6 +41,8 @@ namespace CorrectionCT {
         public static int LancePosition; //высота фурмы для остановки перерасчета углерода
         public static bool StartedCRecalc; //означет, что начали пересчитывать углерод
         public static bool StopedCRecalc; //означет, что закончили пересчитывать углерод
+        public static int CurrentScheme; // номер схемы для получения таблички из базы данных
+        
 
         private static void Main(string[] args) {
             Init();
@@ -52,16 +55,27 @@ namespace CorrectionCT {
             MatrixC = new CSVTableParser();
             MainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
 
+            CurrentScheme = Int32.Parse(MainConf.AppSettings.Settings["Scheme"].Value);
 
             Separator = MainConf.AppSettings.Settings["separator"].Value.ToArray()[0];
             MatrixT.FileName = MainConf.AppSettings.Settings["matrixT"].Value;
             MatrixT.Separator = Separator;
 
-            MatrixT.Description.Add(new ColumnPath() {ColumnName = "CMin", ColumnType = typeof (double)});
-            MatrixT.Description.Add(new ColumnPath() {ColumnName = "CMax", ColumnType = typeof (double)});
-            MatrixT.Description.Add(new ColumnPath() {ColumnName = "OxygenOnHeating", ColumnType = typeof (int)});
-            MatrixT.Description.Add(new ColumnPath() {ColumnName = "Heating", ColumnType = typeof (int)});
+            var o = new FlexEvent();
+            MainGate = new ConnectionProvider.Client(new Listener());
+            MainGate.Subscribe();
+
+            MatrixTDescription = new List<ColumnPath>();
+            MatrixTDescription.Add(new ColumnPath() { ColumnName = "CMin", ColumnType = typeof(double) });
+            MatrixTDescription.Add(new ColumnPath() { ColumnName = "CMax", ColumnType = typeof(double) });
+            MatrixTDescription.Add(new ColumnPath() { ColumnName = "OxygenOnHeating", ColumnType = typeof(int) });
+            MatrixTDescription.Add(new ColumnPath() { ColumnName = "Heating", ColumnType = typeof(int) });
+#if IS_DBFLEX
+            ReqScheme(CurrentScheme);
+#else
+            MatrixT.Description = MatrixTDescription;
             MatrixT.Load();
+#endif
 
             MatrixC.FileName = MainConf.AppSettings.Settings["matrixC"].Value;
             MatrixC.Separator = Separator;
@@ -72,9 +86,7 @@ namespace CorrectionCT {
 
             MatrixC.Load();
 
-            var o = new FlexEvent();
-            MainGate = new ConnectionProvider.Client(new Listener());
-            MainGate.Subscribe();
+            
 
             WaitSublanceData = new Timer();
             WaitSublanceData.Elapsed += new ElapsedEventHandler(SublanceDataLost);
@@ -83,6 +95,36 @@ namespace CorrectionCT {
             CarbonIterateTimer.Enabled = true;
 
             Reset();
+        }
+
+        public static CSVTableParser LoadMatrixTFromFlex(List<ColumnPath> description, FlexHelper fex) {
+            var matrixT = new CSVTableParser();
+            matrixT.Description = description;
+
+            var cminLst = (List<double>)fex.GetComplexArg("CMIN", typeof(List<double>));
+            var cmaxLst = (List<double>)fex.GetComplexArg("CMAX", typeof(List<double>));
+            var oxygenLst = (List<double>)fex.GetComplexArg("OXYGEN", typeof(List<double>));
+            var heatinLst = (List<double>)fex.GetComplexArg("HEATING", typeof(List<double>));
+
+            for (int i = 0; i < fex.GetInt(Implements.DBFlex.ArgCountName); i++) {
+                var row = matrixT.ColumnCreator();
+                row.Cell["CMin"] = cminLst[i];
+                row.Cell["CMax"] = cmaxLst[i];
+                row.Cell["OxygenOnHeating"] = oxygenLst[i];
+                row.Cell["Heating"] = heatinLst[i];
+                matrixT.Rows.Add(row);
+            }
+
+            return matrixT;
+        }
+
+        public static void ReqScheme(int schemaN)
+        {
+            var fex = new FlexHelper("DBFlex.Request");
+            fex.AddArg(Implements.DBFlex.ArgEventName, "SQL.Corrections");
+            fex.AddArg(Implements.DBFlex.ArgCommandName, "GetScheme");
+            fex.AddArg("Schema", schemaN);
+            fex.Fire(MainGate);
         }
 
         public static void Reset() {
@@ -105,9 +147,13 @@ namespace CorrectionCT {
             MeteringOxygen = 0;
             StartedCRecalc = false;
             StopedCRecalc = true;
+#if IS_DBFLEX
+            ReqScheme(CurrentScheme);
+#endif
         }
 
         public static int CalcT(CSVTableParser matrixT, Estimates data) {
+            if (matrixT.Rows == null) return 0;
             using (var l = new Logger("CalcT")) {
                 if (
                     (data.CurrentT == 0) &&

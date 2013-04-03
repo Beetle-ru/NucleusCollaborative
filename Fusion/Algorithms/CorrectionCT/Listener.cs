@@ -181,6 +181,15 @@ namespace CorrectionCT {
                         l.msg(fxe.ToString());
                         Program.FixedCalcCarbone = Program.CurrentCalcCarbone;
                     }
+
+                    if (fxe.Operation.StartsWith("SQL.Corrections")) {
+                        var fex = new FlexHelper(fxe);
+                        if (fex.GetStr(Implements.DBFlex.ArgCommandName) == "GetScheme") {
+                            if (fex.GetStr(Implements.DBFlex.ArgErrorCodeName) == "S_OK") {
+                                Program.MatrixT = Program.LoadMatrixTFromFlex(Program.MatrixTDescription, fex);
+                            }
+                        }
+                    }
                 }
             }
         }
