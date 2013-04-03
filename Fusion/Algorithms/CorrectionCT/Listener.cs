@@ -136,6 +136,22 @@ namespace CorrectionCT {
                         catch (Exception e) {
                             l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
                         }
+
+                        key = "TuMin";
+                        try {
+                            Program.Data.TargetTuMin = (int)fxe.Arguments[key];
+                        }
+                        catch (Exception e) {
+                            l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                        }
+
+                        key = "TuMax";
+                        try {
+                            Program.Data.TargetTuMax = (int)fxe.Arguments[key];
+                        }
+                        catch (Exception e) {
+                            l.err("ConverterUI.TargetValues - {1} : \n{0}", e.ToString(), key);
+                        }
                     }
                     if (fxe.Operation.StartsWith("ConverterUI.RBBAccept")) {
                         var key = "SId";

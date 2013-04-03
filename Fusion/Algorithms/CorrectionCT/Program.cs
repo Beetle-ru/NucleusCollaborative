@@ -155,17 +155,19 @@ namespace CorrectionCT {
         public static int CalcT(CSVTableParser matrixT, Estimates data) {
             if (matrixT.Rows == null) return 0;
             using (var l = new Logger("CalcT")) {
-                if (
-                    (data.CurrentT == 0) &&
-                    (data.TargetT == 0) &&
-                    (data.CurrentC == 0)
+                if ((data.CurrentT == 0)
+                    || (data.TargetT == 0) 
+                    || (data.TargetTuMin == 0) 
+                    || (data.TargetTuMax == 0) 
+                    || (data.CurrentC == 0)
                     )
                     return 0;
                 foreach (var row in matrixT.Rows) {
                     if ((double) (row.Cell["CMin"]) <= data.CurrentC && data.CurrentC < (double) (row.Cell["CMax"])) {
                         l.msg("T item found --- CMin {0}; CMax {1}", row.Cell["CMin"], row.Cell["CMax"]);
 
-                        var differenceT = data.TargetT - data.CurrentT;
+                        //var differenceT = data.TargetT - data.CurrentT;
+                        var differenceT = data.TargetTuMin - data.CurrentT;
                         if (differenceT > 0) {
                             var oxygenOnHeating = (int) (row.Cell["OxygenOnHeating"]);
                             var heating = (int) (row.Cell["Heating"]);
@@ -307,8 +309,9 @@ namespace CorrectionCT {
                 msg += String.Format("\nнекорректный замер");
             }
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered) {
-                if (CorrectionOxyT == -3) {
-                    CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetT), Data.CurrentC);
+                if ((CorrectionOxyT == -3) && (Data.TargetTuMax != 0)) {
+                    //CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetT), Data.CurrentC);
+                    CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetTuMax), Data.CurrentC);
                     msg += String.Format("\nрекомендуется выполнить охлаждение Doloms = {0} тонны", CorrectionDoloms);
                     GiveDlmsCooling(Data.CurrentT, Data.TargetT);
                 }
