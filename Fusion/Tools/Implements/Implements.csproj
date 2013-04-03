@@ -76,6 +76,7 @@
     <Compile Include="Convertion.cs" />
     <Compile Include="CSVTableParser.cs" />
     <Compile Include="Curve.cs" />
+    <Compile Include="DBFlex.cs" />
     <Compile Include="SimpleGrp.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
