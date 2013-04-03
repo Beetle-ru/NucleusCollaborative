@@ -30,7 +30,7 @@ namespace OGDecarbonaterFine {
 
         public double GetOffGasDecompression() {
             var res = OffGasDecompression.Average(SmoothPeriod);
-            m_offGasDecompression = Double.IsNaN(res) || (res < 0) ? m_offGasDecompression : res;
+            m_offGasDecompression = Double.IsNaN(res) || (res > 0) ? m_offGasDecompression : res;
             return m_offGasDecompression;
         }
 

@@ -110,6 +110,12 @@ namespace OffGasDecarbonater {
                         l.msg("Number Heat: {0}", CIterator.HeatNumber);
                     }
                 }
+
+                if (newEvent is BlowingEvent)
+                {
+                    var be = newEvent as BlowingEvent;
+                    CIterator.HeatIsStarted = be.BlowingFlag == 1;
+                }
                 //if (newEvent is SublanceCEvent) // на будущее из другого места брать углерод
                 //{
                 //    var sublanceCEvent = newEvent as SublanceCEvent;

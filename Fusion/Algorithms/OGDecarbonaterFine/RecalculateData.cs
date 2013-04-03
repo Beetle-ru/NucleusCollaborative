@@ -148,7 +148,7 @@ namespace OGDecarbonaterFine {
         /// <summary>
         /// (для корректировки) ???
         /// </summary>
-        public double DeltaMC1;
+        public double DeltaM1C;
 
         /// <summary>
         /// Текущая масса углерода в конверторе ++
@@ -253,7 +253,7 @@ namespace OGDecarbonaterFine {
             Materials = new SupportMaterials();
             MCsp = 0.0;
             DeltaMC = 0.0;
-            DeltaMC1 = 0.0;
+            DeltaM1C = 0.0;
             CurrentMF = 0.0;
             CurrentMC = 0.0;
             CurrentPC = 0.0;
@@ -316,7 +316,7 @@ namespace OGDecarbonaterFine {
 
             str += String.Format("{0}{1}", sep, MCsp);
             str += String.Format("{0}{1}", sep, DeltaMC);
-            str += String.Format("{0}{1}", sep, DeltaMC1);
+            str += String.Format("{0}{1}", sep, DeltaM1C);
             str += String.Format("{0}{1}", sep, CurrentMC);
             str += String.Format("{0}{1}", sep, CurrentMF);
             str += String.Format("{0}{1}", sep, CurrentPC);

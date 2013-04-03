@@ -258,7 +258,7 @@ namespace OGDecarbonaterFine {
         /// </summary>
         private static void CalcDeltaMC() {
             CurrentState.DeltaMC = CurrentState.MCMetall - CurrentState.MI - CurrentState.MCsp;
-            CurrentState.DeltaMC1 = CurrentState.MCMetall - CurrentState.MI;
+            CurrentState.DeltaM1C = CurrentState.MCMetall - CurrentState.MI;
             CurrentState.CurrentMC = CurrentState.MCMetall + CurrentState.MCsp - CurrentState.MI;
         }
 
@@ -298,8 +298,9 @@ namespace OGDecarbonaterFine {
             {
                 CurrentState.FixPointQO2I = CurrentState.QO2I;
                 CurrentState.FixPointMICsp = CurrentState.M - CurrentState.MCsp;
-                CurrentState.FixPointKCMetall = CurrentState.MCMetall/CurrentState.FixPointQO2I;
-                CurrentState.FixPointKCOffGas = CurrentState.FixPointMICsp/CurrentState.FixPointQO2I;
+                CurrentState.FixPointKCMetall = (CurrentState.MCMetall + CurrentState.MCsp) / CurrentState.FixPointQO2I;
+                //CurrentState.FixPointKCOffGas = CurrentState.FixPointMICsp/CurrentState.FixPointQO2I;
+                CurrentState.FixPointKCOffGas = CurrentState.MI / CurrentState.FixPointQO2I;
                 CurrentState.FixPointDeltaK = CurrentState.FixPointKCMetall - CurrentState.FixPointKCOffGas;
                 //CurrentState.FixPointDeltaMC = когда будет готово уравнение
             }
@@ -316,33 +317,45 @@ namespace OGDecarbonaterFine {
             CurrentState.FixPointCarbonResult = CurrentState.CurrentMC - CurrentState.FixPointDeltaMC;
         }
 
+        ///// <summary>
+        ///// Расчет поправки
+        ///// </summary>
+        //private static void CalcFixPoinFixPointDeltaMC() {
+        //    if (CurrentState.FixPointDeltaK != 0) {
+        //        const int nFeatures = 1;
+        //        int nFeaturesCoefficcients;
+        //        int info = 0;
+        //        var inVector = new double[Matrix.Count,nFeatures + 1];
+        //        double[] coefficcients;
+        //        var lm = new alglib.linearmodel();
+        //        var lr = new alglib.lrreport();
+
+        //        int lenghtData = Matrix.Count;
+        //        for (int item = 0; item < lenghtData; item++) {
+        //            inVector[item, 0] = Matrix[item].DeltaK; // X1
+        //            inVector[item, 1] = Matrix[item].DeltaCarbon; // Y
+        //        }
+
+        //        alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
+        //        if (info != 1)
+        //            return;
+        //        alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
+        //        if (nFeaturesCoefficcients != nFeatures)
+        //            return;
+        //        CurrentState.FixPointDeltaMC = coefficcients[1];
+        //        CurrentState.FixPointDeltaMC += coefficcients[0]*CurrentState.FixPointDeltaK;
+        //    }
+        //}
+
         /// <summary>
         /// Расчет поправки
         /// </summary>
-        private static void CalcFixPoinFixPointDeltaMC() {
-            if (CurrentState.FixPointDeltaK != 0) {
-                const int nFeatures = 1;
-                int nFeaturesCoefficcients;
-                int info = 0;
-                var inVector = new double[Matrix.Count,nFeatures + 1];
-                double[] coefficcients;
-                var lm = new alglib.linearmodel();
-                var lr = new alglib.lrreport();
+        private static void CalcFixPoinFixPointDeltaMCSimple()
+        {
+            if (CurrentState.FixPointDeltaK != 0)
+            {
 
-                int lenghtData = Matrix.Count;
-                for (int item = 0; item < lenghtData; item++) {
-                    inVector[item, 0] = Matrix[item].DeltaK; // X1
-                    inVector[item, 1] = Matrix[item].DeltaCarbon; // Y
-                }
-
-                alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
-                if (info != 1)
-                    return;
-                alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
-                if (nFeaturesCoefficcients != nFeatures)
-                    return;
-                CurrentState.FixPointDeltaMC = coefficcients[1];
-                CurrentState.FixPointDeltaMC += coefficcients[0]*CurrentState.FixPointDeltaK;
+                CurrentState.FixPointDeltaMC = CurrentState.FixPointDeltaK * 18561.27 - 470;
             }
         }
 
@@ -384,7 +397,8 @@ namespace OGDecarbonaterFine {
             CalcCurrentPC();
             VerifyFixedPoint();
             CalcFixPointCarbonResult();
-            CalcFixPoinFixPointDeltaMC();
+            //CalcFixPoinFixPointDeltaMC();
+            CalcFixPoinFixPointDeltaMCSimple();
             CalcFixPointPC();
         }
 

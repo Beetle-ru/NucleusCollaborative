@@ -429,7 +429,7 @@ namespace ModelRunner
             {
                 OraCmd.Connection.Close();
             }
-            OraCmd.Connection.Open();
+            OraCmd.Connection.Open(); //!!! ORA-12170: TNS:истекло время ожидания соединения
             OraReader = OraCmd.ExecuteReader();
             if (OraReader.HasRows)
             {

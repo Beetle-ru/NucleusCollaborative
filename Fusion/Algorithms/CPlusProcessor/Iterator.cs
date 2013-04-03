@@ -32,6 +32,8 @@ namespace CPlusProcessor {
         private static double m_lastCarbon;
         private static double m_previousCarbon;
 
+        public static bool HeatIsStarted;
+
         public static void Init() {
             m_matrixTotal = new List<MFCPData>();
             Program.LoadMatrix(Program.MatrixPath, out m_matrix);
@@ -58,6 +60,7 @@ namespace CPlusProcessor {
             OffGasV = 320001;
             m_lastCarbon = 0;
             m_previousCarbon = Double.MaxValue;
+            HeatIsStarted = false;
         }
 
         public static void Iterate() {
@@ -234,6 +237,7 @@ namespace CPlusProcessor {
             //(IntegralCO < Program.COMax)
             //);
             return it4 &&
+                   false && // выключено
                    (IntegralCO > Program.COMin) && // проверка на интегральный CO
                    (IntegralCO < Program.COMax);
         }

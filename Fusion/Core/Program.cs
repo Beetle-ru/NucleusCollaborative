@@ -16,7 +16,8 @@ namespace Core {
         public static List<string> AllowIPs = new List<string>();
 
         private static void Main(string[] args) {
-            InstantLogger.writeLogConsole = true;
+            InstantLogger.writeLogConsole = false;
+            //InstantLogger.writeLogFile = true;
             try {
                 var mainConf = System.Configuration.ConfigurationManager.OpenExeConfiguration("");
 

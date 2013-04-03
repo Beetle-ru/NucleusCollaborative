@@ -21,7 +21,7 @@ namespace PingLib {
             m_pingSender = new Ping();
             Timeout = 120;
             IPAddress = "127.0.0.1";
-            SleepMs = 300;
+            SleepMs = 1000;
 
             m_pingThread = new Thread(PingSenderThreadHandler);
             m_pingThread.IsBackground = true;

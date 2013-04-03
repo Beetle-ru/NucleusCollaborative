@@ -109,6 +109,43 @@ namespace HeatCharge
             return calculatedCarbon;
         }
 
+        public static double MFactorUniversalCarbonPlus(List<MFUCPData> matrixStateData, MFUCPData currentStateData)
+        {
+            const int nFeatures = 3;
+            int nFeaturesCoefficcients;
+            int info = 0;
+            var inVector = new double[matrixStateData.Count, nFeatures + 1];
+            double[] coefficcients;
+            var lm = new alglib.linearmodel();
+            var lr = new alglib.lrreport();
+
+            int lenghtData = matrixStateData.Count;
+            for (int item = 0; item < lenghtData; item++)
+            {
+                inVector[item, 0] = matrixStateData[item].TimeFromX;                   // X1
+                inVector[item, 1] = matrixStateData[item].CarbonVP;                    // X2
+                inVector[item, 2] = matrixStateData[item].CarbonIVP;                   // X3
+                inVector[item, 3] = matrixStateData[item].SteelCarbonPercent;          // Y
+            }
+
+            alglib.lrbuild(inVector, lenghtData, nFeatures, out info, out lm, out lr);
+            if (info != 1)
+            {
+                return info;
+            }
+            alglib.lrunpack(lm, out coefficcients, out nFeaturesCoefficcients);
+            if (nFeaturesCoefficcients != nFeatures)
+            {
+                return -2.011;
+            }
+            double calculatedCarbon = coefficcients[3];
+            calculatedCarbon += coefficcients[0] * currentStateData.TimeFromX;
+            calculatedCarbon += coefficcients[1] * currentStateData.CarbonVP;
+            calculatedCarbon += coefficcients[2] * currentStateData.CarbonIVP;
+
+            return calculatedCarbon;
+        }
+
         private static alglib.multilayerperceptron m_complexCmp;
         private const int NIn = 4;
         private const int NOut = 1;
@@ -205,6 +242,29 @@ namespace HeatCharge
             HeatNumber = 0;
             CarbonMonoxideVP = 0; 
             CarbonOxideVP = 0;
+            SteelCarbonPercentCalculated = 0.0;
+            SteelCarbonPercent = 0.0;
+            HightQualityHeat = false;
+        }
+    }
+
+    public class MFUCPData // multi factor universal carbon plus data
+    {
+        public Int32 TimeFromX { set; get; }             // X1
+        public double CarbonVP { set; get; }             // X2
+        public double CarbonIVP { set; get; }            // X3
+        public double SteelCarbonPercent { set; get; }   // Y
+
+        public Int64 HeatNumber { set; get; }
+        public double SteelCarbonPercentCalculated { set; get; }
+        public bool HightQualityHeat { set; get; }
+
+        public MFUCPData()
+        {
+            TimeFromX = 0;
+            HeatNumber = 0;
+            CarbonVP = 0;
+            CarbonIVP = 0;
             SteelCarbonPercentCalculated = 0.0;
             SteelCarbonPercent = 0.0;
             HightQualityHeat = false;

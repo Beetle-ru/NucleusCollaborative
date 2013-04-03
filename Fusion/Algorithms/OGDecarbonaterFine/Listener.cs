@@ -102,7 +102,7 @@ namespace OGDecarbonaterFine {
                 if (evt is visSpectrluksEvent) // углерод со спектролюкса
                 {
                     var vse = evt as visSpectrluksEvent;
-                    Iterator.FindAndDequeue(vse.C, HeatNumberToShort(vse.HeatNumber));
+                    //Iterator.FindAndDequeue(vse.C, HeatNumberToShort(vse.HeatNumber));
                 }
 
                 if (evt is ScrapEvent) {
@@ -159,22 +159,22 @@ namespace OGDecarbonaterFine {
                         }
 
 
-                        //if(!Iterator.Receiver.HeatIsStarted) // все что отдали до продувки не считаем
-                        //{
-                        //    //Iterator.MaterialsZeroLevel.SetTotalWeight(EncodeMatName(name), wgh, false);
+                        if (!Iterator.Receiver.HeatIsStarted) // все что отдали до продувки не считаем
+                        {
+                            Iterator.MaterialsZeroLevel.SetTotalWeight(Encoder(name), wgh, false);
 
-                        //    Iterator.MaterialsZeroLevel.SetTotalWeight(name, wgh, false); // временно для отладки
-                        //}
-                        //else
-                        //{
-                        //    //var wghZlevel = Iterator.MaterialsZeroLevel.GetTotalWeight(EncodeMatName(name), false);
-                        //    //Iterator.CurrentState.Materials.SetTotalWeight(EncodeMatName(name), wghZlevel - wgh, false);
+                            //Iterator.MaterialsZeroLevel.SetTotalWeight(name, wgh, false); // временно для отладки
+                        }
+                        else
+                        {
+                            var wghZlevel = Iterator.MaterialsZeroLevel.GetTotalWeight(Encoder(name), false);
+                            Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh - wghZlevel, false);
 
-                        //    var wghZlevel = Iterator.MaterialsZeroLevel.GetTotalWeight(name, false); // временно для отладки
-                        //    Iterator.CurrentState.Materials.SetTotalWeight(name, wghZlevel - wgh, false); // временно для отладки
-                        //}
+                            //var wghZlevel = Iterator.MaterialsZeroLevel.GetTotalWeight(name, false); // временно для отладки
+                            //Iterator.CurrentState.Materials.SetTotalWeight(name, wghZlevel - wgh, false); // временно для отладки
+                        }
 
-                        Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh, false);
+                        //Iterator.CurrentState.Materials.SetTotalWeight(Encoder(name), wgh, false);
                         //Iterator.CurrentState.Materials.SetTotalWeight(name, wgh, false); // временно для отладки
                     }
                 }

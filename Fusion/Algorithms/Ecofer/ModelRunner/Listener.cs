@@ -464,20 +464,20 @@ namespace ModelRunner
                     m_bunkersNames[6] = bnme.Bunker11MaterialName;
                     m_bunkersNames[7] = bnme.Bunker12MaterialName;
                 }
-                else if (evt is visAdditionTotalEvent)
-                {
-                    var vate = evt as visAdditionTotalEvent;
-                    l.msg("visAdditionTotalEvent: {0}", vate);
-                    m_bunkersTotalMass[0] = vate.RB5TotalWeight;
-                    m_bunkersTotalMass[1] = vate.RB6TotalWeight;
-                    m_bunkersTotalMass[2] = vate.RB7TotalWeight;
-                    m_bunkersTotalMass[3] = vate.RB8TotalWeight;
-                    m_bunkersTotalMass[4] = vate.RB9TotalWeight;
-                    m_bunkersTotalMass[5] = vate.RB10TotalWeight;
-                    m_bunkersTotalMass[6] = vate.RB11TotalWeight;
-                    m_bunkersTotalMass[7] = vate.RB12TotalWeight;
-                    MVBounder(l);
-                }
+                //else if (evt is visAdditionTotalEvent) //!!! почему используется два варианта добавления сыпучих по "OPC.BulkSolids" и по visAdditionTotalEvent?
+                //{
+                //    var vate = evt as visAdditionTotalEvent;
+                //    l.msg("visAdditionTotalEvent: {0}", vate);
+                //    m_bunkersTotalMass[0] = vate.RB5TotalWeight;
+                //    m_bunkersTotalMass[1] = vate.RB6TotalWeight;
+                //    m_bunkersTotalMass[2] = vate.RB7TotalWeight;
+                //    m_bunkersTotalMass[3] = vate.RB8TotalWeight;
+                //    m_bunkersTotalMass[4] = vate.RB9TotalWeight;
+                //    m_bunkersTotalMass[5] = vate.RB10TotalWeight;
+                //    m_bunkersTotalMass[6] = vate.RB11TotalWeight;
+                //    m_bunkersTotalMass[7] = vate.RB12TotalWeight;
+                //    MVBounder(l);
+                //}
                 else if (evt is OffGasEvent)
                 {
                     var wgtotal = evt as OffGasEvent;
