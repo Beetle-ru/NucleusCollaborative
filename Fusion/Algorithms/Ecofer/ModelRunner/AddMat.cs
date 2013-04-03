@@ -33,6 +33,7 @@ namespace ModelRunner
             matIron.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matIron.MINP_GD_Material.ShortCode = matIron.ShortCode;
             matIron.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
+#if (NODB)
             if (fxeIron == null)
             {
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.IronTemp));
@@ -42,6 +43,9 @@ namespace ModelRunner
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.062));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.017));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ti", 0.1));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.1));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.1));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 92));
             }
             else
             {
@@ -52,24 +56,75 @@ namespace ModelRunner
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", fxeIron.GetDbl("ANA_P")));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", fxeIron.GetDbl("ANA_S")));
                 matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ti", fxeIron.GetDbl("ANA_TI")));
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 92));
             }
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 340.0));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.02));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.007));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.01));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 10.0));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 93.0));
-            matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9921));
+            //matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9921));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 100.0));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 99.0));
             matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 7000.0));
+#elif (DB_IS_ORACLE)
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
+            OraCmd.Parameters["A"].Value = "IRON.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "IRON";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                bool hasFe = false;
+                double total_p = 0;
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                    hasFe |= (key == "Fe");
+                    total_p += val;
+                }
+                if (!hasFe)
+                {
+                    matIron.MINP_GD_Material.MINP_GD_MaterialItems
+                        .Add(ps("Fe", 100 - 1.5 * total_p));
+                }
+            }
+#else
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "IRON.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "IRON");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matIron.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+#endif
             return matIron;
         }
         public static DTO.MINP_MatAddDTO AddScrap(int weight)
@@ -80,33 +135,22 @@ namespace ModelRunner
             matScrap.MINP_GD_Material = new MINP_GD_MaterialDTO();
             matScrap.MINP_GD_Material.ShortCode = matScrap.ShortCode;
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
+#if (NODB)
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, Listener.ScrapTemp));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 380.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
             if (null == fxeScrap)
             {
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.01));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.2));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("C", 0.21));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Si", 0.24));
                 matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mn", 0.2));
                 matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("P", 0.01));
                 matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("S", 0.005));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Al", 0.03));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.01));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cu", 0.1));
                 matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Cr", 0.01));
                 matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Mo", 0.005));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Ni", 0.01));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("V", 0.005));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sn", 0.005));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Sb", 0.005));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Zn", 0.1));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("O", 50.0));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("N", 50.0));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("H", 5.0));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 96.0));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("CaO", 0.5));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("SiO2", 0.5));
-                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("FeO", 2.0));
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Fe", 98));
             }
             else
             {
@@ -115,11 +159,72 @@ namespace ModelRunner
                     matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(scel.Key, (double)scel.Value));
                 }
             }
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9962));
-            matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Basiticy", 1.0));
+            //matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("TOTAL", 0.9962));
+            //matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Basiticy", 1.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 95.0));
             matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 1200.0));
+#elif (DB_IS_ORACLE)
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
+            OraCmd.Parameters["A"].Value = "SCRAP.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows) {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "SCRAP";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                bool hasFe = false;
+                double total_p = 0;
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matScrap.MINP_GD_Material.MINP_GD_MaterialItems
+                        .Add(ps(key, val));
+                    hasFe |= (key == "Fe");
+                    total_p += val;
+                }
+                if (!hasFe)
+                {
+                    matScrap.MINP_GD_Material.MINP_GD_MaterialItems
+                        .Add(ps("Fe", 100 - 1.5 * total_p));
+                }
+            }
+#else
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "SCRAP.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "SCRAP");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+#endif
+            //matScrap.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
             return matScrap;
         }
         public static DTO.MINP_MatAddDTO AddCaO(int weight)
@@ -131,6 +236,10 @@ namespace ModelRunner
             matCaO.MINP_GD_Material.ShortCode = matCaO.ShortCode;
             matCaO.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ИЗВЕСТЬ протокол №72
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "LIME.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -189,6 +298,10 @@ namespace ModelRunner
             matMaxG.MINP_GD_Material.ShortCode = matMaxG.ShortCode;
             matMaxG.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "MAXG.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -246,6 +359,10 @@ namespace ModelRunner
             matDolom.MINP_GD_Material.ShortCode = matDolom.ShortCode;
             matDolom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // МАХГ протокол №34
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "DOLMIT.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -303,6 +420,10 @@ namespace ModelRunner
             matDolomS.MINP_GD_Material.ShortCode = matDolomS.ShortCode;
             matDolomS.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ДОЛОМС протокол №1867
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "DOLOMS.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -360,6 +481,10 @@ namespace ModelRunner
             matFom.MINP_GD_Material.ShortCode = matFom.ShortCode;
             matFom.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>(); // ФОМ протокол№48
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "FOM.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -417,6 +542,10 @@ namespace ModelRunner
             matCoke.MINP_GD_Material.ShortCode = matCoke.ShortCode;
             matCoke.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
 #if DB_IS_ORACLE
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
             OraCmd.Parameters["A"].Value = "COKE.props";
             if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
             {
@@ -477,6 +606,7 @@ namespace ModelRunner
             matOdpr.MINP_GD_Material.ShortCode = matOdpr.ShortCode;
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems = new List<MINP_GD_MaterialItemsDTO>();
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(69, CurrentTemp));
+#if (NODB)
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(70, 430.0));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(71, 0.22));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(72, 1550.0));
@@ -505,6 +635,57 @@ namespace ModelRunner
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Yield", 99.0));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("Steel", 93.0));
             matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps("ro", 3000.0));
+#elif (DB_IS_ORACLE)
+            OraCmd.CommandText = QAddElsByName;
+            OraCmd.CommandType = System.Data.CommandType.Text;
+            OraCmd.Parameters.Clear();
+            OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
+            OraCmd.Parameters["A"].Value = "OFFDUST.props";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+            OraCmd.Parameters["A"].Value = "OFFDUST";
+            if (OraCmd.Connection.State != System.Data.ConnectionState.Closed)
+            {
+                OraCmd.Connection.Close();
+            }
+            OraCmd.Connection.Open();
+            OraReader = OraCmd.ExecuteReader();
+            if (OraReader.HasRows)
+            {
+                while (OraReader.Read())
+                {
+                    string key = Convert.ToString(OraReader[0]);
+                    double val = Convert.ToDouble(OraReader[1]);
+                    matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(key, val));
+                }
+            }
+#else
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "OFFDUST.props");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+            Tbl.Clear();
+            Adapter.Fill(Tbl, "OFFDUST");
+            for (int j = 0; j < Tbl.Rows.Count; j++)
+            {
+                matOdpr.MINP_GD_Material.MINP_GD_MaterialItems.Add(ps(Tbl[j].Name, Tbl[j].Value));
+            }
+#endif
             return matOdpr;
         }
 

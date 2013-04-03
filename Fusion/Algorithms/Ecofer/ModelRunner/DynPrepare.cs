@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define UHE_PROCESSOR
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -94,10 +96,12 @@ namespace ModelRunner
 
         private static void Main(string[] args)
         {
-            //AppDomain.CurrentDomain.UnhandledException += (s, e) =>
-            //                                                  {
-            //                                                      InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
-            //                                                  };
+#if UHE_PROCESSOR
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                {
+                    InstantLogger.err("Unhandled exception {0} is terminating {1}", e.ExceptionObject, e.IsTerminating);
+                };
+#endif
             using (var l = new Logger("ModelRunner::Main"))
             {
                 try
@@ -106,10 +110,6 @@ namespace ModelRunner
                     var str = ConfigurationManager.OpenExeConfiguration("").AppSettings.Settings["ConnectionString"].Value;
                     OraConn = new OracleConnection(str);
                     OraCmd = OraConn.CreateCommand();
-                    OraCmd.CommandText = QAddElsByName;
-                    OraCmd.CommandType = System.Data.CommandType.Text;
-                    OraCmd.Parameters.Clear();
-                    OraCmd.Parameters.Add(new OracleParameter("A", OracleDbType.Varchar2, System.Data.ParameterDirection.Input));
 #endif
                     var o = new TestEvent();
                     CoreGate = new Client(new Listener());
@@ -154,7 +154,7 @@ NEXT_HEAT:
                     ph2 = new PhaseItemOxygenBlowing();
                     ph2.PhaseName = "OxyBlowStep0";
                     ph2.LanceDistance_mm = 300;
-                    ph2.O2Amount_Nm3 = 15000;
+                    ph2.O2Amount_Nm3 = 31000;
                     ph2.O2Flow_Nm3_min = 1000;
                     ph2.PhaseGroup = PhasePrimaryDivision.OxygenBlowing;
                     DynPrepare.aInputData.OxygenBlowingPhases.Add(ph2);
@@ -179,6 +179,7 @@ NEXT_HEAT:
                     Listener.avox.Add(0.0);
                     while (/*Listener.avox.Average(10) == 0.0*/ 0 == (HeatFlags & ModelStatus.BlowingStarted))
                     {
+#if (CALL_SHIXTA_II)
                         Listener.avox.Add(0.0);
                         if (recallChargingReq && visTargetVal != null)
                         {
@@ -194,6 +195,7 @@ NEXT_HEAT:
                                 }
                             }
                         }
+#endif
                         Thread.Sleep(1000);
                         Console.Write(".");
                     }
@@ -287,6 +289,11 @@ NEXT_HEAT:
                                                     {
                                                         SimulationOxygenBlowing();
                                                         FirePerSecEvent(++nStep, null, DynModel);
+                                                        if (Listener.avox.Average(10) < 10.0)
+                                                        {
+                                                            if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
+                                                        }
+                                                        else EmptyBlowCount = 0;
                                                         if (Dynamic.ModelPhaseState.S10_MainOxygenBlowing == DynModel.State())
                                                         {
                                                             foreach (var m in Listener.MatAdd)
@@ -298,11 +305,7 @@ NEXT_HEAT:
                                                         }
                                                         else if (Dynamic.ModelPhaseState.S30_Correction == DynModel.State())
                                                         {
-                                                            if (Listener.avox.Average(10) < 10.0)
-                                                            {
-                                                                if (++EmptyBlowCount > 5) DynModel.SwitchPhaseToL1OxygenLanceParking();
-                                                            }
-                                                            else EmptyBlowCount = 0;
+                                                            
                                                         }
                                                         else
                                                         {

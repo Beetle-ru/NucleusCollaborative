@@ -546,201 +546,206 @@ namespace Models
 
         private void ControlLoop(object aState)
         {
-            if (mPaused) return;
-
-            //CHEREP      StopSimulationTimer();
-
-            if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
-
-            #region Current phase validation
-            if (mCurrentPhase == null)
+            lock (mControlLoopLock) 
             {
-                Stop();
-                throw new ApplicationException("CurrentPhase is null during model Loop. Cannot continue.");
-            }
-            #endregion
-            #region Model loop
-            ProcessQueueRequests();
+                if (mPaused) return;
 
-            Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
+                //StopSimulationTimer();
 
-            bool tryAgainLater = true;
-            do
-            {
-                var lKey = Clock.Current.ActualTime;
-                lock (mOutputData)
-                {
-                    if (mOutputData.ContainsKey(lKey))
-                    {
-                        System.Threading.Thread.Sleep(1);
-                    }
-                    else
-                    {
-                        mOutputData.Add(lKey, lLoopOutputData);
-                        tryAgainLater = false;
-                    }
+                if (mRecalculateFromTheBeginning) RecalculateFromBeginningInThread();
+
+                #region Current phase validation
+
+                if (mCurrentPhase == null) {
+                    Stop();
+                    throw new ApplicationException("CurrentPhase is null during model Loop. Cannot continue.");
                 }
-            } while (tryAgainLater);
-            mStepsCount++;
-            if (mRunningType != RunningType.RealTime) Data.Clock.Current.IncSimulationStep();
-            #endregion
 
-            DTO.MINP_CyclicDTO lCyclicData = Data.MINP.MINP_Cyclic.Last();
-            mCurrentO2Amount = lCyclicData.OxygenConsumption_m3.Value;
+                #endregion
 
-            while (true)
-            {
-                #region Main oxygen blowing
-                if (mCurrentPhaseState == ModelPhaseState.S10_MainOxygenBlowing)
-                {
-                    double lAmount_p = (double)lCyclicData.OxygenConsumption_m3.Value / mFinalOxygenAmount * 100;
+                #region Model loop
 
-                    if (mRunningType == RunningType.Simulation || !Global.M3_Stat_C_ON)
-                    {
-                        // O2 amount condition fullfilled?
-                        if ((lAmount_p >= Global.M3_End_Condition_O2_Max)
-                            || (0 >= Global.M3_End_Condition_K2_Max)
-                            || (lAmount_p >= Global.M3_End_Condition_O2_Aim && 0 >= Global.M3_End_Condition_K2_Min)
-                            || (lAmount_p >= Global.M3_End_Condition_O2_Min && 0 >= Global.M3_End_Condition_K2_Aim))
-                        {
+                ProcessQueueRequests();
+
+                //mTimer.Change(-1, -1);
+                Data.Model.DynamicOutput lLoopOutputData = ModelLoop();
+
+                bool tryAgainLater = true;
+                do {
+                    var lKey = Clock.Current.ActualTime;
+                    lock (mOutputData) {
+                        if (mOutputData.ContainsKey(lKey)) {
+                            System.Threading.Thread.Sleep(1);
+                        }
+                        else {
+                            mOutputData.Add(lKey, lLoopOutputData);
+                            tryAgainLater = false;
+                        }
+                    }
+                } while (tryAgainLater);
+                mStepsCount++;
+                if (mRunningType != RunningType.RealTime) Data.Clock.Current.IncSimulationStep();
+
+                #endregion
+
+                DTO.MINP_CyclicDTO lCyclicData = Data.MINP.MINP_Cyclic.Last();
+                mCurrentO2Amount = lCyclicData.OxygenConsumption_m3.Value;
+
+                while (true) {
+                    #region Main oxygen blowing
+
+                    if (mCurrentPhaseState == ModelPhaseState.S10_MainOxygenBlowing) {
+                        double lAmount_p = (double) lCyclicData.OxygenConsumption_m3.Value/mFinalOxygenAmount*100;
+
+                        if (mRunningType == RunningType.Simulation || !Global.M3_Stat_C_ON) {
+                            // O2 amount condition fullfilled?
+                            if ((lAmount_p >= Global.M3_End_Condition_O2_Max)
+                                || (0 >= Global.M3_End_Condition_K2_Max)
+                                || (lAmount_p >= Global.M3_End_Condition_O2_Aim && 0 >= Global.M3_End_Condition_K2_Min)
+                                || (lAmount_p >= Global.M3_End_Condition_O2_Min && 0 >= Global.M3_End_Condition_K2_Aim)) {
 #if MAIN_OXYGEN_BLOWING_ONLY
                             if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                             SwitchPhaseToL1OxygenLanceParking();
                             Stop();
                             return;
 #endif
-                            mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                                mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                            }
                         }
-                    }
-                    else
-                    {
-                        #region C statistical correction
-                        double lOprava_C = 0;
+                        else {
+                            #region C statistical correction
 
-                        if (LastOutputData != null && lCyclicData.Wastegas_CO2_p <= lCyclicData.Wastegas_CO_p)
-                        {
-                            mSondaRemaining_s = Global.M3_Stat_OpozdeniKonceFoukani;
-                        }
+                            double lOprava_C = 0;
 
-                        if (LastOutputData != null /*&& lCyclicData.Wastegas_CO2_p <= lCyclicData.Wastegas_CO_p*/ && LastOutputData.FP_Kov[0] < mC_kov_end)
-                        {
-                            lOprava_C = LastOutputData.FP_Kov[0] - mC_kov_end;
-                            mCurrentStateData.FP_Kov[0] = mC_kov_end;
-                            mCurrentStateData.m_SlozkaKov[0] = mC_kov_end * mCurrentStateData.m_Kov / MINP.ConversionVector(0);
-                            mCurrentStateData.FP_Tavby[0] = mCurrentStateData.FP_Kov[0] * mCurrentStateData.m_Kov / mCurrentStateData.m_Tavby;
-                            mCurrentStateData.m_SlozkaTavby[0] = mCurrentStateData.FP_Tavby[0] * mCurrentStateData.m_Kov / MINP.ConversionVector(0);
-                            LastOutputData.FP_Kov[0] = mC_kov_end;
-                            LastOutputData.m_SlozkaKov[0] = mC_kov_end * LastOutputData.m_Kov / MINP.ConversionVector(0);
-                            LastOutputData.FP_Tavby[0] = LastOutputData.FP_Kov[0] * LastOutputData.m_Kov / LastOutputData.m_Tavby;
-                            LastOutputData.m_SlozkaTavby[0] = LastOutputData.FP_Tavby[0] * LastOutputData.m_Kov / MINP.ConversionVector(0);
-                        }
+                            if (LastOutputData != null && lCyclicData.Wastegas_CO2_p <= lCyclicData.Wastegas_CO_p) {
+                                mSondaRemaining_s = Global.M3_Stat_OpozdeniKonceFoukani;
+                            }
 
-                        if (lAmount_p >= Global.M3_End_Condition_O2_Min)
-                        {
-                            if (LastOutputData != null && lCyclicData.Wastegas_CO2_p >= lCyclicData.Wastegas_CO_p)
-                                mSondaRemaining_s -= mDeltaT_s;
+                            if (LastOutputData != null /*&& lCyclicData.Wastegas_CO2_p <= lCyclicData.Wastegas_CO_p*/&&
+                                LastOutputData.FP_Kov[0] < mC_kov_end) {
+                                lOprava_C = LastOutputData.FP_Kov[0] - mC_kov_end;
+                                mCurrentStateData.FP_Kov[0] = mC_kov_end;
+                                mCurrentStateData.m_SlozkaKov[0] = mC_kov_end*mCurrentStateData.m_Kov/
+                                                                   MINP.ConversionVector(0);
+                                mCurrentStateData.FP_Tavby[0] = mCurrentStateData.FP_Kov[0]*mCurrentStateData.m_Kov/
+                                                                mCurrentStateData.m_Tavby;
+                                mCurrentStateData.m_SlozkaTavby[0] = mCurrentStateData.FP_Tavby[0]*
+                                                                     mCurrentStateData.m_Kov/MINP.ConversionVector(0);
+                                LastOutputData.FP_Kov[0] = mC_kov_end;
+                                LastOutputData.m_SlozkaKov[0] = mC_kov_end*LastOutputData.m_Kov/MINP.ConversionVector(0);
+                                LastOutputData.FP_Tavby[0] = LastOutputData.FP_Kov[0]*LastOutputData.m_Kov/
+                                                             LastOutputData.m_Tavby;
+                                LastOutputData.m_SlozkaTavby[0] = LastOutputData.FP_Tavby[0]*LastOutputData.m_Kov/
+                                                                  MINP.ConversionVector(0);
+                            }
 
-                            if (mRunningType == RunningType.RealTime && mSondaRemaining_s <= 0)
-                            {
-                                Run_C_Correction();
+                            if (lAmount_p >= Global.M3_End_Condition_O2_Min) {
+                                if (LastOutputData != null && lCyclicData.Wastegas_CO2_p >= lCyclicData.Wastegas_CO_p)
+                                    mSondaRemaining_s -= mDeltaT_s;
 
-                                // start temperature measurement
+                                if (mRunningType == RunningType.RealTime && mSondaRemaining_s <= 0) {
+                                    Run_C_Correction();
+
+                                    // start temperature measurement
 #if MAIN_OXYGEN_BLOWING_ONLY
                                 if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                                 SwitchPhaseToL1OxygenLanceParking();
                                 Stop();
                                 return;
 #endif
-                                mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                                    mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                                }
                             }
-                        }
 
-                        if (lOprava_C != 0)
-                        {
-                            Run_C_Correction();
-                        }
+                            if (lOprava_C != 0) {
+                                Run_C_Correction();
+                            }
 
-                        // O2 over maxmax
-                        if ((mRunningType == RunningType.RealTimeDataSimulation && lAmount_p >= Global.M3_End_Condition_O2_Aim)
-                            || (mRunningType == RunningType.RealTime && lAmount_p >= Global.M3_End_Condition_O2_Max))
-                        {
-                            Run_C_Correction();
+                            // O2 over maxmax
+                            if ((mRunningType == RunningType.RealTimeDataSimulation &&
+                                 lAmount_p >= Global.M3_End_Condition_O2_Aim)
+                                || (mRunningType == RunningType.RealTime && lAmount_p >= Global.M3_End_Condition_O2_Max)) {
+                                Run_C_Correction();
 
-                            // start temperature measurement
+                                // start temperature measurement
 #if MAIN_OXYGEN_BLOWING_ONLY
                             if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
                             SwitchPhaseToL1OxygenLanceParking();
                             Stop();
                             return;
 #endif
-                            mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                                mCurrentPhaseState = ModelPhaseState.S20_TemperatureMeasurementCommand;
+                            }
+
+                            #endregion
                         }
-                        #endregion
                     }
-                }
-                #endregion
 
-                // after C correction
-                if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+                    #endregion
 
-                #region Temperature measurement and waiting
-                if (mCurrentPhaseState == ModelPhaseState.S20_TemperatureMeasurementCommand)
-                {
-                    SwitchPhaseToL1TemperatureMeasurement();
-                    break;
-                }
-                if (mCurrentPhaseState == ModelPhaseState.S25_Waiting4TemperatureMeasurement)
-                {
-                    if (mRunningType == RunningType.Simulation)
-                        System.Threading.Thread.Sleep(mDeltaT_s * 1000);
-                    break;
-                }
-                #endregion
-                #region Correction
-                if (mCurrentPhaseState == ModelPhaseState.S30_Correction)
-                {
-                    if (mCurrentO2Amount >= mCorrectionOxygenAmount)
-                    {
-                        mCurrentPhaseState = ModelPhaseState.S40_LanceParkingCommand;
+                    // after C correction
+                    if (ModelLoopDone != null) ModelLoopDone(this, EventArgs.Empty);
+
+                    #region Temperature measurement and waiting
+
+                    if (mCurrentPhaseState == ModelPhaseState.S20_TemperatureMeasurementCommand) {
+                        SwitchPhaseToL1TemperatureMeasurement();
+                        break;
                     }
-                }
-                #endregion
-                #region Oxygen lance parking, Finish
-                if (mCurrentPhaseState == ModelPhaseState.S40_LanceParkingCommand)
-                {
-                    SwitchPhaseToL1OxygenLanceParking();
+                    if (mCurrentPhaseState == ModelPhaseState.S25_Waiting4TemperatureMeasurement) {
+                        if (mRunningType == RunningType.Simulation)
+                            System.Threading.Thread.Sleep(mDeltaT_s*1000);
+                        break;
+                    }
+
+                    #endregion
+
+                    #region Correction
+
+                    if (mCurrentPhaseState == ModelPhaseState.S30_Correction) {
+                        if (mCurrentO2Amount >= mCorrectionOxygenAmount) {
+                            mCurrentPhaseState = ModelPhaseState.S40_LanceParkingCommand;
+                        }
+                    }
+
+                    #endregion
+
+                    #region Oxygen lance parking, Finish
+
+                    if (mCurrentPhaseState == ModelPhaseState.S40_LanceParkingCommand) {
+                        SwitchPhaseToL1OxygenLanceParking();
 #if LANCE_IN_PARKING_POSITION_NOSIGNAL
-                    Stop();     // in case of no signal from L1
-                    return;
+                        Stop(); // in case of no signal from L1
+                        return;
 #else
                     break;
 #endif
-                }
-                if (mCurrentPhaseState == ModelPhaseState.S45_Waiting4LanceParking)
-                {
-                    if (mRunningType == RunningType.Simulation)
-                        System.Threading.Thread.Sleep(mDeltaT_s * 1000);
+                    }
+                    if (mCurrentPhaseState == ModelPhaseState.S45_Waiting4LanceParking) {
+                        if (mRunningType == RunningType.Simulation)
+                            System.Threading.Thread.Sleep(mDeltaT_s*1000);
+                        break;
+                    }
+
+                    if (mCurrentPhaseState == ModelPhaseState.S50_Finished) {
+                        Stop();
+                        return;
+                    }
+
+                    #endregion
+
+                    // switch phase in other case
+                    if (mCurrentPhase != mLastMainOxygenBlowingPhase
+                        && mCurrentPhase is Data.PhaseItemOxygenBlowing
+                        && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemOxygenBlowing) mCurrentPhase).O2Amount_Nm3)
+                        SwitchToNextPhase();
+                    else if (mCurrentPhase is Data.PhaseItemMatAdd
+                             && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemMatAdd) mCurrentPhase).O2Amount_Nm3)
+                        SwitchToNextPhase();
+
                     break;
                 }
-
-                if (mCurrentPhaseState == ModelPhaseState.S50_Finished)
-                {
-                    Stop();
-                    return;
-                }
-                #endregion
-
-                // switch phase in other case
-                if (mCurrentPhase != mLastMainOxygenBlowingPhase
-                    && mCurrentPhase is Data.PhaseItemOxygenBlowing
-                    && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemOxygenBlowing)mCurrentPhase).O2Amount_Nm3)
-                    SwitchToNextPhase();
-                else if (mCurrentPhase is Data.PhaseItemMatAdd
-                    && lCyclicData.OxygenConsumption_m3 > ((Data.PhaseItemMatAdd)mCurrentPhase).O2Amount_Nm3) SwitchToNextPhase();
-
-                break;
             }
-            
             //CHEREP    StartSimulationTimer();
         }
         private void ProcessQueueRequests()
@@ -850,7 +855,7 @@ namespace Models
             double lH_Cold = lSuma_m_Other_real * (lStredni_Other[70] / MINP.ConversionVector(70) / lStredni_Other[72]) * mT_Other;
             mCurrentStateData.E_Tavby += lH_Cold;
             // CO2 buffer
-            mCO2Buffer += aMatAdd.Amount_kg * MINP.FP(aMatAdd.MINP_GD_Material, 44);
+            mCO2Buffer += aMatAdd.Amount_kg * MINP.FP(aMatAdd.MINP_GD_Material, 44) / MINP.ConversionVector(44);
         }
         
         private Data.Model.DynamicOutput ModelLoop()
@@ -933,10 +938,11 @@ namespace Models
                 #region CO2 buffer
                 if (Global.M3_CO2_Buffer)
                 {
-                    if (mCO2Buffer > 0)
-                    {
+                    if (mCO2Buffer > 0) {
+                        var co2Mm = MINP.Mm(44);
+                        var o2StechioCo2 = MINP.O2_Stechio(44);
                         double lCO2Calc = (double)lCyclicData.WastegasFlow_Nm3_min.Value * mDeltaT_min * (double)lCyclicData.Wastegas_CO2_p.Value / 100
-                            * MINP.Mm(44) / MINP.O2_Stechio(44) * Global.M3_V_Wastegas;
+                            * co2Mm / o2StechioCo2 * Global.M3_V_Wastegas;
 
                         if (mCO2Buffer > lCO2Calc)
                         {
@@ -945,7 +951,7 @@ namespace Models
                         }
                         else
                         {
-                            lCO2 = lCO2 * lCO2Calc / mCO2Buffer;
+                            lCO2 = lCO2 - (lCO2Calc / mCO2Buffer) / 100;
                             mCO2Buffer = 0;
                         }
                     }
@@ -1537,7 +1543,7 @@ namespace Models
                     
                     using (StreamWriter lOutputCsvFile = new StreamWriter(Path.Combine(Global.M3_GenerateOutputFileDirectory, String.Format("{1}_{0:yyyy_MM_dd HH_mm_ss}.csv", DateTime.Now, mHeatNumber))))
                     {
-                        lOutputCsvFile.WriteLine("Krok;Datum;Cas;Doba tavby;O2 [m3];Vyska [cm];O2 intenzita [m3/min];m_SZ;m_SROT;m_KOKS;m_LIME;m_DOLOMIT;m_FOM;m_CaCO3;PRUTOK SPALIN;teplota spalin;CO;CO2;O2;H2;N2;Ar;T_MER;%C_MER;T;m_T;m_k;m_s;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;E_Tavby;E_C;E_Si;E_Mn;E_P;E_Al;E_Cr;E_V;E_Ti;E_Fe;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;B;rychlost deC spaliny;rychlost deC tavenina;Vyuziti O2 na deC;CO2 Buffer;m C Corr;% C Corr");
+                        lOutputCsvFile.WriteLine("Krok;Datum;Cas;Doba tavby;O2 [m3];Vyska [cm];O2 intenzita [m3/min];m_SZ;m_SROT;m_KOKS;m_LIME;m_DOLOMIT;m_FOM;m_CaCO3;PRUTOK SPALIN;teplota spalin;CO;CO2;O2;H2;N2;Ar;T_MER;%C_MER;T;m_T;m_k;m_s;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;E_Tavby;E_C;E_Si;E_Mn;E_P;E_Al;E_Cr;E_V;E_Ti;E_Fe;C;Si;Mn;P;Cr;V;Ti;Al;Fe;CaO;SiO2;MgO;MnO;FeO;P2O5;B;rychlost deC spaliny;rychlost deC tavenina;Vyuziti O2 na deC;CO2 Buffer;m C Corr;% C Corr;mCO2Buffer");
 
                         // extend StringBuilder about C_Corr statistical data
                         int lLastIndex = mCSVOutput.ToString().IndexOf(Environment.NewLine) + 1;
@@ -1553,7 +1559,7 @@ namespace Models
                                 lLastIndex = lIndex + lAppendCorr.Length + 1;
                             }
                         }
-
+                        mCSVOutput.AppendFormat(";{0}", mCO2Buffer);
                         lOutputCsvFile.WriteLine(mCSVOutput);
                     }
                 }
@@ -1604,6 +1610,8 @@ namespace Models
         private string mHeatNumber;
         private StringBuilder mCSVOutput;
         private bool mRecalculateFromTheBeginning;
+
+        private object mControlLoopLock = new object();
 
         // CHEREPOVETS ADDITIONS
         public ModelPhaseState State()

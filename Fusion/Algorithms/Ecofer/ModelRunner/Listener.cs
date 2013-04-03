@@ -1,8 +1,9 @@
 ﻿#define SCRAPEVENT_IS_FLEX
-#define ADDCONTROL_IS_FLEX
+#undef ADDCONTROL_IS_FLEX
 
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Common;
@@ -17,14 +18,17 @@ using Ecofer.ModelRunner.ChemistryDataSetTableAdapters;
 using Implements;
 using System.Configuration;
 using Models;
+using Oracle.DataAccess.Client;
 
 namespace ModelRunner
 {
     internal class Listener : IEventListener
     {
+#if (!DB_IS_ORACLE)
         public static ScrapChemistryTableAdapter Adapter = new ScrapChemistryTableAdapter();
         public static ChemistryDataSet.ScrapChemistryDataTable Tbl = new ChemistryDataSet.ScrapChemistryDataTable();
-        public static RollingAverage avox = new RollingAverage(1200.1133);
+#endif
+        public static RollingAverage avox = new RollingAverage(0.0);
         public static RollingAverage avofg = new RollingAverage(360000.1133);
         public static RollingAverage avofg_pco = new RollingAverage(10.1133);
         public static RollingAverage avofg_pco2 = new RollingAverage(10.1133);
@@ -175,6 +179,7 @@ namespace ModelRunner
                         }
                         l.msg(sb.ToString());
                     }
+#if (WEIGHT_IRON_PROCESS)
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_WGHIRON1"))
                     {
                         if ((string) fxe.Arguments["SHEATNO"] == Convert.ToString(HeatNumber))
@@ -190,6 +195,7 @@ namespace ModelRunner
                                 HeatNumber, fxe.Arguments["SHEATNO"]
                                 );
                     }
+#endif
                     else if (fxe.Operation.StartsWith("PipeCatcher.Call.PCK_DATA.PGET_XIMIRON"))
                     {
                         if ((string) fxe.Arguments["HEAT_NO"] == Convert.ToString(HeatNumber))
@@ -211,10 +217,13 @@ namespace ModelRunner
                                     DynPrepare.fxeIron.evt.Arguments["ANA_C"] = 4.3;
                                 }
                                 IronReason = "PIPE-X";
-                                l.msg("Iron Chemistry from Pipe: {0}\n", IronWeight);
+                                l.msg("Iron Chemistry from Pipe: {0}\n", DynPrepare.fxeIron);
                                 DynPrepare.FireIronEvent();
                                 DynPrepare.HeatFlags |= ModelStatus.IronDefined;
-                                if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) && (null != DynPrepare.visTargetVal))
+#if (RECALCULATION)
+                                if ((0 != (DynPrepare.HeatFlags & ModelStatus.BlowingStarted)) 
+                                    && (null != DynPrepare.visTargetVal)
+                                    && (DynPrepare.DynModel.State() == Dynamic.ModelPhaseState.S10_MainOxygenBlowing))
                                 {
                                     DynPrepare.DynModel.Pause();
                                     DynPrepare.DynModel.RecalculateFromBeginning(DynPrepare.MakeCharging(
@@ -225,9 +234,10 @@ namespace ModelRunner
                                 }
                                 else
                                 {
-                                    l.msg("Model recalculation disabled: either no blowing ({0}) or no target values ({1})", 
+                                    l.msg("Model recalculation disabled: either no blowing ({0}) or no target values ({1}) or wrong blowing phase", 
                                         DynPrepare.HeatFlags, DynPrepare.visTargetVal);
                                 }
+#endif
                             }
                             else
                             {
@@ -263,8 +273,42 @@ namespace ModelRunner
                                 var mass = fse.GetInt(String.Format("Weight{0}", i));
                                 if (0 == code) break;
                                 ScrapDanger += VBProb(code, mass);
-                                Adapter.Fill(Tbl, code);
                                 StringBuilder sb = new StringBuilder(String.Format("Scrap chemistry for code {0}:\n", code));
+#if (SCRAPEVENT_IS_FLEX)
+                                var oCmd = DynPrepare.OraConn.CreateCommand();
+                                oCmd.CommandText = "SELECT Element.Name, Element.Value"
+                                    + " FROM Scrap, Element WHERE (Scrap.Id = Element.Sid)"
+                                    + " AND (Scrap.Code = :SC)";
+                                oCmd.CommandType = CommandType.Text;
+                                oCmd.Parameters.Clear();
+                                oCmd.Parameters.Add("SC", OracleDbType.Int16, ParameterDirection.Input);
+                                oCmd.Parameters["SC"].Value = code;
+                                if (oCmd.Connection.State != System.Data.ConnectionState.Closed)
+                                {
+                                    oCmd.Connection.Close();
+                                }
+                                oCmd.Connection.Open();
+                                var oRdr = oCmd.ExecuteReader();
+                                if (oRdr.HasRows)
+                                {
+                                    while (oRdr.Read())
+                                    {
+                                        string key = Convert.ToString(oRdr[0]);
+                                        double val = Convert.ToDouble(oRdr[1]);
+                                        sb.AppendFormat("{0}: {1}\n", key, val);
+                                        if (DynPrepare.fxeScrap.evt.Arguments.ContainsKey(key))
+                                        {
+                                            DynPrepare.fxeScrap.evt.Arguments[key] = mass * val 
+                                                + DynPrepare.fxeScrap.GetDbl(key);
+                                        }
+                                        else
+                                        {
+                                            DynPrepare.fxeScrap.AddDbl(key, mass * val);
+                                        }
+                                    }
+                                }
+#else
+                                Adapter.Fill(Tbl, code);
                                 for (int j = 0; j < Tbl.Rows.Count; j++)
                                 {
                                     sb.AppendFormat("{0}: {1}\n", Tbl[j].Name, Tbl[j].Value);
@@ -277,6 +321,7 @@ namespace ModelRunner
                                         DynPrepare.fxeScrap.AddDbl(Tbl[j].Name, mass * Tbl[j].Value);
                                     }
                                 }
+#endif
                                 sb.Append("=============\n");
                                 l.msg(sb.ToString());
                                 totalmass += mass;
@@ -342,6 +387,7 @@ namespace ModelRunner
                 else if (evt is LanceEvent)
                 {
                     var lae = evt as LanceEvent;
+                    if (lae.O2Flow < 0) DynPrepare.DynModel.SwitchPhaseToL1OxygenLanceParking();
                     avox.Add(ForceBlow == -1 ? 0 : ForceBlow == 0 ? 100.0 : lae.O2Flow);
                     if (lae.O2Flow > 0.0)
                     {

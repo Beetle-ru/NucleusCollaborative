@@ -159,6 +159,7 @@ namespace HeatCharge
             AddDef(43, "Cai", 27);
 
             AddDef(44, "CO2", 44);
+            fp[44].O2Stoichio = 22.4;
 
             for (var i = 45; i <= 49; i++) AddDef(i, "?" + i);
 
