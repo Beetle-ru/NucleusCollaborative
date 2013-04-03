@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Implements
 {
-    class DBFlex
+    public class DBFlex
     {
         public const string ArgEventName = "@EventName";
         public const string ArgCommandName = "@Command";
