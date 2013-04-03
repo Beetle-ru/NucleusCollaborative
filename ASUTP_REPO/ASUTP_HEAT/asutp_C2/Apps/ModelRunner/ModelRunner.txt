@@ -1,3 +1,6 @@
-ModelRunner.Main exception System.NullReferenceException: Ссылка на объект не указывает на экземпляр объекта.
-   в ModelRunner.DynPrepare.Main(String[] args) в C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:строка 106
+ModelRunner.Main exception System.InvalidOperationException: Operation is not valid due to the current state of the object.
+   at Oracle.DataAccess.Client.OracleDataReader.Read()
+   at ModelRunner.DynPrepare.AddIron(Int32 weight) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\AddMat.cs:line 82
+   at ModelRunner.DynPrepare.MakeCharging(FlexEvent fxe, Dictionary`2 weight, ChargingReason reason) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:line 448
+   at ModelRunner.DynPrepare.Main(String[] args) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:line 246
 

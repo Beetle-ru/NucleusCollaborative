@@ -1,0 +1,19 @@
+.......   ~~~   TRACE***   ~~~ (26.03.2013 15:15:27) 
+CREATE CLIENTS
+.......   ~~~   TRACE***   ~~~ (26.03.2013 15:15:27) 
+Client pipe-1 created
+.......   +++   ERROR***   +++ (26.03.2013 15:15:27) 
+PipeCatcher.Main exception System.IO.FileNotFoundException: Could not load file or assembly 'ProcessMessageExchangeService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies. Не удается найти указанный файл.
+File name: 'ProcessMessageExchangeService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+   at PipeCatcher.DbReader..ctor(String connStr, String pipeName, Client coreGate)
+   at PipeCatcher.Program.<>c__DisplayClassa.<Main>b__2(KeyValueConfigurationElement kvel)
+   at System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   at System.Collections.Generic.List`1.InsertRange(Int32 index, IEnumerable`1 collection)
+   at System.Collections.Generic.List`1.AddRange(IEnumerable`1 collection)
+   at PipeCatcher.Program.Main()
+
+WRN: Assembly binding logging is turned OFF.
+To enable assembly bind failure logging, set the registry value [HKLM\Software\Microsoft\Fusion!EnableLog] (DWORD) to 1.
+Note: There is some performance penalty associated with assembly bind failure logging.
+To turn this feature off, remove the registry value [HKLM\Software\Microsoft\Fusion!EnableLog].
+

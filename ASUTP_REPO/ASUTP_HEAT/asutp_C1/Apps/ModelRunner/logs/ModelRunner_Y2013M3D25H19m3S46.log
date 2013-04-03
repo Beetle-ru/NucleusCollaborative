@@ -1,0 +1,28 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:46) 
+Heat Changed. New Heat ID: 131781
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÌÀÕÃ  ; Bunker12MaterialName=ÄÎËÎÌÑ; iCnvNr=0; Time=25.03.2013 19:03:47;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=0; RB6TotalWeight=138; RB7TotalWeight=556; RB8TotalWeight=9291; RB9TotalWeight=9363; RB10TotalWeight=3801; RB11TotalWeight=0; RB12TotalWeight=1423; iCnvNr=0; Time=25.03.2013 19:03:47;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Material added COKE: 556
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Material added LIME: 9291
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Material added LIME: 9363
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Material Added FOM: 3801
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Material added DOLOMS: 1423
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+matRename does not contains key <ALКонц>
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 19:03:47) 
+Visual Bunker Additions Event Appeared:
+   5[DOLOMS] = 0
+   7[COKE] = 856
+   8[LIME] = 11291
+   9[LIME] = 11363
+   10[FOM] = 7801
+   11[MAXG] = 0
+   12[DOLOMS] = 1923
+Signal to run Shixta II generated

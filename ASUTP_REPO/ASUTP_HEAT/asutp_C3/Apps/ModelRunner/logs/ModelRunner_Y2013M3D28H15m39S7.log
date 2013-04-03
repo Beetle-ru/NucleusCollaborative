@@ -1,0 +1,68 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:07) 
+Heat -1 : main blowing started
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:08) 
+Oxygen Flow: 400,074340820313
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:08) 
+Oxygen Flow: 403,65234375
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:08) 
+Heat Changed. New Heat ID: 332078
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:08) 
+Heat 3302078 : main blowing started
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:08) 
+Oxygen Flow: 406,194427490234
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+Oxygen Flow: 406,152282714844
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+Model Related Event Appeared: FlexEvent:
+Id=0693c18b-6790-4304-af25-bbb7f3a05477;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:3302078
+	Reason	:Нет данных по чугуну
+	RCode	:IRON
+</dictionary>;
+Time=28.03.2013 15:39:09;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+Model Related Event Appeared: FlexEvent:
+Id=3ba524a7-c580-4bf2-a4b8-ee441c9ebe20;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:3302078
+	Reason	:Нет данных по лому
+	RCode	:SCRAP
+</dictionary>;
+Time=28.03.2013 15:39:09;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+Model Related Event Appeared: FlexEvent:
+Id=b4b89822-5fea-4e6e-a6ae-abd0a0d6c664;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:3302078
+	Reason	:Нет данных по сыпучим
+	RCode	:ADDMAT
+</dictionary>;
+Time=28.03.2013 15:39:09;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÄÎËÎÌÑ; Bunker12MaterialName=ÌÀÕÃ  ; iCnvNr=0; Time=28.03.2013 15:39:09;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=165; RB6TotalWeight=661; RB7TotalWeight=614; RB8TotalWeight=8009; RB9TotalWeight=10020; RB10TotalWeight=4326; RB11TotalWeight=2; RB12TotalWeight=0; iCnvNr=0; Time=28.03.2013 15:39:09;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 15:39:09) 
+Material added DOLOMS: 165
+.......   +++   ERROR***   +++ (28.03.2013 15:39:09) 
+Unhandled exception System.NullReferenceException: Object reference not set to an instance of an object.
+   at Oracle.DataAccess.Client.OracleConnection.Open()
+   at ModelRunner.DynPrepare.AddCoke(Int32 weight) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\AddMat.cs:line 554
+   at ModelRunner.Listener.MVBounder(Logger l) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\Listener.cs:line 669
+   at ModelRunner.Listener.OnEvent(BaseEvent evt) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\Listener.cs:line 479
+   at ConnectionProvider.PrimaryListener.CustomOnEvent(BaseEvent newEvent) in C:\nucleus\Fusion\ConnectionProvider\Listener.cs:line 85
+   at ConnectionProvider.PrimaryListener.EventProc(Object o) in C:\nucleus\Fusion\ConnectionProvider\Listener.cs:line 58
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean ignoreSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart(Object obj) is terminating True

@@ -1,0 +1,64 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Heat -1 : main blowing started
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Oxygen Flow: 1144,41259765625
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Oxygen Flow: 1145,544921875
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Heat Changed. New Heat ID: 131781
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Heat 1301781 : main blowing started
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:32) 
+Oxygen Flow: 1142,14404296875
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Oxygen Flow: 1124,98510742188
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Model Related Event Appeared: FlexEvent:
+Id=4397c12d-4110-44fc-8a44-2dcc27909fa5;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:1301781
+	Reason	:Нет данных по чугуну
+	RCode	:IRON
+</dictionary>;
+Time=25.03.2013 18:52:33;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Model Related Event Appeared: FlexEvent:
+Id=ec71196d-47ab-43dc-bcaa-28eb59cf7914;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:1301781
+	Reason	:Нет данных по лому
+	RCode	:SCRAP
+</dictionary>;
+Time=25.03.2013 18:52:33;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Model Related Event Appeared: FlexEvent:
+Id=381e81f3-f5b9-443f-8035-0bf031aacab0;
+Operation=Model.Dynamic.NoData;
+Flags=FlexEventCreated;
+Arguments=<dictionary>
+	Heat_No	:1301781
+	Reason	:Нет данных по сыпучим
+	RCode	:ADDMAT
+</dictionary>;
+Time=25.03.2013 18:52:33;
+
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÌÀÕÃ  ; Bunker12MaterialName=ÄÎËÎÌÑ; iCnvNr=0; Time=25.03.2013 18:52:33;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=0; RB6TotalWeight=138; RB7TotalWeight=556; RB8TotalWeight=9291; RB9TotalWeight=9363; RB10TotalWeight=3801; RB11TotalWeight=0; RB12TotalWeight=0; iCnvNr=0; Time=25.03.2013 18:52:33;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Material added COKE: 556
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Material added LIME: 9291
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Material added LIME: 9363
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+Material Added FOM: 3801
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:52:33) 
+matRename does not contains key <ALКонц>

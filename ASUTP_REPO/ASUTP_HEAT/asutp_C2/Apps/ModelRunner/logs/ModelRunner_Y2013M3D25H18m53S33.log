@@ -1,0 +1,18 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:53:33) 
+Heat Changed. New Heat ID: 232294
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:53:34) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÌÀÕÃ  ; Bunker12MaterialName=ÄÎËÎÌÑ; iCnvNr=0; Time=25.03.2013 18:53:34;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:53:34) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=0; RB6TotalWeight=0; RB7TotalWeight=0; RB8TotalWeight=0; RB9TotalWeight=0; RB10TotalWeight=0; RB11TotalWeight=0; RB12TotalWeight=0; iCnvNr=0; Time=25.03.2013 18:53:34;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:53:34) 
+matRename does not contains key <ALКонц>
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 18:53:34) 
+Visual Bunker Additions Event Appeared:
+   5[DOLOMS] = 0
+   7[COKE] = 300
+   8[LIME] = 2000
+   9[LIME] = 2000
+   10[FOM] = 4000
+   11[MAXG] = 0
+   12[DOLOMS] = 500
+Signal to run Shixta II generated

@@ -1,0 +1,30 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:49) 
+Heat Changed. New Heat ID: 131856
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:50) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÌÀÕÃ  ; Bunker12MaterialName=ÄÎËÎÌÑ; iCnvNr=0; Time=28.03.2013 14:18:50;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:50) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=1989; RB6TotalWeight=278; RB7TotalWeight=489; RB8TotalWeight=8004; RB9TotalWeight=6017; RB10TotalWeight=3095; RB11TotalWeight=1985; RB12TotalWeight=2010; iCnvNr=0; Time=28.03.2013 14:18:50;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material added DOLOMS: 1989
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material added COKE: 489
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material added LIME: 8004
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material Added FOM: 3095
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material added MAXG: 1985
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Material added DOLOMS: 2010
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+matRename does not contains key <ALКонц>
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (28.03.2013 14:18:51) 
+Visual Bunker Additions Event Appeared:
+   5[DOLOMS] = 1989
+   7[COKE] = 789
+   8[LIME] = 10004
+   9[LIME] = 8017
+   10[FOM] = 7095
+   11[MAXG] = 1985
+   12[DOLOMS] = 2510
+Signal to run Shixta II generated

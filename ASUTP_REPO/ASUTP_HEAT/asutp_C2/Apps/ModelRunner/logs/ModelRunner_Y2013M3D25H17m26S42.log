@@ -1,0 +1,51 @@
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:42) 
+Heat Changed. New Heat ID: 232292
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+BoundNameMaterials Event: BoundNameMaterialsEvent: Bunker5MaterialName=ÄÎËÎÌÑ; Bunker6MaterialName=ALÊîíö; Bunker7MaterialName=KOKS  ; Bunker8MaterialName=ÈÇÂÅÑÒ; Bunker9MaterialName=ÈÇÂÅÑÒ; Bunker10MaterialName=ÔÎÌ   ; Bunker11MaterialName=ÌÀÕÃ  ; Bunker12MaterialName=ÄÎËÎÌÑ; iCnvNr=0; Time=25.03.2013 17:26:43;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=0; RB6TotalWeight=0; RB7TotalWeight=404; RB8TotalWeight=8005; RB9TotalWeight=7920; RB10TotalWeight=4941; RB11TotalWeight=0; RB12TotalWeight=1215; iCnvNr=0; Time=25.03.2013 17:26:43;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+Material added COKE: 404
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+Material added LIME: 8005
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+Material Added FOM: 4941
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+Material added DOLOMS: 1215
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+matRename does not contains key <ALКонц>
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:43) 
+Visual Bunker Additions Event Appeared:
+   5[DOLOMS] = 0
+   7[COKE] = 704
+   8[LIME] = 11005
+   9[LIME] = 10920
+   10[FOM] = 8941
+   11[MAXG] = 0
+   12[DOLOMS] = 1715
+Signal to run Shixta II generated
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:56) 
+visAdditionTotalEvent: visAdditionTotalEvent: RB5TotalWeight=0; RB6TotalWeight=0; RB7TotalWeight=404; RB8TotalWeight=8005; RB9TotalWeight=7920; RB10TotalWeight=4941; RB11TotalWeight=0; RB12TotalWeight=1783; iCnvNr=0; Time=25.03.2013 17:26:56;
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:56) 
+Material added DOLOMS: 1783
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:56) 
+matRename does not contains key <ALКонц>
+.......   -==   ***TRACE ::ModelRunner::Listener::ConnectionProvider.PrimaryListener.EventProc   ==- (25.03.2013 17:26:56) 
+Visual Bunker Additions Event Appeared:
+   5[DOLOMS] = 0
+   7[COKE] = 704
+   8[LIME] = 11005
+   9[LIME] = 10920
+   10[FOM] = 8941
+   11[MAXG] = 0
+   12[DOLOMS] = 2283
+Signal to run Shixta II generated
+.......   +++   ERROR***   +++ (25.03.2013 17:27:51) 
+Unhandled exception System.NullReferenceException: Object reference not set to an instance of an object.
+   at ModelRunner.Listener.OnEvent(BaseEvent evt) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\Listener.cs:line 559
+   at ConnectionProvider.PrimaryListener.CustomOnEvent(BaseEvent newEvent) in C:\nucleus\Fusion\ConnectionProvider\Listener.cs:line 85
+   at ConnectionProvider.PrimaryListener.EventProc(Object o) in C:\nucleus\Fusion\ConnectionProvider\Listener.cs:line 58
+   at System.Threading.ThreadHelper.ThreadStart_Context(Object state)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean ignoreSyncCtx)
+   at System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.ThreadHelper.ThreadStart(Object obj) is terminating True
