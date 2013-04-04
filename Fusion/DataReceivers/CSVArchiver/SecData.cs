@@ -36,6 +36,7 @@ namespace CSVArchiver {
         public double RB11 { get; set; }
         public double RB12 { get; set; }
         public double NeuralC { get; set; }
+        public double UniversalC { get; set; }
 
         public char Separator;
 
@@ -73,6 +74,7 @@ namespace CSVArchiver {
             RB11 = -1.0;
             RB12 = -1.0;
             NeuralC = -1.0;
+            UniversalC = -1.0;
         }
 
         public string GetHeader() {
@@ -80,7 +82,7 @@ namespace CSVArchiver {
             str +=
                 String.Format(
                     "{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
-                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
+                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}{0}{31}",
                     Separator,
                     "Time",
                     "Heigth lance",
@@ -111,7 +113,8 @@ namespace CSVArchiver {
                     "RB10",
                     "RB11",
                     "RB12",
-                    "NeuralC"
+                    "NeuralC",
+                    "Universal"
                     );
             return str;
         }
@@ -121,7 +124,7 @@ namespace CSVArchiver {
             str +=
                 String.Format(
                     "{1}{0}{2}{0}{3}{0}{4}{0}{5}{0}{6}{0}{7}{0}{8}{0}{9}{0}{10}{0}{11}{0}{12}{0}{13}{0}{14}{0}{15}{0}{16}{0}{17}{0}{18}{0}{19}{0}{20}{0}{21}" +
-                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}",
+                    "{0}{22}{0}{23}{0}{24}{0}{25}{0}{26}{0}{27}{0}{28}{0}{29}{0}{30}{0}{31}",
                     Separator,
                     CurrentTime,
                     LanceHeigth,
@@ -152,7 +155,8 @@ namespace CSVArchiver {
                     RB10,
                     RB11,
                     RB12,
-                    NeuralC
+                    NeuralC,
+                    UniversalC
                     );
             return str;
         }
@@ -188,6 +192,7 @@ namespace CSVArchiver {
         public double RB11 { get; set; }
         public double RB12 { get; set; }
         public RollingAverage NeuralC { get; set; }
+        public double UniversalC { get; set; }
 
         public SecDataSmooth() {
             LanceHeigth = new RollingAverage();
@@ -219,6 +224,7 @@ namespace CSVArchiver {
             RB11 = -1.0;
             RB12 = -1.0;
             NeuralC = new RollingAverage();
+            UniversalC = -1.0;
         }
 
         public SecData GetSecData(int sec) {
@@ -252,6 +258,7 @@ namespace CSVArchiver {
             sd.RB11 = RB11;
             sd.RB12 = RB12;
             sd.NeuralC = NeuralC.Average(sec);
+            sd.UniversalC = UniversalC;
             return sd;
         }
     }

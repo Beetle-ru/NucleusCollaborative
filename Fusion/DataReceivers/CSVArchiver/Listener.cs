@@ -141,6 +141,11 @@ namespace CSVArchiver {
                             InstantLogger.err("UDP.OffGasAnalysisEvent - {1} : \n{0}", e.ToString(), key);
                         }
                     }
+
+                    if (fxe.Operation.StartsWith("UniversalCPlus.Result")) {
+                        var fex = new FlexHelper(fxe);
+                        Program.SDS.UniversalC = fex.GetDbl("C");
+                    }
                 }
             }
         }
