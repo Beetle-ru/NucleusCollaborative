@@ -159,9 +159,9 @@ namespace CorrectionCT {
             }
             using (var l = new Logger("CalcT")) {
                 if ((data.CurrentT == 0)
-                    || (data.TargetT == 0) 
-                    || (data.TargetTuMin == 0) 
-                    || (data.TargetTuMax == 0) 
+                    || (data.TargetT == 0)
+                    || (data.TargetTuMin == 0)
+                    || (data.TargetTuMax == 0)
                     || (data.CurrentC == 0)
                     )
                     return 0;
@@ -170,12 +170,12 @@ namespace CorrectionCT {
                         l.msg("T item found --- CMin {0}; CMax {1}", row.Cell["CMin"], row.Cell["CMax"]);
 
                         //var differenceT = data.TargetT - data.CurrentT;
-                        var differenceT = ((data.TargetT + (data.TargetT - data.TargetTuMin)) * 0.5) - data.CurrentT; // до середины между целевым и минимальным целевым
+                        double differenceT = (double)(((data.TargetT + (data.TargetT - data.TargetTuMin)) * 0.5) - data.CurrentT); // до середины между целевым и минимальным целевым
                         if (differenceT > 0)
                         {
                             var oxygenOnHeating = (int)(row.Cell["OxygenOnHeating"]);
                             var heating = (int)(row.Cell["Heating"]);
-                            double correctionOxy = (oxygenOnHeating / heating) * differenceT;
+                            double correctionOxy = (double)((((double)oxygenOnHeating) / ((double)heating)) * differenceT);
                             l.msg("Correction Oxygen T = {0}", correctionOxy);
                             return (int)Math.Round(correctionOxy);
                         }
