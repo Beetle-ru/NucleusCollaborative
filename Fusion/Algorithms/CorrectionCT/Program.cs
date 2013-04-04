@@ -153,7 +153,10 @@ namespace CorrectionCT {
         }
 
         public static int CalcT(CSVTableParser matrixT, Estimates data) {
-            if (matrixT.Rows == null) return 0;
+            if (matrixT.Rows == null) {
+                InstantLogger.err("matrixT.Rows == null");
+                return 0;
+            }
             using (var l = new Logger("CalcT")) {
                 if ((data.CurrentT == 0)
                     || (data.TargetT == 0) 
@@ -168,15 +171,19 @@ namespace CorrectionCT {
 
                         //var differenceT = data.TargetT - data.CurrentT;
                         var differenceT = ((data.TargetT + (data.TargetT - data.TargetTuMin)) * 0.5) - data.CurrentT; // до середины между целевым и минимальным целевым
-                        if (differenceT > 0) {
-                            var oxygenOnHeating = (int) (row.Cell["OxygenOnHeating"]);
-                            var heating = (int) (row.Cell["Heating"]);
-                            double correctionOxy = (oxygenOnHeating/heating)*differenceT;
+                        if (differenceT > 0)
+                        {
+                            var oxygenOnHeating = (int)(row.Cell["OxygenOnHeating"]);
+                            var heating = (int)(row.Cell["Heating"]);
+                            double correctionOxy = (oxygenOnHeating / heating) * differenceT;
                             l.msg("Correction Oxygen T = {0}", correctionOxy);
-                            return (int) Math.Round(correctionOxy);
+                            return (int)Math.Round(correctionOxy);
                         }
-                        else
+                        else {
+                            l.msg("recomend end blow? code:-3");
                             return -3; // рекомендуется закончить продувку
+                            
+                        }
                     }
                 }
             }
