@@ -167,7 +167,7 @@ namespace CorrectionCT {
                         l.msg("T item found --- CMin {0}; CMax {1}", row.Cell["CMin"], row.Cell["CMax"]);
 
                         //var differenceT = data.TargetT - data.CurrentT;
-                        var differenceT = data.TargetTuMin - data.CurrentT;
+                        var differenceT = ((data.TargetT + (data.TargetT - data.TargetTuMin)) * 0.5) - data.CurrentT; // до середины между целевым и минимальным целевым
                         if (differenceT > 0) {
                             var oxygenOnHeating = (int) (row.Cell["OxygenOnHeating"]);
                             var heating = (int) (row.Cell["Heating"]);
@@ -311,7 +311,7 @@ namespace CorrectionCT {
             if (CorrectionOxyT != 0 && CorrectionOxyC != 0 && !IsFiered) {
                 if ((CorrectionOxyT == -3) && (Data.TargetTuMax != 0)) {
                     //CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetT), Data.CurrentC);
-                    CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - Data.TargetTuMax), Data.CurrentC);
+                    CorrectionDoloms = CalcDolmsCooling(Math.Abs(Data.CurrentT - (((Data.TargetT + Data.TargetTuMax) + Data.TargetT) * 0.5)), Data.CurrentC); // до середины между максимальным целевым и целевым
                     msg += String.Format("\nрекомендуется выполнить охлаждение Doloms = {0} тонны", CorrectionDoloms);
                     GiveDlmsCooling(Data.CurrentT, Data.TargetT);
                 }
