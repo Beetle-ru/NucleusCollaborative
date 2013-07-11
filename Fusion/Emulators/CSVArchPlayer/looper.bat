@@ -1,1 +1,0 @@
-FOR %%P IN (ARCH\*.csv) DO CSVArchPlayer -f "%%P"
