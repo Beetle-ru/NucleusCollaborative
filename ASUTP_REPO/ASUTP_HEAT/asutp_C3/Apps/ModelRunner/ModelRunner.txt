@@ -1,6 +1,0 @@
-ModelRunner.Main exception System.NullReferenceException: Object reference not set to an instance of an object.
-   at Oracle.DataAccess.Client.OracleConnection.Open()
-   at ModelRunner.DynPrepare.AddDolomS(Int32 weight) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\AddMat.cs:line 448
-   at ModelRunner.DynPrepare.MakeCharging(FlexEvent fxe, Dictionary`2 weight, ChargingReason reason) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:line 491
-   at ModelRunner.DynPrepare.Main(String[] args) in C:\nucleus\Fusion\Algorithms\Ecofer\ModelRunner\DynPrepare.cs:line 242
-

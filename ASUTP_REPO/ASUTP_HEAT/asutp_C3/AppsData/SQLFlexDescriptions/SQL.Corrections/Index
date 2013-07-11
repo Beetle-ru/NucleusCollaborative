@@ -1,4 +1,0 @@
-GetScheme;SelectTCorrScheme.sql
-InsertSchemeRow;InsertTCorrSchemeRow.sql
-UpdateSchemeRow;UpdateTCorrSchemeRow.sql
-DeleteSchemeRow;DeleteTCorrSchemeRow.sql

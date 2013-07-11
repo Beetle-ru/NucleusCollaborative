@@ -1,2 +1,0 @@
-ModelRunner.Main exception Объект был открыт.
-
